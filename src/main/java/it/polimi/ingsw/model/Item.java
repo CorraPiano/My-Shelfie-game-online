@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 public class Item {
 // Attributes
@@ -7,8 +7,8 @@ public class Item {
 
 //Methods
 
-    public Item( int value, ItemType type){
-        this.value= value;
+    public Item( int state, ItemType type){
+        this.state= state;
         this.type = type;
     }
 
