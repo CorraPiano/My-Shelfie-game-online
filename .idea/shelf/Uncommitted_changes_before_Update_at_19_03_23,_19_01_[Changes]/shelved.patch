@@ -1,0 +1,402 @@
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard4 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java	(date 1679248864353)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard4 {
++public class CommonGoalCard4 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard3 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java	(date 1679248864425)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard3 {
++public class CommonGoalCard3 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard6 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java	(date 1679248864433)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard6 {
++public class CommonGoalCard6 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard5 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java	(date 1679248864413)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard5 {
++public class CommonGoalCard5 extends CommonGoalCard {
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard8 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java	(date 1679248864405)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard8 {
++public class CommonGoalCard8 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard7 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java	(date 1679248864365)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard7 {
++public class CommonGoalCard7 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard10 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java	(date 1679248864465)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard10 {
++public class CommonGoalCard10 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard9 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java	(date 1679248864393)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard9 {
++public class CommonGoalCard9 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard12 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java	(date 1679248864473)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard12 {
++public class CommonGoalCard12 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard11 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java	(date 1679248864373)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard11 {
++public class CommonGoalCard11 extends CommonGoalCard{
+ }
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard2 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java	(date 1679248864445)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard2 {
++public class CommonGoalCard2 extends CommonGoalCard {
+ }
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n  <modelVersion>4.0.0</modelVersion>\n\n  <groupId>it.polimi.ingsw</groupId>\n  <artifactId>AM26</artifactId>\n  <version>1.0-SNAPSHOT</version>\n  <packaging>jar</packaging>\n\n  <name>AM26</name>\n  <url>http://maven.apache.org</url>\n\n  <properties>\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n  </properties>\n\n  <dependencies>\n    <dependency>\n      <groupId>junit</groupId>\n      <artifactId>junit</artifactId>\n      <version>3.8.1</version>\n      <scope>test</scope>\n    </dependency>\n  </dependencies>\n</project>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/pom.xml	(date 1679248205045)
+@@ -12,6 +12,8 @@
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    <maven.compiler.source>11</maven.compiler.source>
++    <maven.compiler.target>11</maven.compiler.target>
+   </properties>
+ 
+   <dependencies>
+Index: src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.commoncard;\n\npublic class CommonGoalCard1 {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java
+--- a/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java	(date 1679248864385)
+@@ -1,4 +1,4 @@
+ package it.polimi.ingsw.commoncard;
+ 
+-public class CommonGoalCard1 {
++public class CommonGoalCard1 extends CommonGoalCard {
+ }
+Index: src/main/java/it/polimi/ingsw/App.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw;\n\n/**\n * Hello world!\n *\n */\npublic class App \n{\n    public static void main( String[] args )\n    {\n        System.out.println( \"Hello World!\" );\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/App.java b/src/main/java/it/polimi/ingsw/App.java
+--- a/src/main/java/it/polimi/ingsw/App.java	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/src/main/java/it/polimi/ingsw/App.java	(date 1679248864457)
+@@ -1,13 +1,17 @@
+ package it.polimi.ingsw;
+-
++import it.polimi.ingsw.commoncard.*;
+ /**
+  * Hello world!
+  *
+  */
+ public class App 
+-{
+-    public static void main( String[] args )
++{   public static PersonalGoalCard card;
++
++
++    public static void main(String[] args )
+     {
+-        System.out.println( "Hello World!" );
++        CommonGoalCard g = new CommonGoalCard1();
++        PersonalGoalCard card = new PersonalGoalCard();
++        System.out.println( card.calculatePoints() );
+     }
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0480adbc-a163-4b15-8371-52735814b164\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/DataCard.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/PersonalGoalCard.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\n  \"lastFilter\": {\n    \"state\": \"OPEN\"\n  }\n}]]></component>\n  <component name=\"GithubPullRequestsUISettings\">\n    <option name=\"selectedUrlAndAccountId\">\n      <UrlAndAccount>\n        <option name=\"accountId\" value=\"35619fa1-1eff-406a-8e3a-be42a4b3c23f\" />\n        <option name=\"url\" value=\"https://github.com/flaviodelellis/IS23-AM26.git\" />\n      </UrlAndAccount>\n    </option>\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"ProjectErrors\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2N4KLLGujdUsq97ALbxBE7E8Bjq\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"project.structure.last.edited\": \"Modules\",\n    \"project.structure.proportion\": \"0.0\",\n    \"project.structure.side.proportion\": \"0.0\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0480adbc-a163-4b15-8371-52735814b164\" name=\"Changes\" comment=\"\" />\n      <created>1678917859426</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1678917859426</updated>\n      <workItem from=\"1679238563303\" duration=\"7138000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/DataCard.java</url>\n          <line>10</line>\n          <option name=\"timeStamp\" value=\"1\" />\n        </line-breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 6f48ea916d6430a49565e49c251799b13c5d307f)
++++ b/.idea/workspace.xml	(date 1679248864925)
+@@ -4,22 +4,22 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/DataCard.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/PersonalGoalCard.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java" afterDir="false" />
++    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="Implementata parzialmente PersonalGoalCard con ADT">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/App.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -36,11 +36,11 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+-  "lastFilter": {
+-    "state": "OPEN"
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="GithubPullRequestsUISettings">
+     <option name="selectedUrlAndAccountId">
+       <UrlAndAccount>
+@@ -63,21 +63,41 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "project.structure.last.edited": "Modules",
+-    "project.structure.proportion": "0.0",
+-    "project.structure.side.proportion": "0.0",
+-    "vue.rearranger.settings.migration": "true"
+-  }
+-}]]></component>
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  }
++}</component>
++  <component name="RunManager">
++    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.App" />
++      <module name="AM26" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="it.polimi.ingsw.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <recent_temporary>
++      <list>
++        <item itemvalue="Application.App" />
++      </list>
++    </recent_temporary>
++  </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+@@ -86,22 +106,24 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1678917859426</updated>
+-      <workItem from="1679238563303" duration="7138000" />
++      <workItem from="1679238563303" duration="9574000" />
++      <workItem from="1679248256052" duration="610000" />
+     </task>
++    <task id="LOCAL-00001" summary="Implementata parzialmente PersonalGoalCard con ADT">
++      <created>1679245908869</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1679245908869</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
+   </component>
+-  <component name="XDebuggerManager">
+-    <breakpoint-manager>
+-      <breakpoints>
+-        <line-breakpoint enabled="true" type="java-line">
+-          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/DataCard.java</url>
+-          <line>10</line>
+-          <option name="timeStamp" value="1" />
+-        </line-breakpoint>
+-      </breakpoints>
+-    </breakpoint-manager>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="Implementata parzialmente PersonalGoalCard con ADT" />
++    <option name="LAST_COMMIT_MESSAGE" value="Implementata parzialmente PersonalGoalCard con ADT" />
+   </component>
+ </project>
+\ No newline at end of file
