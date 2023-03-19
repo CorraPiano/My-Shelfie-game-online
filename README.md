@@ -1,33 +1,30 @@
 ![alt text](assets/Title2000x618px.png)
-
-<p align="center">
-    <br>
-    <img src="assets/Boxnoshadow280x280.png"/>
-    <br>
-<p>
  
 <p align="center">
+    <img src="assets/Boxnoshadow280x280.png"/>
     <br>
-    Software Engineering Project - Politecnico di Milano (2022-2023)
+    <br>
+    Software Engineering Project - <a href="https://www.polimi.it/">Politecnico di Milano</a> (2022-2023)
     <br>
 <p>
 
 ## Project specification
-The project consists of a Java version of the board game *MyShelfie*, made by Cranio Creations.
+The project consists of a Java version of the board game *MyShelfie*, made by [_Cranio Creations_].
 
 ## Implemented functionalities
 | Functionality     | Status |
-|:------------------|:------:|
-| Basic rules       |   🔴   |
-| Complete rules    |   🔴   |
-| Socket            |   🔴   |
-| CLI               |   🔴   |
-| GUI               |   🔴   |
-| Multiple games    |   🔴   |
+|:------------------|:----------------:|
+| Basic rules       |   ![NO][CROSS]   |
+| Complete rules    |   ![NO][CROSS]   |
+| Socket            |   ![NO][CROSS]   |
+| CLI               |   ![NO][CROSS]   |
+| GUI               |   ![NO][CROSS]   |
+| Multiple games    |   ![NO][CROSS]   |
+| Persistency       |   ![NO][CROSS]   |
 
-🔴 Not Implemented
-🟡 Implementing
-🟢 Implemented
+![YES][TICK] Implemented
+
+![NO][CROSS] Not Implemented
 
 ## Test cases
 
@@ -37,9 +34,18 @@ The project consists of a Java version of the board game *MyShelfie*, made by Cr
 | Controller | |
 
 ## Team members (AM26)
-- Marco Conti
-- Davide Corradina
-- Flavio De Lellis
-- Nicola De March
+* [Marco Conti](https://github.com/C0NN)
+* [Davide Corradina](https://github.com/CorraPiano)
+* [Flavio De Lellis](https://github.com/flaviodelellis)
+* [Nicola de March](https://github.com/nicola-de-march)
+
+## Tools and frameworks
+* [IntelliJ](https://www.jetbrains.com/idea/): Main IDE for project development.
+* [Maven](https://maven.apache.org/): Package and dependency management.
 
 ## Launch
+...
+
+[TICK]: https://github.com/aralara/ing-sw-2021-ferro-fumagalli-rigamonti/blob/master/github/tick.png
+[CROSS]: https://github.com/aralara/ing-sw-2021-ferro-fumagalli-rigamonti/blob/master/github/cross.png
+[_Cranio Creations_]: https://www.craniocreations.it/
