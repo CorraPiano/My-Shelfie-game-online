@@ -12,19 +12,19 @@
 The project consists of a Java version of the board game *MyShelfie*, made by [_Cranio Creations_].
 
 ## Implemented functionalities
-| Functionality     | Status |
-|:------------------|:----------------:|
-| Basic rules       |   ![NO][CROSS]   |
-| Complete rules    |   ![NO][CROSS]   |
-| Socket            |   ![NO][CROSS]   |
-| CLI               |   ![NO][CROSS]   |
-| GUI               |   ![NO][CROSS]   |
-| Multiple games    |   ![NO][CROSS]   |
-| Persistency       |   ![NO][CROSS]   |
+| Functionality     | Status                            |
+|:------------------|:---------------------------------:|
+| Basic rules       |   ![alt text](assets/cross.png)   |
+| Complete rules    |   ![alt text](assets/cross.png)   |
+| Socket            |   ![alt text](assets/cross.png)   |
+| CLI               |   ![alt text](assets/cross.png)   |
+| GUI               |   ![alt text](assets/cross.png)   |
+| Multiple games    |   ![alt text](assets/cross.png)   |
+| Persistency       |   ![alt text](assets/cross.png)   |
 
-![YES][TICK] Implemented
+![alt text](assets/tick.png) Implemented
 
-![NO][CROSS] Not Implemented
+![alt text](assets/cross.png) Not Implemented
 
 ## Test cases
 
@@ -46,6 +46,4 @@ The project consists of a Java version of the board game *MyShelfie*, made by [_
 ## Launch
 ...
 
-[TICK]: https://github.com/aralara/ing-sw-2021-ferro-fumagalli-rigamonti/blob/master/github/tick.png
-[CROSS]: https://github.com/aralara/ing-sw-2021-ferro-fumagalli-rigamonti/blob/master/github/cross.png
 [_Cranio Creations_]: https://www.craniocreations.it/
