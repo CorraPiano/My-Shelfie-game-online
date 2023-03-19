@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 public class Item {
 // Attributes
-    private final int value; // numerical value of card's type (0-->green,1->yellow...)
+    private int state = 0; // flag that shows if the Item has been added to a personal library. (0 not added yet)
     private final ItemType type;
 
 //Methods
@@ -12,6 +12,6 @@ public class Item {
         this.type = type;
     }
 
-    public int getValue() { return value; }
+    public int getState() { return state;}
 
 }
