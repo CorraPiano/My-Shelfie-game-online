@@ -1,0 +1,68 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0480adbc-a163-4b15-8371-52735814b164\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/DataCard.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/PersonalGoalCard.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">\n    <option name=\"selectedUrlAndAccountId\">\n      <UrlAndAccount>\n        <option name=\"accountId\" value=\"35619fa1-1eff-406a-8e3a-be42a4b3c23f\" />\n        <option name=\"url\" value=\"https://github.com/flaviodelellis/IS23-AM26.git\" />\n      </UrlAndAccount>\n    </option>\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"ProjectErrors\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2N4KLLGujdUsq97ALbxBE7E8Bjq\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0480adbc-a163-4b15-8371-52735814b164\" name=\"Changes\" comment=\"\" />\n      <created>1678917859426</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1678917859426</updated>\n      <workItem from=\"1679238563303\" duration=\"7138000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/DataCard.java</url>\n          <line>10</line>\n          <option name=\"timeStamp\" value=\"1\" />\n        </line-breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 1857987be422fc71310ad614ecd3d2d9c3e5a9c5)
++++ b/.idea/workspace.xml	(date 1679249681657)
+@@ -4,23 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/DataCard.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/PersonalGoalCard.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard1.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard10.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard11.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard12.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard2.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard3.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard4.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard5.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard6.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard7.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard8.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/commoncard/CommonGoalCard9.java" afterDir="false" />
+-    </list>
++    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="Implementata parzialmente PersonalGoalCard con ADT" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -88,6 +72,21 @@
+       <updated>1678917859426</updated>
+       <workItem from="1679238563303" duration="7138000" />
+     </task>
++    <task id="LOCAL-00001" summary="Implementata parzialmente PersonalGoalCard con ADT">
++      <created>1679249411025</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1679249411025</updated>
++    </task>
++    <task id="LOCAL-00002" summary="Implementata parzialmente PersonalGoalCard con ADT">
++      <created>1679249623621</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1679249623621</updated>
++    </task>
++    <option name="localTasksCounter" value="3" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -103,6 +102,10 @@
+         </entry>
+       </map>
+     </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="Implementata parzialmente PersonalGoalCard con ADT" />
++    <option name="LAST_COMMIT_MESSAGE" value="Implementata parzialmente PersonalGoalCard con ADT" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>

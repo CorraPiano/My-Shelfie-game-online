@@ -124,10 +124,14 @@ public class DataCard {
 
     }
 
-    int getXY(int i, int j){
-        return m.get(new int[]{i, j});
+    int getXY(int[] c){
+        if(!m.containsKey(c)) return -1;
+        return m.get(c);
     }
     Set<int[]> getCoordinate(){
         return m.keySet();
+    }
+    int getColor(int[] key){
+        return m.get(key);
     }
 }

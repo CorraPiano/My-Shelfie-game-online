@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public class Item {
 // Attributes
-    private int state = 0; // flag that shows if the Item has been added to a personal library. (0 not added yet)
+    private int state = 0;// flag that shows if the Item has been added to a personal library. (0 not added yet)
     private final ItemType type;
 
 //Methods
@@ -13,5 +13,6 @@ public class Item {
     }
 
     public int getState() { return state;}
+    public ItemType getType(){return type;}
 
 }

@@ -5,5 +5,5 @@ public class Calculator {
     private Bookshelf library;
 
     //METHODS
-    public int calculatePoints(){}
+    public int calculatePoints(){return 0;}
 }

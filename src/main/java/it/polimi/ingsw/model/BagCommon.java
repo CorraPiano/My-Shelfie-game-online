@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.commoncard.CommonGoalCard;
+import it.polimi.ingsw.model.commoncard.CommonGoalCard;
 
 public class BagCommon extends Bag{
 
@@ -9,7 +9,7 @@ public class BagCommon extends Bag{
 
     public void initializeBag() { }; //
 
-    public CommonGoalCard getCard(){};
+    public CommonGoalCard getCard(){return null;};
 
 
 }
