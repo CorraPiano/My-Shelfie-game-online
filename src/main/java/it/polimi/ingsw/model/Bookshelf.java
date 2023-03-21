@@ -8,8 +8,10 @@ public class Bookshelf {
     private final int nRows = 6;
     private Item library[][] = new Item[nRows][nColumns];
 
+    //TODO: serve itemCounter per qualcosa?
+
     //METHODS
-    public void insertItems(ArrayList<Item> itemList, int column) throws Exception {
+    public void putItemList(ArrayList<Item> itemList, int column) throws Exception {
         int index = 0;
         if(column > 0 && column <= 5) {
             if(!noSpaceLeft(column, itemList.size())) {
@@ -44,7 +46,7 @@ public class Bookshelf {
         }
     }
 
-    public boolean checkIfFull() {
+    public boolean isFull() {
         for(int i = 0; i < nRows; i++) {
             for(int j = 0; j < nColumns; j++) {
                 if(library[i][j] == null) {

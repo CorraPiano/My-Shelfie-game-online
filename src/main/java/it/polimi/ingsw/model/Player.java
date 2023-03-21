@@ -12,6 +12,7 @@ public class Player {
     private PersonalGoalCard personalCard;
     private int point; //TODO
     private Bookshelf library;
+    private boolean firstPlayerSeat;
 
     //METHODS
     public Player(String name){
@@ -22,17 +23,19 @@ public class Player {
         //creation of the ID code
         ID = UUID.randomUUID().toString();
     }
-    public String getName(){
-        return name;
-    }
-
     public void setToken1(Token token){
         token1 = token;
     }
     public void setToken2(Token token){
         token2 = token;
     }
+    public void setFirstPlayerSeat(Boolean firstPlayerSeat) {
+        this.firstPlayerSeat = firstPlayerSeat;
+    }
 
+    public String getName(){
+        return name;
+    }
     public Token getToken1(){
         return token1;
     }
@@ -42,10 +45,13 @@ public class Player {
     public Bookshelf getLibrary(){
         return library;
     }
-
+    public boolean getFirstPlayerSeat() {
+        return firstPlayerSeat;
+    }
     public void updatePoints(boolean isLastRoud){
         return;
     } //TODO
+    public int getPoints() { return 0; } //TODO
 
     //TODO: add method changeName()?
 }
