@@ -12,13 +12,12 @@ public class Player {
     private PersonalGoalCard personalCard;
     private int point; //TODO
     private Bookshelf library;
-    private Calculator calculator; //TODO
 
     //METHODS
-    public Player(String name, Bookshelf library, PersonalGoalCard personalCard){
+    public Player(String name){
         this.name = name;
-        this.library = library;
-        this.personalCard = personalCard;
+        library = new Bookshelf();
+        personalCard = new PersonalGoalCard(library);
 
         //creation of the ID code
         ID = UUID.randomUUID().toString();
@@ -40,13 +39,13 @@ public class Player {
     public Token getToken2(){
         return token2;
     }
-    public Bookshelf getBookshelf(){
+    public Bookshelf getLibrary(){
         return library;
     }
 
     public void updatePoints(boolean isLastRoud){
         return;
-    }
+    } //TODO
 
     //TODO: add method changeName()?
 }

@@ -4,7 +4,7 @@ public class BagItem extends Bag{
 
     private Item item;
 
-    public void initializeBag(){};
+    public void initializeBag() {};
 
-    public Item getObject(){return new Item(0, ItemType.GREEN);};
+    public Item getObject() { return new Item(ItemType.GREEN); };
 }

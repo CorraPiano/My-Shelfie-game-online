@@ -7,15 +7,14 @@ public class Bookshelf {
     private final int nColumns = 5;
     private final int nRows = 6;
     private Item library[][] = new Item[nRows][nColumns];
-    private int itemsCounter;
 
     //METHODS
     public void insertItems(ArrayList<Item> itemList, int column) throws Exception {
-        int index=0;
-        if(column>0 && column<=5){
-            if(!noSpaceLeft(column, itemList.size())){
-                for(int i=0; i<nRows; i++){
-                    if(library[i][column].getState() == 0 && index < itemList.size()){
+        int index = 0;
+        if(column > 0 && column <= 5) {
+            if(!noSpaceLeft(column, itemList.size())) {
+                for(int i = 0; i < nRows; i++) {
+                    if(library[i][column] == null && index < itemList.size()) {
                         library[i][column] = itemList.get(index);
                         index++;
                     }
@@ -30,25 +29,25 @@ public class Bookshelf {
         }
     }
 
-    private boolean noSpaceLeft(int column, int itemListSize){
+    private boolean noSpaceLeft(int column, int itemListSize) {
         int counterSpace = 0;
-        for(int i=nRows; i>0; i--){
-            if(library[i][column].getState() == 0){
+        for(int i = nRows; i > 0; i--) {
+            if(library[i][column] == null) {
                 counterSpace++;
             }
         }
-        if(counterSpace >= itemListSize){
+        if(counterSpace >= itemListSize) {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
 
-    public boolean checkIfFull(){
-        for(int i=0; i<nRows; i++){
-            for(int j=0; j<nColumns; j++){
-                if(library[i][j].getState() == 0){
+    public boolean checkIfFull() {
+        for(int i = 0; i < nRows; i++) {
+            for(int j = 0; j < nColumns; j++) {
+                if(library[i][j] == null) {
                     return false;
                 }
             }

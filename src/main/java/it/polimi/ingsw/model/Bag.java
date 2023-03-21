@@ -6,7 +6,7 @@ public abstract class Bag {
 
     //Methods
 
-    public Bag(){ this.size = size; };
+    public Bag() { this.size = size; };
 
     public abstract void initializeBag(); //shuffle the bag
 

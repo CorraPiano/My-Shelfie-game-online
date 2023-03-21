@@ -11,10 +11,10 @@ public class Board {
     private int [][] masks;
 
 
-    public Board(){};
-    public void createBoard(){};
-    public void refillBoard(){};
+    public Board() {};
+    public void createBoard() {};
+    public void refillBoard() {};
     public ArrayList<Item> getItems (Coordinates[] coordinates) {};
-    public boolean checkRefill(){};
+    public boolean checkRefill() {};
 
 }
