@@ -1,12 +1,19 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Bookshelf {
     //ATTRIBUTES
-    private final int nColumns = 5;
-    private final int nRows = 6;
-    private Item library[][] = new Item[nRows][nColumns];
+    private final int nColumns;
+    private final int nRows;
+    private Item[][] library;
+
+    public Bookshelf() {
+        this.nColumns = 5;
+        this.nRows = 6;
+        this.library = new Item[nRows][nColumns];
+    }
 
     //TODO: serve itemCounter per qualcosa?
 
@@ -38,12 +45,7 @@ public class Bookshelf {
                 counterSpace++;
             }
         }
-        if(counterSpace >= itemListSize) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return counterSpace >= itemListSize;
     }
 
     public boolean isFull() {
@@ -57,7 +59,7 @@ public class Bookshelf {
         return true;
     }
 
-    public Item getItem(Coordinates coordinate){
-        return library[coordinate.getRow()][coordinate.getColumn()];
+    public Optional<Item> getItem(Coordinates coordinate){
+        return Optional.of(library[coordinate.getRow()][coordinate.getColumn()]);
     }
 }

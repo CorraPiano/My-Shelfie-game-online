@@ -4,6 +4,14 @@ public class Coordinates {
     private int column;
     private int row;
 
+    public Coordinates() {
+    }
+
+    public Coordinates(int column, int row) {
+        this.column = column;
+        this.row = row;
+    }
+
     public void setColumn(int column){
         this.column = column;
     }
@@ -19,4 +27,18 @@ public class Coordinates {
         return row;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj.toString().equals(this.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(row)+","+ Integer.toString(column);
+    }
 }
