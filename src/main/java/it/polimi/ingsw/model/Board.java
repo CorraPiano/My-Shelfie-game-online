@@ -14,7 +14,7 @@ public class Board {
     public Board() {};
     public void createBoard() {};
     public void refillBoard() {};
-    public ArrayList<Item> getItems (Coordinates[] coordinates) {};
-    public boolean checkRefill() {};
+    public ArrayList<Item> getItems (Coordinates[] coordinates) {return null;};
+    public boolean checkRefill() {return true;};
 
 }

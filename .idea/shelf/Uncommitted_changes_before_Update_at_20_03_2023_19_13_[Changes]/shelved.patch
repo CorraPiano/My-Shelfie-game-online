@@ -1,0 +1,38 @@
+Index: src/main/java/it/polimi/ingsw/Bag.java
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/Bag.java b/src/main/java/it/polimi/ingsw/Bag.java
+--- a/src/main/java/it/polimi/ingsw/Bag.java	
++++ b/src/main/java/it/polimi/ingsw/Bag.java	
+@@ -6,7 +6,7 @@
+ 
+     //Methods
+ 
+-    public Bag(){ this.size = size; };
++    public Bag(int size){ this.size = size; };
+ 
+     public abstract void initializeBag(); //shuffle the bag
+ 
+Index: src/main/java/it/polimi/ingsw/BagCommon.java
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/BagCommon.java b/src/main/java/it/polimi/ingsw/BagCommon.java
+--- a/src/main/java/it/polimi/ingsw/BagCommon.java	
++++ b/src/main/java/it/polimi/ingsw/BagCommon.java	
+@@ -6,10 +6,16 @@
+ 
+     private CommonGoalCard commonCard;
+ 
++    public BagCommon(int size, CommonGoalCard commonCard) {
++        super(size);
++        this.commonCard = commonCard;
++    }
+ 
+-    public void initializeBag() { }; //
++    public void initializeBag() {
+ 
+-    public CommonGoalCard getCard(){};
++    }; //
++
++    public CommonGoalCard getCard(){return 0};
+ 
+ 
+ }

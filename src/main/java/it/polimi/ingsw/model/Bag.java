@@ -11,3 +11,10 @@ public abstract class Bag {
     public abstract void initializeBag(); //shuffle the bag
 
 }
+/*
+1 rete
+2 serializzazione    RMI fa i primi due , socket a mano entrambi
+3 controller
+4 modello*/
+
+

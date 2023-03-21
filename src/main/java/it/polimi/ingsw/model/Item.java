@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public class Item {
 // Attributes
-    //TODO: private int state;
+    //OPTION private int state;
     private final ItemType type;
 
 //Methods

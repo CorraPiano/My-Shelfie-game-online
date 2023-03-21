@@ -6,5 +6,5 @@ public class BagPersonal extends Bag {
 
     public void initializeBag() {};
 
-    public PersonalGoalCard getCard() {};
+    public PersonalGoalCard getCard() {return new PersonalGoalCard(null);};
 }

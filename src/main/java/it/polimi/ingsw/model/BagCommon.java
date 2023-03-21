@@ -7,7 +7,7 @@ public class BagCommon extends Bag {
     private CommonGoalCard commonCard;
 
 
-    public void initializeBag() { }; //TODO
+    public void initializeBag() { }; //sets the bag ready for the draw.
 
     public CommonGoalCard getCard() { return null; };
 
