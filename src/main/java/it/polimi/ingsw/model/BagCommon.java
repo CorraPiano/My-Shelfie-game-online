@@ -15,12 +15,12 @@ public class BagCommon {
         bagCommon = new ArrayList<CommonGoalCard>();
         //aggiungi tutte le commongoalcards: ancora da definire quante sono!
     }
-    public CommonGoalCard drawCommonGoalCard() throws Exception {
+    public CommonGoalCard drawCommonGoalCard() {
         Collections.shuffle(bagCommon);
         if (! bagCommon.isEmpty()) {
             return bagCommon.remove(0);
         }
-        throw new Exception("No more items left to be drawn !");
+        return null;
     }
     public int getBagCommonSize() { return bagCommon.size(); }
 }

@@ -79,6 +79,7 @@ public class Board {
             drawBoard();
         }
     }
-    public Item getBoardItem (Coordinates[] coordinates) { return null; };
-
+    public Item getBoardItem (Coordinates coordinates) {
+        return livingRoom[coordinates.getRow()][coordinates.getColumn()];
+    }
 }
