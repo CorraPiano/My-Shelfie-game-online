@@ -1,11 +1,28 @@
 package it.polimi.ingsw.model;
 
-public class BagItem extends Bag{
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-    private Item item;
+public class BagItem {
+    private List<Item> bagItems;
+    public BagItem() {
+        bagItems = new ArrayList<Item>();
+        for (int i = 0; i < 22; i++){
+            for(ItemType type: ItemType.values()){
+                bagItems.add(new Item (type));
+            }
+        }
+    };
+    public Item drawItem() {
+        Collections.shuffle(bagItems);
+        if (! bagItems.isEmpty()){
+            return bagItems.remove(0);
+        }
+        return null;
+    }
 
-    public void initializeBag() {}; //sets the bag ready for the draw, size has to contain all the 132 items
+    public int getBagItemSize() { return bagItems.size();}
 
-    public Item getObject() { return new Item (ItemType.GREEN); };
 }
 

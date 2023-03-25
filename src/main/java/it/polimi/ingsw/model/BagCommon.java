@@ -2,15 +2,26 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.commoncard.CommonGoalCard;
 
-public class BagCommon extends Bag {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
-    private CommonGoalCard commonCard;
+public class BagCommon {
 
+    private List<CommonGoalCard> bagCommon;
 
-    public void initializeBag() { }; //sets the bag ready for the draw.
-
-    public CommonGoalCard getCard() { return null; };
-
-
+    public BagCommon() {
+        bagCommon = new ArrayList<CommonGoalCard>();
+        //aggiungi tutte le commongoalcards: ancora da definire quante sono!
+    }
+    public CommonGoalCard drawCommonGoalCard() throws Exception {
+        Collections.shuffle(bagCommon);
+        if (! bagCommon.isEmpty()) {
+            return bagCommon.remove(0);
+        }
+        throw new Exception("No more items left to be drawn !");
+    }
+    public int getBagCommonSize() { return bagCommon.size(); }
 }
 
