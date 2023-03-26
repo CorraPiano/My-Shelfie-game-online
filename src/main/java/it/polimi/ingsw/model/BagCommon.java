@@ -17,7 +17,7 @@ public class BagCommon {
     }
     public CommonGoalCard drawCommonGoalCard() {
         Collections.shuffle(bagCommon);
-        if (! bagCommon.isEmpty()) {
+        if (!bagCommon.isEmpty()) {
             return bagCommon.remove(0);
         }
         return null;

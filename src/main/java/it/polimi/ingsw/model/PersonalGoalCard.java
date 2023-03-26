@@ -14,7 +14,7 @@ public class PersonalGoalCard {
         this.card = new DataCard(new Random().nextInt(11));
     }
     public int calculatePoints() {
-        if(library==null) return 0;
+        if(library == null) return 0;
 
         Set<Coordinates> coordinate = card.getCoordinate();
         int[] pointVet = { 1, 2, 4, 6, 9, 12};

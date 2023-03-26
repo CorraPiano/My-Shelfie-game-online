@@ -14,7 +14,7 @@ public class BagPersonal{
     }
     public PersonalGoalCard drawPersonalGoalCard() {
         Collections.shuffle(bagPersonal);
-        if (! bagPersonal.isEmpty()) {
+        if (!bagPersonal.isEmpty()) {
             return bagPersonal.remove(0);
         }
         return null;

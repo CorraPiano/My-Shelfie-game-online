@@ -42,12 +42,13 @@ public class Player {
     public Token getToken2(){
         return token2;
     }
-    public Bookshelf getLibrary(){
+    public Bookshelf getLibrary() {
         return library;
     }
     public boolean getFirstPlayerSeat() {
         return firstPlayerSeat;
     }
+
     public void updatePoints(boolean isLastRoud){
         return;
     } //TODO

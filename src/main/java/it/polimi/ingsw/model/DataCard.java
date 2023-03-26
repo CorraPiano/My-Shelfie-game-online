@@ -19,7 +19,7 @@ public class DataCard {
         if(n == 0) {
             m.put(new Coordinates(0, 0), 3);
             m.put(new Coordinates(0, 2), 2);
-            m.put(new Coordinates(1,4), 0);
+            m.put(new Coordinates(1, 4), 0);
             m.put(new Coordinates(2, 3), 5);
             m.put(new Coordinates(3, 1), 1);
             m.put(new Coordinates(5, 2), 4);

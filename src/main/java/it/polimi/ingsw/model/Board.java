@@ -38,12 +38,12 @@ public class Board {
         this.tokens = new ArrayList<Token>();
         this.endGameToken = new Token(1);
     }
-    public void tokenSetUp(){
+    public void tokenSetUp() {
         if ( numOfPlayers == 2) {
         tokens.add(new Token(8));
         tokens.add(new Token(4));
     } //
-        else if ( numOfPlayers == 3 ){
+        else if ( numOfPlayers == 3 ) {
         tokens.add(new Token(8));
         tokens.add(new Token(6));
         tokens.add(new Token(4));
@@ -55,10 +55,10 @@ public class Board {
         tokens.add(new Token(2));// token 2-4-6-8, mask
     }
     }
-    public void drawBoard(){
-        for (int i = 0; i < 9; i++){
-            for (int j = 0; j < 9; j++){
-                if (mask[i][j] == 1 || mask[i][j] == numOfPlayers){
+    public void drawBoard() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (mask[i][j] == 1 || mask[i][j] == numOfPlayers) {
                     livingRoom[i][j] = bagItem.drawItem();
                     itemsIn = itemsIn++;
                 }

@@ -5,7 +5,7 @@ public class Item {
     private final ItemType type;
     private Coordinates coordinates;
 
-    public Item (ItemType type){ this.type = type;}
+    public Item (ItemType type) { this.type = type;}
     public Item(ItemType type, Coordinates coordinates) {
         this.type = type;
         this.coordinates = coordinates;
