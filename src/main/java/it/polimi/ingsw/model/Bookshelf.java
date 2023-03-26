@@ -10,6 +10,7 @@ public class Bookshelf {
     private Item[][] library;
     private boolean[][] mask;
 
+
     //METHODS
     public Bookshelf() {
         this.nColumns = 5;
@@ -18,7 +19,7 @@ public class Bookshelf {
 
         this.mask = new boolean[nRows][nColumns];
         for(int i = 0; i < nRows; i++) {
-            for (int j = 0; j < nColumns; ) {
+            for (int j = 0; j < nColumns; j++) {
                 mask[i][j] = false;
             }
         }
@@ -26,8 +27,8 @@ public class Bookshelf {
 
     public void putItemList(ArrayList<Item> itemList, int column) throws Exception {
         int index = 0;
-        if(column > 0 && column <= 5) {
-            if(!noSpaceLeft(column, itemList.size())) {
+        if(column >= 0 && column < 5) {
+            if(noSpaceLeft(column, itemList.size())) {
                 for(int i = 0; i < nRows; i++) {
                     if(library[i][column] == null && index < itemList.size()) {
                         library[i][column] = itemList.get(index);
@@ -46,12 +47,12 @@ public class Bookshelf {
 
     private boolean noSpaceLeft(int column, int itemListSize) {
         int counterSpace = 0;
-        for(int i = nRows; i > 0; i--) {
+        for(int i = (nRows - 1); i >= 0; i--) { // (nRow-1) because we count also the row 0
             if(library[i][column] == null) {
                 counterSpace++;
             }
         }
-        return counterSpace >= itemListSize;
+        return (counterSpace >= itemListSize);
     }
 
     public boolean isFull() {
@@ -74,8 +75,9 @@ public class Bookshelf {
         int counter;
         for(int i = 0; i < nRows; i++) {
             for(int j = 0; j < nColumns; j++) {
-                if(!mask[i][j]) {
-                    counter = 0;
+                if(!mask[i][j] && library[i][j] != null) {
+                    counter = 1;
+                    mask[i][j] = true;
                     counter = countNearbyItems(i, j, counter, library[i][j].getType());
                     if (counter == 3) {
                         points = points + 2;
@@ -87,31 +89,40 @@ public class Bookshelf {
                         points = points + 8;
                     }
                 }
+
             }
         }
         return points;
     }
 
     private int countNearbyItems(int i, int j, int counter, ItemType type) {
-        if(!mask[i][j+1] && library[i][j+1].getType() == type) {
-            counter++;
-            mask[i][j+1] = true;
-            countNearbyItems(i, j+1, counter, type);
+        if((j+1) < nColumns && library[i][j+1] != null) {
+            if(!mask[i][j+1] && library[i][j+1].getType() == type) {
+                //System.out.println("vado a dx e: " + counter);
+                mask[i][j+1] = true;
+                counter = 1 + countNearbyItems(i, j+1, counter, type);
+            }
         }
-        if(!mask[i][j-1] && library[i][j-1].getType() == type) {
-            counter++;
-            countNearbyItems(i, j-1, counter, type);
-            mask[i][j-1] = true;
+        if((j-1) >= 0 && library[i][j-1] != null) {
+            if(!mask[i][j-1] && library[i][j-1].getType() == type) {
+                //System.out.println("vado a sx e: " + counter);
+                mask[i][j-1] = true;
+                counter = 1 + countNearbyItems(i, j-1, counter, type);
+            }
         }
-        if(!mask[i+1][j] && library[i+1][j].getType() == type) {
-            counter++;
-            countNearbyItems(i+1, j, counter, type);
-            mask[i+1][j] = true;
+        if((i+1) < nRows && library[i+1][j] != null) {
+            if(!mask[i+1][j] && library[i+1][j].getType() == type) {
+                //System.out.println("vado su e: " + counter);
+                mask[i+1][j] = true;
+                counter = 1 + countNearbyItems(i+1, j, counter, type);
+            }
         }
-        if(!mask[i-1][j] && library[i-1][j].getType() == type) {
-            counter++;
-            countNearbyItems(i-1, j, counter, type);
-            mask[i-1][j] = true;
+        if((i-1) >= 0 && library[i-1][j] != null) {
+            if(!mask[i-1][j] &&  library[i-1][j].getType() == type) {
+                //System.out.println("vado giù e: " + counter);
+                mask[i-1][j] = true;
+                counter = 1 + countNearbyItems(i-1, j, counter, type);
+            }
         }
         return counter;
     }
