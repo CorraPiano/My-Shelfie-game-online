@@ -21,7 +21,6 @@ public class BagItem {
         }
         return null;
     }
-
     public int getBagItemSize() { return bagItems.size();}
 
 }

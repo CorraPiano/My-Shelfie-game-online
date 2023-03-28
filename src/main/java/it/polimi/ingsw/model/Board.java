@@ -1,85 +1,107 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.commoncard.CommonGoalCard;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Board {
-    private Item [][] livingRoom; //board
+    private Item[][] livingRoom;
     private BagItem bagItem;
-    private BagCommon bagCommon;
-    private int itemsIn;
-
-    private int [][] mask = {{0,0,0,3,4,0,0,0,0},
-                             {0,0,0,1,1,4,0,0,0},
-                             {0,0,3,1,1,1,3,0,0},
-                             {0,4,1,1,1,1,1,1,3},
-                             {4,1,1,1,1,1,1,1,4},
-                             {3,1,1,1,1,1,1,4,0},
-                             {0,0,3,1,1,1,3,0,0},
-                             {0,0,0,4,1,1,0,0,0},
-                             {0,0,0,0,4,3,0,0,0}
+    private int[][] mask = {{5, 5, 5, 3, 4, 5, 5, 5, 5}, // 5 if not fillable, 2,3,4, represent the number of players to be fillable
+            {5, 5, 5, 2, 2, 4, 5, 5, 5},
+            {5, 5, 3, 2, 2, 2, 3, 5, 5},
+            {5, 4, 2, 2, 2, 2, 2, 2, 3},
+            {4, 2, 2, 2, 2, 2, 2, 2, 4},
+            {3, 2, 2, 2, 2, 2, 2, 4, 5},
+            {5, 5, 3, 2, 2, 2, 3, 5, 5},
+            {5, 5, 5, 4, 2, 2, 5, 5, 5},
+            {5, 5, 5, 5, 4, 3, 5, 5, 5}
     };
-    private Token endGameToken;
-    private List<Token> tokens;
-    private CommonGoalCard commonCard1,commonCard2;
-    private int numOfPlayers;
+
+    private int numeroGiocatori; // ONLY FOR TESTING,GAMEPLAY NEEDED
+
+    //BOARD CREATORS
     public Board() {
         initializeBoard();
-        tokenSetUp();
-        drawBoard();
+        generateNumPlayers();
+        drawBoardItems();
     }
+
+    private void generateNumPlayers() {
+        int randomNum = new Random().nextInt(2, 4);
+        this.numeroGiocatori = randomNum;
+    }
+
     public void initializeBoard() {
-        this.livingRoom = new Item[9][9];
-        this.bagCommon = new BagCommon();
+        int nColumns = 9;
+        int nRows = 9;
+        this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
-        //this.commonCard1 = bagCommon.drawCommonGoalCard();
-        //this.commonCard2 = bagCommon.drawCommonGoalCard();
-        //this.numOfPlayers = Gameplay.getNumPlayers();
-        this.tokens = new ArrayList<Token>();
-        this.endGameToken = new Token(1);
     }
-    public void tokenSetUp() {
-        if ( numOfPlayers == 2) {
-        tokens.add(new Token(8));
-        tokens.add(new Token(4));
-    } //
-        else if ( numOfPlayers == 3 ) {
-        tokens.add(new Token(8));
-        tokens.add(new Token(6));
-        tokens.add(new Token(4));
-    }
-        else if ( numOfPlayers == 4 ) {
-        tokens.add(new Token(8));
-        tokens.add(new Token(6));
-        tokens.add(new Token(4));
-        tokens.add(new Token(2));// token 2-4-6-8, mask
-    }
-    }
-    public void drawBoard() {
+
+    public void drawBoardItems() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (mask[i][j] == 1 || mask[i][j] == numOfPlayers) {
+                if (mask[i][j] <= numeroGiocatori) {
                     livingRoom[i][j] = bagItem.drawItem();
-                    itemsIn = itemsIn++;
                 }
             }
         }
     }
-    public boolean checkRefill() {
-        if (numOfPlayers == 2 && itemsIn == 28) {return true;}
 
-        else if (numOfPlayers == 3 && itemsIn == 36) {return true;}
-
-        else if (numOfPlayers == 4 && itemsIn == 44) {return true;}
+    //OTHER METHODS
+    public boolean isCatchable(int row, int column) {
+        if ((row - 1 >= 0) && livingRoom[row - 1][column] != null) {
+            return true;
+        } else if ((row + 1 >= 0) && livingRoom[row + 1][column] != null) {
+            return true;
+        } else if ((column - 1 >= 0) && livingRoom[row][column - 1] != null) {
+            return true;
+        } else if ((column + 1 >= 0) && livingRoom[row - 1][column + 1] != null) {
+            return true;
+        }
 
         return false;
     }
-    public void refillBoard() {
-        if (checkRefill()){
-            drawBoard();
+
+    public boolean checkRefill() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (mask[i][j] <= numeroGiocatori) {
+                    if (isCatchable(i, j)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void emptyBoard() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                livingRoom[i][j] = null;
+            }
         }
     }
-    public Item getBoardItem (Coordinates coordinates) {
-        return livingRoom[coordinates.getRow()][coordinates.getColumn()];
+
+    public void refillBoard() {
+        if (checkRefill()) {
+            emptyBoard();
+            drawBoardItems();
+        }
     }
+
+    public List<Item> getItemList(ArrayList<Coordinates> coordinatesList) {
+        List<Item> itemList = new ArrayList<Item>();
+        for (int i = 0; i < coordinatesList.size(); i++) {
+            int row = coordinatesList.get(i).getRow();
+            int column = coordinatesList.get(i).getColumn();
+            if (isCatchable(row,column)){
+                itemList.add(livingRoom[row][column]);
+            }
+        }
+        return itemList;
+    }
+
 }

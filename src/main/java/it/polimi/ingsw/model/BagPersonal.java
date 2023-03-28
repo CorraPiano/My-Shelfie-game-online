@@ -10,7 +10,6 @@ public class BagPersonal{
     private List<PersonalGoalCard> bagPersonal;
     public BagPersonal() {
         bagPersonal = new ArrayList<PersonalGoalCard>();
-        //aggiungi tutte le common goal cards: ancora da definire quante sono!
     }
     public PersonalGoalCard drawPersonalGoalCard() {
         Collections.shuffle(bagPersonal);
