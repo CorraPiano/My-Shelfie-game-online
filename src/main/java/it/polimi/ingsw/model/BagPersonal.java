@@ -16,7 +16,7 @@ public class BagPersonal{
         if (!bagPersonal.isEmpty()) {
             return bagPersonal.remove(0);
         }
-        return null;
+        return null; // TODO : exception or Optional
     }
     public int getBagCommonSize() {return bagPersonal.size();}
 }
