@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-
 public class Gameplay {
 
     GameMode gameMode;

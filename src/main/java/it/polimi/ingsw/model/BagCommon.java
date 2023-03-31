@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 //import it.polimi.ingsw.model.commoncard.CommonGoalCard;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
