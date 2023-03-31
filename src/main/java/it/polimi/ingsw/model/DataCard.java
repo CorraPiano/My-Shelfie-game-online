@@ -139,11 +139,4 @@ public class DataCard {
         return m.get(key);
     }
 
-    public static void main(String[] args) {
-        DataCard card = new DataCard(3);
-        Coordinates c = new Coordinates(0,4);
-        Set<Coordinates> key = card.getCoordinate();
-        System.out.println(card.getColor(c));
-        System.out.println();
-    }
 }
