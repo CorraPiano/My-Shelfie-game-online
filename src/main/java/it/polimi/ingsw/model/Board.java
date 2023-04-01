@@ -18,28 +18,21 @@ public class Board {
             {5, 5, 5, 5, 4, 3, 5, 5, 5}
     };
 
-    private int numeroGiocatori; // ONLY FOR TESTING,GAMEPLAY NEEDED
-
     //BOARD CREATORS
-    public Board() {
-        initializeBoard();
-        drawBoardItems();
-    }
-    public void initializeBoard() {
+    public Board(int numPlayers) {
         this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
-        this.numeroGiocatori = 2;
+        drawBoardItems(numPlayers);
     }
-    public void drawBoardItems() {
+    public void drawBoardItems(int numPlayers) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (mask[i][j] <= numeroGiocatori) {
+                if (mask[i][j] <= numPlayers) {
                     livingRoom[i][j] = bagItem.drawItem();
                 }
             }
         }
     }
-
     //OTHER METHODS
     public boolean isCatchable(int row, int column) {
         if (row < 0 || column < 0) { return false;}
@@ -57,10 +50,10 @@ public class Board {
             return false;
         }
     }
-    public boolean checkRefill() {
+    public boolean checkRefill(int numPlayers) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (mask[i][j] <= numeroGiocatori) {
+                if (mask[i][j] <= numPlayers) {
                     if (isCatchable(i, j)) {
                         return true;
                     }
@@ -69,7 +62,6 @@ public class Board {
         }
         return false;
     }
-
     public void emptyBoard() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -77,15 +69,12 @@ public class Board {
             }
         }
     }
-
-    public void refillBoard() {
-        if (checkRefill()) {
+    public void refillBoard(int numPlayers) {
+        if (checkRefill(numPlayers)) {
             emptyBoard();
-            drawBoardItems();
+            drawBoardItems(numPlayers);
         }
     }
-
-
     /* WARNING: method isEmpty() does NOT check the null condition, so we have to check before the empty condition */
     public List<Item> getItemList(ArrayList<Coordinates> coordinatesList) {
 
@@ -104,20 +93,11 @@ public class Board {
 
         return itemList;
     }
-
     public Item[][] getLivingRoom() {
         return livingRoom;
     }
     public Item getLivingRoomItem (int row,int column){ return livingRoom[row][column];}
-
-    public int getNumeroGiocatori() {
-        return numeroGiocatori;
-    } //FOR TESTS ONLY
     public int[][] getMask() {
         return mask;
-    }
-
-    public void setNumeroGiocatori(int numeroGiocatori) {
-        this.numeroGiocatori = numeroGiocatori;
     }
 }
