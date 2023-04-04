@@ -98,33 +98,63 @@ public class Bookshelf {
     private int countNearbyItems(int i, int j, int counter, ItemType type) {
         if((j+1) < nColumns && library[i][j+1] != null) {
             if(!mask[i][j+1] && library[i][j+1].getType() == type) {
-                //System.out.println("vado a dx e: " + counter);
                 mask[i][j+1] = true;
                 counter = 1 + countNearbyItems(i, j+1, counter, type);
             }
         }
         if((j-1) >= 0 && library[i][j-1] != null) {
             if(!mask[i][j-1] && library[i][j-1].getType() == type) {
-                //System.out.println("vado a sx e: " + counter);
                 mask[i][j-1] = true;
                 counter = 1 + countNearbyItems(i, j-1, counter, type);
             }
         }
         if((i+1) < nRows && library[i+1][j] != null) {
             if(!mask[i+1][j] && library[i+1][j].getType() == type) {
-                //System.out.println("vado su e: " + counter);
                 mask[i+1][j] = true;
                 counter = 1 + countNearbyItems(i+1, j, counter, type);
             }
         }
         if((i-1) >= 0 && library[i-1][j] != null) {
             if(!mask[i-1][j] &&  library[i-1][j].getType() == type) {
-                //System.out.println("vado giù e: " + counter);
                 mask[i-1][j] = true;
                 counter = 1 + countNearbyItems(i-1, j, counter, type);
             }
         }
         return counter;
+    }
+
+    public void putItem(Item item, int row, int column) {
+        library[row][column] = item;
+    }
+
+    public Bookshelf fillBookshelf(int[][] matrix) {
+        Bookshelf bookshelf = new Bookshelf();
+        for(int i = 0; i < nRows; i++) {
+            for(int j = 0; j < nColumns; j++) {
+                if(matrix[i][j] == -1) {
+                    bookshelf.library[i][j] = null;
+                }
+                else if(matrix[i][j] == 0) {
+                    bookshelf.library[i][j] = new Item(ItemType.GREEN);
+                }
+                else if(matrix[i][j] == 1){
+                    bookshelf.library[i][j] = new Item(ItemType.YELLOW);
+                }
+                else if(matrix[i][j] == 2){
+                    bookshelf.library[i][j] = new Item(ItemType.BLUE);
+                }
+                else if(matrix[i][j] == 3){
+                    bookshelf.library[i][j] = new Item(ItemType.PINK);
+                }
+                else if(matrix[i][j] == 4){
+                    bookshelf.library[i][j] = new Item(ItemType.CYAN);
+                }
+                else if(matrix[i][j] == 5){
+                    bookshelf.library[i][j] = new Item(ItemType.WHITE);
+                }
+              }
+        }
+        return bookshelf;
     }
 
     //TODO: serve itemCounter per qualcosa?

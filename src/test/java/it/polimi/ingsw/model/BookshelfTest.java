@@ -73,5 +73,67 @@ class BookshelfTest {
 
         // calculatePoints check
         assertEquals(25, bookshelf.calculatePoints());
+
+        /*
+        Bookshelf bookshelf = new Bookshelf();
+        createItemList();
+
+        // to add some Items in the Library
+        bookshelf.putItemList(itemList1, 0);
+        bookshelf.putItemList(itemList2, 0);
+        bookshelf.putItemList(itemList1, 1);
+        bookshelf.putItemList(itemList2, 1);
+        bookshelf.putItemList(itemList1, 2);
+        bookshelf.putItemList(itemList2, 2);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 4);
+        bookshelf.putItemList(itemList1, 4);
+
+        // calculatePoints check
+        assertEquals(25, bookshelf.calculatePoints());
+         */
+    }
+
+    @Test
+    void calculatePoints1() throws Exception {
+
+        Bookshelf bookshelf = new Bookshelf();
+        createItemList();
+
+        // to add some Items in the Library
+        bookshelf.putItemList(itemList1, 0);
+        bookshelf.putItemList(itemList2, 0);
+        bookshelf.putItemList(itemList1, 1);
+        bookshelf.putItemList(itemList2, 1);
+        bookshelf.putItemList(itemList1, 2);
+        bookshelf.putItemList(itemList2, 2);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 4);
+        bookshelf.putItemList(itemList1, 4);
+
+        // calculatePoints check
+        assertEquals(25, bookshelf.calculatePoints());
+
+        /*
+        Bookshelf bookshelf = new Bookshelf();
+        createItemList();
+
+        // to add some Items in the Library
+        bookshelf.putItemList(itemList1, 0);
+        bookshelf.putItemList(itemList2, 0);
+        bookshelf.putItemList(itemList1, 1);
+        bookshelf.putItemList(itemList2, 1);
+        bookshelf.putItemList(itemList1, 2);
+        bookshelf.putItemList(itemList2, 2);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 4);
+        bookshelf.putItemList(itemList1, 4);
+
+        // calculatePoints check
+        assertEquals(25, bookshelf.calculatePoints());
+         */
     }
 }

@@ -10,9 +10,10 @@ public class Player {
     private Token token1;
     private Token token2;
     private PersonalGoalCard personalCard;
-    private int point; //TODO
+    private int points;
     private Bookshelf library;
     private boolean firstPlayerSeat;
+    private Token endGameToken;
 
     //METHODS
     public Player(String name){
@@ -32,15 +33,12 @@ public class Player {
     public void setFirstPlayerSeat(Boolean firstPlayerSeat) {
         this.firstPlayerSeat = firstPlayerSeat;
     }
+    public void setPersonalGoalCard(PersonalGoalCard personalGoalCard) {
+        this.personalCard = personalGoalCard;
+    }
 
     public String getName(){
         return name;
-    }
-    public Token getToken1(){
-        return token1;
-    }
-    public Token getToken2(){
-        return token2;
     }
     public Bookshelf getLibrary() {
         return library;
@@ -48,11 +46,26 @@ public class Player {
     public boolean getFirstPlayerSeat() {
         return firstPlayerSeat;
     }
+    public boolean haveToken1() {
+        if(token1 != null) {
+            return true;
+        }
+        return false;
+    }
+    public boolean haveToken2() {
+        if(token2 != null) {
+            return true;
+        }
+        return false;
+    }
 
+    public int getPoints() { return points; }
     public void updatePoints(boolean isLastRoud){
+        // calcolo i punti da Bookshelf
+        // calcolo i punti dai Token
+        // calcolo i punti da endGameToken
         return;
-    } //TODO
-    public int getPoints() { return 0; } //TODO
+    }
 
     //TODO: add method changeName()?
 }
