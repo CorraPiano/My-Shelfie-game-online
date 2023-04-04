@@ -30,7 +30,6 @@ class BookshelfTest {
         itemList1.add(item1);
         itemList1.add(item2);
         itemList1.add(item3);
-
         itemList2.add(item3);
         itemList2.add(item2);
         itemList2.add(item1);
