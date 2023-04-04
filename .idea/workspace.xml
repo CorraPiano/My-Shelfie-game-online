@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="Testing board e correzioni">
+    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="Gestione del numero di giocatori tra Board e Gameplay">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Gameplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Gameplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/BoardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,7 +152,8 @@
       <workItem from="1679563890349" duration="5270000" />
       <workItem from="1679733366917" duration="10230000" />
       <workItem from="1680104999858" duration="14295000" />
-      <workItem from="1680351171924" duration="1199000" />
+      <workItem from="1680351171924" duration="5473000" />
+      <workItem from="1680508908237" duration="2763000" />
     </task>
     <task id="LOCAL-00001" summary="fixed Player, Item and general syntax">
       <created>1679389804660</created>
@@ -173,7 +176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679994783305</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Gestione del numero di giocatori tra Board e Gameplay">
+      <created>1680352414477</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1680352414477</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,7 +204,8 @@
     <MESSAGE value="fixed Player, Item and general syntax" />
     <MESSAGE value="Implementati metodi delle bag e della board" />
     <MESSAGE value="Correzioni Board e aggiunta metodo getItemList" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correzioni Board e aggiunta metodo getItemList" />
+    <MESSAGE value="Gestione del numero di giocatori tra Board e Gameplay" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gestione del numero di giocatori tra Board e Gameplay" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

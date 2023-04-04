@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
-
     private Board board;
 
-/*drawBoardItems TESTS
+    /*drawBoardItems TESTS
  - drawBoardItemsNull : elements correctly "masked" have to be non-null items
  -
  */

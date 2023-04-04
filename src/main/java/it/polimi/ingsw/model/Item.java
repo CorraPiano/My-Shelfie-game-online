@@ -3,15 +3,14 @@ package it.polimi.ingsw.model;
 public class Item {
     //OPTION private boolean state;
     private final ItemType type;
-    private Coordinates coordinates; // bookshelf coordinates
-
+    private Coordinates boardCoordinates;
     public Item (ItemType type) { this.type = type;}
-    public Item(ItemType type, Coordinates coordinates) {
+    public Item(ItemType type, Coordinates boardCoordinates) {
         this.type = type;
-        this.coordinates = coordinates;
+        this.boardCoordinates = boardCoordinates;
     }
     public ItemType getType() { return type; }
-    public Coordinates getCoordinates() {
-        return coordinates;
+    public Coordinates getBoardCoordinates() {
+        return boardCoordinates;
     }
 }

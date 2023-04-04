@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Board {
     private Item[][] livingRoom; // actual board
-    static int nColumns = 9;
-    static int nRows = 9;
+    static final int nColumns = 9;
+    static final int nRows = 9;
     private BagItem bagItem;
     private int[][] mask = {{5, 5, 5, 3, 4, 5, 5, 5, 5}, // 5 if not fillable, 2,3,4, represent the number of players needed to be fillable
             {5, 5, 5, 2, 2, 4, 5, 5, 5},
@@ -92,6 +92,15 @@ public class Board {
         else throw new IllegalArgumentException("List has to contain something!");
 
         return itemList;
+    }
+    public void putItems (ArrayList<Item> hand) {
+
+        for(Item it: hand){
+            int row = it.getBoardCoordinates().getRow();
+            int column = it.getBoardCoordinates().getColumn();
+            livingRoom[row][column] = it;
+        }
+
     }
     public Item[][] getLivingRoom() {
         return livingRoom;

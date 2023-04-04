@@ -20,7 +20,7 @@ public class Gameplay {
     public Gameplay(GameMode gameMode, int numPlayers){
         this.gameMode=gameMode;
         this.numPlayers=numPlayers;
-        board=new Board();
+        board=new Board(numPlayers);
         bagPersonal=new BagPersonal();
         if (gameMode.equals(GameMode.EXPERT)) {
             bagCommon=new BagCommon();
