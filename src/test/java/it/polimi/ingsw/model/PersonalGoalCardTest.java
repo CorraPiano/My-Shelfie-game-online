@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.PersonalGoalCard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -2,16 +2,17 @@ package it.polimi.ingsw.model.common_card_classes;
 
 import it.polimi.ingsw.model.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class MaxDifferentCommonGoalCard implements CommonGoalCard {
+public class MaxDifferentCommonGoalCard extends CommonGoalCard {
     private final int type;
-    private final Token token;
+    private List<Token> token;
 
-    public MaxDifferentCommonGoalCard(int type, Token token) {
+    public MaxDifferentCommonGoalCard(int type) {
         this.type = type;
-        this.token = token;
     }
 
     @Override
@@ -50,18 +51,4 @@ public class MaxDifferentCommonGoalCard implements CommonGoalCard {
         return false;
     }
 
-    @Override
-    public void setTokenList() {
-
-    }
-
-    @Override
-    public Token showToken() {
-        return null;
-    }
-
-    @Override
-    public Token popToken() {
-        return null;
-    }
 }

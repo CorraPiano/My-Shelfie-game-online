@@ -5,13 +5,15 @@ import it.polimi.ingsw.model.CommonGoalCard;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Token;
 
-public class CornerCommonGoalCard implements CommonGoalCard {
+import java.util.ArrayList;
+import java.util.List;
 
-    final Token token;
-    final int type;
+public class CornerCommonGoalCard extends CommonGoalCard {
 
-    public CornerCommonGoalCard(int type, Token token) {
-        this.token = token;
+    private List<Token> token;
+    private int type;
+
+    public CornerCommonGoalCard(int type) {
         this.type = type;
     }
 
@@ -35,18 +37,5 @@ public class CornerCommonGoalCard implements CommonGoalCard {
         return someItemHasDifferentColor;
     }
 
-    @Override
-    public void setTokenList() {
 
-    }
-
-    @Override
-    public Token showToken() {
-        return token;
-    }
-
-    @Override
-    public Token popToken() {
-        return token;
-    }
 }

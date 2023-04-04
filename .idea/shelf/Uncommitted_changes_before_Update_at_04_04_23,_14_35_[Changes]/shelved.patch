@@ -1,0 +1,943 @@
+Index: src/test/java/it/polimi/ingsw/CommonGoalCardTest.java
+===================================================================
+diff --git a/src/test/java/it/polimi/ingsw/CommonGoalCardTest.java b/src/test/java/it/polimi/ingsw/CommonGoalCardTest.java
+deleted file mode 100644
+--- a/src/test/java/it/polimi/ingsw/CommonGoalCardTest.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ /dev/null	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
+@@ -1,21 +0,0 @@
+-package it.polimi.ingsw;
+-
+-import org.junit.jupiter.api.Test;
+-import static org.junit.jupiter.api.Assertions.*;
+-import static org.junit.jupiter.api.Assumptions.*;
+-
+-import it.polimi.ingsw.model.Bookshelf;
+-import it.polimi.ingsw.model.PersonalGoalCard;
+-import org.junit.jupiter.api.Assertions;
+-import org.junit.jupiter.api.Test;
+-public class CommonGoalCardTest {
+-    @Test
+-    void checkFullFilTest(){}
+-    @Test
+-    void setTokenListTest(){}
+-    @Test
+-    void showTokenTest(){}
+-    @Test
+-    void popTokenTest(){}
+-
+-}
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0480adbc-a163-4b15-8371-52735814b164\" name=\"Changes\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagCommon.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagCommon.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagItem.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagItem.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Bookshelf.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Bookshelf.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Calculator.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Calculator.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Coordinates.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Coordinates.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/DataCard.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/DataCard.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/ItemType.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/ItemType.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commoncard/CommonGoalCard.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commoncard/CommonGoalCard.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Merge.Settings\">\n    <option name=\"BRANCH\" value=\"origin/master\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">\n    <option name=\"selectedUrlAndAccountId\">\n      <UrlAndAccount>\n        <option name=\"accountId\" value=\"35619fa1-1eff-406a-8e3a-be42a4b3c23f\" />\n        <option name=\"url\" value=\"https://github.com/flaviodelellis/IS23-AM26.git\" />\n      </UrlAndAccount>\n    </option>\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2N4KLLGujdUsq97ALbxBE7E8Bjq\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"last_directory_selection\": \"/home/nicola/Documenti/Politecnico/Progetto Ing_Software/Codice/src/main/java/it/polimi/ingsw/model\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"project.structure.last.edited\": \"Modules\",\n    \"project.structure.proportion\": \"0.0\",\n    \"project.structure.side.proportion\": \"0.0\",\n    \"settings.editor.selected.configurable\": \"advanced.settings\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"it.polimi.ingsw\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Application.PersonalGoalCard\">\n    <configuration name=\"DataCard\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.DataCard\" />\n      <module name=\"AM26\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"PersonalGoalCard\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.PersonalGoalCard\" />\n      <module name=\"AM26\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"AppTest.testApp\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"AM26\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.AppTest\" />\n      <option name=\"METHOD_NAME\" value=\"testApp\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"PersonalGoalCardTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"AM26\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.PersonalGoalCardTest\" />\n      <option name=\"METHOD_NAME\" value=\"\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"PersonalGoalCardTest.calculatePointsTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"AM26\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.PersonalGoalCardTest\" />\n      <option name=\"METHOD_NAME\" value=\"calculatePointsTest\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <list>\n      <item itemvalue=\"Application.DataCard\" />\n      <item itemvalue=\"Application.PersonalGoalCard\" />\n      <item itemvalue=\"JUnit.AppTest.testApp\" />\n      <item itemvalue=\"JUnit.PersonalGoalCardTest.calculatePointsTest\" />\n      <item itemvalue=\"JUnit.PersonalGoalCardTest\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.PersonalGoalCard\" />\n        <item itemvalue=\"JUnit.PersonalGoalCardTest\" />\n        <item itemvalue=\"JUnit.PersonalGoalCardTest.calculatePointsTest\" />\n        <item itemvalue=\"Application.DataCard\" />\n        <item itemvalue=\"JUnit.AppTest.testApp\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0480adbc-a163-4b15-8371-52735814b164\" name=\"Changes\" comment=\"\" />\n      <created>1678917859426</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1678917859426</updated>\n      <workItem from=\"1679238563303\" duration=\"7138000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"4\" />\n        </breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/DataCard.java</url>\n          <line>142</line>\n          <option name=\"timeStamp\" value=\"6\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/DataCard.java</url>\n          <line>138</line>\n          <option name=\"timeStamp\" value=\"7\" />\n        </line-breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n    <pin-to-top-manager>\n      <pinned-members>\n        <PinnedItemInfo parentTag=\"it.polimi.ingsw.model.Coordinates\" memberName=\"column\" />\n        <PinnedItemInfo parentTag=\"it.polimi.ingsw.model.Coordinates\" memberName=\"row\" />\n      </pinned-members>\n    </pin-to-top-manager>\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/.idea/workspace.xml	(date 1680611748489)
+@@ -4,20 +4,26 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="">
++    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="CommonGoalCard completate, da testare. Pattern abstract factory completato. Da finire la gestione dei token">
++      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonGoalCardTest.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/util/CommonTestFile.txt" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/util/InputTest.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/util/TestFactory.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagCommon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagCommon.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagItem.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Bookshelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Bookshelf.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Calculator.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Coordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Coordinates.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/DataCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/DataCard.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Item.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/ItemType.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commoncard/CommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commoncard/CommonGoalCard.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagPersonal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/BagPersonal.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonGoalCardFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonGoalCardFactory.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/CornerCommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/CornerCommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/DiagonalCommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/DiagonalCommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/DifferentCommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/DifferentCommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/GroupCommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/GroupCommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/MaxDifferentCommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/MaxDifferentCommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/SameEightCommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/SameEightCommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/XCommonGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/common_card_classes/XCommonGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/CommonGoalCardTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/PersonalGoalCardTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/BoardTest.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -69,6 +75,7 @@
+     "RunOnceActivity.OpenProjectViewOnStart": "true",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "WebServerToolWindowFactoryState": "false",
++    "git-widget-placeholder": "master",
+     "last_directory_selection": "/home/nicola/Documenti/Politecnico/Progetto Ing_Software/Codice/src/main/java/it/polimi/ingsw/model",
+     "node.js.detected.package.eslint": "true",
+     "node.js.detected.package.tslint": "true",
+@@ -82,17 +89,22 @@
+   }
+ }]]></component>
+   <component name="RecentsManager">
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/util" />
++      <recent name="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model" />
++    </key>
+     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
++      <recent name="it.polimi.ingsw.model" />
+       <recent name="it.polimi.ingsw" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="Application.PersonalGoalCard">
++  <component name="RunManager" selected="Application.TestFactory">
+     <configuration name="DataCard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.DataCard" />
+       <module name="AM26" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
++          <option name="PATTERN" value="it.polimi.ingsw.model.util.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+@@ -105,7 +117,7 @@
+       <module name="AM26" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
++          <option name="PATTERN" value="it.polimi.ingsw.model.util.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+@@ -113,18 +125,15 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="AppTest.testApp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="TestFactory" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.util.TestFactory" />
+       <module name="AM26" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="it.polimi.ingsw.*" />
++          <option name="PATTERN" value="it.polimi.ingsw.model.util.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="it.polimi.ingsw" />
+-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.AppTest" />
+-      <option name="METHOD_NAME" value="testApp" />
+-      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -133,12 +142,12 @@
+       <module name="AM26" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="it.polimi.ingsw.*" />
++          <option name="PATTERN" value="it.polimi.ingsw.model.util.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="it.polimi.ingsw" />
+-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.PersonalGoalCardTest" />
++      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
++      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PersonalGoalCardTest" />
+       <option name="METHOD_NAME" value="" />
+       <option name="TEST_OBJECT" value="class" />
+       <method v="2">
+@@ -149,12 +158,12 @@
+       <module name="AM26" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="it.polimi.ingsw.*" />
++          <option name="PATTERN" value="it.polimi.ingsw.model.util.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="it.polimi.ingsw" />
+-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.PersonalGoalCardTest" />
++      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
++      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PersonalGoalCardTest" />
+       <option name="METHOD_NAME" value="calculatePointsTest" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+@@ -162,19 +171,19 @@
+       </method>
+     </configuration>
+     <list>
++      <item itemvalue="Application.TestFactory" />
+       <item itemvalue="Application.DataCard" />
+       <item itemvalue="Application.PersonalGoalCard" />
+-      <item itemvalue="JUnit.AppTest.testApp" />
+       <item itemvalue="JUnit.PersonalGoalCardTest.calculatePointsTest" />
+       <item itemvalue="JUnit.PersonalGoalCardTest" />
+     </list>
+     <recent_temporary>
+       <list>
++        <item itemvalue="Application.TestFactory" />
+         <item itemvalue="Application.PersonalGoalCard" />
+         <item itemvalue="JUnit.PersonalGoalCardTest" />
+         <item itemvalue="JUnit.PersonalGoalCardTest.calculatePointsTest" />
+         <item itemvalue="Application.DataCard" />
+-        <item itemvalue="JUnit.AppTest.testApp" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -187,7 +196,16 @@
+       <option name="presentableId" value="Default" />
+       <updated>1678917859426</updated>
+       <workItem from="1679238563303" duration="7138000" />
++      <workItem from="1680550268489" duration="12169000" />
++    </task>
++    <task id="LOCAL-00001" summary="CommonGoalCard completate, da testare. Pattern abstract factory completato. Da finire la gestione dei token">
++      <created>1680272314619</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1680272314619</updated>
+     </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -203,6 +221,10 @@
+         </entry>
+       </map>
+     </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="CommonGoalCard completate, da testare. Pattern abstract factory completato. Da finire la gestione dei token" />
++    <option name="LAST_COMMIT_MESSAGE" value="CommonGoalCard completate, da testare. Pattern abstract factory completato. Da finire la gestione dei token" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+@@ -220,6 +242,11 @@
+           <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/DataCard.java</url>
+           <line>138</line>
+           <option name="timeStamp" value="7" />
++        </line-breakpoint>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/util/TestFactory.java</url>
++          <line>62</line>
++          <option name="timeStamp" value="17" />
+         </line-breakpoint>
+       </breakpoints>
+     </breakpoint-manager>
+Index: src/test/java/it/polimi/ingsw/model/util/CommonTestFile.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/it/polimi/ingsw/model/util/CommonTestFile.txt b/src/test/java/it/polimi/ingsw/model/util/CommonTestFile.txt
+new file mode 100644
+--- /dev/null	(date 1680557283187)
++++ b/src/test/java/it/polimi/ingsw/model/util/CommonTestFile.txt	(date 1680557283187)
+@@ -0,0 +1,17 @@
++0 1 3 5 5
++0 4 5 6 7
++0 1 3 5 5
++0 4 5 6 7
++0 1 3 5 5
++0 4 4 4 7
++
++10
++
++0 1 3 5 5
++0 4 5 6 7
++0 1 3 5 5
++0 4 5 6 7
++0 1 3 5 5
++4 2 0 5 1
++
++5
+\ No newline at end of file
+Index: src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java b/src/test/java/it/polimi/ingsw/model/PersonalGoalCardTest.java
+rename from src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java
+rename to src/test/java/it/polimi/ingsw/model/PersonalGoalCardTest.java
+--- a/src/test/java/it/polimi/ingsw/PersonalGoalCardTest.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/test/java/it/polimi/ingsw/model/PersonalGoalCardTest.java	(date 1680552273988)
+@@ -1,4 +1,4 @@
+-package it.polimi.ingsw;
++package it.polimi.ingsw.model;
+ import it.polimi.ingsw.model.PersonalGoalCard;
+ import org.junit.jupiter.api.Assertions;
+ import org.junit.jupiter.api.Test;
+Index: src/main/java/it/polimi/ingsw/model/common_card_classes/MaxDifferentCommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.common_card_classes;\n\nimport it.polimi.ingsw.model.*;\n\nimport java.util.HashSet;\nimport java.util.Set;\n\npublic class MaxDifferentCommonGoalCard implements CommonGoalCard {\n    private final int type;\n    private final Token token;\n\n    public MaxDifferentCommonGoalCard(int type, Token token) {\n        this.type = type;\n        this.token = token;\n    }\n\n    @Override\n    public boolean checkFullFil(Bookshelf library) {\n        Set<Integer> colorSet = new HashSet<>();\n        int colorGroupCounter = 0;\n        Item item;\n        if(type == 9){\n\n            for (int i = 0; i<4;i++){\n                for(int j=0;j<5;j++){\n                    item = library.getItem(new Coordinates(j,i)).orElse(null);\n                    if(item == null) break;\n                    colorSet.add(item.getType().getValue());\n                }\n                if(colorSet.size() <= 3) colorGroupCounter++;\n                if(colorGroupCounter>=2) return true;\n                colorSet = new HashSet<>();\n            }\n            return false;\n        }\n        else if(type == 10){\n            for (int i = 0; i<5; i++){\n                for(int j = 0; j<4; j++){\n\n                    item = library.getItem(new Coordinates(i, j)).orElse(null);\n                    if(item == null) break;\n                    colorSet.add(item.getType().getValue());\n                }\n                if(colorSet.size() <=3) colorGroupCounter++;\n                if(colorGroupCounter>=2) return true;\n                colorSet = new HashSet<>();\n            }\n            return false;\n        }\n        return false;\n    }\n\n    @Override\n    public void setTokenList() {\n\n    }\n\n    @Override\n    public Token showToken() {\n        return null;\n    }\n\n    @Override\n    public Token popToken() {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/common_card_classes/MaxDifferentCommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/common_card_classes/MaxDifferentCommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/common_card_classes/MaxDifferentCommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/common_card_classes/MaxDifferentCommonGoalCard.java	(date 1680611748441)
+@@ -2,16 +2,17 @@
+ 
+ import it.polimi.ingsw.model.*;
+ 
++import java.util.ArrayList;
+ import java.util.HashSet;
++import java.util.List;
+ import java.util.Set;
+ 
+-public class MaxDifferentCommonGoalCard implements CommonGoalCard {
++public class MaxDifferentCommonGoalCard extends CommonGoalCard {
+     private final int type;
+-    private final Token token;
++    private List<Token> token;
+ 
+-    public MaxDifferentCommonGoalCard(int type, Token token) {
++    public MaxDifferentCommonGoalCard(int type) {
+         this.type = type;
+-        this.token = token;
+     }
+ 
+     @Override
+@@ -50,18 +51,4 @@
+         return false;
+     }
+ 
+-    @Override
+-    public void setTokenList() {
+-
+-    }
+-
+-    @Override
+-    public Token showToken() {
+-        return null;
+-    }
+-
+-    @Override
+-    public Token popToken() {
+-        return null;
+-    }
+ }
+Index: src/main/java/it/polimi/ingsw/model/CommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\n\npublic interface CommonGoalCard {\n    public boolean checkFullFil(Bookshelf library);\n    public void setTokenList();\n    public Token showToken();\n    public Token popToken();\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/CommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/CommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/CommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/CommonGoalCard.java	(date 1680611748453)
+@@ -1,9 +1,23 @@
+ package it.polimi.ingsw.model;
+ 
+-public interface CommonGoalCard {
+-    public boolean checkFullFil(Bookshelf library);
+-    public void setTokenList();
+-    public Token showToken();
+-    public Token popToken();
++import java.util.ArrayList;
++import java.util.List;
++
++public abstract class CommonGoalCard {
++    private List<Token> token;
++    private int type;
++    public abstract boolean checkFullFil(Bookshelf library);
++
++    public void setTokenList(List<Token> token){
++        this.token = new ArrayList<>(token);
++    }
++    public List<Token> showToken(){
++        return new ArrayList<>(token);
++    }
++    public Token popToken(){
++        Token t = token.get(0);
++        token.remove(0);
++        return t;
++    }
+ }
+ 
+Index: src/main/java/it/polimi/ingsw/model/BagPersonal.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\n\nimport it.polimi.ingsw.model.commoncard.CommonGoalCard;\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\nimport java.util.Random;\n\npublic class BagPersonal{\n    private List<PersonalGoalCard> bagPersonal;\n    public BagPersonal() {\n        bagPersonal = new ArrayList<PersonalGoalCard>();\n    }\n    public PersonalGoalCard drawPersonalGoalCard() {\n        Collections.shuffle(bagPersonal);\n        if (!bagPersonal.isEmpty()) {\n            return bagPersonal.remove(0);\n        }\n        return null; // TODO : exception or Optional\n    }\n    public int getBagCommonSize() {return bagPersonal.size();}\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/BagPersonal.java b/src/main/java/it/polimi/ingsw/model/BagPersonal.java
+--- a/src/main/java/it/polimi/ingsw/model/BagPersonal.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/BagPersonal.java	(date 1680553366326)
+@@ -1,6 +1,6 @@
+ package it.polimi.ingsw.model;
+ 
+-import it.polimi.ingsw.model.commoncard.CommonGoalCard;
++import it.polimi.ingsw.model.common_card_classes.*;
+ import java.util.ArrayList;
+ import java.util.Collections;
+ import java.util.List;
+Index: src/main/java/it/polimi/ingsw/model/common_card_classes/GroupCommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.common_card_classes;\n\nimport it.polimi.ingsw.model.*;\n\npublic class GroupCommonGoalCard implements CommonGoalCard {\n    private final int type;\n    private final Token token;\n    public GroupCommonGoalCard(int type, Token token) {\n        this.type = type;\n        this.token = token;\n    }\n\n    @Override\n    public boolean checkFullFil(Bookshelf library) {\n        boolean someIsEmpty = false, allWithSameColor = false;\n        int color, colorGroup=0;\n\n        if(type == 2){\n            for(int i = 0 ; i < 6; i=i+2){\n                for(int j=0; j<3; j++){\n                    Item item0 = library.getItem(new Coordinates(i, j)).orElse(null);\n                    if(item0!= null)\n                        color = item0.getType().getValue();\n                    else\n                        break;\n\n                    Item item1 = library.getItem(new Coordinates(i-1, j)).orElse(null);\n                    Item item2 = library.getItem(new Coordinates(i-1, j+1)).orElse(null);\n                    Item item3 = library.getItem(new Coordinates(i, j+1)).orElse(null);\n\n                    someIsEmpty = item1==null || item2==null || item3==null;\n                    if (!someIsEmpty){\n\n                        allWithSameColor = item1.getType().getValue()==color &&\n                                item2.getType().getValue()==color &&\n                                item3.getType().getValue()==color;\n                    }\n                    if(allWithSameColor) colorGroup++;\n                }\n            }\n            return colorGroup >= 4;\n        }\n        else if(type == 3){\n            for (int i=3;i<6;i++){\n                for(int j=0; j<5; j++){\n                    Item item0 = library.getItem(new Coordinates(i, j)).orElse(null);\n                    if(item0!= null)\n                        color = item0.getType().getValue();\n                    else\n                        break;\n\n                    Item item1 = library.getItem(new Coordinates(i-1, j)).orElse(null);\n                    Item item2 = library.getItem(new Coordinates(i-2, j)).orElse(null);\n                    Item item3 = library.getItem(new Coordinates(i-3, j)).orElse(null);\n\n                    someIsEmpty = item1==null || item2==null || item3==null;\n                    if (!someIsEmpty){\n\n                        allWithSameColor = item1.getType().getValue()==color &&\n                                item2.getType().getValue()==color &&\n                                item3.getType().getValue()==color;\n                    }\n                    if(allWithSameColor) colorGroup++;\n                }\n            }\n            return colorGroup >= 4;\n        }\n        else if (type == 4){\n            for (int i=1;i<6;i+=2){\n                for(int j=0; j<4; j++){\n                    Item item0 = library.getItem(new Coordinates(i, j)).orElse(null);\n                    if(item0!= null)\n                        color = item0.getType().getValue();\n                    else\n                        break;\n\n                    Item item1 = library.getItem(new Coordinates(i-1, j)).orElse(null);\n                    someIsEmpty = item1==null;\n                    if (!someIsEmpty){\n                        allWithSameColor = item1.getType().getValue()==color;\n                    }\n                    if(allWithSameColor) colorGroup++;\n                }\n            }\n            return colorGroup >= 6;\n        }\n        return false;\n    }\n\n    @Override\n    public void setTokenList() {\n\n    }\n\n    @Override\n    public Token showToken() {\n        return null;\n    }\n\n    @Override\n    public Token popToken() {\n        return null;\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/common_card_classes/GroupCommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/common_card_classes/GroupCommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/common_card_classes/GroupCommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/common_card_classes/GroupCommonGoalCard.java	(date 1680611748445)
+@@ -2,12 +2,15 @@
+ 
+ import it.polimi.ingsw.model.*;
+ 
+-public class GroupCommonGoalCard implements CommonGoalCard {
++import java.util.ArrayList;
++import java.util.List;
++
++public class GroupCommonGoalCard extends CommonGoalCard {
+     private final int type;
+-    private final Token token;
+-    public GroupCommonGoalCard(int type, Token token) {
++    private List<Token> token;
++    public GroupCommonGoalCard(int type) {
+         this.type = type;
+-        this.token = token;
++
+     }
+ 
+     @Override
+@@ -87,19 +90,5 @@
+         return false;
+     }
+ 
+-    @Override
+-    public void setTokenList() {
+-
+-    }
+-
+-    @Override
+-    public Token showToken() {
+-        return null;
+-    }
+-
+-    @Override
+-    public Token popToken() {
+-        return null;
+-    }
+ }
+ 
+Index: src/main/java/it/polimi/ingsw/model/CommonGoalCardFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\n\nimport it.polimi.ingsw.model.common_card_classes.*;\n\npublic class CommonGoalCardFactory{\n\n    public CommonGoalCard getCommonGoalCard(int type){\n        Token token = null;\n\n        if(type == 0 || type == 1)\n            return new DiagonalCommonGoalCard(type, token);\n        else if(type == 2 || type == 3 || type == 4)\n            return new GroupCommonGoalCard(type, token);\n        else if(type == 5)\n            return new CornerCommonGoalCard(type, token);\n        else if(type == 6)\n            return new XCommonGoalCard(type, token);\n        else if(type == 7 || type == 8)\n            return new DifferentCommonGoalCard(type, token);\n        else if(type == 9 || type == 10)\n            return new MaxDifferentCommonGoalCard(type, token);\n        else if(type == 11)\n            return new DiagonalCommonGoalCard(type, token);\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/CommonGoalCardFactory.java b/src/main/java/it/polimi/ingsw/model/CommonGoalCardFactory.java
+--- a/src/main/java/it/polimi/ingsw/model/CommonGoalCardFactory.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/CommonGoalCardFactory.java	(date 1680611748429)
+@@ -2,25 +2,26 @@
+ 
+ import it.polimi.ingsw.model.common_card_classes.*;
+ 
++import java.util.List;
++
+ public class CommonGoalCardFactory{
+ 
+     public CommonGoalCard getCommonGoalCard(int type){
+-        Token token = null;
+ 
+         if(type == 0 || type == 1)
+-            return new DiagonalCommonGoalCard(type, token);
++            return new DiagonalCommonGoalCard(type);
+         else if(type == 2 || type == 3 || type == 4)
+-            return new GroupCommonGoalCard(type, token);
++            return new GroupCommonGoalCard(type);
+         else if(type == 5)
+-            return new CornerCommonGoalCard(type, token);
++            return new CornerCommonGoalCard(type);
+         else if(type == 6)
+-            return new XCommonGoalCard(type, token);
++            return new XCommonGoalCard(type);
+         else if(type == 7 || type == 8)
+-            return new DifferentCommonGoalCard(type, token);
++            return new DifferentCommonGoalCard(type);
+         else if(type == 9 || type == 10)
+-            return new MaxDifferentCommonGoalCard(type, token);
++            return new MaxDifferentCommonGoalCard(type);
+         else if(type == 11)
+-            return new DiagonalCommonGoalCard(type, token);
++            return new DiagonalCommonGoalCard(type);
+         return null;
+     }
+ }
+Index: src/main/java/it/polimi/ingsw/model/common_card_classes/SameEightCommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.common_card_classes;\n\nimport it.polimi.ingsw.model.*;\n\nimport java.util.HashSet;\nimport java.util.Set;\n\npublic class SameEightCommonGoalCard implements CommonGoalCard {\n    private final Token token;\n    private final int type;\n\n    public SameEightCommonGoalCard(Token token, int type) {\n        this.token = token;\n        this.type = type;\n    }\n\n    @Override\n    public boolean checkFullFil(Bookshelf library) {\n\n        Set<ItemType> colorsSet = new HashSet<>();\n        colorsSet.add(ItemType.GREEN);\n        colorsSet.add(ItemType.YELLOW);\n        colorsSet.add(ItemType.PINK);\n        colorsSet.add(ItemType.CYAN);\n        colorsSet.add(ItemType.WHITE);\n\n        Coordinates c = new Coordinates();\n        int colorsCounter = 0;\n\n        for(ItemType t: colorsSet){\n\n            for(int i=0; i<6; i++){\n                for(int j=0; j<5; j++){\n\n                    c.setRow(i);\n                    c.setColumn(j);\n\n                    if(library.getItem(c).isPresent()){\n                        if(library.getItem(c).get().getType() == t) colorsCounter++;\n                    }\n                }\n            }\n\n            if(colorsCounter >= 8) return true;\n        }\n\n        return false;\n    }\n\n    @Override\n    public void setTokenList() {\n\n    }\n\n    @Override\n    public Token showToken() {\n        return token;\n    }\n\n    @Override\n    public Token popToken() {\n        return token;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/common_card_classes/SameEightCommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/common_card_classes/SameEightCommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/common_card_classes/SameEightCommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/common_card_classes/SameEightCommonGoalCard.java	(date 1680611748433)
+@@ -2,15 +2,16 @@
+ 
+ import it.polimi.ingsw.model.*;
+ 
++import java.util.ArrayList;
+ import java.util.HashSet;
++import java.util.List;
+ import java.util.Set;
+ 
+-public class SameEightCommonGoalCard implements CommonGoalCard {
+-    private final Token token;
++public class SameEightCommonGoalCard extends CommonGoalCard {
+     private final int type;
++    private List<Token> token;
+ 
+-    public SameEightCommonGoalCard(Token token, int type) {
+-        this.token = token;
++    public SameEightCommonGoalCard(int type) {
+         this.type = type;
+     }
+ 
+@@ -47,18 +48,4 @@
+         return false;
+     }
+ 
+-    @Override
+-    public void setTokenList() {
+-
+-    }
+-
+-    @Override
+-    public Token showToken() {
+-        return token;
+-    }
+-
+-    @Override
+-    public Token popToken() {
+-        return token;
+-    }
+ }
+Index: src/main/java/it/polimi/ingsw/model/common_card_classes/XCommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.common_card_classes;\n\nimport it.polimi.ingsw.model.*;\n\npublic class XCommonGoalCard implements CommonGoalCard {\n\n    private final Token token;\n    private final int type;\n\n    public XCommonGoalCard(int type, Token token) {\n        this.token = token;\n        this.type = type;\n    }\n\n    @Override\n    public boolean checkFullFil(Bookshelf library) {\n\n        Coordinates coordinates = new Coordinates();\n        int color;\n        boolean someIsEmpty, allWithSameColor;\n        for(int i=1;i<5;i++){\n            for(int j=1; j<4; j++){\n                coordinates.setRow(i);\n                coordinates.setColumn(j);\n\n                if(library.getItem(coordinates).isPresent()){\n                    Item item0 = library.getItem(coordinates).orElse(null);\n                    color = item0.getType().getValue();\n\n                    Item item1 = library.getItem(new Coordinates(i-1, j-1)).orElse(null);\n                    Item item2 = library.getItem(new Coordinates(i+1, j+1)).orElse(null);\n                    Item item3 = library.getItem(new Coordinates(i+1, j-1)).orElse(null);\n                    Item item4 = library.getItem(new Coordinates(i-1, j+1)).orElse(null);\n\n                    someIsEmpty = item1==null || item2==null || item3==null || item4==null;\n                    if(!someIsEmpty){\n                        allWithSameColor =  item1.getType().getValue()==color &&\n                                            item2.getType().getValue()==color &&\n                                            item3.getType().getValue()==color &&\n                                            item4.getType().getValue()==color;\n                        if(allWithSameColor) return true;\n                    }\n\n                }\n            }\n        }\n\n        return false;\n    }\n\n    @Override\n    public void setTokenList() {\n\n    }\n\n    @Override\n    public Token showToken() {\n        return token;\n    }\n\n    @Override\n    public Token popToken() {\n        return token;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/common_card_classes/XCommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/common_card_classes/XCommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/common_card_classes/XCommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/common_card_classes/XCommonGoalCard.java	(date 1680611748425)
+@@ -2,13 +2,15 @@
+ 
+ import it.polimi.ingsw.model.*;
+ 
+-public class XCommonGoalCard implements CommonGoalCard {
++import java.util.ArrayList;
++import java.util.List;
+ 
+-    private final Token token;
++public class XCommonGoalCard extends CommonGoalCard {
++
+     private final int type;
++    private List<Token> token;
+ 
+-    public XCommonGoalCard(int type, Token token) {
+-        this.token = token;
++    public XCommonGoalCard(int type) {
+         this.type = type;
+     }
+ 
+@@ -48,18 +50,4 @@
+         return false;
+     }
+ 
+-    @Override
+-    public void setTokenList() {
+-
+-    }
+-
+-    @Override
+-    public Token showToken() {
+-        return token;
+-    }
+-
+-    @Override
+-    public Token popToken() {
+-        return token;
+-    }
+ }
+Index: src/main/java/it/polimi/ingsw/model/common_card_classes/DiagonalCommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.common_card_classes;\n\nimport it.polimi.ingsw.model.*;\n\npublic class DiagonalCommonGoalCard implements CommonGoalCard {\n    final int type;\n    final Token token;\n    public DiagonalCommonGoalCard(int type, Token token) {\n        this.type = type;\n        this.token = token;\n    }\n\n    @Override\n    public boolean checkFullFil(Bookshelf library) {\n\n        if (type == 1) {\n\n            // Diagonale con colore uguale\n\n            boolean principalDiagonal = true;\n            boolean secondDiagonal = true;\n            int color00 = -1;\n\n            // Diagonale principale\n            Coordinates coordinates = new Coordinates(0, 0);\n            if(library.getItem(coordinates).isPresent()) {\n                color00 = library.getItem(coordinates).get().getType().getValue();\n            }else{\n                principalDiagonal = false;\n            }\n\n            for(int i = 1; i < 5 && principalDiagonal; i++){\n                for(int j = 1; j < 5; j++){\n\n                    coordinates.setRow(i);\n                    coordinates.setColumn(j);\n\n                    if(library.getItem(coordinates).isEmpty() || library.getItem(coordinates).get().getType().getValue() != color00){\n                         principalDiagonal = false;\n                        break;\n                    }\n                }\n            }\n\n            if(principalDiagonal) {\n                return true;\n            }\n            // Diagonale secondaria\n            coordinates.setRow(4);\n            coordinates.setColumn(4);\n            if(library.getItem(coordinates).isPresent()) {\n                color00 = library.getItem(coordinates).get().getType().getValue();\n            }else{\n                secondDiagonal = false;\n            }\n\n            for(int i = 4; i >= 0 && secondDiagonal; i--){\n                for(int j = 4; j>= 0; j--){\n\n                    coordinates.setRow(i);\n                    coordinates.setColumn(j);\n\n                    if(library.getItem(coordinates).isEmpty() || library.getItem(coordinates).get().getType().getValue() != color00){\n                        secondDiagonal = false;\n                        break;\n                    }\n\n                }\n            }\n\n            return secondDiagonal;\n        }\n        else{\n            // Matrice triangolare\n            boolean triangularMatrix = true;\n            Coordinates coordinates = new Coordinates();\n\n            for(int i = 0; i < 5; i++){\n                for(int j = 0; j < i + 1; j++){\n                    coordinates.setRow(i);\n                    coordinates.setColumn(j);\n\n                    if(library.getItem(coordinates).isEmpty()) {\n                        triangularMatrix = false;\n                        break;\n                    }\n                }\n            }\n            if(triangularMatrix) return true;\n            triangularMatrix = true;\n            for(int i = 0; i < 5; i++){\n                for(int j = 4; j >= 0; j--){\n                    coordinates.setRow(i);\n                    coordinates.setColumn(j);\n\n                    if(library.getItem(coordinates).isEmpty()) {\n                        triangularMatrix = false;\n                        break;\n                    }\n                }\n            }\n            return triangularMatrix;\n        }\n\n    }\n\n    @Override\n    public void setTokenList() {\n\n    }\n\n    @Override\n    public Token showToken() {\n        return null;\n    }\n\n    @Override\n    public Token popToken() {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/common_card_classes/DiagonalCommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/common_card_classes/DiagonalCommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/common_card_classes/DiagonalCommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/common_card_classes/DiagonalCommonGoalCard.java	(date 1680611748385)
+@@ -2,12 +2,14 @@
+ 
+ import it.polimi.ingsw.model.*;
+ 
+-public class DiagonalCommonGoalCard implements CommonGoalCard {
+-    final int type;
+-    final Token token;
+-    public DiagonalCommonGoalCard(int type, Token token) {
++import java.util.ArrayList;
++import java.util.List;
++
++public class DiagonalCommonGoalCard extends CommonGoalCard {
++    private final int type;
++    private List<Token> token;
++    public DiagonalCommonGoalCard(int type) {
+         this.type = type;
+-        this.token = token;
+     }
+ 
+     @Override
+@@ -102,20 +104,5 @@
+             return triangularMatrix;
+         }
+ 
+-    }
+-
+-    @Override
+-    public void setTokenList() {
+-
+-    }
+-
+-    @Override
+-    public Token showToken() {
+-        return null;
+-    }
+-
+-    @Override
+-    public Token popToken() {
+-        return null;
+     }
+ }
+Index: src/main/java/it/polimi/ingsw/model/common_card_classes/CornerCommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.common_card_classes;\n\nimport it.polimi.ingsw.model.Bookshelf;\nimport it.polimi.ingsw.model.CommonGoalCard;\nimport it.polimi.ingsw.model.Coordinates;\nimport it.polimi.ingsw.model.Token;\n\npublic class CornerCommonGoalCard implements CommonGoalCard {\n\n    final Token token;\n    final int type;\n\n    public CornerCommonGoalCard(int type, Token token) {\n        this.token = token;\n        this.type = type;\n    }\n\n    @Override\n    public boolean checkFullFil(Bookshelf library) {\n\n        boolean someItemIsEmpty = library.getItem(new Coordinates(0,0)).isEmpty()\n                                    || library.getItem(new Coordinates(0,4)).isEmpty()\n                                    || library.getItem(new Coordinates(5,4)).isEmpty()\n                                    || library.getItem(new Coordinates(5,0)).isEmpty();\n\n        if(someItemIsEmpty) return false;\n\n        int color = library.getItem(new Coordinates(0,0)).get().getType().getValue();\n\n        boolean someItemHasDifferentColor = library.getItem(new Coordinates(0,0)).get().getType().getValue() != color\n                                            || library.getItem(new Coordinates(0,4)).get().getType().getValue() != color\n                                            || library.getItem(new Coordinates(5,4)).get().getType().getValue() != color\n                                            || library.getItem(new Coordinates(5,0)).get().getType().getValue() != color;\n\n        return someItemHasDifferentColor;\n    }\n\n    @Override\n    public void setTokenList() {\n\n    }\n\n    @Override\n    public Token showToken() {\n        return token;\n    }\n\n    @Override\n    public Token popToken() {\n        return token;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/common_card_classes/CornerCommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/common_card_classes/CornerCommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/common_card_classes/CornerCommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/common_card_classes/CornerCommonGoalCard.java	(date 1680611748437)
+@@ -5,13 +5,15 @@
+ import it.polimi.ingsw.model.Coordinates;
+ import it.polimi.ingsw.model.Token;
+ 
+-public class CornerCommonGoalCard implements CommonGoalCard {
++import java.util.ArrayList;
++import java.util.List;
+ 
+-    final Token token;
+-    final int type;
++public class CornerCommonGoalCard extends CommonGoalCard {
+ 
+-    public CornerCommonGoalCard(int type, Token token) {
+-        this.token = token;
++    private List<Token> token;
++    private int type;
++
++    public CornerCommonGoalCard(int type) {
+         this.type = type;
+     }
+ 
+@@ -35,18 +37,5 @@
+         return someItemHasDifferentColor;
+     }
+ 
+-    @Override
+-    public void setTokenList() {
+-
+-    }
+ 
+-    @Override
+-    public Token showToken() {
+-        return token;
+-    }
+-
+-    @Override
+-    public Token popToken() {
+-        return token;
+-    }
+ }
+Index: src/test/java/it/polimi/ingsw/model/BoardTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\n\nimport org.junit.jupiter.api.Test;\n\nimport java.util.ArrayList;\n\nimport static org.junit.jupiter.api.Assertions.*;\n\nclass BoardTest {\n\n    private Board board;\n\n/*drawBoardItems TESTS\n - drawBoardItemsNull : elements correctly \"masked\" have to be non-null items\n -\n */\n    @Test\n    void drawBoardItemsNull() {\n        board = new Board(); // contains drawBoardItems\n        for (int i = 0; i < 9; i++) {\n            for (int j = 0; j < 9; j++) {\n                if (board.getMask()[i][j] <= board.getNumeroGiocatori()) {\n                    assertTrue(board.getLivingRoomItem(i,j) != null);\n                }\n                else assertFalse(board.getLivingRoomItem(i,j) != null);\n            }\n        }\n    }\n\n// isCatchable TESTS : every case working\n    @Test\n    void isCatchableTest() {\n        board = new Board();\n        if (board.getNumeroGiocatori() == 3){\n            assertTrue(board.isCatchable(2,2));\n            assertTrue(board.isCatchable(2,6));\n            assertTrue(board.isCatchable(3,8));\n            assertTrue(board.isCatchable(5,0));\n            assertTrue(board.isCatchable(6,2));\n            assertTrue(board.isCatchable(6,6));\n            assertTrue(board.isCatchable(8,5));\n            assertFalse(board.isCatchable(0,4));\n            assertFalse(board.isCatchable(1,5));\n            assertFalse(board.isCatchable(3,1));\n            assertFalse(board.isCatchable(4,0));\n            assertFalse(board.isCatchable(4,8));\n            assertFalse(board.isCatchable(5,7));\n            assertFalse(board.isCatchable(7,3));\n            assertFalse(board.isCatchable(8,4));\n        }\n        else if (board.getNumeroGiocatori() == 4) {\n            assertTrue(board.isCatchable(2,2));\n            assertTrue(board.isCatchable(2,6));\n            assertTrue(board.isCatchable(3,8));\n            assertTrue(board.isCatchable(5,0));\n            assertTrue(board.isCatchable(6,2));\n            assertTrue(board.isCatchable(6,6));\n            assertTrue(board.isCatchable(8,5));\n            assertTrue(board.isCatchable(0,4));\n            assertTrue(board.isCatchable(1,5));\n            assertTrue(board.isCatchable(3,1));\n            assertTrue(board.isCatchable(4,0));\n            assertTrue(board.isCatchable(4,8));\n            assertTrue(board.isCatchable(5,7));\n            assertTrue(board.isCatchable(7,3));\n            assertTrue(board.isCatchable(8,4));\n        }\n        else if (board.getNumeroGiocatori() == 2){\n            assertFalse(board.isCatchable(0,4));\n            assertFalse(board.isCatchable(1,5));\n            assertFalse(board.isCatchable(3,1));\n            assertFalse(board.isCatchable(4,0));\n            assertFalse(board.isCatchable(4,8));\n            assertFalse(board.isCatchable(5,7));\n            assertFalse(board.isCatchable(7,3));\n            assertFalse(board.isCatchable(8,4));\n            assertFalse(board.isCatchable(2, 2));\n            assertFalse(board.isCatchable(2, 6));\n            assertFalse(board.isCatchable(3, 8));\n            assertFalse(board.isCatchable(5, 0));\n            assertFalse(board.isCatchable(6, 2));\n            assertFalse(board.isCatchable(6, 6));\n            assertFalse(board.isCatchable(8, 5));\n        }\n    }\n    @Test\n    void isCatchableTestNegativeInput(){\n        board = new Board();\n        assertFalse(board.isCatchable(-1,-2));\n    }\n\n    @Test\n    void checkRefill() {\n    }\n\n    @Test\n    void emptyBoard() {}\n\n    @Test\n    void refillBoard() {}\n\n    @Test\n    void getItemList() {}\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/it/polimi/ingsw/model/BoardTest.java b/src/test/java/it/polimi/ingsw/model/BoardTest.java
+--- a/src/test/java/it/polimi/ingsw/model/BoardTest.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/test/java/it/polimi/ingsw/model/BoardTest.java	(date 1680552273976)
+@@ -2,8 +2,6 @@
+ 
+ import org.junit.jupiter.api.Test;
+ 
+-import java.util.ArrayList;
+-
+ import static org.junit.jupiter.api.Assertions.*;
+ 
+ class BoardTest {
+@@ -101,4 +99,6 @@
+ 
+     @Test
+     void getItemList() {}
++
++
+ }
+\ No newline at end of file
+Index: src/main/java/it/polimi/ingsw/model/BagCommon.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\n\nimport it.polimi.ingsw.model.commoncard.CommonGoalCard;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\nimport java.util.Random;\n\npublic class BagCommon {\n\n    private List<CommonGoalCard> bagCommon;\n\n    public BagCommon() {\n        bagCommon = new ArrayList<CommonGoalCard>();\n        //aggiungi tutte le commongoalcards: ancora da definire quante sono!\n    }\n    public CommonGoalCard drawCommonGoalCard() {\n        Collections.shuffle(bagCommon);\n        if (!bagCommon.isEmpty()) {\n            return bagCommon.remove(0);\n        }\n        return null;\n    }\n    public int getBagCommonSize() { return bagCommon.size(); }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/BagCommon.java b/src/main/java/it/polimi/ingsw/model/BagCommon.java
+--- a/src/main/java/it/polimi/ingsw/model/BagCommon.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/BagCommon.java	(date 1680553366310)
+@@ -1,6 +1,6 @@
+ package it.polimi.ingsw.model;
+ 
+-import it.polimi.ingsw.model.commoncard.CommonGoalCard;
++import it.polimi.ingsw.model.common_card_classes.*;
+ 
+ import java.util.ArrayList;
+ import java.util.Collections;
+Index: src/main/java/it/polimi/ingsw/model/common_card_classes/DifferentCommonGoalCard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.common_card_classes;\n\nimport it.polimi.ingsw.model.*;\n\nimport java.util.HashSet;\nimport java.util.Set;\n\npublic class DifferentCommonGoalCard implements CommonGoalCard {\n    private final int type;\n    private final Token token;\n\n    public DifferentCommonGoalCard(int type, Token token) {\n        this.type = type;\n        this.token = token;\n    }\n\n    @Override\n    public boolean checkFullFil(Bookshelf library) {\n        Set<Integer> colorSet = new HashSet<>();\n        int colorGroupCounter = 0;\n\n        if(type == 7){\n            Item item;\n            for (int i = 0; i<4;i++){\n                for(int j=0;j<5;j++){\n                    item = library.getItem(new Coordinates(j,i)).orElse(null);\n                    if(item == null) break;\n                    if(colorSet.contains(item.getType().getValue())) break;\n                    colorSet.add(item.getType().getValue());\n                }\n                if(colorSet.size() == 5) colorGroupCounter++;\n                if(colorGroupCounter>=2) return true;\n                colorSet = new HashSet<>();\n            }\n            return false;\n        }\n        else if(type == 8){\n            Item item;\n            for (int i = 0; i<5;i++){\n                for(int j=0;j<4;j++){\n                    item = library.getItem(new Coordinates(i, j)).orElse(null);\n                    if(item == null) break;\n                    if(colorSet.contains(item.getType().getValue())) break;\n                    colorSet.add(item.getType().getValue());\n                }\n                if(colorSet.size() == 5) colorGroupCounter++;\n                if(colorGroupCounter>=2) return true;\n                colorSet = new HashSet<>();\n            }\n            return false;\n        }\n        return false;\n    }\n\n    @Override\n    public void setTokenList() {\n\n    }\n\n    @Override\n    public Token showToken() {\n        return null;\n    }\n\n    @Override\n    public Token popToken() {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/model/common_card_classes/DifferentCommonGoalCard.java b/src/main/java/it/polimi/ingsw/model/common_card_classes/DifferentCommonGoalCard.java
+--- a/src/main/java/it/polimi/ingsw/model/common_card_classes/DifferentCommonGoalCard.java	(revision dabcc1c374d1d5bf72c832af58b2b9058843183c)
++++ b/src/main/java/it/polimi/ingsw/model/common_card_classes/DifferentCommonGoalCard.java	(date 1680611748449)
+@@ -2,16 +2,18 @@
+ 
+ import it.polimi.ingsw.model.*;
+ 
++import java.util.ArrayList;
+ import java.util.HashSet;
++import java.util.List;
+ import java.util.Set;
+ 
+-public class DifferentCommonGoalCard implements CommonGoalCard {
++public class DifferentCommonGoalCard extends CommonGoalCard {
+     private final int type;
+-    private final Token token;
++    private List<Token> token;
+ 
+-    public DifferentCommonGoalCard(int type, Token token) {
++    public DifferentCommonGoalCard(int type) {
+         this.type = type;
+-        this.token = token;
++
+     }
+ 
+     @Override
+@@ -52,18 +54,5 @@
+         return false;
+     }
+ 
+-    @Override
+-    public void setTokenList() {
+-
+-    }
+ 
+-    @Override
+-    public Token showToken() {
+-        return null;
+-    }
+-
+-    @Override
+-    public Token popToken() {
+-        return null;
+-    }
+ }
+Index: src/test/java/it/polimi/ingsw/model/util/InputTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/it/polimi/ingsw/model/util/InputTest.java b/src/test/java/it/polimi/ingsw/model/util/InputTest.java
+new file mode 100644
+--- /dev/null	(date 1680558816722)
++++ b/src/test/java/it/polimi/ingsw/model/util/InputTest.java	(date 1680558816722)
+@@ -0,0 +1,42 @@
++package it.polimi.ingsw.model.util;
++
++import it.polimi.ingsw.model.Bookshelf;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public class InputTest {
++    private List<Bookshelf> inputLibrary;
++    private List<Integer> result;
++    private  int size;
++
++    public InputTest() {
++        size = 0;
++        this.result = new ArrayList<>();
++        this.inputLibrary = new ArrayList<>();
++
++    }
++
++    public InputTest(List<Bookshelf> inputLibrary , List<Integer> result) {
++        size = 0;
++        this.result = result;
++        this.inputLibrary = inputLibrary;
++    }
++
++    public void addTest(Bookshelf b, int r){
++        inputLibrary.add(b);
++        result.add(r);
++        size++;
++    }
++    public Bookshelf getInputLibrary(int i) {
++        return inputLibrary.get(i);
++    }
++
++    public Integer getResult(int i) {
++        return result.get(i);
++    }
++
++    public int numberOfTests() {
++        return size;
++    }
++}
+Index: src/test/java/it/polimi/ingsw/model/util/TestFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/it/polimi/ingsw/model/util/TestFactory.java b/src/test/java/it/polimi/ingsw/model/util/TestFactory.java
+new file mode 100644
+--- /dev/null	(date 1680558543958)
++++ b/src/test/java/it/polimi/ingsw/model/util/TestFactory.java	(date 1680558543958)
+@@ -0,0 +1,66 @@
++package it.polimi.ingsw.model.util;
++import it.polimi.ingsw.model.Bookshelf;
++
++import java.io.BufferedReader;
++import java.io.FileNotFoundException;
++import java.io.FileReader;
++import java.io.IOException;
++
++public class TestFactory {
++
++    private static int[] convertToArray(String s){
++        int[] vet = new int[5];
++        int j = 0;
++        for(int i=0; i<5; i++){
++            vet[i] = Integer.valueOf(s.charAt(j)) - 48;
++            j+=2;
++        }
++        return vet;
++    }
++
++    public static InputTest createTest(){
++
++        try{
++            FileReader file = new FileReader("/home/nicola/Documenti/Politecnico/Progetto Ing_Software/Codice/src/test/java/it/polimi/ingsw/model/util/CommonTestFile.txt");
++            BufferedReader reader = new BufferedReader(file);
++
++            int result = 0;
++            String line;
++            int[][] mat = new int[6][5];
++
++
++            InputTest inputTest = new InputTest();
++            Bookshelf b;
++
++            line = reader.readLine();
++            while(line != null) {
++                for (int i=0; i<6 ; i++){
++                    mat[i] = convertToArray(line);
++                    line = reader.readLine();
++                }
++
++                line = reader.readLine();
++                result = Integer.parseInt(line);
++                b = new Bookshelf();
++                //Funzione Davide
++                inputTest.addTest(b, result);
++
++                line = reader.readLine();
++                line = reader.readLine();
++            }
++
++            reader.close();
++            return inputTest;
++        }
++        catch (Exception e){
++            e.printStackTrace();
++            return null;
++        }
++
++    }
++
++    public static void main(String[] args){
++        InputTest i = createTest();
++    }
++
++}
+Index: src/test/java/it/polimi/ingsw/model/CommonGoalCardTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/it/polimi/ingsw/model/CommonGoalCardTest.java b/src/test/java/it/polimi/ingsw/model/CommonGoalCardTest.java
+new file mode 100644
+--- /dev/null	(date 1680610712632)
++++ b/src/test/java/it/polimi/ingsw/model/CommonGoalCardTest.java	(date 1680610712632)
+@@ -0,0 +1,25 @@
++package it.polimi.ingsw.model;
++
++import it.polimi.ingsw.model.util.TestFactory;
++import it.polimi.ingsw.model.util.InputTest;
++import org.junit.jupiter.api.Assertions;
++import org.junit.jupiter.api.Test;
++
++public class CommonGoalCardTest {
++    @Test
++    void checkFullFilTest(){
++        CommonGoalCardFactory cardFactory = new CommonGoalCardFactory();
++        CommonGoalCard card = cardFactory.getCommonGoalCard(0);
++        InputTest input = TestFactory.createTest();
++        for(int i=0; i< input.numberOfTests(); i++){
++            Assertions.assertEquals(input.getResult(i), card.checkFullFil(input.getInputLibrary(i)));
++        }
++    }
++    @Test
++    void setTokenListTest(){}
++    @Test
++    void showTokenTest(){}
++    @Test
++    void popTokenTest(){}
++
++}
+\ No newline at end of file

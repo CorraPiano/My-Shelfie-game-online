@@ -2,13 +2,15 @@ package it.polimi.ingsw.model.common_card_classes;
 
 import it.polimi.ingsw.model.*;
 
-public class XCommonGoalCard implements CommonGoalCard {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final Token token;
+public class XCommonGoalCard extends CommonGoalCard {
+
     private final int type;
+    private List<Token> token;
 
-    public XCommonGoalCard(int type, Token token) {
-        this.token = token;
+    public XCommonGoalCard(int type) {
         this.type = type;
     }
 
@@ -48,18 +50,4 @@ public class XCommonGoalCard implements CommonGoalCard {
         return false;
     }
 
-    @Override
-    public void setTokenList() {
-
-    }
-
-    @Override
-    public Token showToken() {
-        return token;
-    }
-
-    @Override
-    public Token popToken() {
-        return token;
-    }
 }

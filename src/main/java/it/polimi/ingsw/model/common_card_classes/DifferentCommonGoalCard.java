@@ -2,16 +2,18 @@ package it.polimi.ingsw.model.common_card_classes;
 
 import it.polimi.ingsw.model.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class DifferentCommonGoalCard implements CommonGoalCard {
+public class DifferentCommonGoalCard extends CommonGoalCard {
     private final int type;
-    private final Token token;
+    private List<Token> token;
 
-    public DifferentCommonGoalCard(int type, Token token) {
+    public DifferentCommonGoalCard(int type) {
         this.type = type;
-        this.token = token;
+
     }
 
     @Override
@@ -52,18 +54,5 @@ public class DifferentCommonGoalCard implements CommonGoalCard {
         return false;
     }
 
-    @Override
-    public void setTokenList() {
 
-    }
-
-    @Override
-    public Token showToken() {
-        return null;
-    }
-
-    @Override
-    public Token popToken() {
-        return null;
-    }
 }
