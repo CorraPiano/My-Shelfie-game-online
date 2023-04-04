@@ -16,10 +16,10 @@ class BoardTest {
  */
     @Test
     void drawBoardItemsNull() {
-        board = new Board(); // contains drawBoardItems
+        board = new Board(0); // contains drawBoardItems
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (board.getMask()[i][j] <= board.getNumeroGiocatori()) {
+                if (board.getMask()[i][j] <= board.getNumPlayers()) {
                     assertTrue(board.getLivingRoomItem(i,j) != null);
                 }
                 else assertFalse(board.getLivingRoomItem(i,j) != null);
@@ -30,8 +30,8 @@ class BoardTest {
 // isCatchable TESTS : every case working
     @Test
     void isCatchableTest() {
-        board = new Board();
-        if (board.getNumeroGiocatori() == 3){
+        board = new Board(0);
+        if (board.getNumPlayers() == 3){
             assertTrue(board.isCatchable(2,2));
             assertTrue(board.isCatchable(2,6));
             assertTrue(board.isCatchable(3,8));
@@ -48,7 +48,7 @@ class BoardTest {
             assertFalse(board.isCatchable(7,3));
             assertFalse(board.isCatchable(8,4));
         }
-        else if (board.getNumeroGiocatori() == 4) {
+        else if (board.getNumPlayers() == 4) {
             assertTrue(board.isCatchable(2,2));
             assertTrue(board.isCatchable(2,6));
             assertTrue(board.isCatchable(3,8));
@@ -65,7 +65,7 @@ class BoardTest {
             assertTrue(board.isCatchable(7,3));
             assertTrue(board.isCatchable(8,4));
         }
-        else if (board.getNumeroGiocatori() == 2){
+        else if (board.getNumPlayers() == 2){
             assertFalse(board.isCatchable(0,4));
             assertFalse(board.isCatchable(1,5));
             assertFalse(board.isCatchable(3,1));
@@ -85,7 +85,7 @@ class BoardTest {
     }
     @Test
     void isCatchableTestNegativeInput(){
-        board = new Board();
+        board = new Board(0);
         assertFalse(board.isCatchable(-1,-2));
     }
 

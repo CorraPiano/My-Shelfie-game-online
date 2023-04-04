@@ -6,6 +6,7 @@ public class Board {
     private Item[][] livingRoom; // actual board
     static final int nColumns = 9;
     static final int nRows = 9;
+    private int numPlayers;
     private BagItem bagItem;
     private int[][] mask = {{5, 5, 5, 3, 4, 5, 5, 5, 5}, // 5 if not fillable, 2,3,4, represent the number of players needed to be fillable
             {5, 5, 5, 2, 2, 4, 5, 5, 5},
@@ -22,6 +23,7 @@ public class Board {
     public Board(int numPlayers) {
         this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
+        this.numPlayers = numPlayers;
         drawBoardItems(numPlayers);
     }
     public void drawBoardItems(int numPlayers) {
@@ -108,5 +110,9 @@ public class Board {
     public Item getLivingRoomItem (int row,int column){ return livingRoom[row][column];}
     public int[][] getMask() {
         return mask;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
     }
 }
