@@ -37,30 +37,32 @@ public class Gameplay {
     public PlayerIterator startGame(){
         if (gameMode.equals(GameMode.EXPERT)){
             // #1 implementare getCard() in BagCommon
-            // commonGoalCard1 = bagCommon.getCard();
+            // commonGoalCard1 = bagCommon.getCard(numPlayer);
+            // commonGoalCard1.setTokenList(createTokenList(numPlayers));
             // commonGoalCard2 = bagCommon.getCard();
         }
         for(Player p: playerList) {
             // #2 implementare getCard() in BagPersonal
-            // #3 implementare givePersonalGoalCard in Player
-            //Player.givePersonalGoalCard(bagPersonal.getCard());
+            // #3 implementare setPersonalGoalCard in Player
+            // commonGoalCard1.setTokenList(createTokenList(numPlayers));
+            // Player.setPersonalGoalCard(bagPersonal.getCard());
         }
         playerIterator = new PlayerIterator(playerList);
         return playerIterator;
     }
 
     // #4 sistemare le eccezioni
-    public void pickItems(ArrayList<Coordinates> list) throws Exception{
+    public void pickItemList(ArrayList<Coordinates> list) throws Exception{
         hand.addAll(board.getItemList(list));
     }
 
-    public void releaseItems() {
+    public void releaseHand() {
         // #5 implementare putItems in board
-        // board.putItems(hand);
+        // board.putItemList(hand);
         hand.clear();
     }
 
-    public int putItems(int column) throws Exception{
+    public int putItemList(int column) throws Exception{
         Bookshelf library = currentPlayer.getLibrary();
         library.putItemList(hand,column);
         if(library.isFull())
@@ -84,22 +86,32 @@ public class Gameplay {
 
     public Player endGame(){
 
-        // #6 in player mettere boolean haveFirstPlayerSeat()
+        // #7 in player mettere boolean getFirstPlayerSeat()
         for(Player p: playerList) {
             p.updatePoints(true);
         }
         playerList=playerList.stream().sorted((x,y)->{
             if(x.getPoints()<y.getPoints())
                 return 1;
-            /*if(x.getPoints()==y.getPoints() && x.haveFirstPlayerSeat())
+            /*if(x.getPoints()==y.getPoints() && x.getFirstPlayerSeat())
                 return 1;
-            if(x.getPoints()==y.getPoints() && y.haveFirstPlayerSeat())
+            if(x.getPoints()==y.getPoints() && y.getFirstPlayerSeat())
                 return -1;*/
             else
                 return -1;
         }).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         return playerList.get(0);
     }
+
+    private ArrayList<Token> createTokenList(int numPlayers){
+        //da implementare
+        return null;
+    }
+
+    public void selectOrderHand(ArrayList<Integer> list){
+
+    }
+
 }
 
 
