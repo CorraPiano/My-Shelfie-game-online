@@ -21,7 +21,8 @@ public class TestFactory {
     public static InputTest createTest(){
 
         try{
-            FileReader file = new FileReader("/home/nicola/Documenti/Politecnico/Progetto Ing_Software/Codice/src/test/java/it/polimi/ingsw/model/util/CommonTestFile.txt");
+            FileReader file = new FileReader("src/test/java/it/polimi/ingsw/model/util/BookshelfTestFile.txt");
+
             BufferedReader reader = new BufferedReader(file);
 
             int result = 0;
@@ -42,7 +43,7 @@ public class TestFactory {
                 line = reader.readLine();
                 result = Integer.parseInt(line);
                 b = new Bookshelf();
-                //Funzione Davide
+                b.fillBookshelf(mat);
                 inputTest.addTest(b, result);
 
                 line = reader.readLine();

@@ -127,34 +127,32 @@ public class Bookshelf {
         library[row][column] = item;
     }
 
-    public Bookshelf fillBookshelf(int[][] matrix) {
-        Bookshelf bookshelf = new Bookshelf();
+    public void fillBookshelf(int[][] matrix) {
         for(int i = 0; i < nRows; i++) {
             for(int j = 0; j < nColumns; j++) {
                 if(matrix[i][j] == -1) {
-                    bookshelf.library[i][j] = null;
+                    this.library[i][j] = null;
                 }
                 else if(matrix[i][j] == 0) {
-                    bookshelf.library[i][j] = new Item(ItemType.GREEN);
+                    this.library[i][j] = new Item(ItemType.GREEN);
                 }
                 else if(matrix[i][j] == 1){
-                    bookshelf.library[i][j] = new Item(ItemType.YELLOW);
+                    this.library[i][j] = new Item(ItemType.YELLOW);
                 }
                 else if(matrix[i][j] == 2){
-                    bookshelf.library[i][j] = new Item(ItemType.BLUE);
+                    this.library[i][j] = new Item(ItemType.BLUE);
                 }
                 else if(matrix[i][j] == 3){
-                    bookshelf.library[i][j] = new Item(ItemType.PINK);
+                    this.library[i][j] = new Item(ItemType.PINK);
                 }
                 else if(matrix[i][j] == 4){
-                    bookshelf.library[i][j] = new Item(ItemType.CYAN);
+                    this.library[i][j] = new Item(ItemType.CYAN);
                 }
                 else if(matrix[i][j] == 5){
-                    bookshelf.library[i][j] = new Item(ItemType.WHITE);
+                    this.library[i][j] = new Item(ItemType.WHITE);
                 }
               }
         }
-        return bookshelf;
     }
 
     //TODO: serve itemCounter per qualcosa?
