@@ -21,12 +21,13 @@ public class Board {
 
     //BOARD CREATORS
     public Board(int numPlayers) {
+        //numero di giocatori deve essere compreso tra 2-4, IllegalArgumentException altrimenti
         this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
         this.numPlayers = numPlayers;
-        drawBoardItems(numPlayers);
+        drawBoardItems();
     }
-    public void drawBoardItems(int numPlayers) {
+    public void drawBoardItems() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (mask[i][j] <= numPlayers) {
@@ -52,17 +53,19 @@ public class Board {
             return false;
         }
     }
-    public boolean checkRefill(int numPlayers) {
+
+    /* Returns true if the board has to be refilled */
+    public boolean checkRefill() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (mask[i][j] <= numPlayers) {
-                    if (isCatchable(i, j)) {
-                        return true;
+                    if (isCatchable(i,j)) {
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
     public void emptyBoard() {
         for (int i = 0; i < 9; i++) {
@@ -71,10 +74,10 @@ public class Board {
             }
         }
     }
-    public void refillBoard(int numPlayers) {
-        if (checkRefill(numPlayers)) {
+    public void refillBoard() {
+        if (checkRefill()) {
             emptyBoard();
-            drawBoardItems(numPlayers);
+            drawBoardItems();
         }
     }
     /* WARNING: method isEmpty() does NOT check the null condition, so we have to check before the empty condition */
@@ -96,22 +99,22 @@ public class Board {
         return itemList;
     }
     public void putItems (ArrayList<Item> hand) {
-
-        for(Item it: hand){
-            int row = it.getBoardCoordinates().getRow();
-            int column = it.getBoardCoordinates().getColumn();
-            livingRoom[row][column] = it;
+        if (hand != null && !hand.isEmpty()) {
+            for (Item it : hand) {
+                int row = it.getBoardCoordinates().getRow();
+                int column = it.getBoardCoordinates().getColumn();
+                livingRoom[row][column] = it;
+            }
         }
-
+        else
+            throw new IllegalArgumentException();
     }
-    public Item[][] getLivingRoom() {
-        return livingRoom;
+    public Item[][] getLivingRoom() {return livingRoom;
     }
     public Item getLivingRoomItem (int row,int column){ return livingRoom[row][column];}
     public int[][] getMask() {
         return mask;
     }
-
     public int getNumPlayers() {
         return numPlayers;
     }

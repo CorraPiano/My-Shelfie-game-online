@@ -7,16 +7,14 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
-
     private Board board;
 
 /*drawBoardItems TESTS
- - drawBoardItemsNull : elements correctly "masked" have to be non-null items
- -
- */
+ - drawBoardItemsNull : elements correctly "masked" have to be non-null items, checked for all players cases
+*/
     @Test
     void drawBoardItemsNull() {
-        board = new Board(0); // contains drawBoardItems
+        board = new Board(2); // contains drawBoardItems
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board.getMask()[i][j] <= board.getNumPlayers()) {
@@ -26,11 +24,10 @@ class BoardTest {
             }
         }
     }
-
-// isCatchable TESTS : every case working
+    // isCatchable TESTS : every single case working
     @Test
     void isCatchableTest() {
-        board = new Board(0);
+        board = new Board(2);
         if (board.getNumPlayers() == 3){
             assertTrue(board.isCatchable(2,2));
             assertTrue(board.isCatchable(2,6));
@@ -85,20 +82,39 @@ class BoardTest {
     }
     @Test
     void isCatchableTestNegativeInput(){
-        board = new Board(0);
+        board = new Board(2);
         assertFalse(board.isCatchable(-1,-2));
     }
-
     @Test
     void checkRefill() {
+        board = new Board (2);
+        board.emptyBoard();
+        assertTrue(board.checkRefill());
     }
-
     @Test
-    void emptyBoard() {}
-
+    void emptyBoard() {
+        board = new Board(2);
+        board.emptyBoard();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                assertTrue(board.getLivingRoomItem(i,j)==null);
+            }
+        }
+    }
     @Test
-    void refillBoard() {}
-
+    void refillBoard() {
+        board = new Board(2);
+        board.emptyBoard();
+        board.refillBoard();
+        assertTrue(board.getLivingRoomItem(5,5)!= null);
+        assertTrue ( board.getLivingRoomItem(2,0) == null);
+    }
     @Test
-    void getItemList() {}
+    void getItemList() {
+
+    }
+    @Test
+    void putItem(){
+
+    }
 }
