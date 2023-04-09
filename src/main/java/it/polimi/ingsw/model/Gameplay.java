@@ -14,7 +14,6 @@ public class Gameplay {
     BagCommon bagCommon;
     PlayerIterator playerIterator;
     ArrayList<Item> hand;
-    Player winner;
     Player currentPlayer;
 
     public Gameplay(GameMode gameMode, int numPlayers){
@@ -84,7 +83,7 @@ public class Gameplay {
         return currentPlayer.getPoints();
     }
 
-    public Player endGame(){
+    public void endGame(){
 
         // #7 in player mettere boolean getFirstPlayerSeat()
         for(Player p: playerList) {
@@ -100,7 +99,6 @@ public class Gameplay {
             else
                 return -1;
         }).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-        return playerList.get(0);
     }
 
     private ArrayList<Token> createTokenList(int numPlayers){
@@ -111,7 +109,6 @@ public class Gameplay {
     public void selectOrderHand(ArrayList<Integer> list){
 
     }
-
 }
 
 

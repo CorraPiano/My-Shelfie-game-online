@@ -8,16 +8,16 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface Skeleton extends Remote {
-    Boolean addPlayer(String name, GameMode gameMode, int numPlayer) throws Exception;
+    String addFirstPlayer(String name, GameMode gameMode, int numPlayer) throws Exception;
+    String addPlayer(String name) throws Exception;
+    void pickItem(int n1, int n2, String id)  throws Exception;
 
-    void pickItemList(ArrayList<Coordinates> coordsList, Player player)  throws Exception;
+    void undoPick(String id) throws Exception;
 
-    void undoPick(Player player) throws Exception;
+    void putItemList(int column, String id) throws Exception;
 
-    void putItemList(int column, Player player) throws Exception;
+    void addChatMessage(String chatMessage,String id) throws Exception;
 
-    void addChatMessage(String chatMessage) throws Exception;
-
-
+    void selectInsertOrder(ArrayList<Integer> order, String id) throws Exception;
 
 }
