@@ -4,17 +4,20 @@ import java.util.stream.Collectors;
 
 public class Gameplay {
 
-    GameMode gameMode;
-    int numPlayers;
-    ArrayList<Player> playerList = new ArrayList<>();
-    Board board;
-    CommonGoalCard commonGoalCard1;
-    CommonGoalCard commonGoalCard2;
-    BagPersonal bagPersonal;
-    BagCommon bagCommon;
-    PlayerIterator playerIterator;
-    ArrayList<Item> hand;
-    Player currentPlayer;
+    private int gameId=0;
+    private GameMode gameMode;
+    private int numPlayers;
+    private ArrayList<Player> playerList = new ArrayList<>();
+    private Board board;
+    private CommonGoalCard commonGoalCard1;
+    private CommonGoalCard commonGoalCard2;
+    private BagPersonal bagPersonal;
+    private BagCommon bagCommon;
+    private PlayerIterator playerIterator;
+    private ArrayList<Item> hand;
+    private Player currentPlayer;
+
+    // inserire gameid
 
     public Gameplay(GameMode gameMode, int numPlayers){
         this.gameMode=gameMode;
@@ -27,7 +30,9 @@ public class Gameplay {
         hand = new ArrayList<Item>();
     }
 
-    public Player addPlayer(String name){
+    public Player addPlayer(String name) throws Exception {
+        if(playerList.size()==numPlayers)
+            throw new Exception();
         Player player = new Player(name);
         playerList.add(player);
         return player;
@@ -35,16 +40,14 @@ public class Gameplay {
 
     public PlayerIterator startGame(){
         if (gameMode.equals(GameMode.EXPERT)){
-            // #1 implementare getCard() in BagCommon
-            // commonGoalCard1 = bagCommon.getCard(numPlayer);
-            // commonGoalCard1.setTokenList(createTokenList(numPlayers));
-            // commonGoalCard2 = bagCommon.getCard();
+            // capire se mettere le token presso la common o presso gameplay
+            commonGoalCard1 = bagCommon.drawCommonGoalCard();
+            commonGoalCard1.setTokenList(createTokenList(numPlayers));
+            commonGoalCard2 = bagCommon.drawCommonGoalCard();
+            commonGoalCard1.setTokenList(createTokenList(numPlayers));
         }
         for(Player p: playerList) {
-            // #2 implementare getCard() in BagPersonal
-            // #3 implementare setPersonalGoalCard in Player
-            // commonGoalCard1.setTokenList(createTokenList(numPlayers));
-            // Player.setPersonalGoalCard(bagPersonal.getCard());
+            p.setPersonalGoalCard(bagPersonal.drawPersonalGoalCard());
         }
         playerIterator = new PlayerIterator(playerList);
         return playerIterator;
@@ -52,62 +55,77 @@ public class Gameplay {
 
     // #4 sistemare le eccezioni
     public void pickItemList(ArrayList<Coordinates> list) throws Exception{
+        currentPlayer = playerIterator.current();
         hand.addAll(board.getItemList(list));
     }
 
     public void releaseHand() {
-        // #5 implementare putItems in board
-        // board.putItemList(hand);
+        // rinominare putItems in putItemList
+        board.putItems(hand);
         hand.clear();
     }
 
-    public int putItemList(int column) throws Exception{
+    public void putItemList(int column) throws Exception {
         Bookshelf library = currentPlayer.getLibrary();
         library.putItemList(hand,column);
         if(library.isFull())
             playerIterator.notifyLastRound();
-        return calcPoints();
     }
 
     public int calcPoints(){
-        // #6 in player mettere boolean haveToken() al posto di getToken
-        /* if(!currentPlayer.haveToken1()){
-            if(commonGoalCard1.checkFullfill(currentPlayer.getLibrary()))
+        if(!currentPlayer.haveToken1()){
+            if(commonGoalCard1.checkFullFil(currentPlayer.getLibrary()))
                 currentPlayer.setToken1(commonGoalCard1.popToken());
         }
         if(!currentPlayer.haveToken2()){
-            if(commonGoalCard2.checkFullfill(currentPlayer.getLibrary()))
+            if(commonGoalCard2.checkFullFil(currentPlayer.getLibrary()))
                 currentPlayer.setToken2(commonGoalCard2.popToken());
-        }*/
+        }
         currentPlayer.updatePoints(false);
         return currentPlayer.getPoints();
     }
 
     public void endGame(){
 
-        // #7 in player mettere boolean getFirstPlayerSeat()
+        // verificare sorted
         for(Player p: playerList) {
             p.updatePoints(true);
         }
         playerList=playerList.stream().sorted((x,y)->{
             if(x.getPoints()<y.getPoints())
                 return 1;
-            /*if(x.getPoints()==y.getPoints() && x.getFirstPlayerSeat())
+            if(x.getPoints()==y.getPoints() && x.getFirstPlayerSeat())
                 return 1;
             if(x.getPoints()==y.getPoints() && y.getFirstPlayerSeat())
-                return -1;*/
-            else
                 return -1;
+            if(x.getPoints()>y.getPoints())
+                return -1;
+            return 0;
         }).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
-    private ArrayList<Token> createTokenList(int numPlayers){
-        //da implementare
-        return null;
+    public void selectOrderHand(ArrayList<Integer> list){
+        // effettuare controlli lato server
+        ArrayList<Item> supp=new ArrayList<>();
+        for(int i: list){
+            supp.add(hand.get(i));
+        }
+        hand = supp;
     }
 
-    public void selectOrderHand(ArrayList<Integer> list){
+    private ArrayList<Token> createTokenList(int numPlayers){
+       ArrayList<Token> list = new ArrayList<>();
+       list.add(new Token(8));
+       list.add(new Token(6));
+       if(numPlayers>2)
+           list.add(new Token(4));
+       if(numPlayers>3)
+           list.add(new Token(2));
+       return list;
+    }
 
+    public ArrayList<Player> TestGetPlayerList(){
+        return playerList;
     }
 }
 

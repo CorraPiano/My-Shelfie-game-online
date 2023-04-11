@@ -2,45 +2,42 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.model.Player;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Client {
+public class ClientTCP{
 
-    private static Skeleton controller;
+    private static Socket socket;
+    private static Scanner in;
+    private static PrintWriter out;
     private static Scanner stdin;
     private static String line;
     private static String id;
     private static String name;
     private static ArrayList<Coordinates> localHand= new ArrayList<>();
     public static void main(String[] args) throws Exception {
-        Registry registry= LocateRegistry.getRegistry();
-        //String[] e = registry.list();
-        //for (String s : e) System.out.println(s);
-        String remoteObjectName = "controller";
-        controller = (Skeleton) registry.lookup(remoteObjectName);
+        socket = new Socket("localhost", 8080);
+        in = new Scanner(socket.getInputStream());
+        out = new PrintWriter(socket.getOutputStream());
         stdin = new Scanner(System.in);
-
         while(true) {
             try {
                 line = stdin.next();
-
+                System.out.println(line);
                 if (line.equalsIgnoreCase("CREATE")) {
                     if(create()) break;
                 }
                 else if (line.equalsIgnoreCase("JOIN")) {
                     if(join()) break;
                 }
-                else
+                else {
                     System.out.println("CLIENT:: comando sconosciuto");
-
+                    line = stdin.nextLine();
+                }
             } catch (Exception e) {
                 System.out.println("ERRORE:: stdin error");
             }
@@ -69,9 +66,10 @@ public class Client {
                     //notifare al controller che il giocatore ha lasciato la partita
                     break;
                 }
-                else
+                else{
                     System.out.println("CLIENT:: comando sconosciuto");
-
+                    line = stdin.nextLine();
+                }
             } catch(Exception e){
                 System.out.println("ERRORE:: stdin error");
             }
@@ -82,28 +80,33 @@ public class Client {
     public static boolean create() throws Exception{
         name = stdin.next();
         int num = stdin.nextInt();
-        String gm = stdin.next();
-        GameMode gamemode;
+        String gamemode = stdin.next();
+
         if(Objects.equals(name, "")){
             System.out.println("CLIENT:: nome errato");
             return false;
         }
         if(num<2 || num>4){
-            System.out.println("CLIENT:: nome giocatori errato");
+            System.out.println("CLIENT:: parametri errati");
             return false;
         }
 
-        if(gm.equalsIgnoreCase("EASY") || gm.equals("0"))
-             gamemode = GameMode.EASY;
+        if(gamemode.equalsIgnoreCase("EASY") || gamemode.equals("0"))
+            gamemode = "easy";
         else
-             gamemode = GameMode.EXPERT;
+            gamemode = "expert";
 
         try {
-            id = controller.addFirstPlayer(name, gamemode, num);
-            System.out.println("CLIENT: partita creata e giocatore connesso");
-            return true;
+            out.println("CREATE#"+name+"|"+gamemode+"|"+num);
+            out.flush();
+            if(in.nextLine().equals("ok")){
+                System.out.println("CLIENT: partita creata e giocatore connesso");
+                return true;
+            }
+            System.out.println("ERRORE:: impossibile creare la partita");
+            return false;
         } catch (Exception e) {
-            System.out.println("ERRORE:: impossibile creare una partita");
+            System.out.println("CONNECTION_ERROR");
             return false;
         }
     }
@@ -115,11 +118,17 @@ public class Client {
             return false;
         }
         try {
-            id = controller.addPlayer(name);
-            System.out.println("CLIENT: giocatore connesso");
-            return true;
-        } catch (Exception e) {
+            System.out.println(name);
+            out.println("JOIN#"+name);
+            out.flush();
+            if(in.nextLine().equals("ok")) {
+                System.out.println("CLIENT: giocatore connesso");
+                return true;
+            }
             System.out.println("ERRORE:: impossibile connettere il giocatore");
+            return false;
+        } catch (Exception e) {
+            System.out.println("CONNECTION_ERROR");
             return false;
         }
     }
@@ -131,10 +140,14 @@ public class Client {
         if (n1>=0 && n1<9 && n2>=0 && n2<9) {
             Coordinates coord = new Coordinates(n1, n2);
             try{
-                controller.pickItem(n1,n2,id);
-                localHand.add(coord);
+                out.println("PICK#"+n1+"|"+n2);
+                out.flush();
+                if(!in.nextLine().equals("ok"))
+                    System.out.println("ERRORE:: server error in pickItem");
+                else
+                    localHand.add(coord);
             } catch (Exception e){
-                System.out.println("ERRORE:: server error in pickItem");
+                System.out.println("CONNECTION_ERROR");
             }
         }
         else
@@ -143,10 +156,12 @@ public class Client {
 
     public static void undo() throws Exception{
         try{
-            controller.undoPick(id);
-            localHand.clear();
+            out.println("UNDO");
+            out.flush();
+            if(!in.nextLine().equals("ok"))
+                System.out.println("ERRORE:: server error in undoPick");
         } catch (Exception e){
-            System.out.println("ERRORE:: server error in undoPick");
+            System.out.println("CONNECTION_ERROR");
         }
     }
 
@@ -158,12 +173,12 @@ public class Client {
         }
 
         int n;
-        ArrayList<Integer> list = new ArrayList<>();
+        String str="";
 
-        while(list.size()<localHand.size()){
+        while(str.length()/2<localHand.size()){
             n=stdin.nextInt();
-            if(n>=0 && n<localHand.size() && !list.contains(n)) {
-                list.add(n);
+            if(n>=0 && n<localHand.size() && !str.contains(String.valueOf(n))) {
+                str=str+n+"|";
             }
             else {
                 stdin.nextLine();
@@ -172,15 +187,19 @@ public class Client {
 
         }
         // AGGIUNGERE IL CONTROLLO DEL VETTORE
-        if(list.size()==localHand.size()) {
+        if(str.length()/2==localHand.size()) {
             try {
-                controller.selectInsertOrder(list, id);
+                str = "ORDER#" + str;
+                out.println(str);
+                out.flush();
+                if(!in.nextLine().equals("ok"))
+                    System.out.println("ERRORE:: server error selectInsertionOrder");
             } catch (Exception e) {
-                System.out.println("ERRORE:: server error in putItemList");
+                System.out.println("CONNECTION_ERROR");
             }
         }
         else {
-            System.out.println("CLIENT:: l'ordine inserito di "+list.size()+" interi non è corretto");
+            System.out.println("CLIENT:: l'ordine inserito di "+str.length()+" interi non è corretto");
         }
     }
 
@@ -188,10 +207,12 @@ public class Client {
         int n = stdin.nextInt();
         if (n>0 && n<5) {
             try {
-                controller.putItemList(n,id);
-                localHand.clear();
+                out.println("PUT#"+n);
+                out.flush();
+                if(!in.nextLine().equals("ok"))
+                    System.out.println("ERRORE:: server error in putItem");
             } catch (Exception e) {
-                System.out.println("ERRORE:: server error in putItemList");
+                System.out.println("CONNECTION_ERROR");
             }
         }
         else
@@ -201,10 +222,12 @@ public class Client {
     public static void send() throws Exception{
         String message = stdin.nextLine();
         try {
-            controller.addChatMessage(message, id);
+            out.println("CHAT#"+message);
+            out.flush();
+            if(!in.nextLine().equals("ok"))
+                System.out.println("ERRORE:: server error in addChatMessage");
         } catch (Exception e) {
-            System.out.println("ERRORE:: server error in putItemList");
+            System.out.println("CONNECTION_ERROR");
         }
     }
-
 }
