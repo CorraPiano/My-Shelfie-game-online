@@ -10,7 +10,6 @@ public class Bookshelf {
     private Item[][] library;
     private boolean[][] mask;
 
-
     //METHODS
     public Bookshelf() {
         this.nColumns = 5;

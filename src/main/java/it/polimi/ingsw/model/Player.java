@@ -20,21 +20,24 @@ public class Player {
         this.name = name;
         library = new Bookshelf();
         personalCard = new PersonalGoalCard(library);
-
         //creation of the ID code
         ID = UUID.randomUUID().toString();
     }
-    public void setToken1(Token token){
-        token1 = token;
+    public void setToken1(Token token1){
+        this.token1 = token1;
     }
-    public void setToken2(Token token){
-        token2 = token;
+    public void setToken2(Token token2){
+        this.token2 = token2;
     }
     public void setFirstPlayerSeat(Boolean firstPlayerSeat) {
         this.firstPlayerSeat = firstPlayerSeat;
     }
-    public void setPersonalGoalCard(PersonalGoalCard personalGoalCard) {
-        this.personalCard = personalGoalCard;
+    public void setPersonalGoalCard(PersonalGoalCard personalCard) {
+        this.personalCard = personalCard;
+    }
+    public void setEndGameToken() {
+        Token endGameToken = new Token(1);
+        this.endGameToken = endGameToken;
     }
 
     public String getName(){
@@ -45,6 +48,9 @@ public class Player {
     }
     public boolean getFirstPlayerSeat() {
         return firstPlayerSeat;
+    }
+    public String getID() {
+        return ID;
     }
     public boolean haveToken1() {
         if(token1 != null) {
@@ -61,10 +67,25 @@ public class Player {
 
     public int getPoints() { return points; }
     public void updatePoints(boolean isLastRoud){
-        // calcolo i punti da Bookshelf
-        // calcolo i punti dai Token
-        // calcolo i punti da endGameToken
-        return;
+        this.points = 0;
+        if(!isLastRoud) {
+            // points from token
+            this.points = this.points + this.token1.getValue();
+            this.points = this.points + this.token2.getValue();
+            this.points = this.points + this.endGameToken.getValue();
+            // points from bookshelf
+            this.points = this.points + this.library.calculatePoints();
+        }
+        else if (isLastRoud) {
+            // points from token
+            this.points = this.points + this.token1.getValue();
+            this.points = this.points + this.token2.getValue();
+            this.points = this.points + this.endGameToken.getValue();
+            // points from bookshelf
+            this.points = this.points + this.library.calculatePoints();
+            // points from personalGoalCard
+            this.points = this.points + this.personalCard.calculatePoints();
+        }
     }
 
     //TODO: add method changeName()?
