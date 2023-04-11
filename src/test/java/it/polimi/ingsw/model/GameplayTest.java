@@ -20,6 +20,15 @@ public class GameplayTest {
         players.get(1).setToken1(new Token(6));
         players.get(2).setToken1(new Token(4));
         players.get(3).setToken1(new Token(2));
+        players.get(0).setToken2(new Token(8));
+        players.get(1).setToken2(new Token(6));
+        players.get(2).setToken2(new Token(4));
+        players.get(3).setToken2(new Token(2));
+        players.get(0).setEndGameToken();
+        players.get(1).setEndGameToken();
+        players.get(2).setEndGameToken();
+        players.get(3).setEndGameToken();
+
         gameplay.endGame();
         for(Player p: players){
             System.out.println(p.getPoints());

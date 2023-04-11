@@ -12,6 +12,7 @@ import java.rmi.registry.*;
 public class Main {
     public static void main(String[] args) throws IOException, AlreadyBoundException, RemoteException{
         Controller controller = new Controller();
+        MessageHandler messageHandler = new MessageHandler(controller);
         try{
             LocateRegistry.createRegistry(1099);
             Registry registry = LocateRegistry.getRegistry();
@@ -24,7 +25,7 @@ public class Main {
 
         try{
             ServerSocket serverSocket =new ServerSocket(8080);
-            TCPServer TCPserver = new TCPServer(serverSocket);
+            TCPServer TCPserver = new TCPServer(serverSocket, messageHandler);
             new Thread(TCPserver).start();
             System.out.println("TCP attivo");
         } catch (Exception e){

@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.GameMode;
 public enum ControllerState {
     START,
     WAIT,
-    PICK,
-    PUT,
+    GAME,
     END,
 }

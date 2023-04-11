@@ -49,6 +49,7 @@ public class Gameplay {
         for(Player p: playerList) {
             p.setPersonalGoalCard(bagPersonal.drawPersonalGoalCard());
         }
+        board.drawBoardItems();
         playerIterator = new PlayerIterator(playerList);
         return playerIterator;
     }
@@ -56,6 +57,7 @@ public class Gameplay {
     // #4 sistemare le eccezioni
     public void pickItemList(ArrayList<Coordinates> list) throws Exception{
         currentPlayer = playerIterator.current();
+        // controllo che le coordinata sia adiacente alla precedente
         hand.addAll(board.getItemList(list));
     }
 
@@ -68,8 +70,10 @@ public class Gameplay {
     public void putItemList(int column) throws Exception {
         Bookshelf library = currentPlayer.getLibrary();
         library.putItemList(hand,column);
-        if(library.isFull())
+        if(library.isFull()) {
+            currentPlayer.setEndGameToken();
             playerIterator.notifyLastRound();
+        }
     }
 
     public int calcPoints(){

@@ -12,7 +12,7 @@ public class Controller extends UnicastRemoteObject implements Skeleton {
     private ControllerState state;
     private PlayerIterator playerIterator;
     private Gameplay gameplay = null;
-
+    private Player current = null;
     private HashMap<String, String> map;
 
     public Controller() throws RemoteException{
@@ -32,53 +32,50 @@ public class Controller extends UnicastRemoteObject implements Skeleton {
             throw new Exception();
 
         // inizializzazione gioco
+        System.out.println("... tentativo di creazione partita ...");
         this.maxPlayers = maxPlayers;
         gameplay = new Gameplay(gameMode, maxPlayers);
+        state=ControllerState.WAIT;
         System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
 
         // aggiunta giocatore
+        System.out.println("... tentativo di addPlayer ...");
         Player player = gameplay.addPlayer(name);
-        System.out.println("SERVER:: giocatore connesso con nome " + name);
         this.numPlayers++;
-        state=ControllerState.WAIT;
-        map.put(name,name);
-        return name;
-        // # aggiungere getId() in player
-        /*
-            String id = player.getId();
-            map.put(id,name)
-            return id;
-        */
+        String id = player.getID();
+        map.put(id,name);
+        // attenzione alle mappe, nel caso si abbiano due ID uguali, assolutamente da non permettere!!!
+        System.out.println("SERVER:: giocatore connesso con nome " + name);
 
-        //if (this.numPlayers == this.maxPlayers)
-        // playerIterator = gameplay.startGame();
+        return id;
     }
 
     public synchronized String addPlayer(String name) throws Exception{
         if (!state.equals(ControllerState.WAIT))
             throw new Exception();
+
+        System.out.println("... tentativo di addPlayer ...");
         Player player = gameplay.addPlayer(name);
-        System.out.println("SERVER:: giocatore connesso con nome " + name);
         this.numPlayers++;
+        String id = player.getID();
+        map.put(id,name);
+        System.out.println("SERVER:: giocatore connesso con nome " + name);
+
         if (this.numPlayers == this.maxPlayers) {
-            // non DEVE dare errore o il sistema si blocca
+            System.out.println("... tentativo di avvio partita ...");
+            // non DEVE dare errore o il sistema si blocca <<
             // serve davvero playeriterator al controller, o basta una funzione del gameplay
             playerIterator = gameplay.startGame();
-            state=ControllerState.PICK;
+            current = playerIterator.current();
+            state=ControllerState.GAME;
+            System.out.println("SERVER:: partita avviata" );
         }
-        // attenzione alle mappe, nel caso si abbiano due ID uguali, assolutamente da non permettere!!!
-        map.put(name,name);
-        return name;
-        /*
-            String id = player.getId();
-            map.put(id,name)
-            return id;
-        */
+        return id;
     }
 
     // da sistemare con coordinates
     public synchronized void pickItem(int n1, int n2, String id)  throws Exception{
-        if(!playerIterator.current().getName().equals(id) || !state.equals(ControllerState.PICK))
+        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
             throw new Exception();
         // sistemare le coordinate
         System.out.println("... tentativo di pickItem ...");
@@ -90,7 +87,7 @@ public class Controller extends UnicastRemoteObject implements Skeleton {
     }
 
     public synchronized void undoPick(String id) throws Exception{
-        if(!playerIterator.current().getName().equals(id) || !state.equals(ControllerState.PICK))
+        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
             throw new Exception();
         System.out.println("... tentativo di undoPick ...");
         gameplay.releaseHand();
@@ -98,7 +95,7 @@ public class Controller extends UnicastRemoteObject implements Skeleton {
     }
 
     public synchronized void selectInsertOrder(ArrayList<Integer> order, String id) throws Exception{
-        if(!playerIterator.current().getName().equals(id) || !state.equals(ControllerState.PICK))
+        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
             throw new Exception();
         System.out.println("... tentativo di selectInsertOrder ...");
         gameplay.selectOrderHand(order);
@@ -109,7 +106,7 @@ public class Controller extends UnicastRemoteObject implements Skeleton {
     }
 
     public synchronized void putItemList(int column, String id) throws Exception{
-        if(!playerIterator.current().getName().equals(id) || !state.equals(ControllerState.PICK))
+        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
             throw new Exception();
         System.out.println("... tentativo di putItemList ...");
         gameplay.putItemList(column);
@@ -119,9 +116,9 @@ public class Controller extends UnicastRemoteObject implements Skeleton {
             state=ControllerState.END;
         }
         else{
-            //attenzione: possibile problema di sincronizzazione !!!
+            //teoricamente nessun metodo è invocabile contemporaneamente per synchronized
             playerIterator.next();
-           //state=ControllerState.PICK;
+            current=playerIterator.current();
         }
         // scegliere se inserire lo stato PUT con UNDO_INSERT
         System.out.println("GAME:: mano inserita nel tabellone");
