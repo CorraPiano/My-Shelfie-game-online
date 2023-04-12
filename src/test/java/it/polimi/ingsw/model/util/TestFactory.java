@@ -21,7 +21,7 @@ public class TestFactory {
     public static InputTest createTest(){
 
         try{
-            FileReader file = new FileReader("src/test/java/it/polimi/ingsw/model/util/BookshelfTestFile.txt");
+            FileReader file = new FileReader("src/test/java/it/polimi/ingsw/model/util/BookshelfTestFile_putItemList.txt");
 
             BufferedReader reader = new BufferedReader(file);
 
