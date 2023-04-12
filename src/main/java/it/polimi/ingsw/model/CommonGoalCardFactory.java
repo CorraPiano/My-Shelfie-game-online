@@ -24,4 +24,9 @@ public class CommonGoalCardFactory{
             return new DiagonalCommonGoalCard(type);
         return null;
     }
+
+
 }
+
+
+

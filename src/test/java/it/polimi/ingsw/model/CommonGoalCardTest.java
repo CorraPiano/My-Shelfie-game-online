@@ -10,7 +10,7 @@ public class CommonGoalCardTest {
     void checkFullFilTest(){
         CommonGoalCardFactory cardFactory = new CommonGoalCardFactory();
         CommonGoalCard card = cardFactory.getCommonGoalCard(0);
-        InputTest input = TestFactory.createTest();
+        InputTest input = TestFactory.createTest("PersonalTestFile.txt");
         for(int i=0; i< input.numberOfTests(); i++){
             Assertions.assertEquals(input.getResult(i), card.checkFullFil(input.getInputLibrary(i)));
         }

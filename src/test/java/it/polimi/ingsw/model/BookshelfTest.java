@@ -2,11 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import it.polimi.ingsw.model.util.TestFactory;
-import it.polimi.ingsw.model.util.InputTest;
 
 class BookshelfTest {
     // ATTRIBUTES
@@ -48,6 +44,11 @@ class BookshelfTest {
     }
 
     @Test
+    void isFull() {
+        // va sicuramente bene
+    }
+
+    @Test
     void getItem() {
         // TODO
     }
@@ -55,15 +56,22 @@ class BookshelfTest {
     @Test
     void calculatePoints() throws Exception {
 
-        // carico le matrici dal file BookshelfTestFile.txt in InputTest
-        InputTest input = TestFactory.createTest();
+        Bookshelf bookshelf = new Bookshelf();
+        createItemList();
 
-        // problemi con la matrice vuota forse perchè il -1 non va bene come numero
-        // TODO: Assertions.assertEquals(input.getResult(0), input.getInputLibrary(0).calculatePoints());
+        // to add some Items in the Library
+        bookshelf.putItemList(itemList1, 0);
+        bookshelf.putItemList(itemList2, 0);
+        bookshelf.putItemList(itemList1, 1);
+        bookshelf.putItemList(itemList2, 1);
+        bookshelf.putItemList(itemList1, 2);
+        bookshelf.putItemList(itemList2, 2);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 3);
+        bookshelf.putItemList(itemList2, 4);
+        bookshelf.putItemList(itemList1, 4);
 
-        // testo tutte le matrici del file BookshelfTestFile.txt
-        for(int i = 1; i < input.numberOfTests(); i++) {
-            Assertions.assertEquals(input.getResult(i), input.getInputLibrary(i).calculatePoints());
-        }
+        // calculatePoints check
+        assertEquals(25, bookshelf.calculatePoints());
     }
 }

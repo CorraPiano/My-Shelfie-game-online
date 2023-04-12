@@ -66,7 +66,7 @@ public class Bookshelf {
     }
 
     public Optional<Item> getItem(Coordinates coordinate){
-        return Optional.of(library[coordinate.getRow()][coordinate.getColumn()]);
+        return Optional.ofNullable(library[coordinate.getRow()][coordinate.getColumn()]);
     }
 
     public int calculatePoints() {
@@ -129,7 +129,7 @@ public class Bookshelf {
     public void fillBookshelf(int[][] matrix) {
         for(int i = 0; i < nRows; i++) {
             for(int j = 0; j < nColumns; j++) {
-                if(matrix[i][j] == -1) {
+                if(matrix[i][j] == 9) {
                     this.library[i][j] = null;
                 }
                 else if(matrix[i][j] == 0) {
