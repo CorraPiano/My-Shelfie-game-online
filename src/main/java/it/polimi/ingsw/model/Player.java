@@ -53,39 +53,24 @@ public class Player {
         return ID;
     }
     public boolean haveToken1() {
-        if(token1 != null) {
-            return true;
-        }
-        return false;
+        return token1 != null;
     }
     public boolean haveToken2() {
-        if(token2 != null) {
-            return true;
-        }
-        return false;
+        return token2 != null;
     }
 
     public int getPoints() { return points; }
-    public void updatePoints(boolean isLastRoud){
+    public void updatePoints(boolean isLastRound){
         this.points = 0;
-        if(!isLastRoud) {
-            // points from token
-            this.points = this.points + this.token1.getValue();
-            this.points = this.points + this.token2.getValue();
-            this.points = this.points + this.endGameToken.getValue();
-            // points from bookshelf
-            this.points = this.points + this.library.calculatePoints();
-        }
-        else if (isLastRoud) {
-            // points from token
-            this.points = this.points + this.token1.getValue();
-            this.points = this.points + this.token2.getValue();
-            this.points = this.points + this.endGameToken.getValue();
-            // points from bookshelf
-            this.points = this.points + this.library.calculatePoints();
-            // points from personalGoalCard
-            this.points = this.points + this.personalCard.calculatePoints();
-        }
+
+        // points from tokens
+        if(token1 != null) { this.points = this.points + this.token1.getValue(); }
+        if(token2 != null) { this.points = this.points + this.token2.getValue(); }
+        if(endGameToken != null) { this.points = this.points + this.endGameToken.getValue(); }
+        // points from bookshelf
+        if(library != null ) { this.points = this.points + this.library.calculatePoints(); }
+        // points from personalGoalCard
+        if(isLastRound && personalCard != null) { this.points = this.points + this.personalCard.calculatePoints(); }
     }
 
     //TODO: add method changeName()?

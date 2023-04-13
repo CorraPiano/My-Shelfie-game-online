@@ -18,10 +18,10 @@ public class TestFactory {
         return vet;
     }
 
-    public static InputTest createTest(String path){
+    public static InputTest createTest(){
 
         try{
-            FileReader file = new FileReader(path);
+            FileReader file = new FileReader("src/test/java/it/polimi/ingsw/model/util/BookshelfTestFile.txt");
 
             BufferedReader reader = new BufferedReader(file);
 
@@ -34,7 +34,7 @@ public class TestFactory {
             Bookshelf b;
 
             line = reader.readLine();
-            while(reader.ready()) {
+            while(line != null) {
                 for (int i=0; i<6 ; i++){
                     mat[i] = convertToArray(line);
                     line = reader.readLine();
@@ -60,8 +60,8 @@ public class TestFactory {
 
     }
 
-    public static void main(String[] args) {
-        InputTest input = TestFactory.createTest("src/test/java/it/polimi/ingsw/model/util/PersonalTestFile.txt");
+    public static void main(String[] args){
+        InputTest i = createTest();
     }
 
 }
