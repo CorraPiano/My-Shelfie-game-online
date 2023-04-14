@@ -13,7 +13,10 @@ public class BagCommon {
 
     public BagCommon() {
         bagCommon = new ArrayList<CommonGoalCard>();
-        //aggiungi tutte le commongoalcards: ancora da definire quante sono!
+        CommonGoalCardFactory cardFactory = new CommonGoalCardFactory();
+        for (int i = 0; i < 11; i++){
+            bagCommon.add(cardFactory.getCommonGoalCard(i));
+        }
     }
     public CommonGoalCard drawCommonGoalCard() {
         Collections.shuffle(bagCommon);

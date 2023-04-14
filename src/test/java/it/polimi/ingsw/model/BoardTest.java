@@ -110,11 +110,7 @@ class BoardTest {
         assertTrue ( board.getLivingRoomItem(2,0) == null);
     }
     @Test
-    void getItemList() {
-
-    }
+    void getItemList() {} //TODO
     @Test
-    void putItem(){
-
-    }
+    void putItem(){} //TODO
 }

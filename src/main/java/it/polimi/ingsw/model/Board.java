@@ -25,7 +25,7 @@ public class Board {
         this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
         this.numPlayers = numPlayers;
-        drawBoardItems();
+        //drawBoardItems(); used by Gameplay class
     }
     public void drawBoardItems() {
         for (int i = 0; i < 9; i++) {
@@ -53,7 +53,6 @@ public class Board {
             return false;
         }
     }
-
     /* Returns true if the board has to be refilled */
     public boolean checkRefill() {
         for (int i = 0; i < 9; i++) {
@@ -111,7 +110,7 @@ public class Board {
     }
     public Item[][] getLivingRoom() {return livingRoom;
     }
-    public Item getLivingRoomItem (int row,int column){ return livingRoom[row][column];}
+    public Item getLivingRoomItem (int row,int column) { return livingRoom[row][column];}
     public int[][] getMask() {
         return mask;
     }
