@@ -11,7 +11,7 @@ public class Hand {
         coordinatesList = new ArrayList<Coordinates>();
     }
 
-    public void pickItem(Item item, Coordinates coordinates){
+    public void putItem(Item item, Coordinates coordinates){
         hand.add(item);
         coordinatesList.add(coordinates);
     }
@@ -27,7 +27,7 @@ public class Hand {
         return hand;
     }
 
-    public ArrayList<Coordinates> getCoords(){
+    public ArrayList<Coordinates> getCoordinatesList(){
         return coordinatesList;
     }
 

@@ -1,4 +1,4 @@
 package it.polimi.ingsw.exception;
 
-public class EmptySlotException extends Throwable {
+public class EmptySlotException extends Exception {
 }

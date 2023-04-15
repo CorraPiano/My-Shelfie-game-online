@@ -1,4 +1,7 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exception.EmptySlotException;
+import it.polimi.ingsw.exception.GameRulesViolationException;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -23,7 +26,7 @@ public class Gameplay {
         this.gameMode=gameMode;
         this.numPlayers=numPlayers;
         hand = new Hand();
-        board=new Board(numPlayers);
+        board=new Board(numPlayers,hand);
         bagPersonal=new BagPersonal();
         if (gameMode.equals(GameMode.EXPERT)) {
             bagCommon=new BagCommon();
@@ -55,10 +58,10 @@ public class Gameplay {
     }
 
     // #4 sistemare le eccezioni
-    public void pickItemList(ArrayList<Coordinates> list) throws Exception{
+    public void pickItem(Coordinates coordinates) throws Exception, EmptySlotException, GameRulesViolationException {
         currentPlayer = playerIterator.current();
         // controllo che le coordinata sia adiacente alla precedente
-        board.getItemList(list);
+        board.getItem(coordinates);
     }
 
     public void releaseHand() {

@@ -79,9 +79,11 @@ public class Controller extends UnicastRemoteObject implements Skeleton {
             throw new Exception();
         // sistemare le coordinate
         System.out.println("... tentativo di pickItem ...");
-        ArrayList l=new ArrayList<>();
-        l.add(new Coordinates(n1,n2));
-        gameplay.pickItemList(l);
+        try {
+            gameplay.pickItem(new Coordinates(n1, n2));
+        } catch(Exception e){
+            throw new Exception();
+        }
         System.out.println("GAME:: prelevata la pedina <" + n1+ ", "+n2+ ">");
         // cambiare column and row in x e y
     }

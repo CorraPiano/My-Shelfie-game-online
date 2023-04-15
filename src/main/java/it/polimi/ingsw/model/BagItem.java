@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exception.EmptyBagException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
