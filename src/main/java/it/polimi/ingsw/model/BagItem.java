@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.EmptyBagException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +24,9 @@ public class BagItem {
         return null;
     }
     public int getBagItemSize() { return bagItems.size();}
+    public void addBack(Item item){
+        bagItems.add(item);
+    }
 
 }
 
