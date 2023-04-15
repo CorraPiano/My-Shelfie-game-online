@@ -14,20 +14,20 @@ public class Gameplay {
     private BagPersonal bagPersonal;
     private BagCommon bagCommon;
     private PlayerIterator playerIterator;
-    private ArrayList<Item> hand;
     private Player currentPlayer;
+    private Hand hand;
 
     // inserire gameid
 
     public Gameplay(GameMode gameMode, int numPlayers){
         this.gameMode=gameMode;
         this.numPlayers=numPlayers;
+        hand = new Hand();
         board=new Board(numPlayers);
         bagPersonal=new BagPersonal();
         if (gameMode.equals(GameMode.EXPERT)) {
             bagCommon=new BagCommon();
         }
-        hand = new ArrayList<Item>();
     }
 
     public Player addPlayer(String name) throws Exception {
@@ -58,18 +58,19 @@ public class Gameplay {
     public void pickItemList(ArrayList<Coordinates> list) throws Exception{
         currentPlayer = playerIterator.current();
         // controllo che le coordinata sia adiacente alla precedente
-        hand.addAll(board.getItemList(list));
+        board.getItemList(list);
     }
 
     public void releaseHand() {
         // rinominare putItems in putItemList
-        board.putItems(hand);
-        hand.clear();
+        // board.releaseHand();
+        //hand.clear();
     }
 
     public void putItemList(int column) throws Exception {
         Bookshelf library = currentPlayer.getLibrary();
-        library.putItemList(hand,column);
+        library.putItemList(hand.getHand(),column);
+        hand.clear();
         if(library.isFull()) {
             currentPlayer.setEndGameToken();
             playerIterator.notifyLastRound();
@@ -109,12 +110,7 @@ public class Gameplay {
     }
 
     public void selectOrderHand(ArrayList<Integer> list){
-        // effettuare controlli lato server
-        ArrayList<Item> supp=new ArrayList<>();
-        for(int i: list){
-            supp.add(hand.get(i));
-        }
-        hand = supp;
+        hand.selectOrderHand(list);
     }
 
     private ArrayList<Token> createTokenList(int numPlayers){
