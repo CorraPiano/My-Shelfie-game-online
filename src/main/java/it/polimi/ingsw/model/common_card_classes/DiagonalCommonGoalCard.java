@@ -23,7 +23,7 @@ public class DiagonalCommonGoalCard extends CommonGoalCard {
             boolean secondDiagonal = true;
             int color00 = -1;
 
-            // Diagonale principale
+            // Diagonale principale 1
             Coordinates coordinates = new Coordinates(0, 0);
             if(library.getItem(coordinates).isPresent()) {
                 color00 = library.getItem(coordinates).get().getType().getValue();
@@ -32,75 +32,179 @@ public class DiagonalCommonGoalCard extends CommonGoalCard {
             }
 
             for(int i = 1; i < 5 && principalDiagonal; i++){
-                for(int j = 1; j < 5; j++){
+                coordinates.setRow(i);
+                coordinates.setColumn(i);
 
+                if(library.getItem(coordinates).isEmpty() || library.getItem(coordinates).get().getType().getValue() != color00){
+                     principalDiagonal = false;
+                    break;
+                }
+            }
+            if(principalDiagonal) return true;
+
+            // Diagonale principale 2
+
+            principalDiagonal = true;
+            coordinates = new Coordinates(1, 0);
+            if(library.getItem(coordinates).isPresent()) {
+                color00 = library.getItem(coordinates).get().getType().getValue();
+            }else{
+                principalDiagonal = false;
+            }
+
+            for(int i = 2; i < 6 && principalDiagonal; i++){
                     coordinates.setRow(i);
-                    coordinates.setColumn(j);
+                    coordinates.setColumn(i-1);
 
                     if(library.getItem(coordinates).isEmpty() || library.getItem(coordinates).get().getType().getValue() != color00){
-                         principalDiagonal = false;
+                        principalDiagonal = false;
                         break;
                     }
                 }
-            }
 
-            if(principalDiagonal) {
-                return true;
-            }
-            // Diagonale secondaria
+            if(principalDiagonal) return true;
+
+
+            // Diagonale secondaria 1
             coordinates.setRow(4);
-            coordinates.setColumn(4);
+            coordinates.setColumn(0);
             if(library.getItem(coordinates).isPresent()) {
                 color00 = library.getItem(coordinates).get().getType().getValue();
             }else{
                 secondDiagonal = false;
             }
-
+            int j = 0;
             for(int i = 4; i >= 0 && secondDiagonal; i--){
-                for(int j = 4; j>= 0; j--){
+                coordinates.setRow(i);
+                coordinates.setColumn(j);
 
-                    coordinates.setRow(i);
-                    coordinates.setColumn(j);
-
-                    if(library.getItem(coordinates).isEmpty() || library.getItem(coordinates).get().getType().getValue() != color00){
-                        secondDiagonal = false;
-                        break;
-                    }
-
+                if(library.getItem(coordinates).isEmpty() || library.getItem(coordinates).get().getType().getValue() != color00){
+                    secondDiagonal = false;
+                    break;
                 }
+                j++;
+            }
+            if (secondDiagonal) return true;
+
+            // Diagonale secondaria 2
+            secondDiagonal = true;
+            coordinates.setRow(5);
+            coordinates.setColumn(0);
+            if(library.getItem(coordinates).isPresent()) {
+                color00 = library.getItem(coordinates).get().getType().getValue();
+            }
+            else{
+                secondDiagonal = false;
+            }
+            j = 1;
+            for(int i = 4; i >= 1 && secondDiagonal; i--){
+                coordinates.setRow(i);
+                coordinates.setColumn(j);
+
+                if(library.getItem(coordinates).isEmpty() || library.getItem(coordinates).get().getType().getValue() != color00){
+                    secondDiagonal = false;
+                    break;
+                }
+                j++;
             }
 
             return secondDiagonal;
         }
         else{
             // Matrice triangolare
-            boolean triangularMatrix = true;
-            Coordinates coordinates = new Coordinates();
 
-            for(int i = 0; i < 5; i++){
-                for(int j = 0; j < i + 1; j++){
+            Coordinates coordinates = new Coordinates();
+            //---- DIAGONALE PRINCIPALE -------
+            // Diagonale partendo da (0,0) non vuoto
+            boolean triangularMatrix = true;
+            for(int i = 0; i < 6; i++){
+                for(int j = 0; j < 5; j++){
                     coordinates.setRow(i);
                     coordinates.setColumn(j);
 
-                    if(library.getItem(coordinates).isEmpty()) {
+                    if(j <= i && library.getItem(coordinates).isEmpty()) {
                         triangularMatrix = false;
                         break;
                     }
+                    if(j > i && library.getItem(coordinates).isPresent()) {
+                        triangularMatrix = false;
+                        break;
+                    }
+
                 }
+                if (!triangularMatrix) break;
             }
             if(triangularMatrix) return true;
+            // Diagonale partendo da (0,0) vuoto
             triangularMatrix = true;
-            for(int i = 0; i < 5; i++){
-                for(int j = 4; j >= 0; j--){
+            for(int i = 0; i < 6; i++){
+                for(int j = 0; j < 5; j++){
                     coordinates.setRow(i);
                     coordinates.setColumn(j);
 
-                    if(library.getItem(coordinates).isEmpty()) {
+                    if(j < i && library.getItem(coordinates).isEmpty()) {
+                        triangularMatrix = false;
+                        break;
+                    }
+                    if(j >= i && library.getItem(coordinates).isPresent()) {
                         triangularMatrix = false;
                         break;
                     }
                 }
+                if (!triangularMatrix) break;
             }
+            if(triangularMatrix) return true;
+
+
+
+            //---- DIAGONALE SECONDARIA -------
+
+            // Diagonale partendo da (0,4) vuoto
+            int k = 5;
+            triangularMatrix = true;
+            for(int i = 0; i < 6; i++){
+                for(int j = 0; j < 5 ; j++){
+                    coordinates.setRow(i);
+                    coordinates.setColumn(j);
+
+                    if(j >= k && library.getItem(coordinates).isEmpty()) {
+                        triangularMatrix = false;
+                        break;
+                    }
+                    if(j < k && library.getItem(coordinates).isPresent()) {
+                        triangularMatrix = false;
+                        break;
+                    }
+
+                }
+                if (!triangularMatrix) break;
+                if (k>0) k--;
+            }
+            if(triangularMatrix) return true;
+            // Diagonale partendo da (0,4) non vuoto
+            k = 4;
+            triangularMatrix = true;
+            for(int i = 0; i < 6; i++){
+                for(int j = 0; j < 5 ; j++){
+                    coordinates.setRow(i);
+                    coordinates.setColumn(j);
+
+                    if(j >= k && library.getItem(coordinates).isEmpty()) {
+                        triangularMatrix = false;
+                        break;
+                    }
+                    if(j < k && library.getItem(coordinates).isPresent()) {
+                        triangularMatrix = false;
+                        break;
+                    }
+
+                }
+                if (!triangularMatrix) break;
+                if (k>0) k--;
+            }
+            if(triangularMatrix) return true;
+
+
             return triangularMatrix;
         }
 

@@ -19,31 +19,31 @@ public class MaxDifferentCommonGoalCard extends CommonGoalCard {
     public boolean checkFullFil(Bookshelf library) {
         Set<Integer> colorSet = new HashSet<>();
         int colorGroupCounter = 0;
-        Item item;
+        Item item = null;
         if(type == 9){
 
-            for (int i = 0; i<4;i++){
-                for(int j=0;j<5;j++){
+            for (int i = 0; i<5;i++){
+                for(int j=0;j<6;j++){
                     item = library.getItem(new Coordinates(j,i)).orElse(null);
                     if(item == null) break;
                     colorSet.add(item.getType().getValue());
                 }
-                if(colorSet.size() <= 3) colorGroupCounter++;
-                if(colorGroupCounter>=2) return true;
+                if(item != null && colorSet.size() <= 3) colorGroupCounter++;
+                if(colorGroupCounter>=3) return true;
                 colorSet = new HashSet<>();
             }
             return false;
         }
         else if(type == 10){
-            for (int i = 0; i<5; i++){
-                for(int j = 0; j<4; j++){
+            for (int i = 0; i<6; i++){
+                for(int j = 0; j<5; j++){
 
                     item = library.getItem(new Coordinates(i, j)).orElse(null);
                     if(item == null) break;
                     colorSet.add(item.getType().getValue());
                 }
-                if(colorSet.size() <=3) colorGroupCounter++;
-                if(colorGroupCounter>=2) return true;
+                if(item != null && colorSet.size() <=3) colorGroupCounter++;
+                if(colorGroupCounter>=4) return true;
                 colorSet = new HashSet<>();
             }
             return false;

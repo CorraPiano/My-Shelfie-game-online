@@ -34,7 +34,7 @@ public class CornerCommonGoalCard extends CommonGoalCard {
                                             || library.getItem(new Coordinates(5,4)).get().getType().getValue() != color
                                             || library.getItem(new Coordinates(5,0)).get().getType().getValue() != color;
 
-        return someItemHasDifferentColor;
+        return !someItemHasDifferentColor;
     }
 
 

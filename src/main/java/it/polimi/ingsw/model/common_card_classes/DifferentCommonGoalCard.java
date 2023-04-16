@@ -23,14 +23,14 @@ public class DifferentCommonGoalCard extends CommonGoalCard {
 
         if(type == 7){
             Item item;
-            for (int i = 0; i<4;i++){
-                for(int j=0;j<5;j++){
+            for (int i = 0; i<5;i++){
+                for(int j=0;j<6;j++){
                     item = library.getItem(new Coordinates(j,i)).orElse(null);
                     if(item == null) break;
                     if(colorSet.contains(item.getType().getValue())) break;
                     colorSet.add(item.getType().getValue());
                 }
-                if(colorSet.size() == 5) colorGroupCounter++;
+                if(colorSet.size() == 6) colorGroupCounter++;
                 if(colorGroupCounter>=2) return true;
                 colorSet = new HashSet<>();
             }
@@ -38,8 +38,8 @@ public class DifferentCommonGoalCard extends CommonGoalCard {
         }
         else if(type == 8){
             Item item;
-            for (int i = 0; i<5;i++){
-                for(int j=0;j<4;j++){
+            for (int i = 0; i<6;i++){
+                for(int j=0;j<5;j++){
                     item = library.getItem(new Coordinates(i, j)).orElse(null);
                     if(item == null) break;
                     if(colorSet.contains(item.getType().getValue())) break;

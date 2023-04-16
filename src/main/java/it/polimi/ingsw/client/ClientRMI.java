@@ -18,7 +18,7 @@ public class ClientRMI {
     private static String name;
     private static ArrayList<Coordinates> localHand= new ArrayList<>();
     public static void main(String[] args) throws Exception {
-        Registry registry= LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.getRegistry();
         //String[] e = registry.list();
         //for (String s : e) System.out.println(s);
         String remoteObjectName = "controller";

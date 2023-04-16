@@ -21,7 +21,7 @@ public class CommonGoalCardFactory{
         else if(type == 9 || type == 10)
             return new MaxDifferentCommonGoalCard(type);
         else if(type == 11)
-            return new DiagonalCommonGoalCard(type);
+            return new SameEightCommonGoalCard(type);
         return null;
     }
 

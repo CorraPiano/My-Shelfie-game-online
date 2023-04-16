@@ -29,20 +29,16 @@ public class SameEightCommonGoalCard extends CommonGoalCard {
         int colorsCounter = 0;
 
         for(ItemType t: colorsSet){
-
             for(int i=0; i<6; i++){
                 for(int j=0; j<5; j++){
-
                     c.setRow(i);
                     c.setColumn(j);
-
                     if(library.getItem(c).isPresent()){
                         if(library.getItem(c).get().getType() == t) colorsCounter++;
                     }
                 }
             }
-
-            if(colorsCounter >= 8) return true;
+            if(colorsCounter == 8) return true;
         }
 
         return false;
