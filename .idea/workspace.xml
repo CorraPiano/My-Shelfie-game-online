@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="PersonalGoalCard testata e sistemata" />
+    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="CommonGoalCard testate">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/Listener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_23,_16_54_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_23__16_54__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -174,6 +179,7 @@
       <option name="presentableId" value="Default" />
       <updated>1678917859426</updated>
       <workItem from="1679238563303" duration="7138000" />
+      <workItem from="1682694237587" duration="3726000" />
     </task>
     <task id="LOCAL-00001" summary="Modifiche CommonGoalCard, funzione di test">
       <created>1680611878488</created>
@@ -196,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681316592999</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="CommonGoalCard testate">
+      <created>1681655612185</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1681655612185</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,7 +229,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Modifiche CommonGoalCard, funzione di test" />
     <MESSAGE value="PersonalGoalCard testata e sistemata" />
-    <option name="LAST_COMMIT_MESSAGE" value="PersonalGoalCard testata e sistemata" />
+    <MESSAGE value="CommonGoalCard testate" />
+    <option name="LAST_COMMIT_MESSAGE" value="CommonGoalCard testate" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
