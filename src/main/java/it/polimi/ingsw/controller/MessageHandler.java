@@ -13,7 +13,6 @@ public class MessageHandler {
         this.controller=controller;
         map=new HashMap<>();
     }
-
     public boolean receive(Message message, int connNum){
 
         if (message.getHead().equalsIgnoreCase("CHAT")){

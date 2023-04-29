@@ -4,15 +4,17 @@ import it.polimi.ingsw.exception.EmptySlotException;
 import it.polimi.ingsw.exception.GameRulesViolationException;
 import it.polimi.ingsw.exception.OutOfBoardException;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 
 public class Board {
-    private Item[][] livingRoom; // actual board
+    private Item[][] livingRoom;
     static final int nColumns = 9;
     static final int nRows = 9;
     private int numPlayers;
     private BagItem bagItem;
-    private int[][] mask = {{5, 5, 5, 3, 4, 5, 5, 5, 5}, // 5 if not fillable, 2,3,4, represent the number of players needed to be fillable
+    private int[][] mask = {{5, 5, 5, 3, 4, 5, 5, 5, 5},
             {5, 5, 5, 2, 2, 4, 5, 5, 5},
             {5, 5, 3, 2, 2, 2, 3, 5, 5},
             {5, 4, 2, 2, 2, 2, 2, 2, 3},
@@ -24,29 +26,30 @@ public class Board {
     };
 
     private Hand hand;
+    private PropertyChangeListener listener;
 
-    //BOARD CREATORS
     public Board(int numPlayers, Hand hand) {
-        //numero di giocatori deve essere compreso tra 2-4, IllegalArgumentException altrimenti
         this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
         this.numPlayers = numPlayers;
         this.hand = hand;
-        //drawBoardItems(); used by Gameplay class
     }
 
-    public void drawBoardItems()  {
+    /* Draws random items to fill the board */
+    public void drawBoardItems() {
+        Item[][] living_tmp = getLivingRoom();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (mask[i][j] <= numPlayers) {
+                if (mask[i][j] <= numPlayers && livingRoom[i][j] == null) {
                     livingRoom[i][j] = bagItem.drawItem();
                 }
             }
         }
+        PropertyChangeEvent evt = new PropertyChangeEvent(this, "Items_drawn_change", living_tmp , this.livingRoom);
+        this.listener.propertyChange(evt);
     }
 
-    //OTHER METHODS
-
+    /* True if we can pick an item from the board */
     public boolean isCatchable(int row, int column) throws OutOfBoardException, EmptySlotException, GameRulesViolationException {
         //out of bound coordinates
         if ((row < 0 || row > 8) || (column < 0 || column > 8)) {
@@ -74,7 +77,7 @@ public class Board {
         throw new GameRulesViolationException();
     }
 
-    /* Returns true if the board has to be refilled, not to call too soon */
+    /* Returns true if the board has to be refilled, not to call too soon (optimization) */
     public boolean checkRefill() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -94,7 +97,10 @@ public class Board {
         }
         return true;
     }
+
+    /* Puts items left on the board back into the bag */
     public void putBackInBag() {
+        BagItem bag_tmp = bagItem;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (livingRoom[i][j] != null){
@@ -103,7 +109,11 @@ public class Board {
                 }
             }
         }
+        PropertyChangeEvent evt = new PropertyChangeEvent(this, "Bag_Change",bag_tmp, this.livingRoom);
+        this.listener.propertyChange(evt);
     }
+
+    /* Refills the board when needed */
     public void refillBoard() {
         if (checkRefill()) {
             putBackInBag();
@@ -111,20 +121,33 @@ public class Board {
         }
     }
 
-    /* WARNING: method isEmpty() does NOT check the null condition, so we have to check before the empty condition */
+    /* Item pick */
     public void getItem (Coordinates coordinates) throws EmptySlotException, GameRulesViolationException, OutOfBoardException {
+        /* Listener's purpose */
+        Item[][] living_tmp = getLivingRoom();
+        Hand hand_tmp = this.hand;
+
         if (coordinates != null) {
             int row = coordinates.getRow();
             int column = coordinates.getColumn();
             if (isCatchable(row,column)) {
-                hand.putItem(livingRoom[row][column], new Coordinates(row,column)); //da chiamare così
+                hand.putItem(livingRoom[row][column], new Coordinates(row,column));
                 livingRoom[row][column] = null;
             }
         }
+        PropertyChangeEvent evt = new PropertyChangeEvent(this, "Item_picked_change", living_tmp , this.livingRoom);
+        PropertyChangeEvent evt_1 = new PropertyChangeEvent(this, "Hand_change", hand_tmp , this.hand);
+        this.listener.propertyChange(evt);
+        this.listener.propertyChange(evt_1);
+
     }
 
-/* rimette la mano nella board*/
+    /* Puts the hand back into the board, undo operation */
     public void releaseHand () {
+        /* Listener's purpose */
+        Item[][] living_tmp = getLivingRoom();
+        Hand hand_tmp = this.hand;
+
         ArrayList<Item> itemList = hand.getHand();
         ArrayList<Coordinates> coordList = hand.getCoordinatesList(); // da chiamare così
 
@@ -136,7 +159,21 @@ public class Board {
             }
             hand.clear();
         }
+        PropertyChangeEvent evt = new PropertyChangeEvent(this, "Item_picked_change", living_tmp , this.livingRoom);
+        PropertyChangeEvent evt_1 = new PropertyChangeEvent(this, "Hand_change", hand_tmp , this.hand);
+        this.listener.propertyChange(evt);
+        this.listener.propertyChange(evt_1);
+
     }
+
+    /* Getter e setter del listener */
+    public PropertyChangeListener getListener() {
+        return listener;
+    }
+    public void setListener(PropertyChangeListener listener) {
+        this.listener = listener;
+    }
+    /* Getters and setters*/
     public Item[][] getLivingRoom() {return livingRoom;}
     public Item getLivingRoomItem (int row,int column) { return livingRoom[row][column];}
     public int[][] getMask() {
