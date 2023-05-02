@@ -12,18 +12,25 @@ import java.rmi.registry.*;
 public class Main {
     public static void main(String[] args) throws IOException, AlreadyBoundException, RemoteException{
         Controller controller = new Controller();
-        MessageHandler messageHandler = new MessageHandler(controller);
+        startRMI(controller);
+        startTCP(controller);
+
+    }
+    private static void startRMI(Controller controller) throws RemoteException {
+        RMIhandlerIn rmiHandlerin = new RMIhandlerIn(controller);
         try{
             LocateRegistry.createRegistry(1099);
             Registry registry = LocateRegistry.getRegistry();
-            registry.bind("controller", controller);
+            registry.bind("controller", rmiHandlerin);
             System.out.println("RMI attivo");
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-
+    }
+    private static void startTCP(Controller controller){
         try{
+            MessageHandler messageHandler = new MessageHandler(controller);
             ServerSocket serverSocket =new ServerSocket(8080);
             TCPServer TCPserver = new TCPServer(serverSocket, messageHandler);
             new Thread(TCPserver).start();

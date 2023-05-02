@@ -64,7 +64,7 @@ public class ClientRMI {
                     send();
                 }
                 else if(line.equalsIgnoreCase("EXIT")){
-                    //notifare al controller che il giocatore ha lasciato la partita
+                    controller.leaveGame(id);
                     break;
                 }
                 else{
@@ -114,7 +114,7 @@ public class ClientRMI {
             return false;
         }
         try {
-            id = controller.addPlayer(name);
+            id = controller.addPlayer(name,0);
             System.out.println("CLIENT: giocatore connesso");
             return true;
         } catch (Exception e) {
@@ -130,7 +130,7 @@ public class ClientRMI {
         if (n1>=0 && n1<9 && n2>=0 && n2<9) {
             Coordinates coord = new Coordinates(n1, n2);
             try{
-                controller.pickItem(n1,n2,id);
+                controller.pickItem(new Coordinates(n1,n2),id);
                 localHand.add(coord);
             } catch (Exception e){
                 System.out.println("ERRORE:: server error in pickItem");

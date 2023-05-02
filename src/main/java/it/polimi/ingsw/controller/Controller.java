@@ -1,139 +1,86 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.*;
 
-import java.rmi.*;
-import java.rmi.server.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Controller extends UnicastRemoteObject implements Skeleton {
-    private int numPlayers;
-    private int maxPlayers;
-    private ControllerState state;
-    private PlayerIterator playerIterator;
-    private Gameplay gameplay = null;
-    private Player current = null;
-    private HashMap<String, String> map;
+public class Controller {
 
-    public Controller() throws RemoteException{
-        //UnicastRemoteObject.exportObject(this, 0);
-        numPlayers=0;
-        maxPlayers=0;
-        state=ControllerState.START;
-        map = new HashMap<>();
+    private final GameplaysHandler gameplaysHandler;
+    public Controller() {
+        gameplaysHandler = new GameplaysHandler();
     }
 
-    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers) throws Exception{
-        if (!state.equals(ControllerState.START))
-            throw new Exception();
-        if(maxPlayers<2 || maxPlayers>4)
-            throw new Exception();
-        if(!gameMode.equals(GameMode.EASY) && !gameMode.equals(GameMode.EXPERT))
-            throw new Exception();
-
-        // inizializzazione gioco
-        System.out.println("... tentativo di creazione partita ...");
-        this.maxPlayers = maxPlayers;
-        gameplay = new Gameplay(gameMode, maxPlayers);
-        state=ControllerState.WAIT;
+    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException {
+        int gameID = gameplaysHandler.nextID();
+        Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID);
+        gameplaysHandler.addGameplay(gameplay);
         System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
-
-        // aggiunta giocatore
-        System.out.println("... tentativo di addPlayer ...");
         Player player = gameplay.addPlayer(name);
-        this.numPlayers++;
         String id = player.getID();
-        map.put(id,name);
-        // attenzione alle mappe, nel caso si abbiano due ID uguali, assolutamente da non permettere!!!
+        gameplaysHandler.bind(id,gameID);
         System.out.println("SERVER:: giocatore connesso con nome " + name);
-
         return id;
     }
 
-    public synchronized String addPlayer(String name) throws Exception{
-        if (!state.equals(ControllerState.WAIT))
-            throw new Exception();
-
-        System.out.println("... tentativo di addPlayer ...");
+    public synchronized String addPlayer(String name, int gameID) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException {
+        Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
+        if(!gameplay.getGameState().equals(GameState.WAIT))
+            throw new GameFullException();
         Player player = gameplay.addPlayer(name);
-        this.numPlayers++;
         String id = player.getID();
-        map.put(id,name);
+        gameplaysHandler.bind(id,gameID);
         System.out.println("SERVER:: giocatore connesso con nome " + name);
-
-        if (this.numPlayers == this.maxPlayers) {
-            System.out.println("... tentativo di avvio partita ...");
-            // non DEVE dare errore o il sistema si blocca <<
-            // serve davvero playeriterator al controller, o basta una funzione del gameplay
-            playerIterator = gameplay.startGame();
-            current = playerIterator.current();
-            state=ControllerState.GAME;
-            System.out.println("SERVER:: partita avviata" );
-        }
         return id;
     }
 
-    // da sistemare con coordinates
-    public synchronized void pickItem(int n1, int n2, String id)  throws Exception{
-        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
-            throw new Exception();
-        // sistemare le coordinate
-        System.out.println("... tentativo di pickItem ...");
-        try {
-            gameplay.pickItem(new Coordinates(n1, n2));
-        } catch(Exception e){
-            throw new Exception();
-        }
-        System.out.println("GAME:: prelevata la pedina <" + n1+ ", "+n2+ ">");
-        // cambiare column and row in x e y
+    private void validateCommand(Gameplay gameplay, String id) throws NotInGameException, WrongTurnException {
+        if(!gameplay.getGameState().equals(GameState.GAME))
+            throw new NotInGameException();
+        if(!gameplay.getCurrentPlayerID().equals(id))
+            throw new WrongTurnException();
     }
 
-    public synchronized void undoPick(String id) throws Exception{
-        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
-            throw new Exception();
-        System.out.println("... tentativo di undoPick ...");
+    public synchronized void pickItem(Coordinates coordinates, String id) throws InvalidIdException, NotInGameException, WrongTurnException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        validateCommand(gameplay,id);
+        gameplay.pickItem(coordinates);
+        System.out.println("GAME:: prelevata la pedina <" + coordinates.getRow()+ ", "+coordinates.getColumn()+ ">");
+    }
+
+    public synchronized void undoPick(String id) throws NotInGameException, WrongTurnException, InvalidIdException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        validateCommand(gameplay,id);
         gameplay.releaseHand();
         System.out.println("GAME:: mano svuotata ");
     }
 
-    public synchronized void selectInsertOrder(ArrayList<Integer> order, String id) throws Exception{
-        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
-            throw new Exception();
-        System.out.println("... tentativo di selectInsertOrder ...");
+    public synchronized void selectInsertOrder(ArrayList<Integer> order, String id) throws WrongLengthOrderException, WrongContentOrderException, NotInGameException, WrongTurnException, InvalidIdException {
+        //not sortable exception
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        validateCommand(gameplay,id);
         gameplay.selectOrderHand(order);
         System.out.println("GAME:: mano ordinata con ordine: ");
-        for(int i: order)
-            System.out.printf("%d,",i);
-        System.out.print("\n");
+        order.forEach(x->System.out.print(x+", ")); System.out.print("\n");
     }
 
-    public synchronized void putItemList(int column, String id) throws Exception{
-        if(!state.equals(ControllerState.GAME) || !current.getName().equals(id))
-            throw new Exception();
-        System.out.println("... tentativo di putItemList ...");
+    public synchronized void putItemList(int column, String id) throws EmptyHandException, NotInGameException, WrongTurnException, InvalidIdException, InvalidColumnPutException, NotEnoughSpacePutException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        validateCommand(gameplay,id);
         gameplay.putItemList(column);
-        gameplay.calcPoints();
-        if(playerIterator.isEnd()){
-            gameplay.endGame();
-            state=ControllerState.END;
-        }
-        else{
-            //teoricamente nessun metodo è invocabile contemporaneamente per synchronized
-            playerIterator.next();
-            current=playerIterator.current();
-        }
-        // scegliere se inserire lo stato PUT con UNDO_INSERT
         System.out.println("GAME:: mano inserita nel tabellone");
     }
 
-    public synchronized void addChatMessage(String chatMessage,String id) throws Exception{
-        if(map.containsKey(id))
-            System.out.println("CHAT:: "+ map.get(id) + ">> " + chatMessage);
-        else
-            throw new Exception();
+    public synchronized void addChatMessage(String chatMessage,String id) throws InvalidIdException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        System.out.println("CHAT:: "+ gameplay.getGameID()+", "+ gameplay.getPlayerNameByID(id) + ">> " + chatMessage);
     }
 
-    public synchronized void leaveGame() throws Exception{
+    public synchronized void leaveGame(String id) throws InvalidIdException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         // da implementare
+    }
+    public synchronized ArrayList<String> getGameList(){
+        return gameplaysHandler.getGameplayList();
     }
 }

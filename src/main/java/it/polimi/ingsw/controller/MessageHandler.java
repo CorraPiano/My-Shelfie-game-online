@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.connection.Connection;
 import it.polimi.ingsw.connection.Message;
+import it.polimi.ingsw.model.Coordinates;
 
 import java.util.HashMap;
 
@@ -28,7 +29,7 @@ public class MessageHandler {
         else if(message.getHead().equalsIgnoreCase("PICK")){
             try{
                 System.out.println("--> SEND : " + message.getInt(0) + ", " + message.getInt(1));
-                controller.pickItem(message.getInt(0),message.getInt(1), map.get(connNum));
+                controller.pickItem(new Coordinates(message.getInt(0),message.getInt(1)), map.get(connNum));
                 return true;
             } catch(Exception e){
                 return false;
@@ -68,7 +69,7 @@ public class MessageHandler {
         else if(message.getHead().equalsIgnoreCase("JOIN")){
             try{
                 System.out.println("--> JOIN : "+ message.getString(0));
-                String id=controller.addPlayer(message.getString(0));
+                String id=controller.addPlayer(message.getString(0),0);
                 map.put(connNum,id);
                 return true;
             } catch(Exception e){

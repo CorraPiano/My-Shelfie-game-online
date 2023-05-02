@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.InvalidColumnPutException;
+import it.polimi.ingsw.exception.NotEnoughSpacePutException;
+
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -7,8 +10,8 @@ public class Bookshelf {
     //ATTRIBUTES
     private final int nColumns;
     private final int nRows;
-    private Item[][] library;
-    private boolean[][] mask;
+    private final Item[][] library;
+    private final boolean[][] mask;
 
     //METHODS
     public Bookshelf() {
@@ -24,7 +27,7 @@ public class Bookshelf {
         }
     }
 
-    public void putItemList(ArrayList<Item> itemList, int column) throws Exception {
+    public void putItemList(ArrayList<Item> itemList, int column) throws NotEnoughSpacePutException, InvalidColumnPutException {
         int index = 0;
         if(column >= 0 && column < 5) {
             if(noSpaceLeft(column, itemList.size())) {
@@ -36,11 +39,11 @@ public class Bookshelf {
                 }
             }
             else{
-                throw new Exception("Not enough space at column " + column);
+                throw new NotEnoughSpacePutException();
             }
         }
         else{
-            throw new Exception("Invalid column");
+            throw new InvalidColumnPutException();
         }
     }
 

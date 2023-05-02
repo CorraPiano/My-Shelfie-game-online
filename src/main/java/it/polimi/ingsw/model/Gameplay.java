@@ -1,86 +1,115 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.exception.EmptySlotException;
-import it.polimi.ingsw.exception.GameRulesViolationException;
+import it.polimi.ingsw.exception.*;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Gameplay {
 
-    private int gameId=0;
-    private GameMode gameMode;
-    private int numPlayers;
-    private ArrayList<Player> playerList = new ArrayList<>();
-    private Board board;
+    private final GameMode gameMode;
+    private GameState gameState;
+    private int gameID;
+    private final int numPlayers;
+    private final Board board;
     private CommonGoalCard commonGoalCard1;
     private CommonGoalCard commonGoalCard2;
-    private BagPersonal bagPersonal;
-    private BagCommon bagCommon;
-    private PlayerIterator playerIterator;
-    private Player currentPlayer;
-    private Hand hand;
+    private final BagPersonal bagPersonal;
+    private final BagCommon bagCommon;
+    private PlayerHandler playerHandler;
+    private final Hand hand;
+    private ArrayList<Player> playerList;
 
-    // inserire gameid
-
-    public Gameplay(GameMode gameMode, int numPlayers){
-        this.gameMode=gameMode;
-        this.numPlayers=numPlayers;
+    public Gameplay(GameMode gameMode, int numPlayers, int gameID) throws NumPlayersException, GameModeException {
+        if(!gameMode.equals(GameMode.EASY) && !gameMode.equals(GameMode.EXPERT))
+            throw new GameModeException();
+        if(numPlayers<=1 || numPlayers>4)
+            throw new NumPlayersException();
+        this.gameID = gameID;
+        this.gameMode = gameMode;
+        this.numPlayers = numPlayers;
+        this.playerList = new ArrayList<Player>();
         hand = new Hand();
-        board=new Board(numPlayers,hand);
-        bagPersonal=new BagPersonal();
-        if (gameMode.equals(GameMode.EXPERT)) {
-            bagCommon=new BagCommon();
-        }
+        board = new Board(numPlayers,hand);
+        bagPersonal = new BagPersonal();
+        if (gameMode.equals(GameMode.EXPERT))
+            bagCommon = new BagCommon();
+        else
+            bagCommon = null;
+        gameState = GameState.WAIT;
     }
 
-    public Player addPlayer(String name) throws Exception {
-        if(playerList.size()==numPlayers)
-            throw new Exception();
+    public Player addPlayer(String name) throws GameFullException, NameAlreadyExistentException {
+        if(!checkName(name))
+            throw new NameAlreadyExistentException();
         Player player = new Player(name);
         playerList.add(player);
+        if(playerList.size() == numPlayers)
+            startGame();
         return player;
     }
 
-    public PlayerIterator startGame(){
+    private boolean checkName(String name){
+        for(Player p: playerList)
+            if(p.getName().equals(name))
+                return false;
+        return true;
+    }
+
+    private void startGame(){
+        gameState = GameState.GAME;
         if (gameMode.equals(GameMode.EXPERT)){
             // capire se mettere le token presso la common o presso gameplay
             commonGoalCard1 = bagCommon.drawCommonGoalCard();
-            commonGoalCard1.setTokenList(createTokenList(numPlayers));
+            commonGoalCard1.setTokenList(createTokenList());
             commonGoalCard2 = bagCommon.drawCommonGoalCard();
-            commonGoalCard1.setTokenList(createTokenList(numPlayers));
+            commonGoalCard1.setTokenList(createTokenList());
         }
         for(Player p: playerList) {
             p.setPersonalGoalCard(bagPersonal.drawPersonalGoalCard());
         }
-        board.drawBoardItems();
-        playerIterator = new PlayerIterator(playerList);
-        return playerIterator;
+       board.drawBoardItems();
+        playerHandler = new PlayerHandler(playerList);
     }
 
-    // #4 sistemare le eccezioni
-    public void pickItem(Coordinates coordinates) throws Exception, EmptySlotException, GameRulesViolationException {
-        currentPlayer = playerIterator.current();
-        // controllo che le coordinata sia adiacente alla precedente
-        board.getItem(coordinates);
+    private ArrayList<Token> createTokenList(){
+        ArrayList<Token> list = new ArrayList<>();
+        list.add(new Token(8));
+        list.add(new Token(6));
+        if(numPlayers>2)
+            list.add(new Token(4));
+        if(numPlayers>3)
+            list.add(new Token(2));
+        return list;
+    }
+
+    public void pickItem(Coordinates coordinates) throws NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
+            board.getItem(coordinates);
     }
 
     public void releaseHand() {
-        // rinominare putItems in putItemList
-        // board.releaseHand();
-        //hand.clear();
+        board.releaseHand();
     }
 
-    public void putItemList(int column) throws Exception {
+    public void putItemList(int column) throws EmptyHandException, InvalidColumnPutException, NotEnoughSpacePutException {
+        if(hand.getSize()==0)
+            throw new EmptyHandException();
+        Player currentPlayer = playerHandler.current();
         Bookshelf library = currentPlayer.getLibrary();
         library.putItemList(hand.getHand(),column);
-        hand.clear();
+        board.endTurn();
+
+        if(gameMode.equals(GameMode.EXPERT))
+            checkFullfillCommonGoalCard(currentPlayer );
         if(library.isFull()) {
             currentPlayer.setEndGameToken();
-            playerIterator.notifyLastRound();
+            playerHandler.notifyLastRound();
         }
+        if(playerHandler.next())
+            currentPlayer.updatePoints(false);
+        else
+            endGame();
     }
 
-    public int calcPoints(){
+    private void checkFullfillCommonGoalCard(Player currentPlayer ){
         if(!currentPlayer.haveToken1()){
             if(commonGoalCard1.checkFullFil(currentPlayer.getLibrary()))
                 currentPlayer.setToken1(commonGoalCard1.popToken());
@@ -89,46 +118,69 @@ public class Gameplay {
             if(commonGoalCard2.checkFullFil(currentPlayer.getLibrary()))
                 currentPlayer.setToken2(commonGoalCard2.popToken());
         }
-        currentPlayer.updatePoints(false);
-        return currentPlayer.getPoints();
     }
 
+    //si deve poter stoppare il gioco prima della fine
     public void endGame(){
-
-        // verificare sorted
+        gameState = GameState.END;
         for(Player p: playerList) {
             p.updatePoints(true);
         }
-        playerList=playerList.stream().sorted((x,y)->{
+        playerList=sort(playerList);
+    }
+
+    private ArrayList<Player> sort(ArrayList<Player>playerList){
+        return playerList.stream().sorted((x,y)->{
             if(x.getPoints()<y.getPoints())
                 return 1;
-            if(x.getPoints()==y.getPoints() && x.getFirstPlayerSeat())
-                return 1;
-            if(x.getPoints()==y.getPoints() && y.getFirstPlayerSeat())
+            if(x.getPoints()==y.getPoints() && x.getFirstPlayerSeat() && !y.getFirstPlayerSeat())
                 return -1;
+            if(x.getPoints()==y.getPoints() && y.getFirstPlayerSeat() && !x.getFirstPlayerSeat())
+                return 1;
             if(x.getPoints()>y.getPoints())
                 return -1;
             return 0;
         }).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
-    public void selectOrderHand(ArrayList<Integer> list){
-        hand.selectOrderHand(list);
+    public void selectOrderHand(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
+        hand.selectOrder(list);
     }
 
-    private ArrayList<Token> createTokenList(int numPlayers){
-       ArrayList<Token> list = new ArrayList<>();
-       list.add(new Token(8));
-       list.add(new Token(6));
-       if(numPlayers>2)
-           list.add(new Token(4));
-       if(numPlayers>3)
-           list.add(new Token(2));
-       return list;
-    }
-
-    public ArrayList<Player> TestGetPlayerList(){
+    public ArrayList<Player> getPlayerList(){
         return playerList;
+    }
+
+    public GameMode getGameMode(){
+        return gameMode;
+    }
+
+    public GameState getGameState(){
+        return gameState;
+    }
+
+    public String getCurrentPlayerID(){
+        return playerHandler.current().getID();
+    }
+
+    public String getPlayerNameByID(String id){
+        for(Player p: playerList){
+            if(p.getID().equals(id))
+                return p.getName();
+        }
+        return null;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public int getCurrentPlayers() {
+        return playerList.size();
     }
 }
 
