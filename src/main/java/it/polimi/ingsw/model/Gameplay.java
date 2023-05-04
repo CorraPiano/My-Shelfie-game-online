@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.controller.BroadcasterRMI;
 import it.polimi.ingsw.exception.*;
 
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ public class Gameplay {
     private final Hand hand;
     private ArrayList<Player> playerList;
 
-    public Gameplay(GameMode gameMode, int numPlayers, int gameID) throws NumPlayersException, GameModeException {
+    private BroadcasterRMI broadcasterRMI;
+
+    public Gameplay(GameMode gameMode, int numPlayers, int gameID,BroadcasterRMI broadcasterRMI) throws NumPlayersException, GameModeException {
         if(!gameMode.equals(GameMode.EASY) && !gameMode.equals(GameMode.EXPERT))
             throw new GameModeException();
         if(numPlayers<=1 || numPlayers>4)
@@ -27,6 +30,7 @@ public class Gameplay {
         this.gameMode = gameMode;
         this.numPlayers = numPlayers;
         this.playerList = new ArrayList<Player>();
+        this.broadcasterRMI = broadcasterRMI;
         hand = new Hand();
         board = new Board(numPlayers,hand);
         bagPersonal = new BagPersonal();
@@ -42,9 +46,12 @@ public class Gameplay {
             throw new NameAlreadyExistentException();
         Player player = new Player(name);
         playerList.add(player);
-        if(playerList.size() == numPlayers)
-            startGame();
+        broadcasterRMI.playerJoin(gameID,name);
         return player;
+    }
+
+    public boolean isReady(){
+        return playerList.size() == numPlayers;
     }
 
     private boolean checkName(String name){
@@ -54,7 +61,7 @@ public class Gameplay {
         return true;
     }
 
-    private void startGame(){
+    public void startGame(){
         gameState = GameState.GAME;
         if (gameMode.equals(GameMode.EXPERT)){
             // capire se mettere le token presso la common o presso gameplay
@@ -67,7 +74,14 @@ public class Gameplay {
             p.setPersonalGoalCard(bagPersonal.drawPersonalGoalCard());
         }
        board.drawBoardItems();
-        playerHandler = new PlayerHandler(playerList);
+       playerHandler = new PlayerHandler(playerList);
+       playerHandler.current().setFirstPlayerSeat(true);
+
+       broadcasterRMI.startGame(gameID,playerHandler.current().getName());
+       broadcasterRMI.updatePlayerList(gameID,playerList);
+       broadcasterRMI.updateBoard(gameID,board);
+       for(Player p: playerList)
+            broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
     }
 
     private ArrayList<Token> createTokenList(){
@@ -82,11 +96,18 @@ public class Gameplay {
     }
 
     public void pickItem(Coordinates coordinates) throws NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
+            Item item = board.getLivingRoomItem(coordinates);
             board.getItem(coordinates);
+            broadcasterRMI.notifyPick(gameID,playerHandler.current().getName() ,coordinates, item);
+            broadcasterRMI.updateBoard(gameID,board);
+            broadcasterRMI.updateHand(gameID,hand);
     }
 
     public void releaseHand() {
         board.releaseHand();
+        broadcasterRMI.notifyUndo(gameID,playerHandler.current().getName());
+        broadcasterRMI.updateBoard(gameID,board);
+        broadcasterRMI.updateHand(gameID,hand);
     }
 
     public void putItemList(int column) throws EmptyHandException, InvalidColumnPutException, NotEnoughSpacePutException {
@@ -97,14 +118,20 @@ public class Gameplay {
         library.putItemList(hand.getHand(),column);
         board.endTurn();
 
+        broadcasterRMI.notifyPut(gameID,playerHandler.current().getName(),column);
+        broadcasterRMI.updateBookshelf(gameID,playerHandler.current().getName(),playerHandler.current().getLibrary());
+
         if(gameMode.equals(GameMode.EXPERT))
             checkFullfillCommonGoalCard(currentPlayer );
         if(library.isFull()) {
             currentPlayer.setEndGameToken();
             playerHandler.notifyLastRound();
+            broadcasterRMI.lastRound(gameID, playerHandler.current().getName());
         }
-        if(playerHandler.next())
+        if(playerHandler.next()) {
             currentPlayer.updatePoints(false);
+            broadcasterRMI.newTurn(gameID, playerHandler.current().getName());
+        }
         else
             endGame();
     }
@@ -127,6 +154,12 @@ public class Gameplay {
             p.updatePoints(true);
         }
         playerList=sort(playerList);
+        broadcasterRMI.endGame(gameID,playerList.get(0).getName());
+        broadcasterRMI.startGame(gameID,playerHandler.current().getName());
+        broadcasterRMI.updatePlayerList(gameID,playerList);
+        broadcasterRMI.updateBoard(gameID,board);
+        for(Player p: playerList)
+            broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
     }
 
     private ArrayList<Player> sort(ArrayList<Player>playerList){

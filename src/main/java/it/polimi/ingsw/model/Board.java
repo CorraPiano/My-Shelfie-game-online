@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.*;
+
+import java.io.Serializable;
 import java.util.*;
 
 public class Board {
@@ -148,11 +150,14 @@ public class Board {
 
     /* Getters and setters*/
     public Item[][] getLivingRoom() {return livingRoom;}
-    public Item getLivingRoomItem (int row,int column) { return livingRoom[row][column];}
+    public Item getLivingRoomItem (Coordinates coordinates) {
+        return livingRoom[coordinates.getRow()][coordinates.getColumn()];
+    }
     public int[][] getMask() {
         return mask;
     }
     public int getNumPlayers() {
         return numPlayers;
     }
+
 }

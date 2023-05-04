@@ -5,6 +5,7 @@ import it.polimi.ingsw.exception.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class ControllerTest {
@@ -13,7 +14,7 @@ public class ControllerTest {
     void joinGameTest() throws Exception {
         Controller controller = new Controller();
         controller.addFirstPlayer("marco", GameMode.EASY, 4);
-        controller.addPlayer("paolo", 0);
+        controller.addPlayer("paolo", 0,null);
         ArrayList<String> list = controller.getGameList();
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),1+1);
@@ -77,7 +78,7 @@ public class ControllerTest {
     }
 
     @Test
-    void SingleGameplayTest(){
+    void SingleGameplayTest() throws RemoteException {
         boolean b=true;
         String ID1 = null;
         String ID2 = null;
@@ -266,7 +267,7 @@ public class ControllerTest {
     }
 
     @Test
-    void MultiGameplayTest() throws GameModeException, GameFullException, NumPlayersException, NameAlreadyExistentException, InvalidGameIdException {
+    void MultiGameplayTest() throws GameModeException, GameFullException, NumPlayersException, NameAlreadyExistentException, InvalidGameIdException, RemoteException {
         boolean b=true;
         String ID1 = null;
         String ID2 = null;

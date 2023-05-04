@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.connection.Connection;
 import it.polimi.ingsw.connection.Message;
 import it.polimi.ingsw.model.Coordinates;
 
@@ -69,7 +68,7 @@ public class MessageHandler {
         else if(message.getHead().equalsIgnoreCase("JOIN")){
             try{
                 System.out.println("--> JOIN : "+ message.getString(0));
-                String id=controller.addPlayer(message.getString(0),0);
+                String id=controller.addPlayer(message.getString(0),0,null);
                 map.put(connNum,id);
                 return true;
             } catch(Exception e){
@@ -80,7 +79,7 @@ public class MessageHandler {
         else if(message.getHead().equalsIgnoreCase("CREATE")){
             try{
                 System.out.println("--> CREATE : "+ message.getString(0) +", "+ message.getGameMode(1) +", "+message.getInt(2));
-                String id=controller.addFirstPlayer(message.getString(0),message.getGameMode(1),message.getInt(2));
+                String id=controller.addFirstPlayer(message.getString(0),message.getGameMode(1),message.getInt(2),null);
                 map.put(connNum,id);
                 return true;
             } catch(Exception e){

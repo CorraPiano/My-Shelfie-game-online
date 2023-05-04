@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.connection.TCPServer;
-import it.polimi.ingsw.controller.Controller;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,11 +16,10 @@ public class Main {
 
     }
     private static void startRMI(Controller controller) throws RemoteException {
-        RMIhandlerIn rmiHandlerin = new RMIhandlerIn(controller);
         try{
             LocateRegistry.createRegistry(1099);
             Registry registry = LocateRegistry.getRegistry();
-            registry.bind("controller", rmiHandlerin);
+            registry.bind(Settings.remoteObjectName, controller);
             System.out.println("RMI attivo");
         }
         catch(Exception e) {

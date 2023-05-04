@@ -5,25 +5,23 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class RMIhandlerIn extends UnicastRemoteObject implements Skeleton{
+public class RMIhandlerIn{
 
     //usata per salvare lo skeleton del client
     Controller controller;
     public RMIhandlerIn(Controller controller) throws RemoteException {
         this.controller=controller;
     }
-    public ArrayList<String> getGameList(){
+    public ArrayList<String> getGameList() throws RemoteException {
         return controller.getGameList();
     }
     public synchronized String addFirstPlayer(String name, GameMode gameMode, int numPlayer) throws RemoteException, GameModeException, GameFullException, NumPlayersException, NameAlreadyExistentException {
-        return controller.addFirstPlayer(name,gameMode,numPlayer);
+        return controller.addFirstPlayer(name,gameMode,numPlayer,null);
     }
     public synchronized String addPlayer(String name, int gameID) throws RemoteException, GameFullException, NameAlreadyExistentException, InvalidGameIdException {
-        return controller.addPlayer(name,gameID);
+        return controller.addPlayer(name,gameID,null);
     }
     public synchronized void pickItem(Coordinates coordinates, String id) throws RemoteException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, NotInGameException, WrongTurnException, OutOfBoardPickException, InvalidIdException {
         controller.pickItem(coordinates,id);
@@ -37,7 +35,7 @@ public class RMIhandlerIn extends UnicastRemoteObject implements Skeleton{
         controller.putItemList(column,id);
     }
 
-    public synchronized void selectInsertOrder(ArrayList<Integer> order, String id) throws WrongLengthOrderException, WrongContentOrderException, NotInGameException, WrongTurnException, InvalidIdException {
+    public synchronized void selectInsertOrder(ArrayList<Integer> order, String id) throws WrongLengthOrderException, WrongContentOrderException, NotInGameException, WrongTurnException, InvalidIdException, RemoteException {
         controller.selectInsertOrder(order,id);
     }
 
@@ -45,7 +43,7 @@ public class RMIhandlerIn extends UnicastRemoteObject implements Skeleton{
         controller.addChatMessage(chatMessage,id);
     }
 
-    public void leaveGame(String id) throws InvalidIdException {
+    public void leaveGame(String id) throws InvalidIdException, RemoteException {
         controller.leaveGame(id);
     }
 

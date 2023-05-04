@@ -37,12 +37,12 @@ class BoardTest {
                     else if(j==-1 )
                         System.out.print(i+"  ");
                     else if (mask[i][j] > num) {
-                        Assertions.assertNull(board.getLivingRoomItem(i, j));
+                        Assertions.assertNull(board.getLivingRoomItem(new Coordinates(i,j)));
                         System.out.print("*  ");
                     }
                     else {
-                        Assertions.assertNotNull(board.getLivingRoomItem(i, j));
-                        System.out.print(board.getLivingRoomItem(i, j).getType().getValue()+"  ");
+                        Assertions.assertNotNull(board.getLivingRoomItem(new Coordinates(i,j)));
+                        System.out.print(board.getLivingRoomItem(new Coordinates(i,j)).getType().getValue()+"  ");
                     }
                 }
                 System.out.print("\n");
