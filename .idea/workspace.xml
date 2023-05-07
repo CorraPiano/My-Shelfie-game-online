@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="CommonGoalCard testate">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/Listener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_23,_16_54_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_04_23__16_54__Changes_.xml" beforeDir="false" />
+    <list default="true" id="0480adbc-a163-4b15-8371-52735814b164" name="Changes" comment="Listener inserito">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/TriFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Listenable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/Listener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/Listener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +19,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -69,7 +70,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -78,7 +79,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PersonalGoalCardTest.calculatePointsTest (1)">
+  <component name="RunManager">
     <configuration name="PersonalGoalCard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PersonalGoalCard" />
       <module name="AM26" />
@@ -179,7 +180,11 @@
       <option name="presentableId" value="Default" />
       <updated>1678917859426</updated>
       <workItem from="1679238563303" duration="7138000" />
-      <workItem from="1682694237587" duration="3726000" />
+      <workItem from="1682694237587" duration="4375000" />
+      <workItem from="1683387434280" duration="545000" />
+      <workItem from="1683388677250" duration="639000" />
+      <workItem from="1683390004674" duration="67000" />
+      <workItem from="1683477565389" duration="7511000" />
     </task>
     <task id="LOCAL-00001" summary="Modifiche CommonGoalCard, funzione di test">
       <created>1680611878488</created>
@@ -209,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681655612185</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Listener inserito">
+      <created>1682699977912</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1682699977913</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,7 +242,8 @@
     <MESSAGE value="Modifiche CommonGoalCard, funzione di test" />
     <MESSAGE value="PersonalGoalCard testata e sistemata" />
     <MESSAGE value="CommonGoalCard testate" />
-    <option name="LAST_COMMIT_MESSAGE" value="CommonGoalCard testate" />
+    <MESSAGE value="Listener inserito" />
+    <option name="LAST_COMMIT_MESSAGE" value="Listener inserito" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
