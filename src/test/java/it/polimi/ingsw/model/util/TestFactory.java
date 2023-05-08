@@ -42,7 +42,7 @@ public class TestFactory {
 
                 line = reader.readLine();
                 result = Integer.parseInt(line);
-                b = new Bookshelf();
+                b = new Bookshelf(null);
                 b.fillBookshelf(mat);
                 inputTest.addTest(b, result);
 

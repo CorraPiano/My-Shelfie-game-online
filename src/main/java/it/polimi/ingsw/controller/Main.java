@@ -29,7 +29,7 @@ public class Main {
     private static void startTCP(Controller controller){
         try{
             MessageHandler messageHandler = new MessageHandler(controller);
-            ServerSocket serverSocket =new ServerSocket(8080);
+            ServerSocket serverSocket =new ServerSocket(8081);
             TCPServer TCPserver = new TCPServer(serverSocket, messageHandler);
             new Thread(TCPserver).start();
             System.out.println("TCP attivo");

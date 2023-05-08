@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.util.InputTest;
 
 class BookshelfTest {
     // ATTRIBUTES
-    private Bookshelf bookshelf = new Bookshelf();
+    private Bookshelf bookshelf = new Bookshelf(null);
     // private Bookshelf bookshelfTest = new Bookshelf();
     private ArrayList<Item> itemList1 = new ArrayList<>();
     private ArrayList<Item> itemList2 = new ArrayList<>();

@@ -1,17 +1,19 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Listener;
 import it.polimi.ingsw.exception.WrongContentOrderException;
 import it.polimi.ingsw.exception.WrongLengthOrderException;
 
 import java.util.ArrayList;
 
-public class Hand {
+public class Hand extends Listenable {
     private ArrayList<Item> hand;
     private ArrayList<Coordinates> coordinatesList;
 
-    public Hand (){
+    public Hand (Listener listener){
         hand = new ArrayList<Item>();
         coordinatesList = new ArrayList<Coordinates>();
+        setListener(listener);
     }
 
     public int getSize(){
@@ -29,6 +31,7 @@ public class Hand {
     public void putItem(Item item, Coordinates coordinates){
         hand.add(item);
         coordinatesList.add(coordinates);
+        notifyListener("HAND");
     }
 
     public boolean containsCoords(Coordinates coordinates){
@@ -38,6 +41,7 @@ public class Hand {
     public void clear(){
         hand.clear();
         coordinatesList.clear();
+        notifyListener("HAND");
     }
 
     public void selectOrder(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
@@ -51,6 +55,7 @@ public class Hand {
         }
         hand = supp1;
         coordinatesList = supp2;
+        notifyListener("HAND");
     }
 
     private void checkContentOrderList(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {

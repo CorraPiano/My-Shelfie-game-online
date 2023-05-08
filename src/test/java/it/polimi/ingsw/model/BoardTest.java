@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Listener;
 import it.polimi.ingsw.exception.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class BoardTest {
         int num=0;
         Board board;
         while(num<6) {
-            board = new Board(num, null);
+            board = new Board(num, null,new Listener(0,null));
             board.drawBoardItems();
             int i, j;
             System.out.println("NUMERO GIOCATORI: "+num);
@@ -54,8 +55,8 @@ class BoardTest {
 
     @Test
     void getItemTest() {
-        Hand hand = new Hand();
-        Board board = new Board(2, hand);
+        Hand hand = new Hand(null);
+        Board board = new Board(2, hand,new Listener(0,null));
         try {
             board.getItem(new Coordinates(1, 3));
             fail();

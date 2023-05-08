@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Listener;
 import it.polimi.ingsw.exception.*;
 
 import java.io.Serializable;
 import java.util.*;
 
-public class Board {
+public class Board extends Listenable{
     private final Item[][] livingRoom;
     static final int nColumns = 9;
     static final int nRows = 9;
@@ -25,11 +26,12 @@ public class Board {
     };
     private final Hand hand;
 
-    public Board(int numPlayers, Hand hand) {
+    public Board(int numPlayers, Hand hand, Listener listener) {
         this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
         this.numPlayers = numPlayers;
         this.hand = hand;
+        this.setListener(listener);
     }
 
     /* Draws random items to fill the board */
@@ -41,6 +43,7 @@ public class Board {
                 }
             }
         }
+        this.notifyListener("BOARD");
     }
 
     /* Item pick */
@@ -51,6 +54,7 @@ public class Board {
                 int column = coordinates.getColumn();
                 hand.putItem(livingRoom[row][column], coordinates);
                 livingRoom[row][column] = null;
+                this.notifyListener("BOARD");
             }
             else
                 throw new NotLinearPickException();
@@ -104,6 +108,7 @@ public class Board {
                 livingRoom[row][column] = itemList.get(i);
             }
             hand.clear();
+            //this.notifyListener("BOARD");
         }
     }
 
@@ -113,6 +118,7 @@ public class Board {
         if (checkRefill()) {
             putBackInBag();
             drawBoardItems();
+            this.notifyListener("BOARD");
         }
     }
 
