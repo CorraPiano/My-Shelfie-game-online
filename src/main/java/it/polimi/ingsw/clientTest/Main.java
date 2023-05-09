@@ -1,8 +1,7 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.clientTest;
 
-import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
-
+import it.polimi.ingsw.controller.ControllerSkeleton;
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;

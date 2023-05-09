@@ -1,13 +1,13 @@
-package it.polimi.ingsw.client.commands;
+package it.polimi.ingsw.clientTest.commands;
 
-import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.clientTest.Client;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.model.GameMode;
 
 import java.util.Objects;
 import java.util.Scanner;
 
-public class CreateCommand implements Command {
+public class CreateCommand implements Command{
     @Override
     public void execute(ControllerSkeleton controller, Scanner stdin, Client client) {
         String name = stdin.next();

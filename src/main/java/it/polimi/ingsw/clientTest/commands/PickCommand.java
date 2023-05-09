@@ -1,12 +1,12 @@
-package it.polimi.ingsw.client.commands;
+package it.polimi.ingsw.clientTest.commands;
 
-import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.clientTest.Client;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.model.Coordinates;
 
 import java.util.Scanner;
 
-public class PickCommand  implements Command {
+public class PickCommand  implements Command{
     @Override
     public void execute(ControllerSkeleton controller, Scanner stdin, Client client) {
         int n1 = stdin.nextInt();

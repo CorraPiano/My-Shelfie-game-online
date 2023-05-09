@@ -73,7 +73,7 @@ class BookshelfTest {
     @Test
     void calculatePoints() throws Exception {
         // carico le matrici dal file BookshelfTestFile_updatePoints.txt in InputTest
-        InputTest input = TestFactory.createTest("src/test/java/it/polimi/ingsw/model/util/BookshelfTestFile_putItemList.txt");
+        InputTest input = TestFactory.createTest("src/test/java/it/polimi/ingsw/model/util/BookshelfTestFile_updatePoints.txt");
 
         // testo tutte le matrici del file BookshelfTestFile_updatePoints.txt
         for(int i = 0; i < input.numberOfTests(); i++) {

@@ -1,12 +1,12 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.clientTest;
 
-import it.polimi.ingsw.client.commands.*;
+import it.polimi.ingsw.clientTest.commands.*;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 
 import java.util.Scanner;
 
 public class GraphicsInterface {
-    private final it.polimi.ingsw.client.Client client;
+    private final Client client;
     private final ControllerSkeleton controller;
     private final Scanner stdin;
 

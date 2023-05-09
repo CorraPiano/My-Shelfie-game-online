@@ -6,11 +6,8 @@ import it.polimi.ingsw.client.localModel.localHand;
 import it.polimi.ingsw.client.localModel.localPlayer;
 import it.polimi.ingsw.model.*;
 
-import java.lang.reflect.Array;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class BroadcasterRMI {
 

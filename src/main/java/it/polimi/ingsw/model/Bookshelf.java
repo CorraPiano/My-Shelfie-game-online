@@ -85,6 +85,7 @@ public class Bookshelf extends Listenable{
     public int calculatePoints() {
         int points = 0;
         int counter;
+        resetMask();
         for(int i = 0; i < nRows; i++) {
             for(int j = 0; j < nColumns; j++) {
                 if(!mask[i][j] && library[i][j] != null) {
@@ -105,6 +106,14 @@ public class Bookshelf extends Listenable{
             }
         }
         return points;
+    }
+
+    private void resetMask() {
+        for(int i = 0; i < nRows; i++) {
+            for (int j = 0; j < nColumns; j++) {
+                mask[i][j] = false;
+            }
+        }
     }
 
     private int countNearbyItems(int i, int j, int counter, ItemType type) {
@@ -135,10 +144,6 @@ public class Bookshelf extends Listenable{
         return counter;
     }
 
-    public void putItem(Item item, int row, int column) {
-        library[row][column] = item;
-    }
-
     public void fillBookshelf(int[][] matrix) {
         for(int i = 0; i < nRows; i++) {
             for(int j = 0; j < nColumns; j++) {
@@ -167,6 +172,10 @@ public class Bookshelf extends Listenable{
         }
     }
 
+    public void putItem(Item item, int row, int column) {
+        library[row][column] = item;
+    }
+
     public Item[][] getLibrary(){
         return library;
     }
@@ -175,5 +184,6 @@ public class Bookshelf extends Listenable{
         return name;
     }
     //TODO: serve itemCounter per qualcosa?
+
 
 }

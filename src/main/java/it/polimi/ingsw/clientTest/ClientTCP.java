@@ -1,5 +1,4 @@
-package it.polimi.ingsw.client;
-
+package it.polimi.ingsw.clientTest;
 import it.polimi.ingsw.model.Coordinates;
 
 import java.io.PrintWriter;

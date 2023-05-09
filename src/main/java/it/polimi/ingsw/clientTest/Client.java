@@ -1,44 +1,23 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.clientTest;
 
 import it.polimi.ingsw.client.localModel.localBoard;
 import it.polimi.ingsw.client.localModel.localBookshelf;
 import it.polimi.ingsw.client.localModel.localHand;
 import it.polimi.ingsw.client.localModel.localPlayer;
-import it.polimi.ingsw.client.view.ViewHandler;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Client extends UnicastRemoteObject implements ClientSkeleton {
-
-    //Riferimenti al miniModel che saranno da togliere e da gestire in un'altra classe
-    /*
-    private localBoard board;
-    private HashMap<String, localBookshelf> bookshelfmap;
-    private localHand hand; //devo fare un HashMap?
-    private ArrayList<localPlayer> localPlayerList;
-    */
-
-    private ViewHandler viewHandler;
     private String ID;
     private boolean state;
 
-    public Client() throws RemoteException {
+    public Client() throws RemoteException{
         state = false;
-        viewHandler = new ViewHandler();
-        /*
-        board = new localBoard(null);
-        bookshelfmap = new HashMap<>();
-        hand = new localHand(null, 0);
-        localPlayerList = new ArrayList<>();
-        */
     }
-    @Override
     public void newChatMessage(String name, String message) throws RemoteException {
         System.out.println(">> "+name+": "+message);
     }
@@ -69,6 +48,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(">> il vincitore e' "+name);
     }
 
+
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         System.out.println(">> "+name+": PICK "+item.getType().getValue()+" in coords "+coordinates.toString());
     }
@@ -81,38 +61,69 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void notifyPut(String name, int column) throws RemoteException{
         System.out.println(">> "+name+": PUT in column "+column);
     }
-    /*
-    ================================================================================================
-    IDEA: stampare tutto ogni volta che arriva una notifica e quindi non nei metodi "update"
-    IDEA: è stata cambiata la board, allora chiamo il metodo notify presente nella classe
-    gestoreCLI oppure gestoreGUI che sceglie se e che cosa stampare in base al fatto che la
-    board è stata cambia
-    ================================================================================================
-     */
+
     public void updateBoard(localBoard board) throws RemoteException {
-        //this.board = board;
-        //viewHandler.showGame(board, bookshelfmap, hand, localPlayerList);
-        viewHandler.showBoad(board);
+        int i,j;
+        System.out.print("\n");
+        for (i = -1; i < 9; i++) {
+            for (j = -1; j < 9; j++) {
+                if(i==-1 && j==-1)
+                    System.out.print("/ ");
+                else if(i==-1 )
+                    System.out.print(j+" ");
+                else if(j==-1 )
+                    System.out.print(i+" ");
+                else{
+                    Item item = board.board[i][j];
+                    if(item==null)
+                        System.out.print("  ");
+                    else
+                        System.out.print(item.getType().getValue()+" ");
+                }
+            }
+            System.out.print("\n");
+        }
+        System.out.print("\n");
     }
 
     public void updateBookshelf(localBookshelf bookshelf) throws RemoteException {
-        //bookshelfmap.put(bookshelf.name, bookshelf);
-        //viewHandler.showGame(board, bookshelfmap, hand, localPlayerList);
-        viewHandler.showBookshelf(bookshelf);
+        int i,j;
+        System.out.print("\n");
+        System.out.println("libreria di "+bookshelf.name+":");
+        for (i = 5; i > -2; i--) {
+            if(i>=0)
+                System.out.print("|");
+            else
+                System.out.print(" ");
+            for (j = 0; j < 5; j++) {
+                if(i>=0) {
+                    Item item = bookshelf.bookshelf[i][j];
+                    if (item==null)
+                        System.out.print("  |");
+                    else {
+                        System.out.print(item.getType().getValue() + " |");
+                    }
+                }
+                else
+                    System.out.print(j+"  ");
+            }
+            System.out.print("\n");
+        }
+        System.out.print("\n");
     }
 
     public void updateHand(localHand hand) throws RemoteException {
-        //this.hand = hand;
-        //viewHandler.showGame(board, bookshelfmap, hand, localPlayerList);
-        viewHandler.showHand(hand);
+        System.out.print("\n");
+        System.out.println("mano:");
+        for(Item item: hand.hand)
+            System.out.print(item.getType().getValue() + " ");
+        System.out.print("\n");
     }
 
     public void updatePlayerList(ArrayList<localPlayer> playerList) throws RemoteException {
         System.out.print("\n");
         System.out.println("ecco i giocatori: ");
         for(localPlayer p:playerList) {
-            //this.localPlayerList.add(p); //aggiungo i player alla lista di player
-            //bookshelfmap.put(p.name, new localBookshelf(p.name, new Item[6][5])); //creo per ogni giocatore la sua bookshelf vuota
             System.out.print(p.name + " ");
             if(p.firstPlayerSeat)
                 System.out.print("*\n");
