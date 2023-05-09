@@ -54,7 +54,6 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(">> il vincitore e' "+name);
     }
 
-
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         System.out.println(">> "+name+": PICK "+item.getType().getValue()+" in coords "+coordinates.toString());
     }
