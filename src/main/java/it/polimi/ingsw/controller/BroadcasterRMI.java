@@ -140,16 +140,9 @@ public class BroadcasterRMI {
             e.printStackTrace();
         }
     }
-    public void updateBookshelf(int gameID,String name, Bookshelf bookshelf) {
-        Item[][] matrix = new Item[6][5];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                if(bookshelf.getItem(new Coordinates(i,j)).isEmpty())
-                    matrix[i][j]=null;
-                else
-                    matrix[i][j]=bookshelf.getItem(new Coordinates(i,j)).get();
-            }
-        }
+    public void updateBookshelf(int gameID,Bookshelf bookshelf) {
+        Item[][] matrix = bookshelf.getLibrary();
+        String name = bookshelf.getName();
         localBookshelf localBookshelf = new localBookshelf(name,matrix);
 
         try {

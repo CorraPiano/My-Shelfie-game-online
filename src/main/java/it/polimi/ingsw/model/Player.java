@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Listener;
+
 import java.util.UUID;
 
 
@@ -18,10 +20,14 @@ public class Player {
     //METHODS
     public Player(String name){
         this.name = name;
-        library = new Bookshelf();
+        library = new Bookshelf(name);
         personalCard = new PersonalGoalCard(library);
         //creation of the ID code
         ID = UUID.randomUUID().toString();
+    }
+
+    public void bindListner(Listener listener){
+        library.bindListener(listener);
     }
     public void setToken1(Token token1){
         this.token1 = token1;

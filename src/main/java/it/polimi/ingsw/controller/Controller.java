@@ -33,6 +33,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         return id;
     }
 
+    //for TCP - to fix
     public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException {
         int gameID = gameplaysHandler.nextID();
         Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID,broadcasterRMI);
@@ -59,6 +60,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         return id;
     }
 
+    //for TCP - to fix
     public synchronized String addPlayer(String name, int gameID) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
         if(!gameplay.getGameState().equals(GameState.WAIT))

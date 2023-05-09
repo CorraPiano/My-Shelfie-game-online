@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.BroadcasterRMI;
+import it.polimi.ingsw.controller.Listener;
 import it.polimi.ingsw.exception.*;
 
 import java.util.ArrayList;
 
-public class Gameplay {
+public class Gameplay extends Listenable {
 
     private final GameMode gameMode;
     private GameState gameState;
@@ -18,8 +19,8 @@ public class Gameplay {
     private PlayerHandler playerHandler;
     private final Hand hand;
     private ArrayList<Player> playerList;
-
-    private BroadcasterRMI broadcasterRMI;
+    private final BroadcasterRMI broadcasterRMI;
+    private final Listener listener;
 
     public Gameplay(GameMode gameMode, int numPlayers, int gameID,BroadcasterRMI broadcasterRMI) throws NumPlayersException, GameModeException {
         if(!gameMode.equals(GameMode.EASY) && !gameMode.equals(GameMode.EXPERT))
@@ -31,8 +32,9 @@ public class Gameplay {
         this.numPlayers = numPlayers;
         this.playerList = new ArrayList<Player>();
         this.broadcasterRMI = broadcasterRMI;
-        hand = new Hand();
-        board = new Board(numPlayers,hand);
+        this.listener= new Listener(gameID,broadcasterRMI);
+        hand = new Hand(listener);
+        board = new Board(numPlayers,hand,listener);
         bagPersonal = new BagPersonal();
         if (gameMode.equals(GameMode.EXPERT))
             bagCommon = new BagCommon();
@@ -46,6 +48,7 @@ public class Gameplay {
             throw new NameAlreadyExistentException();
         Player player = new Player(name);
         playerList.add(player);
+        //attenzione: al primo giocatore lancia una eccezione !!!
         broadcasterRMI.playerJoin(gameID,name);
         return player;
     }
@@ -72,6 +75,7 @@ public class Gameplay {
         }
         for(Player p: playerList) {
             p.setPersonalGoalCard(bagPersonal.drawPersonalGoalCard());
+            p.bindListner(listener);
         }
        board.drawBoardItems();
        playerHandler = new PlayerHandler(playerList);
@@ -79,9 +83,9 @@ public class Gameplay {
 
        broadcasterRMI.startGame(gameID,playerHandler.current().getName());
        broadcasterRMI.updatePlayerList(gameID,playerList);
-       broadcasterRMI.updateBoard(gameID,board);
-       for(Player p: playerList)
-            broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
+       //broadcasterRMI.updateBoard(gameID,board);
+       //for(Player p: playerList)
+        //    broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
     }
 
     private ArrayList<Token> createTokenList(){
@@ -99,15 +103,15 @@ public class Gameplay {
             Item item = board.getLivingRoomItem(coordinates);
             board.getItem(coordinates);
             broadcasterRMI.notifyPick(gameID,playerHandler.current().getName() ,coordinates, item);
-            broadcasterRMI.updateBoard(gameID,board);
-            broadcasterRMI.updateHand(gameID,hand);
+            //broadcasterRMI.updateBoard(gameID,board);
+            //broadcasterRMI.updateHand(gameID,hand);
     }
 
     public void releaseHand() {
         board.releaseHand();
         broadcasterRMI.notifyUndo(gameID,playerHandler.current().getName());
-        broadcasterRMI.updateBoard(gameID,board);
-        broadcasterRMI.updateHand(gameID,hand);
+        //broadcasterRMI.updateBoard(gameID,board);
+        //broadcasterRMI.updateHand(gameID,hand);
     }
 
     public void putItemList(int column) throws EmptyHandException, InvalidColumnPutException, NotEnoughSpacePutException {
@@ -119,7 +123,7 @@ public class Gameplay {
         board.endTurn();
 
         broadcasterRMI.notifyPut(gameID,playerHandler.current().getName(),column);
-        broadcasterRMI.updateBookshelf(gameID,playerHandler.current().getName(),playerHandler.current().getLibrary());
+        //broadcasterRMI.updateBookshelf(gameID,playerHandler.current().getName(),playerHandler.current().getLibrary());
 
         if(gameMode.equals(GameMode.EXPERT))
             checkFullfillCommonGoalCard(currentPlayer );
@@ -157,9 +161,9 @@ public class Gameplay {
         broadcasterRMI.endGame(gameID,playerList.get(0).getName());
         broadcasterRMI.startGame(gameID,playerHandler.current().getName());
         broadcasterRMI.updatePlayerList(gameID,playerList);
-        broadcasterRMI.updateBoard(gameID,board);
-        for(Player p: playerList)
-            broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
+        //broadcasterRMI.updateBoard(gameID,board);
+       // for(Player p: playerList)
+         //   broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
     }
 
     private ArrayList<Player> sort(ArrayList<Player>playerList){

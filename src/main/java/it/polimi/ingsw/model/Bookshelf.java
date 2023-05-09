@@ -1,22 +1,26 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Listener;
 import it.polimi.ingsw.exception.InvalidColumnPutException;
 import it.polimi.ingsw.exception.NotEnoughSpacePutException;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class Bookshelf {
+public class Bookshelf extends Listenable{
     //ATTRIBUTES
     private final int nColumns;
+
+    private final String name;
     private final int nRows;
     private final Item[][] library;
     private final boolean[][] mask;
 
     //METHODS
-    public Bookshelf() {
+    public Bookshelf(String name) {
         this.nColumns = 5;
         this.nRows = 6;
+        this.name=name;
         this.library = new Item[nRows][nColumns];
 
         this.mask = new boolean[nRows][nColumns];
@@ -25,6 +29,11 @@ public class Bookshelf {
                 mask[i][j] = false;
             }
         }
+    }
+
+    public void bindListener(Listener listener){
+        setListener(listener);
+        notifyListener("BOOKSHELF");
     }
 
     public void putItemList(ArrayList<Item> itemList, int column) throws NotEnoughSpacePutException, InvalidColumnPutException {
@@ -37,6 +46,7 @@ public class Bookshelf {
                         index++;
                     }
                 }
+                notifyListener("BOOKSHELF");
             }
             else{
                 throw new NotEnoughSpacePutException();
@@ -157,6 +167,13 @@ public class Bookshelf {
         }
     }
 
+    public Item[][] getLibrary(){
+        return library;
+    }
+
+    public String getName(){
+        return name;
+    }
     //TODO: serve itemCounter per qualcosa?
 
 }
