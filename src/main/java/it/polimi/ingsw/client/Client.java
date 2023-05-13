@@ -90,43 +90,28 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     ================================================================================================
      */
     public void updateBoard(localBoard board) throws RemoteException {
-        //this.board = board;
-        //viewHandler.showGame(board, bookshelfmap, hand, localPlayerList);
         viewHandler.showBoad(board);
     }
 
     public void updateBookshelf(localBookshelf bookshelf) throws RemoteException {
-        //bookshelfmap.put(bookshelf.name, bookshelf);
-        //viewHandler.showGame(board, bookshelfmap, hand, localPlayerList);
         viewHandler.showBookshelf(bookshelf);
     }
 
     public void updateHand(localHand hand) throws RemoteException {
-        //this.hand = hand;
-        //viewHandler.showGame(board, bookshelfmap, hand, localPlayerList);
         viewHandler.showHand(hand);
     }
 
     public void updatePlayerList(ArrayList<localPlayer> playerList) throws RemoteException {
-        System.out.print("\n");
-        System.out.println("ecco i giocatori: ");
-        for(localPlayer p:playerList) {
-            //this.localPlayerList.add(p); //aggiungo i player alla lista di player
-            //bookshelfmap.put(p.name, new localBookshelf(p.name, new Item[6][5])); //creo per ogni giocatore la sua bookshelf vuota
-            System.out.print(p.name + " ");
-            if(p.firstPlayerSeat)
-                System.out.print("*\n");
-            else
-                System.out.print("\n");
-        }
-        System.out.print("\n");
+        viewHandler.showPlayers(playerList);
     }
 
     public void updateCommonGoalCard(ArrayList<CommonGoalCard> commonGoalCardslist) throws RemoteException{
         System.out.println("... due common goal card con i relativi token ... ");
+        //viewHandler.showCommonGoalCards(commonGoalCardslist);
     }
     public void sendPersonalGoalCard(PersonalGoalCard personalGoalCard) throws RemoteException{
         System.out.println("... la tua personal goal card ... ");
+        //viewHandler.showPersonalGoalCard(personalGoalCard);
     }
 
     public String getID() {
