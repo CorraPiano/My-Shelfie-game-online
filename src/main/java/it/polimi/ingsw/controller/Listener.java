@@ -45,12 +45,10 @@ public class Listener implements PropertyChangeListener {
             return 1;
         });
     }
-
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         // HashMap Connection
         String name = null;
         functionHandlerRMI.get(evt.getPropertyName()).apply(evt.getNewValue(), name);
     }
-
 }

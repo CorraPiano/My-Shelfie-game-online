@@ -19,5 +19,9 @@ public abstract class CommonGoalCard {
         token.remove(0);
         return t;
     }
+
+    public int getType() {
+        return type;
+    }
 }
 

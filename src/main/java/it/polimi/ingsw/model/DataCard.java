@@ -139,4 +139,7 @@ public class DataCard {
         return m.get(key);
     }
 
+    public HashMap<Coordinates, Integer> getCard() {
+        return m;
+    }
 }
