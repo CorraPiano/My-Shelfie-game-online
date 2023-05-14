@@ -69,9 +69,11 @@ public class Gameplay extends Listenable {
         if (gameMode.equals(GameMode.EXPERT)){
             // capire se mettere le token presso la common o presso gameplay
             commonGoalCard1 = bagCommon.drawCommonGoalCard();
+            commonGoalCard1.setListener(listener);
             commonGoalCard1.setTokenList(createTokenList());
             commonGoalCard2 = bagCommon.drawCommonGoalCard();
-            commonGoalCard1.setTokenList(createTokenList());
+            commonGoalCard2.setListener(listener);
+            commonGoalCard2.setTokenList(createTokenList());
         }
         for(Player p: playerList) {
             p.setPersonalGoalCard(bagPersonal.drawPersonalGoalCard());
@@ -159,7 +161,6 @@ public class Gameplay extends Listenable {
         }
         playerList=sort(playerList);
         broadcasterRMI.endGame(gameID,playerList.get(0).getName());
-        broadcasterRMI.startGame(gameID,playerHandler.current().getName());
         broadcasterRMI.updatePlayerList(gameID,playerList);
         //broadcasterRMI.updateBoard(gameID,board);
        // for(Player p: playerList)

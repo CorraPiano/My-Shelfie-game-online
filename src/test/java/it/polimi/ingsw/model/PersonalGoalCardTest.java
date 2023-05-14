@@ -12,7 +12,7 @@ public class PersonalGoalCardTest {
         InputTest input = TestFactory.createTest("src/test/java/it/polimi/ingsw/model/util/PersonalTestFile.txt");
         PersonalGoalCard g;
         for(int i=0; i< input.numberOfTests(); i++){
-            g = new PersonalGoalCard(input.getInputLibrary(i));
+            g = new PersonalGoalCard(0);
             Assertions.assertEquals(input.getResult(i), g.calculatePoints(), "Matrice numero: " + i);
         }
 

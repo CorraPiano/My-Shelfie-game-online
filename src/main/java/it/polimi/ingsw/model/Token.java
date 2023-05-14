@@ -2,7 +2,9 @@ package it.polimi.ingsw.model;
 
 import com.sun.jdi.Value;
 
-public class Token {
+import java.io.Serializable;
+
+public class Token implements Serializable {
     //ATTRIBUTES
     private int value;
 

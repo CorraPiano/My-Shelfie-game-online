@@ -61,7 +61,7 @@ public class GraphicsInterface {
                     case "SEND":
                         new SendCommand().execute(controller,stdin,client);
                         break;
-                    case"EXIT":
+                    case "EXIT":
                         new ExitCommand().execute(controller,stdin,client);
                         break;
                     default:

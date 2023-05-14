@@ -119,6 +119,9 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
 
     public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
+        broadcasterRMI.notifyLeave(gameplay.getGameID(),gameplay.getPlayerNameByID(id));
+        gameplay.endGame();
         // da implementare
     }
 }

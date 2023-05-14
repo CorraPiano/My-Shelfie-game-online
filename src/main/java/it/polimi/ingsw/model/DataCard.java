@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 * Green yellow  blue    pink    cyan    white
 * 0     1       2       3       4       5
 */
-public class DataCard {
+public class DataCard implements Serializable {
     private final HashMap<Coordinates, Integer> m;
     public DataCard(int n) {
 

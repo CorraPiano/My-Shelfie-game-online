@@ -87,6 +87,16 @@ public class BroadcasterRMI {
         }
     }
 
+    public void notifyLeave(int gameID,String name) {
+        try {
+            //for(String s: gameplaysHandler.getPlayersFromGameplay(gameID))
+            //    clientControllerMap.get(s).notifyLeave(name);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     //notifica dei comandi di altri giocatori
     public void notifyPick(int gameID,String name, Coordinates coordinates, Item item){
         try {
@@ -158,7 +168,7 @@ public class BroadcasterRMI {
 
         try {
             for(String s: gameplaysHandler.getPlayersFromGameplay(gameID))
-            clientControllerMap.get(s).updateHand(localHand);
+                clientControllerMap.get(s).updateHand(localHand);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -167,7 +177,13 @@ public class BroadcasterRMI {
     public void updatePlayerList(int gameID,ArrayList<Player> playerList) {
         ArrayList<localPlayer> localPlayerList = new ArrayList<localPlayer>();
         for(Player p: playerList){
-            localPlayerList.add(new localPlayer(p.getName(),p.getFirstPlayerSeat(),p.getPoints()));
+            localPlayer lp = new localPlayer(p.getName());
+            lp.setEndGameToken(p.getEndGameToken());
+            lp.setToken1(p.getToken1());
+            lp.setToken2(p.getToken2());
+            lp.setPoints(p.getPoints());
+            lp.setFirstPlayerSeat(p.getFirstPlayerSeat());
+            localPlayerList.add(lp);
         }
 
         try {
@@ -177,18 +193,18 @@ public class BroadcasterRMI {
             e.printStackTrace();
         }
     }
-    public void updateCommonGoalCard(int gameID,ArrayList<CommonGoalCard> commonGoalCardslist) {
+    public void updateCommonGoalCard(int gameID,CommonGoalCard commonGoalCard) {
         try {
             for (String s : gameplaysHandler.getPlayersFromGameplay(gameID))
-                clientControllerMap.get(s).updateCommonGoalCard(commonGoalCardslist);
+                clientControllerMap.get(s).updateCommonGoalCard(commonGoalCard);
         } catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public void sendPersonalGoalCard(int id,PersonalGoalCard personalGoalCard) {
+    public void sendPersonalGoalCard(int gameID,PersonalGoalCard personalGoalCard) {
         try {
-            clientControllerMap.get(id).sendPersonalGoalCard(personalGoalCard);
+            clientControllerMap.get(personalGoalCard.getID()).updatePersonalGoalCard(personalGoalCard.getCard());
         }
         catch(Exception e){
             e.printStackTrace();

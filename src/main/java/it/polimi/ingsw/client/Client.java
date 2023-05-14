@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.localModel.localBookshelf;
 import it.polimi.ingsw.client.localModel.localHand;
 import it.polimi.ingsw.client.localModel.localPlayer;
 import it.polimi.ingsw.client.view.ViewHandler;
+import it.polimi.ingsw.connection.Message;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
 
@@ -38,6 +39,9 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         localPlayerList = new ArrayList<>();
         */
     }
+
+    //vedere se fare public o private le classi del localModel
+    //attualmente sono public, se vanno rese private vanno inseriti i getter
     @Override
     public void newChatMessage(String name, String message) throws RemoteException {
         System.out.println(">> "+name+": "+message);
@@ -67,6 +71,14 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void endGame(String name) throws RemoteException {
         System.out.println(">> partitia terminata!");
         System.out.println(">> il vincitore e' "+name);
+    }
+
+    public void leaveGame(String name) throws RemoteException{
+        //da implementare
+    }
+
+    public void notify(Message message) throws RemoteException {
+        //attualmente non serve, per eventuali modifiche future
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
@@ -105,11 +117,12 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         viewHandler.showPlayers(playerList);
     }
 
-    public void updateCommonGoalCard(ArrayList<CommonGoalCard> commonGoalCardslist) throws RemoteException{
+    public void updateCommonGoalCard(CommonGoalCard commonGoalCard) throws RemoteException{
+        // si ricevono anche i token , da stampare!
         System.out.println("... due common goal card con i relativi token ... ");
         //viewHandler.showCommonGoalCards(commonGoalCardslist);
     }
-    public void sendPersonalGoalCard(PersonalGoalCard personalGoalCard) throws RemoteException{
+    public void updatePersonalGoalCard(DataCard dataCard) throws RemoteException{
         System.out.println("... la tua personal goal card ... ");
         //viewHandler.showPersonalGoalCard(personalGoalCard);
     }
@@ -128,5 +141,9 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     public void setState(Boolean state) {
         this.state=state;
+    }
+
+    public void ping(int ping) throws RemoteException{
+
     }
 }

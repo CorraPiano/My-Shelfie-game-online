@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.localModel.localBoard;
 import it.polimi.ingsw.client.localModel.localBookshelf;
 import it.polimi.ingsw.client.localModel.localHand;
 import it.polimi.ingsw.client.localModel.localPlayer;
+import it.polimi.ingsw.connection.Message;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
 
@@ -48,6 +49,13 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(">> il vincitore e' "+name);
     }
 
+    public void leaveGame(String name) throws RemoteException{
+        //da implementare
+    }
+
+    public void notify(Message message) throws RemoteException {
+        //attualmente non serve, per eventuali modifiche future
+    }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         System.out.println(">> "+name+": PICK "+item.getType().getValue()+" in coords "+coordinates.toString());
@@ -133,10 +141,11 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.print("\n");
     }
 
-    public void updateCommonGoalCard(ArrayList<CommonGoalCard> commonGoalCardslist) throws RemoteException{
+    public void updateCommonGoalCard(CommonGoalCard commonGoalCard) throws RemoteException{
+        // si ricevono anche i token , da stampare!
         System.out.println("... due common goal card con i relativi token ... ");
     }
-    public void sendPersonalGoalCard(PersonalGoalCard personalGoalCard) throws RemoteException{
+    public void updatePersonalGoalCard(DataCard dataCard) throws RemoteException{
         System.out.println("... la tua personal goal card ... ");
     }
 
@@ -154,5 +163,9 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     public void setState(Boolean state) {
         this.state=state;
+    }
+
+    public void ping(int ping) throws RemoteException{
+
     }
 }

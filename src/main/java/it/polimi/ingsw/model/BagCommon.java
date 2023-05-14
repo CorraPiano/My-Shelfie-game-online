@@ -9,12 +9,12 @@ import java.util.Random;
 
 public class BagCommon {
 
-    private List<CommonGoalCard> bagCommon;
+    private final List<CommonGoalCard> bagCommon;
 
     public BagCommon() {
         bagCommon = new ArrayList<CommonGoalCard>();
         CommonGoalCardFactory cardFactory = new CommonGoalCardFactory();
-        for (int i = 0; i < 11; i++){
+        for (int i = 0; i < 12; i++){
             bagCommon.add(cardFactory.getCommonGoalCard(i));
         }
     }

@@ -4,14 +4,23 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PersonalGoalCard {
+public class PersonalGoalCard extends Listenable{
     private final DataCard card;
-    private final Bookshelf library;
+    private Bookshelf library;
     private Integer points;
-    public PersonalGoalCard(Bookshelf library) {
-        this.points = 0;
+    private String ID;
+    public PersonalGoalCard(int n) {
+        this.card = new DataCard(n);
+    }
+
+    public void setBookshelf(Bookshelf library){
         this.library = library;
-        this.card = new DataCard(0);
+    }
+    public void setID(String ID){
+        this.ID = ID;
+    }
+    public String getID(){
+        return ID;
     }
     public int calculatePoints() {
         points = 0;
@@ -29,6 +38,10 @@ public class PersonalGoalCard {
         }
 
         return pointVet[points];
+    }
+
+    public void send(){
+        notifyListener("PERSONAL");
     }
 
     public DataCard getCard() {

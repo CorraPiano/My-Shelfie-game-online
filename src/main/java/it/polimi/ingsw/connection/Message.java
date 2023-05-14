@@ -2,9 +2,10 @@ package it.polimi.ingsw.connection;
 
 import it.polimi.ingsw.model.GameMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Message {
+public class Message implements Serializable {
 
     private String head;
     private String[] body;

@@ -28,8 +28,8 @@ public class Listener implements PropertyChangeListener {
             this.broadcasterRMI.updateBookshelf(this.gameID, (Bookshelf) bookshelf);
             return 1;
         });
-        this.functionHandlerRMI.put("COMMON", (commonList, x)->{
-            this.broadcasterRMI.updateCommonGoalCard(this.gameID, (ArrayList<CommonGoalCard>) commonList);
+        this.functionHandlerRMI.put("COMMON", (commonGoalCard, x)->{
+            this.broadcasterRMI.updateCommonGoalCard(this.gameID, (CommonGoalCard) commonGoalCard);
             return 1;
         });
         this.functionHandlerRMI.put("PERSONAL", (personal, x)->{

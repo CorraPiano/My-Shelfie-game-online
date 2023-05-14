@@ -14,6 +14,8 @@ public class BagPersonal{
 
     public BagPersonal() {
         bagPersonal = new ArrayList<PersonalGoalCard>();
+        for(int n=0; n<12;n++)
+            bagPersonal.add(new PersonalGoalCard(n));
     }
     public PersonalGoalCard drawPersonalGoalCard() {
         Collections.shuffle(bagPersonal);

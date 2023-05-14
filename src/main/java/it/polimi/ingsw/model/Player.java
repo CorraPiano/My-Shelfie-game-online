@@ -21,13 +21,15 @@ public class Player {
     public Player(String name){
         this.name = name;
         library = new Bookshelf(name);
-        personalCard = new PersonalGoalCard(library);
+        //personalCard = new PersonalGoalCard(library);
         //creation of the ID code
         ID = UUID.randomUUID().toString();
     }
 
     public void bindListner(Listener listener){
         library.bindListener(listener);
+        personalCard.setListener(listener);
+        personalCard.send();
     }
     public void setToken1(Token token1){
         this.token1 = token1;
@@ -40,10 +42,11 @@ public class Player {
     }
     public void setPersonalGoalCard(PersonalGoalCard personalCard) {
         this.personalCard = personalCard;
+        personalCard.setBookshelf(library);
+        personalCard.setID(ID);
     }
     public void setEndGameToken() {
-        Token endGameToken = new Token(1);
-        this.endGameToken = endGameToken;
+        this.endGameToken = new Token(1);
     }
 
     public String getName(){
@@ -79,5 +82,15 @@ public class Player {
         if(isLastRound && personalCard != null) { this.points = this.points + this.personalCard.calculatePoints(); }
     }
 
-    //TODO: add method changeName()?
+    public Token getToken1() {
+        return token1;
+    }
+
+    public Token getToken2() {
+        return token1;
+    }
+
+    public Token getEndGameToken() {
+        return endGameToken;
+    }
 }
