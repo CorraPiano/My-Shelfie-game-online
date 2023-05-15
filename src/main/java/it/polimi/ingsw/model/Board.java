@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.Listener;
 import it.polimi.ingsw.exception.*;
 
-import java.io.Serializable;
 import java.util.*;
 
 public class Board extends Listenable{

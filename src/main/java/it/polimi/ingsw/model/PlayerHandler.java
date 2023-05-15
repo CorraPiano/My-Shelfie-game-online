@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.exception.GameFullException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 //da sistemare
 public class PlayerHandler{

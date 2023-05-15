@@ -10,7 +10,6 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
 
     private final GameplaysHandler gameplaysHandler;
     private final BroadcasterRMI broadcasterRMI;
-
     public Controller() throws RemoteException{
         gameplaysHandler = new GameplaysHandler();
         broadcasterRMI = new BroadcasterRMI(gameplaysHandler);

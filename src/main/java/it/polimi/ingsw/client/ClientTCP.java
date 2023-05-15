@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class ClientTCP{
-
     private static Socket socket;
     private static Scanner in;
     private static PrintWriter out;

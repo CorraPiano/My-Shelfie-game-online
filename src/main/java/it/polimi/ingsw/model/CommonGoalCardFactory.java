@@ -2,8 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.common_card_classes.*;
 
-import java.util.List;
-
 public class CommonGoalCardFactory{
 
     public CommonGoalCard getCommonGoalCard(int type){

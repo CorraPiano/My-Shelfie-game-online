@@ -6,11 +6,9 @@ import it.polimi.ingsw.client.localModel.localHand;
 import it.polimi.ingsw.client.localModel.localPlayer;
 import it.polimi.ingsw.model.CommonGoalCard;
 import it.polimi.ingsw.model.DataCard;
-import it.polimi.ingsw.model.PersonalGoalCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ViewHandler {
     private CLI cli = new CLI();
@@ -23,7 +21,6 @@ public class ViewHandler {
         //cli.showPersonalCard();
         //cli.showCommonCard();
     }
-
 
     public void showBoad(localBoard board) {
         cli.showBoard(board);
