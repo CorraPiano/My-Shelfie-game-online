@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 public class SameEightCommonGoalCard extends CommonGoalCard {
-    private final int type;
+    //private final int type;
     private List<Token> token;
 
     public SameEightCommonGoalCard(int type) {
-        this.type = type;
+        super(type);
     }
 
     @Override

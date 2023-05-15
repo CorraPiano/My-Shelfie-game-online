@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.localModel.localBookshelf;
 import it.polimi.ingsw.client.localModel.localHand;
 import it.polimi.ingsw.client.localModel.localPlayer;
 import it.polimi.ingsw.model.CommonGoalCard;
+import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.PersonalGoalCard;
 
 import java.util.ArrayList;
@@ -36,10 +37,10 @@ public class ViewHandler {
     public void showPlayers(ArrayList<localPlayer> playerList) {
         cli.showPlayers(playerList);
     }
-    public void showCommonGoalCards(ArrayList<CommonGoalCard> commonGoalCardslist) {
-        cli.showCommonGoalCards(commonGoalCardslist);
+    public void showCommonGoalCards(CommonGoalCard commonGoalCard) {
+        cli.showCommonGoalCards(commonGoalCard);
     }
-    public void showPersonalGoalCard(PersonalGoalCard personalGoalCard) {
-        cli.showPersonalCard(personalGoalCard);
+    public void showPersonalGoalCard(DataCard dataCard) {
+        cli.showPersonalCard(dataCard);
     }
 }

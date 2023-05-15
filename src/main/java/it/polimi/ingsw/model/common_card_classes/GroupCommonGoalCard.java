@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupCommonGoalCard extends CommonGoalCard {
-    private final int type;
+    //private final int type;
     private List<Token> token;
     private boolean[][] mask;
     private final int nRows;
     private final int nColumns;
     public GroupCommonGoalCard(int type) {
+        super(type);
         this.nRows = 6;
         this.nColumns = 5;
-        this.type = type;
         this.mask = new boolean[6][5];
     }
 

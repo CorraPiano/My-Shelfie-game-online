@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.model.CommonGoalCard;
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.Item;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.client.localModel.*;
-import it.polimi.ingsw.model.PersonalGoalCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +18,7 @@ public class CLI {
     public void showBoard(localBoard board) {
         StringBuilder table = new StringBuilder();
 
+        table.append("\nTavolo di gioco: \n");
         for (int i = nRowBoard - 1; i > -2; i--) {
             switch (i) {
                 case 8 -> table.append(" ₈ ");
@@ -114,31 +112,40 @@ public class CLI {
     }
 
     public void showHand(localHand hand) {
-        System.out.print("\n");
-        System.out.println("mano:");
-        for(Item item: hand.hand)
-            System.out.print(item.getType().getValue() + " ");
-        System.out.print("\n");
+        StringBuilder string = new StringBuilder();
+        string.append("\nmano: ");
+        for(Item item: hand.hand) {
+            switch (item.getType().getValue()) {
+                case 0 -> string.append(GREEN_BACKGROUND + "   " + ANSI_RESET + " ");
+                case 1 -> string.append(YELLOW_BACKGROUND + "   " + ANSI_RESET + " ");
+                case 2 -> string.append(BLUE_BACKGROUND + "   " + ANSI_RESET + " ");
+                case 3 -> string.append(PINK_BACKGROUND + "   " + ANSI_RESET + " ");
+                case 4 -> string.append(CYAN_BACKGROUND + "   " + ANSI_RESET + " ");
+                case 5 -> string.append(WHITE_BACKGROUND + "   " + ANSI_RESET + " ");
+            }
+        }
+        string.append("\n");
+        System.out.println(string);
     }
 
-    public void showPersonalCard(PersonalGoalCard personalGoalCard) {
+    public void showPersonalCard(DataCard dataCard) {
         StringBuilder card = new StringBuilder();
         Coordinates coordinates = new Coordinates();
         HashMap<Coordinates, Integer> personalMap = new HashMap<>();
 
-        card.append("La tua PersonalGoalCard \n");
-        for (int i = nRowBookshelf - 1; i > -3; i--) {
+        card.append("La tua PersonalGoalCard: \n");
+        for (int i = nRowBookshelf; i > -2; i--) {
             for (int j = 0; j < nColumnBookshelf; j++) {
 
                 coordinates.setRow(i);
                 coordinates.setColumn(j);
 
-                if (i >= 0) {
+                if (i >= 0 && i != nRowBookshelf) {
                     if (j == 0) {
-                        card.append(ANSI_RESET + "   │");
+                        card.append(ANSI_RESET + "  " + BLACK_BACKGROUND + " │");
                     }
-                    if (personalGoalCard.getCard().getCard().get(coordinates) != null) {
-                        switch (personalGoalCard.getCard().getCard().get(coordinates)) {
+                    if (dataCard.getCard().get(coordinates) != null) {
+                        switch (dataCard.getCard().get(coordinates)) {
                             case 0 -> card.append(GREEN_BACKGROUND + "   ");
                             case 1 -> card.append(YELLOW_BACKGROUND + "   ");
                             case 2 -> card.append(BLUE_BACKGROUND + "   ");
@@ -146,26 +153,34 @@ public class CLI {
                             case 4 -> card.append(CYAN_BACKGROUND + "   ");
                             case 5 -> card.append(WHITE_BACKGROUND + "   ");
                         }
-                        card.append(ANSI_RESET + "│");
+                        if(j == nColumnBookshelf - 1) {
+                            card.append(BLACK_BACKGROUND + "│ ");
+                        } else {
+                            card.append(BLACK_BACKGROUND + "│");
+                        }
                     } else {
-                        card.append(ANSI_RESET + DEFAULT_BACKGROUND + "   ");
-                        card.append(ANSI_RESET + "│");
+                        card.append(BLACK_BACKGROUND + "   " + DEFAULT_BACKGROUND);
+                        if(j == nColumnBookshelf - 1) {
+                            card.append(BLACK_BACKGROUND + "│ ");
+                        } else {
+                            card.append(BLACK_BACKGROUND + "│");
+                        }
                     }
-                } else if (i == -1) {
+                } else if (i == nRowBookshelf) {
                     if (j == 0) {
-                        card.append("   └───┴");
+                        card.append(DEFAULT_BACKGROUND + "  " + BLACK_BACKGROUND + " ┌───┬");
                     } else if (j == 4) {
-                        card.append("───┘");
+                        card.append(BLACK_BACKGROUND + "───┐ ");
                     } else {
-                        card.append("───┴");
+                        card.append(BLACK_BACKGROUND + "───┬" + DEFAULT_BACKGROUND);
                     }
                 } else {
-                    switch (j) {
-                        case 0 -> card.append("     ⁰ ");
-                        case 1 -> card.append("  ¹ ");
-                        case 2 -> card.append("  ² ");
-                        case 3 -> card.append("  ³ ");
-                        case 4 -> card.append("  ⁴ ");
+                    if (j == 0) {
+                        card.append(DEFAULT_BACKGROUND + "  " + BLACK_BACKGROUND + " └───┴");
+                    } else if (j == 4) {
+                        card.append(BLACK_BACKGROUND + "───┘ ");
+                    } else {
+                        card.append(BLACK_BACKGROUND + "───┴" + DEFAULT_BACKGROUND);
                     }
                 }
             }
@@ -189,8 +204,8 @@ public class CLI {
 
     // Questa funzione dovrebbe mostrare a video le due CommonCard corrette
     //Guarda la funzione split
-    public void showCommonGoalCards(ArrayList<CommonGoalCard> commonGoalCardslist) {
-        switch (commonGoalCardslist.get(0).getType()) {
+    public void showCommonGoalCards1(CommonGoalCard commonGoalCard) {
+        switch (commonGoalCard.getType()) {
             case 1 -> System.out.println(commonCard1);
             case 2 -> System.out.println(commonCard2);
             case 3 -> System.out.println(commonCard3);
@@ -204,20 +219,41 @@ public class CLI {
             case 11 -> System.out.println(commonCard11);
             case 12 -> System.out.println(commonCard12);
         }
-        switch (commonGoalCardslist.get(1).getType()) {
-            case 1 -> System.out.println(commonCard1);
-            case 2 -> System.out.println(commonCard2);
-            case 3 -> System.out.println(commonCard3);
-            case 4 -> System.out.println(commonCard4);
-            case 5 -> System.out.println(commonCard5);
-            case 6 -> System.out.println(commonCard6);
-            case 7 -> System.out.println(commonCard7);
-            case 8 -> System.out.println(commonCard8);
-            case 9 -> System.out.println(commonCard9);
-            case 10 -> System.out.println(commonCard10);
-            case 11 -> System.out.println(commonCard11);
-            case 12 -> System.out.println(commonCard12);
+    }
+
+    public void showCommonGoalCards(CommonGoalCard commonGoalCard) {
+        String card = new String();
+        String token = new String();
+        StringBuilder commonCard = new StringBuilder();
+
+        switch (commonGoalCard.getType()) {
+            case 0 -> card = commonCard1;
+            case 1 -> card = commonCard2;
+            case 2 -> card = commonCard3;
+            case 3 -> card = commonCard4;
+            case 4 -> card = commonCard5;
+            case 5 -> card = commonCard6;
+            case 6 -> card = commonCard7;
+            case 7 -> card = commonCard8;
+            case 8 -> card = commonCard9;
+            case 9 -> card = commonCard10;
+            case 10 -> card = commonCard11;
+            case 11 -> card = commonCard12;
         }
+        String[] cardResult  = card.split("\n");
+
+        int index = commonGoalCard.showToken().size();
+        switch (commonGoalCard.showToken().get(index-1).getValue()) {
+            case 4 -> token = token4;
+            case 6 -> token = token6;
+            case 8 -> token = token8;
+        }
+        String[] tokenResult  = token.split("\n");
+
+        for(int i=0; i<cardResult.length || i<tokenResult.length; i++) {
+            commonCard.append(cardResult[i] + tokenResult[i] + "\n");
+        }
+        System.out.println(commonCard);
     }
 
     //Da vedere se aggiungerla come funzione

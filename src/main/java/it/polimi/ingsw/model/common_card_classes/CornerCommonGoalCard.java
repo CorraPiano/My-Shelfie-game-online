@@ -11,10 +11,10 @@ import java.util.List;
 public class CornerCommonGoalCard extends CommonGoalCard {
 
     private List<Token> token;
-    private int type;
+    //private int type;
 
     public CornerCommonGoalCard(int type) {
-        this.type = type;
+        super(type);
     }
 
     @Override

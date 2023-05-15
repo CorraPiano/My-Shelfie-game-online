@@ -119,12 +119,10 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     public void updateCommonGoalCard(CommonGoalCard commonGoalCard) throws RemoteException{
         // si ricevono anche i token , da stampare!
-        System.out.println("... due common goal card con i relativi token ... ");
-        //viewHandler.showCommonGoalCards(commonGoalCardslist);
+        viewHandler.showCommonGoalCards(commonGoalCard);
     }
     public void updatePersonalGoalCard(DataCard dataCard) throws RemoteException{
-        System.out.println("... la tua personal goal card ... ");
-        //viewHandler.showPersonalGoalCard(personalGoalCard);
+        viewHandler.showPersonalGoalCard(dataCard);
     }
 
     public String getID() {

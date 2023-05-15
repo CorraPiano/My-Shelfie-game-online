@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiagonalCommonGoalCard extends CommonGoalCard {
-    private final int type;
+    //private final int type;
     private List<Token> token;
     public DiagonalCommonGoalCard(int type) {
-        this.type = type;
+        super(type);
     }
 
     @Override

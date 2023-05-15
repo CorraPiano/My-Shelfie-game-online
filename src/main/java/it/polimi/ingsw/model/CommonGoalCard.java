@@ -6,7 +6,12 @@ import java.util.List;
 
 public abstract class CommonGoalCard extends Listenable implements Serializable {
     private List<Token> token;
-    private int type;
+    protected int type;
+
+    public CommonGoalCard(int type) {
+        this.type = type;
+    }
+
     public abstract boolean checkFullFil(Bookshelf library);
 
     public void setTokenList(List<Token> token){

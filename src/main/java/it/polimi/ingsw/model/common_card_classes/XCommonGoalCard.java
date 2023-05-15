@@ -7,11 +7,11 @@ import java.util.List;
 
 public class XCommonGoalCard extends CommonGoalCard {
 
-    private final int type;
+    //private final int type;
     private List<Token> token;
 
     public XCommonGoalCard(int type) {
-        this.type = type;
+        super(type);
     }
 
     @Override

@@ -24,6 +24,24 @@ public class Constants {
     public static final String CYAN_BACKGROUND = "\u001B[46m";
     public static final String WHITE_BACKGROUND = "\u001B[47m";
 
+    public static final String BROWN_BACKGROUND = "\u001B[48;5;94m";
+
+    public static void main(String[] args) {
+        System.out.println(BROWN_BACKGROUND + "   ");
+    }
+
+
+    /*
+    public static final String DEFAULT_BACKGROUND = "";
+    public static final String BLACK_BACKGROUND = "\u001B[100m";
+    public static final String GREEN_BACKGROUND = "\u001B[102m";
+    public static final String YELLOW_BACKGROUND = "\u001B[103m";
+    public static final String BLUE_BACKGROUND = "\u001B[104m";
+    public static final String PINK_BACKGROUND = "\u001B[105m";
+    public static final String CYAN_BACKGROUND = "\u001B[106m";
+    public static final String WHITE_BACKGROUND = "\u001B[107m";
+     */
+
     public static final String LOGO1  =
             " ╔╦╗┬ ┬  ╔═╗┬ ┬┌─┐┬  ┌─┐┬┌─┐\n" +
             " ║║║└┬┘  ╚═╗├─┤├┤ │  ├┤ │├┤ \n" +
@@ -171,4 +189,34 @@ public class Constants {
             " │ " + BLACK_BACKGROUND + "            " + ANSI_RESET + "    │ \n" +
             " │ " + BLACK_BACKGROUND + "               " + ANSI_RESET + " │ \n" +
             " └─────────────────┘ \n";
+
+    public static final String token4 =
+            "┌───┐ \n" +
+            "│ 4 │ \n" +
+            "└───┘ \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n";
+
+    public static final String token6 =
+            "┌───┐ \n" +
+            "│ 6 │ \n" +
+            "└───┘ \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n";
+
+    public static final String token8 =
+            "┌───┐ \n" +
+            "│ 8 │ \n" +
+            "└───┘ \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n";
 }
