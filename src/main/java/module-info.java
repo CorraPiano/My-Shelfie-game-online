@@ -1,4 +1,4 @@
-module it.polimi.ingsw.am26 {
+module it.polimi.ingsw {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -9,4 +9,5 @@ module it.polimi.ingsw.am26 {
 
     opens it.polimi.ingsw to javafx.fxml;
     exports it.polimi.ingsw;
+    exports it.polimi.ingsw.controller;
 }
