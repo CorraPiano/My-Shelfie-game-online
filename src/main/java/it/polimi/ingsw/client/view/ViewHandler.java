@@ -1,43 +1,86 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.localModel.localBoard;
-import it.polimi.ingsw.client.localModel.localBookshelf;
-import it.polimi.ingsw.client.localModel.localHand;
-import it.polimi.ingsw.client.localModel.localPlayer;
+import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.model.CommonGoalCard;
 import it.polimi.ingsw.model.DataCard;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 public class ViewHandler {
     private CLI cli = new CLI();
-    public void showGame(localBoard board, HashMap<String, localBookshelf> bookshelfmap, localHand hand, ArrayList<localPlayer> localPlayerList) {
-        cli.showBoard(board);
-        for(localPlayer p: localPlayerList){
-            cli.showBookshelf(bookshelfmap.get(p));
+
+    //da fare la funzione che stampa il LOGO
+
+    public void showGame(LocalBoard localBoard, Map<String, LocalBookshelf> localBookshelfs, ArrayList<LocalCommonCard> commonCards, DataCard dataCard, ArrayList<LocalPlayer> localPlayerList) {
+        StringBuilder game = new StringBuilder();
+
+        String[] board = cli.showBoard(localBoard).toString().split("\n");
+        String[] commonCard1 = cli.showCommonGoalCards(commonCards.get(0)).toString().split("\n");
+        String[] commonCard2 = cli.showCommonGoalCards(commonCards.get(1)).toString().split("\n");
+        String[] personalCard = cli.showPersonalCard(dataCard).toString().split("\n");
+        for(int i=0; i<board.length; i++){
+            game.append(board[i] + commonCard1[i] + commonCard2[i] + personalCard[i] + "\n");
         }
-        //cli.showHand(hand);
-        //cli.showPersonalCard();
-        //cli.showCommonCard();
+
+        String[][] library = new String[localBookshelfs.size()][];
+        for(int i=0; i<localBookshelfs.size(); i++){
+            library[i] = cli.showBookshelf(localBookshelfs.get(localPlayerList.get(i).name)).toString().split("\n");
+        }
+        for(int j=0; j<library[0].length; j++){
+            for(int i=0; i<localBookshelfs.size(); i++){
+                game.append(library[i][j]);
+            }
+            game.append("\n");
+        }
+        System.out.println(game);
     }
 
-    public void showBoad(localBoard board) {
-        cli.showBoard(board);
+    public void showNewTurn(LocalBoard localBoard, Map<String, LocalBookshelf> localBookshelfs, ArrayList<LocalCommonCard> commonCards, DataCard dataCard, ArrayList<LocalPlayer> localPlayerList) {
+        StringBuilder game = new StringBuilder();
+
+        String[] board = cli.showBoard(localBoard).toString().split("\n");
+        String[] commonCard1 = cli.showCommonGoalCards(commonCards.get(0)).toString().split("\n");
+        String[] commonCard2 = cli.showCommonGoalCards(commonCards.get(1)).toString().split("\n");
+        String[] personalCard = cli.showPersonalCard(dataCard).toString().split("\n");
+        for(int i=0; i<board.length; i++){
+            game.append(board[i] + commonCard1[i] + commonCard2[i] + personalCard[i] + "\n");
+        }
+
+        String[][] library = new String[localBookshelfs.size()][];
+        for(int i=0; i<localBookshelfs.size(); i++){
+            library[i] = cli.showBookshelf(localBookshelfs.get(localPlayerList.get(i).name)).toString().split("\n");
+        }
+        for(int j=0; j<library[0].length; j++){
+            for(int i=0; i<localBookshelfs.size(); i++){
+                game.append(library[i][j]);
+            }
+            game.append("\n");
+        }
+
+        System.out.println("\n─────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
+        System.out.println(game);
     }
-    public void showBookshelf(localBookshelf bookshelf) {
-        cli.showBookshelf(bookshelf);
+
+    public void showBoad(LocalBoard board) {
+        System.out.println(cli.showBoard(board));
     }
-    public void showHand(localHand hand) {
-        cli.showHand(hand);
+    public void showBookshelf(LocalBookshelf bookshelf) {
+        System.out.println(cli.showBookshelf(bookshelf));
     }
-    public void showPlayers(ArrayList<localPlayer> playerList) {
-        cli.showPlayers(playerList);
+    public void showHand(LocalHand hand) {
+        System.out.println(cli.showHand(hand));
     }
-    public void showCommonGoalCards(CommonGoalCard commonGoalCard) {
-        cli.showCommonGoalCards(commonGoalCard);
+
+    //Metodi che potrebbero servire
+    public void showPlayers(ArrayList<LocalPlayer> playerList) {
+        System.out.println(cli.showPlayers(playerList));
+    }
+    public void showCommonGoalCards(LocalCommonCard localCommonCard) {
+        System.out.println(cli.showCommonGoalCards(localCommonCard));
     }
     public void showPersonalGoalCard(DataCard dataCard) {
-        cli.showPersonalCard(dataCard);
+        System.out.println(cli.showPersonalCard(dataCard));
     }
+
 }

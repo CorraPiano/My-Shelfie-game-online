@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.localModel.localBoard;
-import it.polimi.ingsw.client.localModel.localBookshelf;
-import it.polimi.ingsw.client.localModel.localHand;
-import it.polimi.ingsw.client.localModel.localPlayer;
+import it.polimi.ingsw.client.localModel.LocalBoard;
+import it.polimi.ingsw.client.localModel.LocalBookshelf;
+import it.polimi.ingsw.client.localModel.LocalHand;
+import it.polimi.ingsw.client.localModel.LocalPlayer;
 import it.polimi.ingsw.connection.Message;
 import it.polimi.ingsw.model.*;
 
@@ -26,10 +26,10 @@ public interface ClientSkeleton extends Remote {
     void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException;
     void notifyPut(String name, int column) throws RemoteException;
 
-    void updateBoard(localBoard board) throws RemoteException;
-    void updateBookshelf(localBookshelf bookshelf) throws RemoteException;
-    void updateHand(localHand hand) throws RemoteException;
-    void updatePlayerList(ArrayList<localPlayer> playerList) throws RemoteException;
+    void updateBoard(LocalBoard board) throws RemoteException;
+    void updateBookshelf(LocalBookshelf bookshelf) throws RemoteException;
+    void updateHand(LocalHand hand) throws RemoteException;
+    void updatePlayerList(ArrayList<LocalPlayer> playerList) throws RemoteException;
     void updateCommonGoalCard(CommonGoalCard commonGoalCard) throws RemoteException;
     void updatePersonalGoalCard(DataCard dataCard) throws RemoteException;
 

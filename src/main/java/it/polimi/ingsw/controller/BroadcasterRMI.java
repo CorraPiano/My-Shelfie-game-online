@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.localModel.localBoard;
-import it.polimi.ingsw.client.localModel.localBookshelf;
-import it.polimi.ingsw.client.localModel.localHand;
-import it.polimi.ingsw.client.localModel.localPlayer;
+import it.polimi.ingsw.client.localModel.LocalBoard;
+import it.polimi.ingsw.client.localModel.LocalBookshelf;
+import it.polimi.ingsw.client.localModel.LocalHand;
+import it.polimi.ingsw.client.localModel.LocalPlayer;
 import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
@@ -137,7 +137,7 @@ public class BroadcasterRMI {
 
     //weight listener
     public void updateBoard(int gameID, Board board){
-        localBoard localBoard = new localBoard(board.getLivingRoom());
+        LocalBoard localBoard = new LocalBoard(board.getLivingRoom());
 
         try {
             for(String s: gameplaysHandler.getPlayersFromGameplay(gameID))
@@ -150,7 +150,7 @@ public class BroadcasterRMI {
     public void updateBookshelf(int gameID,Bookshelf bookshelf) {
         Item[][] matrix = bookshelf.getLibrary();
         String name = bookshelf.getName();
-        localBookshelf localBookshelf = new localBookshelf(name,matrix);
+        LocalBookshelf localBookshelf = new LocalBookshelf(name,matrix);
 
         try {
             for(String s: gameplaysHandler.getPlayersFromGameplay(gameID))
@@ -164,7 +164,7 @@ public class BroadcasterRMI {
         Item[] array = new Item[hand.getSize()];
         for(int i=0;i<hand.getSize();i++)
             array[i]=hand.getHand().get(i);
-        localHand localHand = new localHand(array,hand.getSize());
+        LocalHand localHand = new LocalHand(array,hand.getSize());
 
         try {
             for(String s: gameplaysHandler.getPlayersFromGameplay(gameID))
@@ -175,14 +175,9 @@ public class BroadcasterRMI {
         }
     }
     public void updatePlayerList(int gameID,ArrayList<Player> playerList) {
-        ArrayList<localPlayer> localPlayerList = new ArrayList<localPlayer>();
+        ArrayList<LocalPlayer> localPlayerList = new ArrayList<LocalPlayer>();
         for(Player p: playerList){
-            localPlayer lp = new localPlayer(p.getName());
-            lp.setEndGameToken(p.getEndGameToken());
-            lp.setToken1(p.getToken1());
-            lp.setToken2(p.getToken2());
-            lp.setPoints(p.getPoints());
-            lp.setFirstPlayerSeat(p.getFirstPlayerSeat());
+            LocalPlayer lp = new LocalPlayer(p.getName(), p.getFirstPlayerSeat(), p.getEndGameToken(), p.getToken1(), p.getToken2(), p.getPoints());
             localPlayerList.add(lp);
         }
 

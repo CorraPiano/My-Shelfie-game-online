@@ -10,15 +10,17 @@ import static it.polimi.ingsw.util.Constants.*;
 
 public class CLI {
 
-    // Metodi
-    public void showLogo() {
-        System.out.println(LOGO1);
+    // METHODS
+    public StringBuilder showLogo() {
+        StringBuilder logo = new StringBuilder();
+        logo.append(LOGO1);
+        return logo;
     }
 
-    public void showBoard(localBoard board) {
+    public StringBuilder showBoard(LocalBoard board) {
         StringBuilder table = new StringBuilder();
 
-        table.append("\nTavolo di gioco: \n");
+        table.append("\n");
         for (int i = nRowBoard - 1; i > -2; i--) {
             switch (i) {
                 case 8 -> table.append(" ₈ ");
@@ -59,20 +61,29 @@ public class CLI {
                     }
                 }
             }
-            table.append(ANSI_RESET + "\n");
+            table.append(ANSI_RESET + "  \n");
         }
-        System.out.println(table);
+        table.append("              Board             \n");
+        return table;
     }
 
-    public void showBookshelf(localBookshelf bookshelf) {
+    public StringBuilder showBookshelf(LocalBookshelf bookshelf) {
         StringBuilder library = new StringBuilder();
 
-        library.append("libreria di " +bookshelf.name+ "\n");
+        library.append("\n");
         for (int i = nRowBookshelf - 1; i > -3; i--) {
+            switch (i) {
+                case 5 -> library.append("   ₅");
+                case 4 -> library.append("   ₄");
+                case 3 -> library.append("   ₃");
+                case 2 -> library.append("   ₂");
+                case 1 -> library.append("   ₁");
+                case 0 -> library.append("   ₀");
+            }
             for (int j = 0; j < nColumnBookshelf; j++) {
                 if (i >= 0) {
                     if (j == 0) {
-                        library.append(ANSI_RESET + "   │");
+                        library.append(ANSI_RESET + " │");
                     }
                     if (bookshelf.bookshelf[i][j] == null) {
                         library.append(ANSI_RESET + DEFAULT_BACKGROUND + "   ");
@@ -90,7 +101,7 @@ public class CLI {
                     }
                 } else if (i == -1) {
                     if (j == 0) {
-                        library.append("   └───┴");
+                        library.append("     └───┴");
                     } else if (j == 4) {
                         library.append("───┘");
                     } else {
@@ -98,22 +109,23 @@ public class CLI {
                     }
                 } else {
                     switch (j) {
-                        case 0 -> library.append("     ⁰ ");
+                        case 0 -> library.append("       ⁰ ");
                         case 1 -> library.append("  ¹ ");
                         case 2 -> library.append("  ² ");
                         case 3 -> library.append("  ³ ");
-                        case 4 -> library.append("  ⁴ ");
+                        case 4 -> library.append("  ⁴  ");
                     }
                 }
             }
             library.append(ANSI_RESET + "\n");
         }
-        System.out.println(library);
+        library.append("      " + bookshelf.name + "'s Bookshelf   ");
+        return library;
     }
 
-    public void showHand(localHand hand) {
+    public StringBuilder showHand(LocalHand hand) {
         StringBuilder string = new StringBuilder();
-        string.append("\nmano: ");
+        string.append("\nHand: ");
         for(Item item: hand.hand) {
             switch (item.getType().getValue()) {
                 case 0 -> string.append(GREEN_BACKGROUND + "   " + ANSI_RESET + " ");
@@ -125,15 +137,15 @@ public class CLI {
             }
         }
         string.append("\n");
-        System.out.println(string);
+        return string;
     }
 
-    public void showPersonalCard(DataCard dataCard) {
+    public StringBuilder showPersonalCard(DataCard dataCard) {
         StringBuilder card = new StringBuilder();
         Coordinates coordinates = new Coordinates();
         HashMap<Coordinates, Integer> personalMap = new HashMap<>();
 
-        card.append("La tua PersonalGoalCard: \n");
+        card.append("\n\n\n");
         for (int i = nRowBookshelf; i > -2; i--) {
             for (int j = 0; j < nColumnBookshelf; j++) {
 
@@ -187,46 +199,31 @@ public class CLI {
             card.append(ANSI_RESET + "\n");
 
         }
-        System.out.println(card);
+        card.append("     PersonalGoalCard      \n");
+        return card;
     }
 
-    public void showPlayers(ArrayList<localPlayer> playerList) {
-        System.out.println("\nEcco i giocatori: ");
-        for(localPlayer p:playerList) {
-            System.out.print(p.name + " ");
+    public StringBuilder showPlayers(ArrayList<LocalPlayer> playerList) {
+        StringBuilder players = new StringBuilder();
+        players.append("\nEcco i giocatori: ");
+        for(LocalPlayer p:playerList) {
+            players.append(p.name + " ");
             if(p.firstPlayerSeat)
-                System.out.print("*\n");
+                players.append("*\n");
             else
-                System.out.print("\n");
+                players.append("\n");
         }
-        System.out.print("\n");
+        players.append("\n");
+        return players;
     }
 
-    // Questa funzione dovrebbe mostrare a video le due CommonCard corrette
-    //Guarda la funzione split
-    public void showCommonGoalCards1(CommonGoalCard commonGoalCard) {
-        switch (commonGoalCard.getType()) {
-            case 1 -> System.out.println(commonCard1);
-            case 2 -> System.out.println(commonCard2);
-            case 3 -> System.out.println(commonCard3);
-            case 4 -> System.out.println(commonCard4);
-            case 5 -> System.out.println(commonCard5);
-            case 6 -> System.out.println(commonCard6);
-            case 7 -> System.out.println(commonCard7);
-            case 8 -> System.out.println(commonCard8);
-            case 9 -> System.out.println(commonCard9);
-            case 10 -> System.out.println(commonCard10);
-            case 11 -> System.out.println(commonCard11);
-            case 12 -> System.out.println(commonCard12);
-        }
-    }
-
-    public void showCommonGoalCards(CommonGoalCard commonGoalCard) {
+    public StringBuilder showCommonGoalCards(LocalCommonCard localCommonCard) {
         String card = new String();
         String token = new String();
         StringBuilder commonCard = new StringBuilder();
+        commonCard.append("\n\n\n");
 
-        switch (commonGoalCard.getType()) {
+        switch (localCommonCard.type) {
             case 0 -> card = commonCard1;
             case 1 -> card = commonCard2;
             case 2 -> card = commonCard3;
@@ -242,8 +239,8 @@ public class CLI {
         }
         String[] cardResult  = card.split("\n");
 
-        int index = commonGoalCard.showToken().size();
-        switch (commonGoalCard.showToken().get(index-1).getValue()) {
+        int index = localCommonCard.tokenList.size();
+        switch (localCommonCard.tokenList.get(index-1).getValue()) {
             case 4 -> token = token4;
             case 6 -> token = token6;
             case 8 -> token = token8;
@@ -253,24 +250,8 @@ public class CLI {
         for(int i=0; i<cardResult.length || i<tokenResult.length; i++) {
             commonCard.append(cardResult[i] + tokenResult[i] + "\n");
         }
-        System.out.println(commonCard);
+        commonCard.append("    CommonGoalCard         \n");
+        return commonCard;
     }
 
-    //Da vedere se aggiungerla come funzione
-    public void showCommonCard(int Index) {
-        switch (Index) {
-            case 1 -> System.out.println(commonCard1);
-            case 2 -> System.out.println(commonCard2);
-            case 3 -> System.out.println(commonCard3);
-            case 4 -> System.out.println(commonCard4);
-            case 5 -> System.out.println(commonCard5);
-            case 6 -> System.out.println(commonCard6);
-            case 7 -> System.out.println(commonCard7);
-            case 8 -> System.out.println(commonCard8);
-            case 9 -> System.out.println(commonCard9);
-            case 10 -> System.out.println(commonCard10);
-            case 11 -> System.out.println(commonCard11);
-            case 12 -> System.out.println(commonCard12);
-        }
-    }
 }

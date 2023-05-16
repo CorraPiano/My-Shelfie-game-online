@@ -83,8 +83,8 @@ public class Gameplay extends Listenable {
        playerHandler = new PlayerHandler(playerList);
        playerHandler.current().setFirstPlayerSeat(true);
 
-       broadcasterRMI.startGame(gameID,playerHandler.current().getName());
        broadcasterRMI.updatePlayerList(gameID,playerList);
+       broadcasterRMI.startGame(gameID,playerHandler.current().getName());
        //broadcasterRMI.updateBoard(gameID,board);
        //for(Player p: playerList)
         //    broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
@@ -160,8 +160,8 @@ public class Gameplay extends Listenable {
             p.updatePoints(true);
         }
         playerList=sort(playerList);
-        broadcasterRMI.endGame(gameID,playerList.get(0).getName());
         broadcasterRMI.updatePlayerList(gameID,playerList);
+        broadcasterRMI.endGame(gameID,playerList.get(0).getName());
         //broadcasterRMI.updateBoard(gameID,board);
        // for(Player p: playerList)
          //   broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
@@ -183,6 +183,7 @@ public class Gameplay extends Listenable {
 
     public void selectOrderHand(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
         hand.selectOrder(list);
+        broadcasterRMI.notifyOrder(gameID, "", list);
     }
 
     public ArrayList<Player> getPlayerList(){

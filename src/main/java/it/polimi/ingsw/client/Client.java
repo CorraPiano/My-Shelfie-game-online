@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.localModel.localBoard;
-import it.polimi.ingsw.client.localModel.localBookshelf;
-import it.polimi.ingsw.client.localModel.localHand;
-import it.polimi.ingsw.client.localModel.localPlayer;
+import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.ViewHandler;
 import it.polimi.ingsw.connection.Message;
 import it.polimi.ingsw.controller.ClientSkeleton;
@@ -12,8 +9,6 @@ import it.polimi.ingsw.model.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
@@ -25,6 +20,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     private ArrayList<localPlayer> localPlayerList;
     */
 
+    private ModelView modelView;
     private ViewHandler viewHandler;
     private String ID;
     private boolean state;
@@ -32,6 +28,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public Client() throws RemoteException {
         state = false;
         viewHandler = new ViewHandler();
+        modelView = new ModelView();
         /*
         board = new localBoard(null);
         bookshelfmap = new HashMap<>();
@@ -57,10 +54,12 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     public void startGame(String name) throws RemoteException {
         System.out.println(">> partitia iniziata!");
+        viewHandler.showGame(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList());
         System.out.println(">> e' turno di "+name);
     }
 
     public void newTurn(String name) throws RemoteException {
+        viewHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList());
         System.out.println(">> e' il turno di "+name);
     }
 
@@ -82,6 +81,8 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
+        viewHandler.showBoad(modelView.getLocalBoard());
+        viewHandler.showHand(modelView.getLocalHand());
         System.out.println(">> "+name+": PICK "+item.getType().getValue()+" in coords "+coordinates.toString());
     }
     public void notifyUndo(String name) throws RemoteException{
@@ -91,6 +92,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(">> "+name+": ORDER with "+list.toString());
     }
     public void notifyPut(String name, int column) throws RemoteException{
+        viewHandler.showBookshelf(modelView.getLocalBookshelfs().get(name));
         System.out.println(">> "+name+": PUT in column "+column);
     }
     /*
@@ -101,28 +103,35 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     board è stata cambia
     ================================================================================================
      */
-    public void updateBoard(localBoard board) throws RemoteException {
-        viewHandler.showBoad(board);
+    public void updateBoard(LocalBoard board) throws RemoteException {
+        //viewHandler.showBoad(board);
+        modelView.setLocalBoard(board);
     }
 
-    public void updateBookshelf(localBookshelf bookshelf) throws RemoteException {
-        viewHandler.showBookshelf(bookshelf);
+    public void updateBookshelf(LocalBookshelf bookshelf) throws RemoteException {
+        //viewHandler.showBookshelf(bookshelf);
+        modelView.setLocalBookshelf(bookshelf);
     }
 
-    public void updateHand(localHand hand) throws RemoteException {
-        viewHandler.showHand(hand);
+    public void updateHand(LocalHand hand) throws RemoteException {
+        //viewHandler.showHand(hand);
+        modelView.setLocalHand(hand);
     }
 
-    public void updatePlayerList(ArrayList<localPlayer> playerList) throws RemoteException {
-        viewHandler.showPlayers(playerList);
+    public void updatePlayerList(ArrayList<LocalPlayer> playerList) throws RemoteException {
+        //viewHandler.showPlayers(playerList);
+        modelView.setLocalPlayer(playerList);
     }
 
     public void updateCommonGoalCard(CommonGoalCard commonGoalCard) throws RemoteException{
-        // si ricevono anche i token , da stampare!
-        viewHandler.showCommonGoalCards(commonGoalCard);
+        // TODO: ad updateCommonGoalCard verrà passata una LocalCommonCard al posto di una commonGoalCard
+        //viewHandler.showCommonGoalCards(commonGoalCard);
+        LocalCommonCard localCommonCard = new LocalCommonCard(commonGoalCard.getType(), commonGoalCard.showToken());
+        modelView.setLocalCommonCard(localCommonCard);
     }
     public void updatePersonalGoalCard(DataCard dataCard) throws RemoteException{
-        viewHandler.showPersonalGoalCard(dataCard);
+        //viewHandler.showPersonalGoalCard(dataCard);
+        modelView.setPersonalCard(dataCard);
     }
 
     public String getID() {

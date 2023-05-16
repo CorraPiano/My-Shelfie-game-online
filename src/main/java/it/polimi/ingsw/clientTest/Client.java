@@ -1,9 +1,9 @@
 package it.polimi.ingsw.clientTest;
 
-import it.polimi.ingsw.client.localModel.localBoard;
-import it.polimi.ingsw.client.localModel.localBookshelf;
-import it.polimi.ingsw.client.localModel.localHand;
-import it.polimi.ingsw.client.localModel.localPlayer;
+import it.polimi.ingsw.client.localModel.LocalBoard;
+import it.polimi.ingsw.client.localModel.LocalBookshelf;
+import it.polimi.ingsw.client.localModel.LocalHand;
+import it.polimi.ingsw.client.localModel.LocalPlayer;
 import it.polimi.ingsw.connection.Message;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
@@ -70,7 +70,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(">> "+name+": PUT in column "+column);
     }
 
-    public void updateBoard(localBoard board) throws RemoteException {
+    public void updateBoard(LocalBoard board) throws RemoteException {
         int i,j;
         System.out.print("\n");
         for (i = -1; i < 9; i++) {
@@ -94,7 +94,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.print("\n");
     }
 
-    public void updateBookshelf(localBookshelf bookshelf) throws RemoteException {
+    public void updateBookshelf(LocalBookshelf bookshelf) throws RemoteException {
         int i,j;
         System.out.print("\n");
         System.out.println("libreria di "+bookshelf.name+":");
@@ -120,7 +120,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.print("\n");
     }
 
-    public void updateHand(localHand hand) throws RemoteException {
+    public void updateHand(LocalHand hand) throws RemoteException {
         System.out.print("\n");
         System.out.println("mano:");
         for(Item item: hand.hand)
@@ -128,10 +128,10 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.print("\n");
     }
 
-    public void updatePlayerList(ArrayList<localPlayer> playerList) throws RemoteException {
+    public void updatePlayerList(ArrayList<LocalPlayer> playerList) throws RemoteException {
         System.out.print("\n");
         System.out.println("ecco i giocatori: ");
-        for(localPlayer p:playerList) {
+        for(LocalPlayer p:playerList) {
             System.out.print(p.name + " ");
             if(p.firstPlayerSeat)
                 System.out.print("*\n");
