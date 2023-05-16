@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2efd1ceb-97f5-4da6-8001-156fe00ca615" name="Changes" comment="JavaFX project imported and other fixes">
+    <list default="true" id="2efd1ceb-97f5-4da6-8001-156fe00ca615" name="Changes" comment="Added some other CLI methods">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,6 +28,9 @@
     </option>
   </component>
   <component name="ProjectId" id="2PqZVRBDmmSnbPIQaZHNH91yd9j" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -55,7 +57,6 @@
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie_javafx\src\main\java\it\polimi\ingsw\am26" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\flavi\IdeaProjects\MyShelfie" />
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie\src\main\resources\fxml" />
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie\src\main\resources" />
     </key>
@@ -63,13 +64,13 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.GUI">
     <configuration name="GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.GUI" />
-      <module name="MyShelfie_javafx" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.client.view.GUI" />
+      <module name="MyShelfie" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.client.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -82,7 +83,7 @@
       <module name="MyShelfie_javafx" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.client.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -94,7 +95,7 @@
       <module name="MyShelfie_javafx" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.client.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -105,23 +106,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="MyShelfie" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="MyShelfie" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <list>
+      <item itemvalue="Application.HelloApplication" />
+      <item itemvalue="Application.GUI" />
+      <item itemvalue="JUnit.AppTest" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.HelloApplication" />
         <item itemvalue="Application.GUI" />
+        <item itemvalue="Application.HelloApplication" />
         <item itemvalue="JUnit.AppTest" />
       </list>
     </recent_temporary>
@@ -136,8 +129,6 @@
       <updated>1684186598523</updated>
       <workItem from="1684186599948" duration="584000" />
       <workItem from="1684187286526" duration="1376000" />
-      <workItem from="1684189092706" duration="564000" />
-      <workItem from="1684225502518" duration="989000" />
     </task>
     <task id="LOCAL-00001" summary="JavaFX project imported">
       <created>1684188333795</created>
@@ -153,28 +144,7 @@
       <option name="project" value="LOCAL" />
       <updated>1684188383812</updated>
     </task>
-    <task id="LOCAL-00003" summary="JavaFX project imported and other fixes">
-      <created>1684189191000</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1684189191000</updated>
-    </task>
-    <task id="LOCAL-00004" summary="JavaFX project imported and other fixes">
-      <created>1684189411491</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1684189411491</updated>
-    </task>
-    <task id="LOCAL-00005" summary="JavaFX project imported and other fixes">
-      <created>1684189541076</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1684189541076</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,5 +165,13 @@
     <MESSAGE value="JavaFX project imported" />
     <MESSAGE value="JavaFX project imported and other fixes" />
     <option name="LAST_COMMIT_MESSAGE" value="JavaFX project imported and other fixes" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="it.polimi.ingsw.model.Coordinates" memberName="column" />
+        <PinnedItemInfo parentTag="it.polimi.ingsw.model.Coordinates" memberName="row" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

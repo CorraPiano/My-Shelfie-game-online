@@ -9,5 +9,6 @@ module it.polimi.ingsw {
 
     opens it.polimi.ingsw to javafx.fxml;
     exports it.polimi.ingsw;
-    exports it.polimi.ingsw.controller;
+    exports it.polimi.ingsw.client.view;
+    opens it.polimi.ingsw.client.view to javafx.fxml;
 }
