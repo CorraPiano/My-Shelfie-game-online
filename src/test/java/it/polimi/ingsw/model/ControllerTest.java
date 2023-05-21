@@ -7,15 +7,17 @@ import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ControllerTest {
 
     @Test
     void joinGameTest() throws Exception {
-        Controller controller = new Controller();
+        Controller controller = new Controller(null);
         controller.addFirstPlayer("marco", GameMode.EASY, 4);
         controller.addPlayer("paolo", 0,null);
-        ArrayList<String> list = controller.getGameList();
+        List<String> list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),1+1);
 
@@ -29,14 +31,14 @@ public class ControllerTest {
         }catch(Exception e){
             e.printStackTrace();
         }
-        list = controller.getGameList();
+        list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),1+1);
 
         controller.addFirstPlayer("marco", GameMode.EASY, 4);
         controller.addPlayer("paolo", 1);
         controller.addPlayer("a", 0);
-        list = controller.getGameList();
+        list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),2+1);
 
@@ -49,7 +51,7 @@ public class ControllerTest {
             b = true;
         }
         Assertions.assertTrue(b);
-        list = controller.getGameList();
+        list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),1+1);
 
@@ -72,7 +74,7 @@ public class ControllerTest {
             b = true;
         }
         Assertions.assertTrue(b);
-        list = controller.getGameList();
+        list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),4+1);
     }
@@ -86,7 +88,7 @@ public class ControllerTest {
         String ID4 = null;
         Controller controller=null;
         try {
-            controller = new Controller();
+            controller = new Controller(null);
             ID1=controller.addFirstPlayer("marco", GameMode.EASY, 4);
             ID2=controller.addPlayer("luca", 0);
             ID3=controller.addPlayer("paolo", 0);
@@ -97,7 +99,7 @@ public class ControllerTest {
             b=false;
         }
         Assertions.assertTrue(b);
-        ArrayList<String> list = controller.getGameList();
+        List<String> list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         Assertions.assertEquals(list.size(),0+1);
 
         b=true;
@@ -275,7 +277,7 @@ public class ControllerTest {
         String ID4 = null;
         String ID5 = null;
         String ID6 = null;
-        Controller controller=new Controller();
+        Controller controller=new Controller(null);
 
         ID1=controller.addFirstPlayer("marco", GameMode.EASY, 2);
         ID2=controller.addPlayer("luca", 0);

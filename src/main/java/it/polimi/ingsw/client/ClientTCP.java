@@ -18,7 +18,7 @@ public class ClientTCP{
     private static String name;
     private static ArrayList<Coordinates> localHand= new ArrayList<>();
     public static void main(String[] args) throws Exception {
-        socket = new Socket("localhost", 8080);
+        socket = new Socket("172.20.10.3", 8081);
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream());
         stdin = new Scanner(System.in);

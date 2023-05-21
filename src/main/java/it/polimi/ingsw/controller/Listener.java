@@ -33,11 +33,11 @@ public class Listener implements PropertyChangeListener {
             return 1;
         });
         this.functionHandlerRMI.put("PERSONAL", (personal, x)->{
-            this.broadcasterRMI.sendPersonalGoalCard(this.gameID, (PersonalGoalCard) personal);
+            this.broadcasterRMI.sendPersonalGoalCard((PersonalGoalCard) personal);
             return 1;
         });
-        this.functionHandlerRMI.put("PLAYERLIST", (playerList, x)->{
-            this.broadcasterRMI.updatePlayerList(this.gameID, (ArrayList<Player>) playerList);
+        this.functionHandlerRMI.put("PLAYERLIST", (gameplay, x)->{
+            this.broadcasterRMI.updateGame(this.gameID, (Gameplay) gameplay);
             return 1;
         });
         this.functionHandlerRMI.put("HAND", (hand, x)->{

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 public class GameplayTest {
-    private BroadcasterRMI broadcasterRMI = new BroadcasterRMI(null);
+    private BroadcasterRMI broadcasterRMI = new BroadcasterRMI(null,null);
     @Test
     void calculatePointsTest1(){
         Gameplay gameplay=null;

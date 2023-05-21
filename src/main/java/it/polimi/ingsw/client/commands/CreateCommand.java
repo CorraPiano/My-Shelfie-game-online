@@ -35,10 +35,8 @@ public class CreateCommand implements Command {
         }
 
         try {
-            String id = controller.addFirstPlayer(name,gamemode, num,client);
-            System.out.println("CLIENT: partita creata e giocatore connesso");
-            client.setId(id);
-            client.setState(true);
+            String ID = controller.addFirstPlayer(name,gamemode, num,client);
+            client.getID(ID);
         } catch (Exception e) {
             System.out.println(e);
         }

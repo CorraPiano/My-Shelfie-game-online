@@ -1,6 +1,6 @@
 package it.polimi.ingsw.connection;
 
-import it.polimi.ingsw.controller.MessageHandler;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,36 +8,42 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Connection implements Runnable{
-    private final Socket socket;
     private final MessageHandler messageHandler;
     private final int num;
-    private Scanner in;
-    private PrintWriter out;
+    private final Scanner in;
+    private final PrintWriter out;
+
+    Gson gson;
 
 
     public Connection(Socket socket, int num, MessageHandler messageHandler) throws IOException {
-        this.socket = socket;
         this.num = num;
         this.messageHandler = messageHandler;
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream());
+        gson = new Gson();
     }
 
     public void run() {
+
         System.out.println("nuova connessione");
         // gestire la chiusura della connesione
         while(true){
             String line = in.nextLine();
-            //System.out.println(num + " : " + line);
-            if(messageHandler.receive(new Message(line),num)){
-                out.println("ok");
-                out.flush();
+            System.out.println("TCP:: " + num + " : " + line);
+            try{
+                TCPMessage message = gson.fromJson(line, TCPMessage.class);
+                messageHandler.receive(message,this);
+            } catch(Exception e){
+                TCPMessage TCPmessage = new TCPMessage(MessageHeader.EXCEPTION,e.toString());
+                send(TCPmessage);
             }
-            else{
-                out.println("ko");
-                out.flush();
-            }
-
         }
+    }
+
+    public void send(TCPMessage TCPmessage){
+        String str = gson.toJson(TCPmessage);
+        out.println(str);
+        out.flush();
     }
 }

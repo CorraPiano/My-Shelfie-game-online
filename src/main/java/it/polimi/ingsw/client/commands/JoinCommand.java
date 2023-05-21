@@ -23,10 +23,8 @@ public class JoinCommand implements Command {
         }
 
         try {
-            String id = controller.addPlayer(name,num,client);
-            System.out.println("CLIENT: giocatore connesso");
-            client.setId(id);
-            client.setState(true);
+            String ID=controller.addPlayer(name,num,client);
+            client.getID(ID);
         } catch (Exception e) {
             System.out.println(e);
         }

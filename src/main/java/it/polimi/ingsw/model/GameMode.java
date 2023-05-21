@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public enum GameMode {
+import java.io.Serializable;
+
+public enum GameMode implements Serializable {
     EASY,
     EXPERT,
 }

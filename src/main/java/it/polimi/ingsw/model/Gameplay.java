@@ -82,9 +82,9 @@ public class Gameplay extends Listenable {
        board.drawBoardItems();
        playerHandler = new PlayerHandler(playerList);
        playerHandler.current().setFirstPlayerSeat(true);
-
-       broadcasterRMI.updatePlayerList(gameID,playerList);
+       broadcasterRMI.updateGame(gameID,this);
        broadcasterRMI.startGame(gameID,playerHandler.current().getName());
+
        //broadcasterRMI.updateBoard(gameID,board);
        //for(Player p: playerList)
         //    broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
@@ -160,7 +160,7 @@ public class Gameplay extends Listenable {
             p.updatePoints(true);
         }
         playerList=sort(playerList);
-        broadcasterRMI.updatePlayerList(gameID,playerList);
+        broadcasterRMI.updateGame(gameID,this);
         broadcasterRMI.endGame(gameID,playerList.get(0).getName());
         //broadcasterRMI.updateBoard(gameID,board);
        // for(Player p: playerList)

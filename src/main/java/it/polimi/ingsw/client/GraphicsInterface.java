@@ -22,18 +22,19 @@ public class GraphicsInterface {
             if (stdin.hasNext()) {
                 line = stdin.next();
                 switch (line.toUpperCase()) {
-                    case "CREATE":
-                        new CreateCommand().execute(controller,stdin,client);
-                        break;
-                    case "JOIN":
-                        new JoinCommand().execute(controller,stdin,client);
-                        break;
-                    case "LIST":
-                        new ListCommand().execute(controller,stdin,client);
-                        break;
-                    default:
+                    case "CREATE" -> {
+                        new CreateCommand().execute(controller, stdin, client);
+                    }
+                    case "JOIN" -> {
+                        new JoinCommand().execute(controller, stdin, client);
+                    }
+                    case "LIST" -> {
+                        new ListCommand().execute(controller, stdin, client);
+                    }
+                    default -> {
                         System.out.println("CLIENT:: comando sconosciuto");
                         line = stdin.nextLine();
+                    }
                 }
             }
         }
@@ -46,27 +47,16 @@ public class GraphicsInterface {
             if (stdin.hasNext()) {
                 line = stdin.next();
                 switch (line.toUpperCase()) {
-                    case "PICK":
-                        new PickCommand().execute(controller,stdin,client);
-                        break;
-                    case "UNDO":
-                        new UndoCommand().execute(controller,stdin,client);
-                        break;
-                    case "ORDER":
-                        new OrderCommand().execute(controller,stdin,client);
-                        break;
-                    case "PUT":
-                        new PutCommand().execute(controller,stdin,client);
-                        break;
-                    case "SEND":
-                        new SendCommand().execute(controller,stdin,client);
-                        break;
-                    case "EXIT":
-                        new ExitCommand().execute(controller,stdin,client);
-                        break;
-                    default:
+                    case "PICK" -> new PickCommand().execute(controller, stdin, client);
+                    case "UNDO" -> new UndoCommand().execute(controller, stdin, client);
+                    case "ORDER" -> new OrderCommand().execute(controller, stdin, client);
+                    case "PUT" -> new PutCommand().execute(controller, stdin, client);
+                    case "SEND" -> new SendCommand().execute(controller, stdin, client);
+                    case "EXIT" -> new ExitCommand().execute(controller, stdin, client);
+                    default -> {
                         System.out.println("CLIENT:: comando sconosciuto");
                         line = stdin.nextLine();
+                    }
                 }
             }
         }

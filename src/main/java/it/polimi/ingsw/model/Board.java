@@ -2,7 +2,10 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.Listener;
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.util.Loader;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.*;
 
 public class Board extends Listenable{
@@ -12,17 +15,7 @@ public class Board extends Listenable{
     private final int numPlayers;
     private final BagItem bagItem;
     //da sostituire con un update da JSON
-    private final int[][] mask = {
-            {5, 5, 5, 5, 4, 3, 5, 5, 5},
-            {5, 5, 5, 4, 2, 2, 5, 5, 5},
-            {5, 5, 3, 2, 2, 2, 3, 5, 5},
-            {3, 2, 2, 2, 2, 2, 2, 4, 5},
-            {4, 2, 2, 2, 2, 2, 2, 2, 4},
-            {5, 4, 2, 2, 2, 2, 2, 2, 3},
-            {5, 5, 3, 2, 2, 2, 3, 5, 5},
-            {5, 5, 5, 2, 2, 4, 5, 5, 5},
-            {5, 5, 5, 3, 4, 5, 5, 5, 5}
-    };
+    private final int[][] mask;
     private final Hand hand;
 
     public Board(int numPlayers, Hand hand, Listener listener) {
@@ -31,6 +24,7 @@ public class Board extends Listenable{
         this.numPlayers = numPlayers;
         this.hand = hand;
         this.setListener(listener);
+        this.mask = Loader.LoadBoard();
     }
 
     /* Draws random items to fill the board */

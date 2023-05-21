@@ -1,4 +1,6 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.connection.message.GamesList;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
@@ -8,7 +10,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface ControllerSkeleton extends Remote {
-    ArrayList<String> getGameList() throws RemoteException;
+    ArrayList<LocalGame> getGameList() throws RemoteException;
     String addFirstPlayer(String name, GameMode gameMode, int numPlayer, ClientSkeleton cc) throws RemoteException, GameModeException, GameFullException, NumPlayersException, NameAlreadyExistentException;
     String addPlayer(String name, int gameID, ClientSkeleton cc) throws RemoteException, GameFullException, NameAlreadyExistentException, InvalidGameIdException;
     void pickItem(Coordinates coordinates, String id)  throws RemoteException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, NotInGameException, WrongTurnException, OutOfBoardPickException, InvalidIdException;

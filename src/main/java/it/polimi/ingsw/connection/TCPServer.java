@@ -1,7 +1,5 @@
 package it.polimi.ingsw.connection;
 
-import it.polimi.ingsw.controller.MessageHandler;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

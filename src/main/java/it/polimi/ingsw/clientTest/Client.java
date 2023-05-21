@@ -1,12 +1,11 @@
 package it.polimi.ingsw.clientTest;
 
-import it.polimi.ingsw.client.localModel.LocalBoard;
-import it.polimi.ingsw.client.localModel.LocalBookshelf;
-import it.polimi.ingsw.client.localModel.LocalHand;
-import it.polimi.ingsw.client.localModel.LocalPlayer;
-import it.polimi.ingsw.connection.Message;
+import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.connection.TCPMessage;
+import it.polimi.ingsw.connection.message.GamesList;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.util.Constants;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -18,6 +17,19 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     public Client() throws RemoteException{
         state = false;
+    }
+
+    public void getException(String e){
+        System.out.println(e);
+    }
+    public void getGamesList(ArrayList<LocalGame> list) throws RemoteException {
+        list.stream().forEach(System.out::println);
+        System.out.println("");
+    }
+    public void getID(String id){
+        setId(id);
+        setState(true);
+        System.out.println("CLIENT: giocatore connesso");
     }
     public void newChatMessage(String name, String message) throws RemoteException {
         System.out.println(">> "+name+": "+message);
@@ -49,11 +61,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(">> il vincitore e' "+name);
     }
 
-    public void leaveGame(String name) throws RemoteException{
-        //da implementare
-    }
-
-    public void notify(Message message) throws RemoteException {
+    public void notify(TCPMessage TCPMessage) throws RemoteException {
         //attualmente non serve, per eventuali modifiche future
     }
 
@@ -72,6 +80,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     public void updateBoard(LocalBoard board) throws RemoteException {
         int i,j;
+        //while(true){if(0==1)break;}
         System.out.print("\n");
         for (i = -1; i < 9; i++) {
             for (j = -1; j < 9; j++) {
@@ -128,10 +137,11 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.print("\n");
     }
 
-    public void updatePlayerList(ArrayList<LocalPlayer> playerList) throws RemoteException {
+    public void updateGame(LocalGame localGame) throws RemoteException {
         System.out.print("\n");
         System.out.println("ecco i giocatori: ");
-        for(LocalPlayer p:playerList) {
+        if(localGame!=null)
+        for(LocalPlayer p:localGame.playerList) {
             System.out.print(p.name + " ");
             if(p.firstPlayerSeat)
                 System.out.print("*\n");
@@ -141,12 +151,26 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.print("\n");
     }
 
-    public void updateCommonGoalCard(CommonGoalCard commonGoalCard) throws RemoteException{
+    public void updateCommonGoalCard(LocalCommonCard commonGoalCard) throws RemoteException{
         // si ricevono anche i token , da stampare!
         System.out.println("... due common goal card con i relativi token ... ");
     }
     public void updatePersonalGoalCard(DataCard dataCard) throws RemoteException{
         System.out.println("... la tua personal goal card ... ");
+    }
+
+    public void updatePersonalGoalCard(LocalPersonalCard personalCard){
+        System.out.println("la tua personal goal card:");
+        for(int i = 0; i< Constants.nRowBookshelf; i++) {
+            for (int j = 0; j < Constants.nColumnBookshelf; j++) {
+                if(personalCard.map[i][j]!=null)
+                    System.out.print(personalCard.map[i][j].getType().getValue()+" ");
+                else
+                    System.out.print("  ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     public String getID() {

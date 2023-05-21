@@ -18,7 +18,7 @@ public abstract class CommonGoalCard extends Listenable implements Serializable 
         this.token = token;
         notifyListener("COMMON");
     }
-    public List<Token> showToken(){
+    public ArrayList<Token> showToken(){
         return new ArrayList<>(token);
     }
     public Token popToken(){

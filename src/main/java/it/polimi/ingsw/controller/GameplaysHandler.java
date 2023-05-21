@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.exception.InvalidGameIdException;
 import it.polimi.ingsw.exception.InvalidIdException;
 import it.polimi.ingsw.model.GameState;
@@ -50,13 +51,14 @@ public class GameplaysHandler {
         throw new InvalidIdException();
     }
 
-    public ArrayList<String> getGameplayList(){
-        ArrayList<String> list = new ArrayList<>();
+    public ArrayList<LocalGame> getGameplayList(){
+        ArrayList<LocalGame> list = new ArrayList<>();
         for(Gameplay g: gameplayList){
-            if(g.getGameState().equals(GameState.WAIT))
-                list.add("ID: " + g.getGameID() + ", N° GIOCATORI: " + g.getNumPlayers() + ", GIOCATORI ATTUALI: "+g.getCurrentPlayers() +", MODE: " + g.getGameMode());
+            if(g.getGameState().equals(GameState.WAIT)){
+                LocalGame lg = new LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getCurrentPlayers(),g.getGameState(),null);
+                list.add(lg);
+             }
         }
-        list.add("");
         return list;
     }
 

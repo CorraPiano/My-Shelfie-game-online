@@ -1,21 +1,25 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.connection.SenderTCP;
+import it.polimi.ingsw.connection.message.GamesList;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Controller extends UnicastRemoteObject implements ControllerSkeleton {
 
     private final GameplaysHandler gameplaysHandler;
     private final BroadcasterRMI broadcasterRMI;
-    public Controller() throws RemoteException{
+    public Controller(SenderTCP senderTCP) throws RemoteException{
         gameplaysHandler = new GameplaysHandler();
-        broadcasterRMI = new BroadcasterRMI(gameplaysHandler);
+        broadcasterRMI = new BroadcasterRMI(gameplaysHandler, senderTCP);
     }
 
-    public synchronized ArrayList<String> getGameList() throws RemoteException{
+    public synchronized ArrayList<LocalGame> getGameList() throws RemoteException{
         return gameplaysHandler.getGameplayList();
     }
 
@@ -68,11 +72,14 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         String id = player.getID();
         gameplaysHandler.bind(id,gameID);
         System.out.println("SERVER:: giocatore connesso con nome " + name);
-        if(gameplay.isReady())
-            gameplay.startGame();
         return id;
     }
 
+    public void tryStartGame(int gameID) throws InvalidGameIdException {
+        Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
+        if(gameplay.isReady())
+            gameplay.startGame();
+    }
     private void validateCommand(Gameplay gameplay, String id) throws NotInGameException, WrongTurnException, RemoteException {
         if(!gameplay.getGameState().equals(GameState.GAME))
             throw new NotInGameException();
@@ -119,7 +126,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
     public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
-        broadcasterRMI.notifyLeave(gameplay.getGameID(),gameplay.getPlayerNameByID(id));
+        broadcasterRMI.playerLeave(gameplay.getGameID(),gameplay.getPlayerNameByID(id));
         gameplay.endGame();
         // da implementare
     }

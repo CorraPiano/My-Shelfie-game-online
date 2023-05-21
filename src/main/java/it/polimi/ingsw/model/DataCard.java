@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.connection.MessageHeader;
+import it.polimi.ingsw.connection.message.Sendable;
+import it.polimi.ingsw.util.Constants;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Optional;
@@ -13,6 +17,10 @@ import java.util.Set;
 */
 public class DataCard implements Serializable {
     private final HashMap<Coordinates, Integer> m;
+
+    public DataCard(HashMap<Coordinates, Integer> m){
+        this.m=m;
+    }
     public DataCard(int n) {
 
         this.m = new HashMap<>();
@@ -143,4 +151,34 @@ public class DataCard implements Serializable {
     public HashMap<Coordinates, Integer> getCard() {
         return m;
     }
+
+    public Item[][] getCardMatrix(){
+        Item[][] cardMatrix = new Item[Constants.nRowBookshelf][Constants.nColumnBookshelf];
+
+        for(int i=0;i<Constants.nRowBookshelf;i++) {
+            for (int j = 0; j < Constants.nColumnBookshelf; j++) {
+                Coordinates coords = new Coordinates(i,j);
+                if(m.containsKey(coords))
+                    cardMatrix[i][j]=convert(m.get(coords));
+            }
+        }
+        return cardMatrix;
+    }
+
+    private Item convert(int n){
+        if(n==0)
+            return new Item(ItemType.GREEN);
+        if(n==1)
+            return new Item(ItemType.YELLOW);
+        if(n==2)
+            return new Item(ItemType.BLUE);
+        if(n==3)
+            return new Item(ItemType.PINK);
+        if(n==4)
+            return new Item(ItemType.CYAN);
+        if(n==5)
+            return new Item(ItemType.WHITE);
+        return null;
+    }
+
 }

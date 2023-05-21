@@ -1,5 +1,8 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.connection.SenderTCP;
+import it.polimi.ingsw.connection.MessageHandler;
+import it.polimi.ingsw.connection.SocketMap;
 import it.polimi.ingsw.connection.TCPServer;
 
 import java.io.IOException;
@@ -10,9 +13,14 @@ import java.rmi.registry.*;
 
 public class Main {
     public static void main(String[] args) throws IOException, AlreadyBoundException, RemoteException{
-        Controller controller = new Controller();
+        SocketMap socketMap = new SocketMap();
+        SenderTCP senderTCP = new SenderTCP(socketMap);
+        Controller controller = new Controller(senderTCP);
+        MessageHandler messageHandler = new MessageHandler(controller,socketMap,senderTCP);
+
+        startTCP(controller,messageHandler);
         startRMI(controller);
-        startTCP(controller);
+
 
     }
     private static void startRMI(Controller controller) throws RemoteException {
@@ -26,9 +34,9 @@ public class Main {
             e.printStackTrace();
         }
     }
-    private static void startTCP(Controller controller){
+    private static void startTCP(Controller controller, MessageHandler messageHandler){
         try{
-            MessageHandler messageHandler = new MessageHandler(controller);
+            // interfacce di scambio
             ServerSocket serverSocket =new ServerSocket(8081);
             TCPServer TCPserver = new TCPServer(serverSocket, messageHandler);
             new Thread(TCPserver).start();

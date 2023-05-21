@@ -2,7 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.ViewHandler;
-import it.polimi.ingsw.connection.Message;
+import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
 
@@ -44,6 +44,12 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(">> "+name+": "+message);
     }
 
+    public void getID(String ID){
+        System.out.println("CLIENT: partita creata e giocatore connesso");
+        setId(ID);
+        setState(true);
+    }
+
     public void playerJoin(String name) throws RemoteException {
         System.out.println(">> "+name+" si è unito alla partita");
     }
@@ -76,7 +82,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         //da implementare
     }
 
-    public void notify(Message message) throws RemoteException {
+    public void notify(TCPMessage TCPMessage) throws RemoteException {
         //attualmente non serve, per eventuali modifiche future
     }
 
@@ -118,12 +124,18 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         modelView.setLocalHand(hand);
     }
 
+    public void updateGame(LocalGame localGame) throws RemoteException {
+        //viewHandler.showPlayers(playerList);
+        modelView.setLocalPlayer(localGame.playerList);
+    }
+
+    //non usata, da rimuovere
     public void updatePlayerList(ArrayList<LocalPlayer> playerList) throws RemoteException {
         //viewHandler.showPlayers(playerList);
         modelView.setLocalPlayer(playerList);
     }
 
-    public void updateCommonGoalCard(CommonGoalCard commonGoalCard) throws RemoteException{
+    public void updateCommonGoalCard(LocalCommonCard commonGoalCard) throws RemoteException{
         // TODO: ad updateCommonGoalCard verrà passata una LocalCommonCard al posto di una commonGoalCard
         //viewHandler.showCommonGoalCards(commonGoalCard);
         LocalCommonCard localCommonCard = new LocalCommonCard(commonGoalCard.getType(), commonGoalCard.showToken());

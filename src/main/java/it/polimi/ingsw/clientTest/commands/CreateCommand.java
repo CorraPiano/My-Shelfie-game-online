@@ -1,7 +1,8 @@
 package it.polimi.ingsw.clientTest.commands;
 
 import it.polimi.ingsw.clientTest.Client;
-import it.polimi.ingsw.controller.ControllerSkeleton;
+import it.polimi.ingsw.clientTest.ConnectionType;
+import it.polimi.ingsw.clientTest.Sender;
 import it.polimi.ingsw.model.GameMode;
 
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 
 public class CreateCommand implements Command{
     @Override
-    public void execute(ControllerSkeleton controller, Scanner stdin, Client client) {
+    public void execute(Sender sender, Scanner stdin, Client client) {
         String name = stdin.next();
         String gameModeString = stdin.next();
         int num = stdin.nextInt();
@@ -34,13 +35,6 @@ public class CreateCommand implements Command{
             return;
         }
 
-        try {
-            String id = controller.addFirstPlayer(name,gamemode, num,client);
-            System.out.println("CLIENT: partita creata e giocatore connesso");
-            client.setId(id);
-            client.setState(true);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        sender.addFirstPlayer(name, gamemode, num);
     }
 }

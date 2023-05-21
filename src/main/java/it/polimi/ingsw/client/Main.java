@@ -23,8 +23,9 @@ public class Main {
     private static ControllerSkeleton getServerRMI() throws RemoteException, NotBoundException {
         Registry registry;
         ControllerSkeleton controller;
-        registry = LocateRegistry.getRegistry();
+        registry = LocateRegistry.getRegistry("localhost",1099);
         controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
         return controller;
     }
 }
+
