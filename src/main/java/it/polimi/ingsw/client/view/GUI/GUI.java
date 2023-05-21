@@ -1,14 +1,21 @@
 package it.polimi.ingsw.client.view.GUI;
 
 import it.polimi.ingsw.client.view.GUI.controllers.Controller;
+import it.polimi.ingsw.client.view.GUI.controllers.FindGameController;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.awt.event.WindowEvent;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class GUI extends Application {
@@ -50,8 +57,16 @@ public class GUI extends Application {
         currentSceneName = SceneName.LOGIN;
         controller = sceneHandler.getController(currentSceneName);
         Scene scene = sceneHandler.getScene(currentSceneName);
+        this.primaryStage.setOnCloseRequest(windowEvent -> {
+            windowEvent.consume();
+            int exitStatus = ConfirmationBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
+            if(exitStatus == 1) {
+                System.exit(0);
+            }
+        });
+
         //stage.setFullScreen(true);
-        stage.setTitle("Login");
+        stage.setTitle("My Shelfie");
         stage.setScene(scene);
         stage.show();
         // Funzione che simula un listener
@@ -59,12 +74,21 @@ public class GUI extends Application {
     }
     private void testMain(){
         // Change scene test
-        PauseTransition delay = new PauseTransition(Duration.seconds(10));
+        PauseTransition delay = new PauseTransition(Duration.seconds(2)), delay2 = new PauseTransition(Duration.seconds(2));
         delay.setOnFinished(event -> {
             switchStage(Command.LOGIN);
+            delay2.play();
         });
         delay.play();
-        System.out.println("Ciao");
+        delay2.setOnFinished(event -> {
+            refreshGameList(Arrays.asList(
+                    "ID: 3 NUmber of player: 3",
+                    "ID: 2 NUmber of player: 3",
+                    "ID: 1 NUmber of player: 3"
+            ));
+        });
+
+
     }
 
     public SceneName getCurrentScene() {
@@ -74,8 +98,6 @@ public class GUI extends Application {
     public static void main(String[] args) {
         launch();
     }
-
-
 
     public void switchStage(Command command){
         Platform.runLater(() -> stageLambda.get(currentSceneName).accept(command));
@@ -96,7 +118,10 @@ public class GUI extends Application {
         |  _|  | || |\  | |_| | | |_| |/ ___ \| |  | | |___
         |_|   |___|_| \_|____/   \____/_/   \_\_|  |_|_____|
      *******************************************************/
-
+    public void refreshGameList(List<String> games){
+        FindGameController controllerTmp = (FindGameController) controller;
+        controllerTmp.update(games);
+    }
     /* *****************************************************
       ____    _    __  __ _____
      / ___|  / \  |  \/  | ____|

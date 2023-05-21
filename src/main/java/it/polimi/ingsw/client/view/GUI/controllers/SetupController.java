@@ -8,4 +8,5 @@ public class SetupController implements Controller{
     public void setGui(GUI gui) {
         this.gui = gui;
     }
+
 }

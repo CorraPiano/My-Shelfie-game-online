@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.client.view.GUI.controllers.FindGameController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-image: url(images/misc/sfondo_parquet.jpg); -fx-background-size:cover" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.FindGameController">
+   <children>
+      <Button layoutX="200.0" layoutY="172.0" mnemonicParsing="false" onAction="#onCreateGame" text="Create">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="201.0" layoutY="66.0" prefHeight="25.0" prefWidth="172.0" text="Create a new game">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="playerName" layoutX="200.0" layoutY="98.0" prefHeight="25.0" prefWidth="162.0" promptText="Your game name" />
+      <TextField fx:id="numberOfPlayer" layoutX="200.0" layoutY="134.0" prefHeight="25.0" prefWidth="162.0" promptText="Number of player" />
+      <Label layoutX="424.0" layoutY="66.0" prefHeight="27.0" prefWidth="206.0" text="Join an existing game">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="gameId" layoutX="424.0" layoutY="134.0" prefHeight="25.0" prefWidth="162.0" promptText="Game ID" />
+      <Button layoutX="424.0" layoutY="172.0" mnemonicParsing="false" onAction="#onJoinGame" prefHeight="28.0" prefWidth="55.0" text="Join">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <TextField fx:id="playerNameJoin" layoutX="424.0" layoutY="98.0" prefHeight="25.0" prefWidth="162.0" promptText="Your game name" />
+      <ListView fx:id="gameList" layoutX="224.0" layoutY="326.0" prefHeight="81.0" prefWidth="299.0" />
+      <Button fx:id="searchGame" layoutX="348.0" layoutY="286.0" mnemonicParsing="false" onAction="#onSearchGameButton" text="Search" />
+      <Label layoutX="291.0" layoutY="261.0" text="Search for an existing game">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

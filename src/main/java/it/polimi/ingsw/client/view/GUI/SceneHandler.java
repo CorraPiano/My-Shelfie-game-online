@@ -22,29 +22,40 @@ public class SceneHandler {
     private void setupMap(GUI gui){
         try {
             String path = "/fxml/";
-            // Login
-            FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "login.fxml"));
+            SceneName name;
+            // Setup
+            FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "setup.fxml"));
             Scene scene = scene = new Scene(fxmlLoader.load());
-            sceneToFxml.put(SceneName.LOGIN, scene);
+            name = SceneName.SETUP;
+            sceneToFxml.put(name, scene);
             Controller controller = fxmlLoader.getController();
             controller.setGui(gui);
-            sceneToController.put(SceneName.LOGIN, controller);
+            sceneToController.put(name, controller);
+            // Login
+            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "login.fxml"));
+            scene = scene = new Scene(fxmlLoader.load());
+            name = SceneName.LOGIN;
+            sceneToFxml.put(name, scene);
+            controller = fxmlLoader.getController();
+            controller.setGui(gui);
+            sceneToController.put(name, controller);
             // Find game
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "find-game.fxml"));
             scene = new Scene(fxmlLoader.load());
-            sceneToFxml.put(SceneName.FINDGAME, scene);
+            name = SceneName.FINDGAME;
+            sceneToFxml.put(name, scene);
             controller = fxmlLoader.getController();
             controller.setGui(gui);
-            sceneToController.put(SceneName.FINDGAME, controller);
+            sceneToController.put(name, controller);
             // Game
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "game.fxml"));
             scene = new Scene(fxmlLoader.load());
-            sceneToFxml.put(SceneName.GAME, scene);
+            name = SceneName.GAME;
+            sceneToFxml.put(name, scene);
             controller = fxmlLoader.getController();
             controller.setGui(gui);
-            sceneToController.put(SceneName.GAME, controller);
+            sceneToController.put(name, controller);
         } catch (IOException e) {
-            System.out.println("Dio cane");
             throw new RuntimeException(e);
         }
     }
