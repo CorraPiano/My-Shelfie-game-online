@@ -24,10 +24,17 @@ public class Constants {
     public static final String CYAN_BACKGROUND = "\u001B[46m";
     public static final String WHITE_BACKGROUND = "\u001B[47m";
 
-    public static final String BROWN_BACKGROUND = "\u001B[48;5;94m";
+    public static final String BROWN_FOREGROUND = "\u001B[38;5;94m";
 
     public static void main(String[] args) {
-        System.out.println(BROWN_BACKGROUND + "   ");
+        System.out.println(ANSI_GREEN + "❮INFORMATION❯");
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯");
+        System.out.println(ANSI_BLUE + "❮INFORMATION❯");
+        System.out.println(ANSI_PINK + "❮INFORMATION❯");
+        System.out.println(ANSI_CYAN + "❮INFORMATION❯");
+        System.out.println(ANSI_WHITE + "❮INFORMATION❯");
+        System.out.println(BROWN_FOREGROUND + LOGO4 + LOGO5 + LOGO6);
+
     }
 
 
@@ -68,6 +75,36 @@ public class Constants {
             "██║ ╚═╝ ██║   ██║     ███████║██║  ██║███████╗███████╗██║     ██║███████╗\n" +
             "╚═╝     ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝\n" +
             "                                                                         ";
+    public static final String LOGO4 =
+            " _______           ______ _           _    ___ _       \n" +
+            "| __ __ |         / _____) |         | |  / __|_)      \n" +
+            "| || || |_   _   ( (____ | |__  _____| |_| |__ _ _____ \n" +
+            "| ||_|| | | | |   \\____ \\|  _ \\| ___ | (_   __) | ___ |\n" +
+            "| |   | | |_| |   _____) ) | | | ____| | | |  | | ____|\n" +
+            "|_|   |_|\\__  |  (______/|_| |_|_____)\\_)|_|  |_|_____)\n" +
+            "        (____/                                         \n";
+
+    public static final String LOGO5 =
+            "╔═╗╔═╗         ╔═══╗╔╗      ╔╗  ╔═╗      \n" +
+            "║║╚╝║║         ║╔═╗║║║      ║║  ║╔╝      \n" +
+            "║╔╗╔╗║╔╗ ╔╗    ║╚══╗║╚═╗╔══╗║║ ╔╝╚╗╔╗╔══╗\n" +
+            "║║║║║║║║ ║║    ╚══╗║║╔╗║║╔╗║║║ ╚╗╔╝╠╣║╔╗║\n" +
+            "║║║║║║║╚═╝║    ║╚═╝║║║║║║║═╣║╚╗ ║║ ║║║║═╣\n" +
+            "╚╝╚╝╚╝╚═╗╔╝    ╚═══╝╚╝╚╝╚══╝╚═╝ ╚╝ ╚╝╚══╝\n" +
+            "      ╔═╝║                               \n" +
+            "      ╚══╝                               \n";
+
+    public static final String LOGO6 =
+            "                                      ▄▄                  ▄▄     ▄▄▄▄ ▄▄          \n" +
+            "▀████▄     ▄███▀              ▄█▀▀▀█▄███                ▀███   ▄█▀ ▀▀ ██          \n" +
+            "  ████    ████               ▄██    ▀███                  ██   ██▀                \n" +
+            "  █ ██   ▄█ ██ ▀██▀   ▀██▀   ▀███▄    ███████▄   ▄▄█▀██   ██  █████ ▀███   ▄▄█▀██ \n" +
+            "  █  ██  █▀ ██   ██   ▄█       ▀█████▄██    ██  ▄█▀   ██  ██   ██     ██  ▄█▀   ██\n" +
+            "  █  ██▄█▀  ██    ██ ▄█      ▄     ▀████    ██  ██▀▀▀▀▀▀  ██   ██     ██  ██▀▀▀▀▀▀\n" +
+            "  █  ▀██▀   ██     ███       ██     ████    ██  ██▄    ▄  ██   ██     ██  ██▄    ▄\n" +
+            "▄███▄ ▀▀  ▄████▄   ▄█        █▀█████▀████  ████▄ ▀█████▀▄████▄████▄ ▄████▄ ▀█████▀\n" +
+            "                 ▄█                                                               \n" +
+            "               ██▀                                                                \n";
 
 
     public static final String commonCard1 =
@@ -190,6 +227,15 @@ public class Constants {
             " │ " + BLACK_BACKGROUND + "               " + ANSI_RESET + " │ \n" +
             " └─────────────────┘ \n";
 
+    public static final String token2 =
+            "┌───┐ \n" +
+            "│ 2 │ \n" +
+            "└───┘ \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n" +
+            "      \n";
     public static final String token4 =
             "┌───┐ \n" +
             "│ 4 │ \n" +

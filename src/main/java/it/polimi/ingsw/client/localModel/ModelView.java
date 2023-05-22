@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.localModel;
 
 import it.polimi.ingsw.model.DataCard;
+import it.polimi.ingsw.model.GameMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class ModelView {
 
 
     //ATTRIBUTES
+    private GameMode gameMode;
     private LocalBoard localBoard;
     private Map<String, LocalBookshelf> localBookshelfMap;
     private LocalHand localHand;
@@ -35,6 +37,9 @@ public class ModelView {
     }
 
     //SETTERS
+    public void setGameMode(GameMode gameMode){
+        this.gameMode = gameMode;
+    }
     public void setLocalBoard(LocalBoard localBoard) {
         this.localBoard = localBoard;
     }
@@ -51,7 +56,6 @@ public class ModelView {
         this.localCommonCardList.add(this.localPlayerList.size(), localCommonCard);
     }
     public void setPersonalCard(DataCard dataCard) {
-        this.dataCard = new DataCard(0); //E' molto brutto ma non so che typo di dataCard è
         this.dataCard = dataCard;
     }
 
@@ -74,6 +78,7 @@ public class ModelView {
     public DataCard getDataCard() {
         return dataCard;
     }
-
-
+    public GameMode getGameMode() {
+        return gameMode;
+    }
 }

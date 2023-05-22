@@ -53,8 +53,10 @@ public class GraphicsInterface {
                     case "PUT" -> new PutCommand().execute(controller, stdin, client);
                     case "SEND" -> new SendCommand().execute(controller, stdin, client);
                     case "EXIT" -> new ExitCommand().execute(controller, stdin, client);
+                    case "HELP" -> new HelpCommand().execute(controller, stdin, client);
+                    case "SHOWCOMMONCARD" -> new CommonCardCommand().execute(controller, stdin, client);
                     default -> {
-                        System.out.println("CLIENT:: comando sconosciuto");
+                        System.out.println("CLIENT:: comando sconosciutoooooo");
                         line = stdin.nextLine();
                     }
                 }

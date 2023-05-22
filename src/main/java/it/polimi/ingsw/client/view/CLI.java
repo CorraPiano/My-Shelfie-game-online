@@ -125,7 +125,7 @@ public class CLI {
 
     public StringBuilder showHand(LocalHand hand) {
         StringBuilder string = new StringBuilder();
-        string.append("\nHand: ");
+        string.append("Hand: ");
         for(Item item: hand.hand) {
             switch (item.getType().getValue()) {
                 case 0 -> string.append(GREEN_BACKGROUND + "   " + ANSI_RESET + " ");
@@ -145,8 +145,16 @@ public class CLI {
         Coordinates coordinates = new Coordinates();
         HashMap<Coordinates, Integer> personalMap = new HashMap<>();
 
-        card.append("\n\n\n");
-        for (int i = nRowBookshelf; i > -2; i--) {
+        card.append("\n\n");
+        for (int i = nRowBookshelf; i > -3; i--) {
+            switch (i) {
+                case 5 -> card.append("  ₅");
+                case 4 -> card.append("  ₄");
+                case 3 -> card.append("  ₃");
+                case 2 -> card.append("  ₂");
+                case 1 -> card.append("  ₁");
+                case 0 -> card.append("  ₀");
+            }
             for (int j = 0; j < nColumnBookshelf; j++) {
 
                 coordinates.setRow(i);
@@ -154,7 +162,7 @@ public class CLI {
 
                 if (i >= 0 && i != nRowBookshelf) {
                     if (j == 0) {
-                        card.append(ANSI_RESET + "  " + BLACK_BACKGROUND + " │");
+                        card.append(ANSI_RESET + " │");
                     }
                     if (dataCard.getCard().get(coordinates) != null) {
                         switch (dataCard.getCard().get(coordinates)) {
@@ -166,40 +174,48 @@ public class CLI {
                             case 5 -> card.append(WHITE_BACKGROUND + "   ");
                         }
                         if(j == nColumnBookshelf - 1) {
-                            card.append(BLACK_BACKGROUND + "│ ");
+                            card.append(ANSI_RESET + "│ ");
                         } else {
-                            card.append(BLACK_BACKGROUND + "│");
+                            card.append(ANSI_RESET + "│");
                         }
                     } else {
-                        card.append(BLACK_BACKGROUND + "   " + DEFAULT_BACKGROUND);
+                        card.append(ANSI_RESET + "   " + DEFAULT_BACKGROUND);
                         if(j == nColumnBookshelf - 1) {
-                            card.append(BLACK_BACKGROUND + "│ ");
+                            card.append(ANSI_RESET + "│ ");
                         } else {
-                            card.append(BLACK_BACKGROUND + "│");
+                            card.append(ANSI_RESET + "│");
                         }
                     }
                 } else if (i == nRowBookshelf) {
                     if (j == 0) {
-                        card.append(DEFAULT_BACKGROUND + "  " + BLACK_BACKGROUND + " ┌───┬");
+                        card.append(DEFAULT_BACKGROUND + "  " + ANSI_RESET + "  ┌───┬");
                     } else if (j == 4) {
-                        card.append(BLACK_BACKGROUND + "───┐ ");
+                        card.append(ANSI_RESET + "───┐ ");
                     } else {
-                        card.append(BLACK_BACKGROUND + "───┬" + DEFAULT_BACKGROUND);
+                        card.append(ANSI_RESET + "───┬" + DEFAULT_BACKGROUND);
+                    }
+                } else if (i == -1){
+                    if (j == 0) {
+                        card.append(DEFAULT_BACKGROUND + "  " + ANSI_RESET + "  └───┴");
+                    } else if (j == 4) {
+                        card.append(ANSI_RESET + "───┘ ");
+                    } else {
+                        card.append(ANSI_RESET + "───┴" + DEFAULT_BACKGROUND);
                     }
                 } else {
-                    if (j == 0) {
-                        card.append(DEFAULT_BACKGROUND + "  " + BLACK_BACKGROUND + " └───┴");
-                    } else if (j == 4) {
-                        card.append(BLACK_BACKGROUND + "───┘ ");
-                    } else {
-                        card.append(BLACK_BACKGROUND + "───┴" + DEFAULT_BACKGROUND);
+                    switch (j) {
+                        case 0 -> card.append("      ⁰ ");
+                        case 1 -> card.append("  ¹ ");
+                        case 2 -> card.append("  ² ");
+                        case 3 -> card.append("  ³ ");
+                        case 4 -> card.append("  ⁴  ");
                     }
                 }
             }
             card.append(ANSI_RESET + "\n");
 
         }
-        card.append("     PersonalGoalCard      \n");
+        card.append("      PersonalGoalCard     \n");
         return card;
     }
 
@@ -221,7 +237,7 @@ public class CLI {
         String card = new String();
         String token = new String();
         StringBuilder commonCard = new StringBuilder();
-        commonCard.append("\n\n\n");
+        commonCard.append("\n\n                           \n");
 
         switch (localCommonCard.type) {
             case 0 -> card = commonCard1;
@@ -240,7 +256,8 @@ public class CLI {
         String[] cardResult  = card.split("\n");
 
         int index = localCommonCard.tokenList.size();
-        switch (localCommonCard.tokenList.get(index-1).getValue()) {
+        switch (localCommonCard.tokenList.get(0).getValue()) {
+            case 2 -> token = token2;
             case 4 -> token = token4;
             case 6 -> token = token6;
             case 8 -> token = token8;
@@ -252,6 +269,26 @@ public class CLI {
         }
         commonCard.append("    CommonGoalCard         \n");
         return commonCard;
+    }
+
+    public String showOnlyCommon(LocalCommonCard localCommonCard) {
+        String card = new String();
+
+        switch (localCommonCard.type) {
+            case 0 -> card = commonCard1;
+            case 1 -> card = commonCard2;
+            case 2 -> card = commonCard3;
+            case 3 -> card = commonCard4;
+            case 4 -> card = commonCard5;
+            case 5 -> card = commonCard6;
+            case 6 -> card = commonCard7;
+            case 7 -> card = commonCard8;
+            case 8 -> card = commonCard9;
+            case 9 -> card = commonCard10;
+            case 10 -> card = commonCard11;
+            case 11 -> card = commonCard12;
+        }
+        return card;
     }
 
 }
