@@ -24,7 +24,7 @@ public class JoinCommand implements Command {
 
         try {
             String ID=controller.addPlayer(name,num,client);
-            client.getID(ID);
+            client.receiveID(ID);
         } catch (Exception e) {
             System.out.println(e);
         }

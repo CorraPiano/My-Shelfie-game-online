@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.controller.BroadcasterRMI;
-import it.polimi.ingsw.controller.Listener;
+import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.client.localModel.LocalPlayer;
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.connection.message.*;
 
 import java.util.ArrayList;
 
@@ -19,37 +20,50 @@ public class Gameplay extends Listenable {
     private PlayerHandler playerHandler;
     private final Hand hand;
     private ArrayList<Player> playerList;
-    private final BroadcasterRMI broadcasterRMI;
-    private final Listener listener;
 
-    public Gameplay(GameMode gameMode, int numPlayers, int gameID,BroadcasterRMI broadcasterRMI) throws NumPlayersException, GameModeException {
+    private EventKeeper eventKeeper;
+
+    //da eliminare
+    //private final BroadcasterRMI broadcasterRMI;
+    //private final OldListener listener;
+
+    public Gameplay(GameMode gameMode, int numPlayers, int gameID) throws NumPlayersException, GameModeException {
         if(!gameMode.equals(GameMode.EASY) && !gameMode.equals(GameMode.EXPERT))
             throw new GameModeException();
         if(numPlayers<=1 || numPlayers>4)
             throw new NumPlayersException();
+        eventKeeper = new EventKeeper();
         this.gameID = gameID;
         this.gameMode = gameMode;
         this.numPlayers = numPlayers;
         this.playerList = new ArrayList<Player>();
-        this.broadcasterRMI = broadcasterRMI;
-        this.listener= new Listener(gameID,broadcasterRMI);
-        hand = new Hand(listener);
-        board = new Board(numPlayers,hand,listener);
+        //this.broadcasterRMI = broadcasterRMI;
+        //this.listener= new OldListener(gameID,broadcasterRMI);
+        hand = new Hand();
+        hand.setEventKeeper(eventKeeper);
+        board = new Board(numPlayers,hand);
+        board.setEventKeeper(eventKeeper);
+
         bagPersonal = new BagPersonal();
         if (gameMode.equals(GameMode.EXPERT))
             bagCommon = new BagCommon();
         else
             bagCommon = null;
         gameState = GameState.WAIT;
+        eventKeeper.notifyAll(new CreateMessage(gameID));
     }
 
     public Player addPlayer(String name) throws GameFullException, NameAlreadyExistentException {
         if(!checkName(name))
             throw new NameAlreadyExistentException();
         Player player = new Player(name);
+        eventKeeper.addPersonalList(player.getID());
+        player.setEventKeeper(eventKeeper);
+        player.getLibrary().setEventKeeper(eventKeeper);
         playerList.add(player);
         //attenzione: al primo giocatore lancia una eccezione !!!
-        broadcasterRMI.playerJoin(gameID,name);
+        //broadcasterRMI.playerJoin(gameID,name);
+        eventKeeper.notifyAll(new JoinMessage(name));
         return player;
     }
 
@@ -69,25 +83,36 @@ public class Gameplay extends Listenable {
         if (gameMode.equals(GameMode.EXPERT)){
             // capire se mettere le token presso la common o presso gameplay
             commonGoalCard1 = bagCommon.drawCommonGoalCard();
-            commonGoalCard1.setListener(listener);
+            //commonGoalCard1.setListener(listener);
+            commonGoalCard1.setEventKeeper(eventKeeper);
             commonGoalCard1.setTokenList(createTokenList());
             commonGoalCard2 = bagCommon.drawCommonGoalCard();
-            commonGoalCard2.setListener(listener);
+            commonGoalCard2.setEventKeeper(eventKeeper);
             commonGoalCard2.setTokenList(createTokenList());
         }
         for(Player p: playerList) {
-            p.setPersonalGoalCard(bagPersonal.drawPersonalGoalCard());
-            p.bindListner(listener);
+            PersonalGoalCard personalCard = bagPersonal.drawPersonalGoalCard();
+            personalCard.setEventKeeper(eventKeeper);
+            p.setPersonalGoalCard(personalCard);
+            //p.bindListner(listener);
         }
-       board.drawBoardItems();
-       playerHandler = new PlayerHandler(playerList);
-       playerHandler.current().setFirstPlayerSeat(true);
-       broadcasterRMI.updateGame(gameID,this);
-       broadcasterRMI.startGame(gameID,playerHandler.current().getName());
+        board.drawBoardItems();
+        playerHandler = new PlayerHandler(playerList);
+        playerHandler.current().setFirstPlayerSeat(true);
+        //broadcasterRMI.updateGame(gameID,this);
+        //broadcasterRMI.startGame(gameID,playerHandler.current().getName());
+        eventKeeper.notifyAll(getLocal());
+        for(Player p:playerList)
+            p.getLibrary().sendBookshelf();
+        eventKeeper.notifyAll(new StartGameMessage(playerHandler.current().getName()));
+        //far iniziare a caso il primo giocatore
+    }
 
-       //broadcasterRMI.updateBoard(gameID,board);
-       //for(Player p: playerList)
-        //    broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
+    public LocalGame getLocal(){
+        ArrayList<LocalPlayer> list = new ArrayList<>();
+        for(Player p: playerList)
+            list.add(p.getLocal());
+        return new LocalGame(gameMode,gameID,numPlayers,playerList.size(),gameState,list);
     }
 
     private ArrayList<Token> createTokenList(){
@@ -104,16 +129,14 @@ public class Gameplay extends Listenable {
     public void pickItem(Coordinates coordinates) throws NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
             Item item = board.getLivingRoomItem(coordinates);
             board.getItem(coordinates);
-            broadcasterRMI.notifyPick(gameID,playerHandler.current().getName() ,coordinates, item);
-            //broadcasterRMI.updateBoard(gameID,board);
-            //broadcasterRMI.updateHand(gameID,hand);
+            eventKeeper.notifyAll(new PickMessage(coordinates,playerHandler.current().getName(),item));
+            //broadcasterRMI.notifyPick(gameID,playerHandler.current().getName() ,coordinates, item);
     }
 
     public void releaseHand() {
         board.releaseHand();
-        broadcasterRMI.notifyUndo(gameID,playerHandler.current().getName());
-        //broadcasterRMI.updateBoard(gameID,board);
-        //broadcasterRMI.updateHand(gameID,hand);
+        //broadcasterRMI.notifyUndo(gameID,playerHandler.current().getName());
+        eventKeeper.notifyAll(new UndoMessage(playerHandler.current().getName()));
     }
 
     public void putItemList(int column) throws EmptyHandException, InvalidColumnPutException, NotEnoughSpacePutException {
@@ -124,19 +147,21 @@ public class Gameplay extends Listenable {
         library.putItemList(hand.getHand(),column);
         board.endTurn();
 
-        broadcasterRMI.notifyPut(gameID,playerHandler.current().getName(),column);
-        //broadcasterRMI.updateBookshelf(gameID,playerHandler.current().getName(),playerHandler.current().getLibrary());
+        //broadcasterRMI.notifyPut(gameID,playerHandler.current().getName(),column);
+        eventKeeper.notifyAll(new PutMessage(column,playerHandler.current().getName()));
 
         if(gameMode.equals(GameMode.EXPERT))
             checkFullfillCommonGoalCard(currentPlayer );
         if(library.isFull()) {
             currentPlayer.setEndGameToken();
             playerHandler.notifyLastRound();
-            broadcasterRMI.lastRound(gameID, playerHandler.current().getName());
+            //broadcasterRMI.lastRound(gameID, playerHandler.current().getName());
+            eventKeeper.notifyAll(new LastRoundMessage(playerHandler.current().getName()));
         }
         if(playerHandler.next()) {
             currentPlayer.updatePoints(false);
-            broadcasterRMI.newTurn(gameID, playerHandler.current().getName());
+            //broadcasterRMI.newTurn(gameID, playerHandler.current().getName());
+            eventKeeper.notifyAll(new NewTurnMessage(playerHandler.current().getName()));
         }
         else
             endGame();
@@ -160,11 +185,10 @@ public class Gameplay extends Listenable {
             p.updatePoints(true);
         }
         playerList=sort(playerList);
-        broadcasterRMI.updateGame(gameID,this);
-        broadcasterRMI.endGame(gameID,playerList.get(0).getName());
-        //broadcasterRMI.updateBoard(gameID,board);
-       // for(Player p: playerList)
-         //   broadcasterRMI.updateBookshelf(gameID,p.getName(),p.getLibrary());
+        //broadcasterRMI.updateGame(gameID,this);
+        //broadcasterRMI.endGame(gameID,playerList.get(0).getName());
+        eventKeeper.notifyAll(getLocal());
+        eventKeeper.notifyAll(new EndGameMessage(playerHandler.current().getName()));
     }
 
     private ArrayList<Player> sort(ArrayList<Player>playerList){
@@ -183,7 +207,8 @@ public class Gameplay extends Listenable {
 
     public void selectOrderHand(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
         hand.selectOrder(list);
-        broadcasterRMI.notifyOrder(gameID, "", list);
+        //broadcasterRMI.notifyOrder(gameID, "", list);
+        eventKeeper.notifyAll(new OrderMessage(list,playerHandler.current().getName()));
     }
 
     public ArrayList<Player> getPlayerList(){
@@ -220,6 +245,10 @@ public class Gameplay extends Listenable {
 
     public int getCurrentPlayers() {
         return playerList.size();
+    }
+
+    public EventKeeper getEventKeeper(){
+        return eventKeeper;
     }
 }
 

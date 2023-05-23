@@ -36,7 +36,7 @@ public class CreateCommand implements Command {
 
         try {
             String ID = controller.addFirstPlayer(name,gamemode, num,client);
-            client.getID(ID);
+            client.receiveID(ID);
         } catch (Exception e) {
             System.out.println(e);
         }

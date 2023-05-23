@@ -16,11 +16,11 @@ public class GameplaysHandler {
     //mappa ogni giocatore al gameID
     private final HashMap<String, Integer> mapID;
     //mappa ogni gameID ai giocatori
-    private final HashMap<Integer, ArrayList<String>> mapGame;
+   // private final HashMap<Integer, ArrayList<String>> mapGame;
 
     public GameplaysHandler(){
         mapID = new HashMap<>();
-        mapGame = new HashMap<>();
+        //mapGame = new HashMap<>();
         gameplayList = new ArrayList<Gameplay>();
     }
 
@@ -30,12 +30,12 @@ public class GameplaysHandler {
 
     public void addGameplay(Gameplay gameplay, int gameID){
         gameplayList.add(gameID,gameplay);
-        mapGame.put(gameID,new ArrayList<>());
+        //mapGame.put(gameID,new ArrayList<>());
     }
 
     public void bind(String id, int gameID){
         mapID.put(id,gameID);
-        mapGame.get(gameID).add(id);
+        //mapGame.get(gameID).add(id);
     }
 
     public Gameplay getGameplay(int gameID) throws InvalidGameIdException {
@@ -62,7 +62,7 @@ public class GameplaysHandler {
         return list;
     }
 
-    public ArrayList<String> getPlayersFromGameplay(int gameID){
-        return mapGame.get(gameID);
-    }
+    //public ArrayList<String> getPlayersFromGameplay(int gameID){
+        //return mapGame.get(gameID);
+    //}
 }

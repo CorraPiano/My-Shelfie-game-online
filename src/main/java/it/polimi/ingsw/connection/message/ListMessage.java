@@ -1,30 +1,26 @@
 package it.polimi.ingsw.connection.message;
 
+import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.model.GameMode;
 
-public class ListMessage implements Sendable{
+import java.util.ArrayList;
 
-    public final GameMode gameMode;
-    public final int numPlayer;
-    public ListMessage(int numPlayer, GameMode gameMode){
-        this.gameMode=gameMode;
-        this.numPlayer=numPlayer;
-    }
-    public ListMessage(int numPlayer){
-        this.gameMode=null;
-        this.numPlayer=numPlayer;
-    }
-    public ListMessage(GameMode gameMode){
-        this.gameMode=gameMode;
-        this.numPlayer=0;
-    }
+public class ListMessage implements Sendable{
+    // -> cmd: list
+    // <- notify: games list
+
+    public final ArrayList<LocalGame> gamesList;
 
     public ListMessage(){
-        this.gameMode=null;
-        this.numPlayer=0;
+        this.gamesList = new ArrayList<>();
     }
 
+    public ListMessage(ArrayList<LocalGame> gamesList){
+        this.gamesList = gamesList;
+    }
+
+    @Override
     public MessageHeader getHeader(){
         return MessageHeader.LIST;
     }

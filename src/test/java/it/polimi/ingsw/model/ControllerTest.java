@@ -1,33 +1,39 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.connection.Connection;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exception.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ControllerTest {
+    Connection conn = new Connection(null,0,null);
+
+    public ControllerTest() throws IOException {
+    }
 
     @Test
     void joinGameTest() throws Exception {
-        Controller controller = new Controller(null);
-        controller.addFirstPlayer("marco", GameMode.EASY, 4);
-        controller.addPlayer("paolo", 0,null);
+        Controller controller = new Controller();
+        controller.addFirstPlayer("marco", GameMode.EASY, 4,conn);
+        controller.addPlayer("paolo", 0,conn);
         List<String> list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),1+1);
 
         try{
-            controller.addPlayer("marco", 0);
+            controller.addPlayer("marco", 0,conn);
         }catch(Exception e){
             e.printStackTrace();
         }
         try{
-            controller.addPlayer("marco", 1);
+            controller.addPlayer("marco", 1,conn);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -35,17 +41,17 @@ public class ControllerTest {
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),1+1);
 
-        controller.addFirstPlayer("marco", GameMode.EASY, 4);
-        controller.addPlayer("paolo", 1);
-        controller.addPlayer("a", 0);
+        controller.addFirstPlayer("marco", GameMode.EASY, 4,conn);
+        controller.addPlayer("paolo", 1,conn);
+        controller.addPlayer("a", 0,conn);
         list = controller.getGameList().stream().map(x->x.toString()).collect(Collectors.toList());
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),2+1);
 
         boolean b = false;
-        controller.addPlayer("b", 0);
+        controller.addPlayer("b", 0,conn);
         try{
-            controller.addPlayer("c", 0);
+            controller.addPlayer("c", 0,conn);
         }catch(Exception e){
             e.printStackTrace();
             b = true;
@@ -55,12 +61,12 @@ public class ControllerTest {
         list.forEach(System.out:: println);
         Assertions.assertEquals(list.size(),1+1);
 
-        controller.addFirstPlayer("marco", GameMode.EASY, 4);
-        controller.addFirstPlayer("marco", GameMode.EXPERT, 3);
-        controller.addFirstPlayer("marco", GameMode.EASY, 2);
+        controller.addFirstPlayer("marco", GameMode.EASY, 4,conn);
+        controller.addFirstPlayer("marco", GameMode.EXPERT, 3,conn);
+        controller.addFirstPlayer("marco", GameMode.EASY, 2,conn);
         b = false;
         try {
-            controller.addFirstPlayer("marco", GameMode.EXPERT, 1);
+            controller.addFirstPlayer("marco", GameMode.EXPERT, 1,conn);
         } catch (Exception e){
             e.printStackTrace();
             b = true;
@@ -68,7 +74,7 @@ public class ControllerTest {
         Assertions.assertTrue(b);
         b = false;
         try {
-            controller.addFirstPlayer("marco", GameMode.EXPERT, 5);
+            controller.addFirstPlayer("marco", GameMode.EXPERT, 5,conn);
         } catch (Exception e){
             e.printStackTrace();
             b = true;
@@ -88,11 +94,11 @@ public class ControllerTest {
         String ID4 = null;
         Controller controller=null;
         try {
-            controller = new Controller(null);
-            ID1=controller.addFirstPlayer("marco", GameMode.EASY, 4);
-            ID2=controller.addPlayer("luca", 0);
-            ID3=controller.addPlayer("paolo", 0);
-            ID4= controller.addPlayer("andrea", 0);
+            controller = new Controller();
+            ID1=controller.addFirstPlayer("marco", GameMode.EASY, 4,conn);
+            ID2=controller.addPlayer("luca", 0,conn);
+            ID3=controller.addPlayer("paolo", 0,conn);
+            ID4= controller.addPlayer("andrea", 0,conn);
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -277,14 +283,14 @@ public class ControllerTest {
         String ID4 = null;
         String ID5 = null;
         String ID6 = null;
-        Controller controller=new Controller(null);
+        Controller controller=new Controller();
 
-        ID1=controller.addFirstPlayer("marco", GameMode.EASY, 2);
-        ID2=controller.addPlayer("luca", 0);
-        ID3=controller.addFirstPlayer("marco", GameMode.EASY, 2);
-        ID4=controller.addPlayer("luca", 1);
-        ID5=controller.addFirstPlayer("marco", GameMode.EASY, 2);
-        ID6=controller.addPlayer("luca", 2);
+        ID1=controller.addFirstPlayer("marco", GameMode.EASY, 2,conn);
+        ID2=controller.addPlayer("luca", 0,conn);
+        ID3=controller.addFirstPlayer("marco", GameMode.EASY, 2,conn);
+        ID4=controller.addPlayer("luca", 1,conn);
+        ID5=controller.addFirstPlayer("marco", GameMode.EASY, 2,conn);
+        ID6=controller.addPlayer("luca", 2,conn);
 
         try{
             controller.pickItem(new Coordinates(1,3),ID1);

@@ -2,10 +2,12 @@ package it.polimi.ingsw.connection.message;
 
 import it.polimi.ingsw.connection.MessageHeader;
 
-public class StartGameEvent implements Sendable{
+public class StartGameMessage implements Sendable{
+    // <- notify: start game
+
     public String name;
 
-    public StartGameEvent(String name){
+    public StartGameMessage(String name){
         this.name=name;
     }
 

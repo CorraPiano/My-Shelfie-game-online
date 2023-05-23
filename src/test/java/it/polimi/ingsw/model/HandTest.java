@@ -11,7 +11,7 @@ public class HandTest {
 
     @Test
     void putAndClearCheck(){
-        Hand hand = new Hand(null);
+        Hand hand = new Hand();
         Assertions.assertEquals(hand.getSize(),0);
         Assertions.assertTrue(hand.getHand().isEmpty());
         Assertions.assertTrue(hand.getCoordinatesList().isEmpty());
@@ -105,7 +105,7 @@ public class HandTest {
     }
     @Test
     void selectOrderHandCheck(){
-        Hand hand = new Hand(null);
+        Hand hand = new Hand();
         hand.putItem(new Item(ItemType.BLUE),new Coordinates(0,0));
         hand.putItem(new Item(ItemType.YELLOW),new Coordinates(0,1));
         hand.putItem(new Item(ItemType.CYAN),new Coordinates(1,0));
@@ -267,7 +267,7 @@ public class HandTest {
     }
     @Test
     void pickItemCheckOrizzontal() {
-        Hand hand = new Hand(null);
+        Hand hand = new Hand();
         Assertions.assertTrue(hand.checkNewCoordinates(new Coordinates(0, 0)));
         Assertions.assertTrue(hand.checkNewCoordinates(new Coordinates(1, 1)));
 
@@ -331,7 +331,7 @@ public class HandTest {
 
     @Test
     void pickItemCheckVertical() {
-        Hand hand = new Hand(null);
+        Hand hand = new Hand();
         hand.putItem(new Item(ItemType.BLUE),new Coordinates(1,1));
         hand.putItem(new Item(ItemType.BLUE),new Coordinates(0,1));
         Assertions.assertTrue(hand.checkNewCoordinates(new Coordinates(-1, 1)));

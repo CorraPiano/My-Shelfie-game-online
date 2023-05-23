@@ -3,7 +3,9 @@ package it.polimi.ingsw.connection.message;
 import it.polimi.ingsw.connection.MessageHeader;
 
 public class PutMessage implements Sendable{
-    public final String header = "PUT";
+    // -> cmd: put
+    // <- notify: put
+
     public final int column;
     public final String name;
 
@@ -11,10 +13,13 @@ public class PutMessage implements Sendable{
         this.column=column;
         this.name=null;
     }
+
     public PutMessage(int column, String name){
         this.column=column;
         this.name=name;
     }
+
+    @Override
     public MessageHeader getHeader(){
         return MessageHeader.PUT;
     }

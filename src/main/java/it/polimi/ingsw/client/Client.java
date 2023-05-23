@@ -25,21 +25,27 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         modelView = new ModelView();
     }
 
-    /*
-    =================================================================================================
-    IDEA: vedere se fare public o private le classi del localModel
-    attualmente sono public, se vanno rese private vanno inseriti i getter
-    =================================================================================================
-     */
-    @Override
-    public void newChatMessage(String name, String message) throws RemoteException {
+    public void reveiceOK(){
+        // da sistemare per evitare errore nel comando dopo join
+    }
+    public void receiveID(String ID){
+        this.ID=ID;
+        this.state=true;
+    }
+    public void receiveException(String e){
+        System.out.println(e);
+    }
+    public void receiveGamesList(ArrayList<LocalGame> gameslist) throws RemoteException {
+        gameslist.stream().forEach(System.out::println);
+        System.out.println("");
+    }
+
+    public void updateChat(String name, String message) throws RemoteException {
         System.out.println(">> "+name+": "+message);
     }
 
-    public void getID(String ID){
-        //System.out.println("CLIENT: game created and player connected");
-        setId(ID);
-        setState(true);
+    public void createGame(int gameID) throws RemoteException {
+        System.out.println("creato gioco con ID "+gameID);
     }
 
     public void playerJoin(String name) throws RemoteException {
@@ -69,14 +75,6 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void endGame(String name) throws RemoteException {
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " game over!");
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " the winner is " + ANSI_CYAN + name);
-    }
-
-    public void leaveGame(String name) throws RemoteException{
-        //da implementare
-    }
-
-    public void notify(TCPMessage TCPMessage) throws RemoteException {
-        //attualmente non serve, per eventuali modifiche future
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
@@ -112,32 +110,20 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         modelView.setGameMode(localGame.gameMode);
     }
 
-    //non usata, da rimuovere
-    public void updatePlayerList(ArrayList<LocalPlayer> playerList) throws RemoteException {
-        modelView.setLocalPlayer(playerList);
-    }
-
     public void updateCommonGoalCard(LocalCommonCard localCommonCard) throws RemoteException{
         modelView.setLocalCommonCard(localCommonCard);
     }
-    public void updatePersonalGoalCard(DataCard dataCard) throws RemoteException{
-        modelView.setPersonalCard(dataCard);
+    public void updatePersonalGoalCard(LocalPersonalCard personalCard) throws RemoteException{
+        // deve riceve una personal, non datacard
+        modelView.setPersonalCard(new DataCard(0));
     }
 
     public String getID() {
         return ID;
     }
 
-    public void setId(String ID){
-        this.ID=ID;
-    }
-
     public boolean getState() {
         return state;
-    }
-
-    public void setState(Boolean state) {
-        this.state=state;
     }
 
     public ViewHandler getViewhandler() {

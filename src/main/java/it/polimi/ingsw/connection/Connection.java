@@ -28,20 +28,26 @@ public class Connection implements Runnable{
 
         System.out.println("nuova connessione");
         // gestire la chiusura della connesione
-        while(true){
-            String line = in.nextLine();
-            System.out.println("TCP:: " + num + " : " + line);
-            try{
-                TCPMessage message = gson.fromJson(line, TCPMessage.class);
-                messageHandler.receive(message,this);
+        while(true) {
+            //sistemare il thread con wait;
+            try {
+                if (in.hasNext()) {
+                    String line = in.nextLine();
+                    try {
+                        TCPMessage message = gson.fromJson(line, TCPMessage.class);
+                        messageHandler.receive(message, this);
+                    } catch (Exception e) {
+                        TCPMessage TCPmessage = new TCPMessage(MessageHeader.EXCEPTION, e.toString());
+                        send(TCPmessage);
+                    }
+                }
             } catch(Exception e){
-                TCPMessage TCPmessage = new TCPMessage(MessageHeader.EXCEPTION,e.toString());
-                send(TCPmessage);
+                e.printStackTrace();
             }
         }
     }
 
-    public void send(TCPMessage TCPmessage){
+    public synchronized void send(TCPMessage TCPmessage){
         String str = gson.toJson(TCPmessage);
         out.println(str);
         out.flush();

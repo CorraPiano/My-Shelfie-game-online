@@ -1,21 +1,51 @@
 package it.polimi.ingsw.model;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import it.polimi.ingsw.connection.message.Sendable;
 
-public class Listenable {
-    PropertyChangeListener listener;
-    public PropertyChangeListener getListener() {
-        return listener;
+abstract class Listenable {
+
+    EventKeeper eventKeeper;
+
+    public void setEventKeeper(EventKeeper eventKeeper){
+        this.eventKeeper = eventKeeper;
     }
 
-    public void setListener(PropertyChangeListener listener) {
-        this.listener = listener;
+    public void notifyUpdate(){
+        try {
+            eventKeeper.notifyAll(this.getLocal());
+        } catch (Exception e){
+            // to let test work properly without setting the eventKeeper
+            e.printStackTrace();
+        }
     }
 
-    public void notifyListener(String changeType){
-        // Event creation
-        PropertyChangeEvent evt = new PropertyChangeEvent(this, changeType, null , this);
-        this.listener.propertyChange(evt);
+    public void notifyUpdateToID(String id){
+        try {
+            eventKeeper.notifyToID(id,this.getLocal());
+        } catch (Exception e){
+            // to let test work properly without setting the eventKeeper
+            e.printStackTrace();
+        }
     }
+
+    public void notifyEvent(Sendable sendable){
+        try {
+            eventKeeper.notifyAll(sendable);
+        } catch (Exception e){
+            // to let test work properly without setting the eventKeeper
+            e.printStackTrace();
+        }
+    }
+
+    public void notifyEventToID(String id, Sendable sendable){
+        try {
+            eventKeeper.notifyToID(id,sendable);
+        } catch (Exception e){
+            // to let test work properly without setting the eventKeeper
+            e.printStackTrace();
+        }
+    }
+
+    protected abstract Sendable getLocal();
+
 }

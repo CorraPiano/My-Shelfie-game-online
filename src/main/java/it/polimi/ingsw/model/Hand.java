@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Listener;
+import it.polimi.ingsw.client.localModel.LocalHand;
 import it.polimi.ingsw.exception.WrongContentOrderException;
 import it.polimi.ingsw.exception.WrongLengthOrderException;
 
@@ -10,10 +10,10 @@ public class Hand extends Listenable {
     private ArrayList<Item> hand;
     private ArrayList<Coordinates> coordinatesList;
 
-    public Hand (Listener listener){
+    public Hand (){
         hand = new ArrayList<Item>();
         coordinatesList = new ArrayList<Coordinates>();
-        setListener(listener);
+        //setListener(listener);
     }
 
     public int getSize(){
@@ -31,7 +31,8 @@ public class Hand extends Listenable {
     public void putItem(Item item, Coordinates coordinates){
         hand.add(item);
         coordinatesList.add(coordinates);
-        notifyListener("HAND");
+        //notifyListener("HAND");
+        notifyUpdate();
     }
 
     public boolean containsCoords(Coordinates coordinates){
@@ -41,7 +42,8 @@ public class Hand extends Listenable {
     public void clear(){
         hand.clear();
         coordinatesList.clear();
-        notifyListener("HAND");
+        //notifyListener("HAND");
+        notifyUpdate();
     }
 
     public void selectOrder(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
@@ -55,7 +57,8 @@ public class Hand extends Listenable {
         }
         hand = supp1;
         coordinatesList = supp2;
-        notifyListener("HAND");
+        //notifyListener("HAND");
+        notifyUpdate();
     }
 
     private void checkContentOrderList(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
@@ -92,4 +95,11 @@ public class Hand extends Listenable {
         return checkNear && (checkSameRow || checkSameColumn);
     }
 
+    @Override
+    public LocalHand getLocal() {
+        Item[] items = new Item[hand.size()];
+        for(int i=0;i<hand.size();i++)
+            items[i]=hand.get(i);
+        return new LocalHand(items,hand.size());
+    }
 }

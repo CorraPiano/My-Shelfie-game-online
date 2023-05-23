@@ -1,54 +1,58 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.*;
+import com.google.gson.Gson;
+import it.polimi.ingsw.connection.message.*;
+import it.polimi.ingsw.model.EventKeeper;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.function.BiFunction;
+public abstract class Listener implements Runnable {
 
-public class Listener implements PropertyChangeListener {
-    //private final HashMap<> connectionType;
-    private final  BroadcasterRMI broadcasterRMI;
-    private final HashMap<String, BiFunction<Object, Object, Integer>> functionHandlerRMI;
-    private final int gameID;
-    //SocketHanlerOut handlerSocket;
+    private Boolean active;
+    private final EventKeeper eventKeeper;
+    private int cursor;
+    private int personalCursor;
+    protected Gson gson;
+    private String id;
 
-    public Listener(int gameID, BroadcasterRMI broadCastRMI) {
-        this.gameID = gameID;
-        this.broadcasterRMI = broadCastRMI;
-        functionHandlerRMI = new HashMap<>();
-        // x meaning that the parameter is not used in the function
-        this.functionHandlerRMI.put("BOARD", (board, x)->{
-            this.broadcasterRMI.updateBoard(this.gameID, (Board) board);
-            return 1;
-        });
-        this.functionHandlerRMI.put("BOOKSHELF", (bookshelf, name)->{
-            this.broadcasterRMI.updateBookshelf(this.gameID, (Bookshelf) bookshelf);
-            return 1;
-        });
-        this.functionHandlerRMI.put("COMMON", (commonGoalCard, x)->{
-            this.broadcasterRMI.updateCommonGoalCard(this.gameID, (CommonGoalCard) commonGoalCard);
-            return 1;
-        });
-        this.functionHandlerRMI.put("PERSONAL", (personal, x)->{
-            this.broadcasterRMI.sendPersonalGoalCard((PersonalGoalCard) personal);
-            return 1;
-        });
-        this.functionHandlerRMI.put("PLAYERLIST", (gameplay, x)->{
-            this.broadcasterRMI.updateGame(this.gameID, (Gameplay) gameplay);
-            return 1;
-        });
-        this.functionHandlerRMI.put("HAND", (hand, x)->{
-            this.broadcasterRMI.updateHand(this.gameID, (Hand) hand);
-            return 1;
-        });
+    public Listener(EventKeeper eventKeeper, String id) {
+        this.eventKeeper = eventKeeper;
+        active=true;
+        cursor=0;
+        personalCursor=0;
+        this.id=id;
+        gson = new Gson();
     }
-    @Override
-    public void propertyChange(final PropertyChangeEvent evt) {
-        // HashMap Connection
-        String name = null;
-        functionHandlerRMI.get(evt.getPropertyName()).apply(evt.getNewValue(), name);
+
+    public synchronized void disconnect(){
+        active=false;
     }
+
+
+    public void run() {
+        try {
+            while (true) {
+                synchronized (this) {
+                    if (!active)
+                        break;
+                }
+                synchronized (eventKeeper) {
+                    if (eventKeeper.isPresentPersonal(id, personalCursor)) {
+                        System.out.println("eeeeeeeeeeeeeeeeee");
+                        this.handleSendable(eventKeeper.getListenablePersonal(id, personalCursor));
+                        personalCursor++;
+                    }
+                    else if (eventKeeper.isPresent(cursor)) {
+                        this.handleSendable(eventKeeper.getListenable(cursor));
+                        cursor++;
+                    } else
+                        eventKeeper.wait();
+                }
+            }
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    abstract void handleSendable(Sendable sendable);
+
+
 }

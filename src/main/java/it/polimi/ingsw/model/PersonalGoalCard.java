@@ -1,14 +1,19 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.localModel.LocalPersonalCard;
+import it.polimi.ingsw.connection.message.Sendable;
+
 import java.util.Set;
 
-public class PersonalGoalCard extends Listenable{
+public class PersonalGoalCard extends Listenable {
     private final DataCard card;
     private Bookshelf library;
     private Integer points;
     private String ID;
+    private int num;
     public PersonalGoalCard(int n) {
         this.card = new DataCard(n);
+        this.num = n;
     }
 
     public void setBookshelf(Bookshelf library){
@@ -16,6 +21,7 @@ public class PersonalGoalCard extends Listenable{
     }
     public void setID(String ID){
         this.ID = ID;
+        notifyUpdateToID(ID);
     }
     public String getID(){
         return ID;
@@ -38,13 +44,13 @@ public class PersonalGoalCard extends Listenable{
         return pointVet[points];
     }
 
-    public void send(){
-        notifyListener("PERSONAL");
-    }
-
     public DataCard getCard() {
         return card;
     }
 
 
+    @Override
+    public LocalPersonalCard getLocal() {
+        return new LocalPersonalCard(card.getCardMatrix(),num);
+    }
 }

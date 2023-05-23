@@ -9,10 +9,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class LocalPersonalCard implements Sendable, Serializable {
-    public Item[][] map;
+    public final Item[][] map;
+    public final int num;
 
-    public LocalPersonalCard(Item[][] map){
+    public LocalPersonalCard(Item[][] map, int num){
         this.map=map;
+        this.num=num;
     }
 
     public MessageHeader getHeader(){

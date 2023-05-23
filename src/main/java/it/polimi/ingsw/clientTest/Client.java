@@ -2,7 +2,6 @@ package it.polimi.ingsw.clientTest;
 
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.connection.TCPMessage;
-import it.polimi.ingsw.connection.message.GamesList;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.util.Constants;
@@ -19,20 +18,27 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         state = false;
     }
 
-    public void getException(String e){
+    public void reveiceOK(){
+        // da sistemare per evitare errore nel comando dopo join
+    }
+    public void receiveID(String ID){
+        this.ID=ID;
+        this.state=true;
+        System.out.println("CLIENT: giocatore connesso");
+    }
+    public void receiveException(String e){
         System.out.println(e);
     }
-    public void getGamesList(ArrayList<LocalGame> list) throws RemoteException {
+    public void receiveGamesList(ArrayList<LocalGame> list) throws RemoteException {
         list.stream().forEach(System.out::println);
         System.out.println("");
     }
-    public void getID(String id){
-        setId(id);
-        setState(true);
-        System.out.println("CLIENT: giocatore connesso");
-    }
-    public void newChatMessage(String name, String message) throws RemoteException {
+    public void updateChat(String name, String message) throws RemoteException {
         System.out.println(">> "+name+": "+message);
+    }
+
+    public void createGame(int gameID) throws RemoteException {
+        System.out.println("creato gioco con ID "+gameID);
     }
 
     public void playerJoin(String name) throws RemoteException {
@@ -59,10 +65,6 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void endGame(String name) throws RemoteException {
         System.out.println(">> partitia terminata!");
         System.out.println(">> il vincitore e' "+name);
-    }
-
-    public void notify(TCPMessage TCPMessage) throws RemoteException {
-        //attualmente non serve, per eventuali modifiche future
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
@@ -155,9 +157,6 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         // si ricevono anche i token , da stampare!
         System.out.println("... due common goal card con i relativi token ... ");
     }
-    public void updatePersonalGoalCard(DataCard dataCard) throws RemoteException{
-        System.out.println("... la tua personal goal card ... ");
-    }
 
     public void updatePersonalGoalCard(LocalPersonalCard personalCard){
         System.out.println("la tua personal goal card:");
@@ -177,16 +176,8 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         return ID;
     }
 
-    public void setId(String ID){
-        this.ID=ID;
-    }
-
     public boolean getState() {
         return state;
-    }
-
-    public void setState(Boolean state) {
-        this.state=state;
     }
 
     public void ping(int ping) throws RemoteException{

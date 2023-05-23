@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Listener;
+import it.polimi.ingsw.client.localModel.LocalBoard;
+import it.polimi.ingsw.connection.message.Sendable;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.util.Loader;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.*;
 
-public class Board extends Listenable{
+public class Board extends Listenable {
     private final Item[][] livingRoom;
     static final int nColumns = 9;
     static final int nRows = 9;
@@ -18,12 +17,11 @@ public class Board extends Listenable{
     private final int[][] mask;
     private final Hand hand;
 
-    public Board(int numPlayers, Hand hand, Listener listener) {
+    public Board(int numPlayers, Hand hand) {
         this.livingRoom = new Item[nRows][nColumns];
         this.bagItem = new BagItem();
         this.numPlayers = numPlayers;
         this.hand = hand;
-        this.setListener(listener);
         this.mask = Loader.LoadBoard();
     }
 
@@ -36,7 +34,7 @@ public class Board extends Listenable{
                 }
             }
         }
-        this.notifyListener("BOARD");
+        this.notifyUpdate();
     }
 
     /* Item pick */
@@ -47,7 +45,7 @@ public class Board extends Listenable{
                 int column = coordinates.getColumn();
                 hand.putItem(livingRoom[row][column], coordinates);
                 livingRoom[row][column] = null;
-                this.notifyListener("BOARD");
+                this.notifyUpdate();
             }
             else
                 throw new NotLinearPickException();
@@ -101,7 +99,7 @@ public class Board extends Listenable{
                 livingRoom[row][column] = itemList.get(i);
             }
             hand.clear();
-            //this.notifyListener("BOARD");
+            this.notifyUpdate();
         }
     }
 
@@ -111,8 +109,8 @@ public class Board extends Listenable{
         if (checkRefill()) {
             putBackInBag();
             drawBoardItems();
-            this.notifyListener("BOARD");
         }
+        this.notifyUpdate();
     }
 
     /* Puts items left on the board back into the bag */
@@ -159,4 +157,12 @@ public class Board extends Listenable{
         return numPlayers;
     }
 
+    @Override
+    public Sendable getLocal() {
+        // devo passare una copia della matrice allo stato attuale, non un riferimento
+        Item[][] board = new Item[nRows][nColumns];
+        for(int i=0;i<nRows;i++)
+            System.arraycopy(livingRoom[i], 0, board[i], 0, nRows);
+        return new LocalBoard(livingRoom);
+    }
 }

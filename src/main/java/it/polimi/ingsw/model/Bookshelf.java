@@ -1,16 +1,16 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Listener;
+import it.polimi.ingsw.client.localModel.LocalBookshelf;
+import it.polimi.ingsw.connection.message.Sendable;
 import it.polimi.ingsw.exception.InvalidColumnPutException;
 import it.polimi.ingsw.exception.NotEnoughSpacePutException;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class Bookshelf extends Listenable{
+public class Bookshelf extends Listenable {
     //ATTRIBUTES
     private final int nColumns;
-
     private final String name;
     private final int nRows;
     private final Item[][] library;
@@ -24,16 +24,11 @@ public class Bookshelf extends Listenable{
         this.library = new Item[nRows][nColumns];
 
         this.mask = new boolean[nRows][nColumns];
-        for(int i = 0; i < nRows; i++) {
-            for (int j = 0; j < nColumns; j++) {
-                mask[i][j] = false;
-            }
-        }
+        resetMask();
     }
 
-    public void bindListener(Listener listener){
-        setListener(listener);
-        notifyListener("BOOKSHELF");
+    public void sendBookshelf(){
+        notifyUpdate();
     }
 
     public void putItemList(ArrayList<Item> itemList, int column) throws NotEnoughSpacePutException, InvalidColumnPutException {
@@ -46,7 +41,7 @@ public class Bookshelf extends Listenable{
                         index++;
                     }
                 }
-                notifyListener("BOOKSHELF");
+                notifyUpdate();
             }
             else{
                 throw new NotEnoughSpacePutException();
@@ -182,6 +177,14 @@ public class Bookshelf extends Listenable{
 
     public String getName(){
         return name;
+    }
+
+    @Override
+    public Sendable getLocal() {
+        Item[][] bookshelf=new Item[nRows][nColumns];
+        for(int i=0;i<nRows;i++)
+            System.arraycopy(library[i], 0, bookshelf[i], 0, nColumns);
+        return new LocalBookshelf(name,bookshelf);
     }
     //TODO: serve itemCounter per qualcosa?
 

@@ -1,19 +1,17 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.BroadcasterRMI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 public class GameplayTest {
-    private BroadcasterRMI broadcasterRMI = new BroadcasterRMI(null,null);
     @Test
     void calculatePointsTest1(){
         Gameplay gameplay=null;
 
         try {
-            gameplay = new Gameplay(GameMode.EXPERT, 4,0,broadcasterRMI);
+            gameplay = new Gameplay(GameMode.EXPERT, 4,0);
             gameplay.addPlayer("a");
             gameplay.addPlayer("b");
             gameplay.addPlayer("c");
@@ -36,7 +34,7 @@ public class GameplayTest {
     void calculatePointsTest2(){
         Gameplay gameplay = null;
         try {
-            gameplay = new Gameplay(GameMode.EXPERT, 4,0,broadcasterRMI);
+            gameplay = new Gameplay(GameMode.EXPERT, 4,0);
             gameplay.addPlayer("a");
             gameplay.addPlayer("b");
             gameplay.addPlayer("c");
@@ -59,7 +57,7 @@ public class GameplayTest {
     void calculatePointsTest3(){
         Gameplay gameplay = null;
         try {
-            gameplay = new Gameplay(GameMode.EXPERT, 4,0,broadcasterRMI);
+            gameplay = new Gameplay(GameMode.EXPERT, 4,0);
             gameplay.addPlayer("a");
             gameplay.addPlayer("b");
             gameplay.addPlayer("c");
@@ -82,7 +80,7 @@ public class GameplayTest {
     void calculatePointsTest4(){
         Gameplay gameplay = null;
         try {
-            gameplay = new Gameplay(GameMode.EXPERT,4,0,broadcasterRMI);
+            gameplay = new Gameplay(GameMode.EXPERT,4,0);
             gameplay.addPlayer("a");
             gameplay.addPlayer("b");
             gameplay.addPlayer("c");
@@ -106,7 +104,7 @@ public class GameplayTest {
     void calculatePointsTest5(){
         Gameplay gameplay = null;
         try {
-            gameplay = new Gameplay(GameMode.EXPERT,4,0,broadcasterRMI);
+            gameplay = new Gameplay(GameMode.EXPERT,4,0);
             gameplay.addPlayer("a");
             gameplay.addPlayer("b");
             gameplay.addPlayer("c");

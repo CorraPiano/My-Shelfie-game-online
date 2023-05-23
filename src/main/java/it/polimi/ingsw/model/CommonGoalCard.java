@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.localModel.LocalCommonCard;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CommonGoalCard extends Listenable implements Serializable {
-    private List<Token> token;
+public abstract class CommonGoalCard extends Listenable {
+    protected List<Token> token;
     protected int type;
 
     public CommonGoalCard(int type) {
@@ -16,7 +18,7 @@ public abstract class CommonGoalCard extends Listenable implements Serializable 
 
     public void setTokenList(List<Token> token){
         this.token = token;
-        notifyListener("COMMON");
+        notifyUpdate();
     }
     public ArrayList<Token> showToken(){
         return new ArrayList<>(token);
@@ -24,12 +26,16 @@ public abstract class CommonGoalCard extends Listenable implements Serializable 
     public Token popToken(){
         Token t = token.get(0);
         token.remove(0);
-        notifyListener("COMMON");
+        notifyUpdate();
         return t;
     }
 
     public int getType() {
         return type;
+    }
+
+    public LocalCommonCard getLocal(){
+        return new LocalCommonCard(type,new ArrayList<>(token));
     }
 }
 

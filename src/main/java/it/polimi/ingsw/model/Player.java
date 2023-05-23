@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.controller.Listener;
+import it.polimi.ingsw.client.localModel.LocalPlayer;
 
 import java.util.UUID;
 
 
-public class Player {
+public class Player extends Listenable{
     //ATTRIBUTES
     private String name;
     private String ID; //example: 067e6162-3b6f-4ae2-a171-2470b63dff00
@@ -26,11 +26,11 @@ public class Player {
         ID = UUID.randomUUID().toString();
     }
 
-    public void bindListner(Listener listener){
-        library.bindListener(listener);
+    /*public void bindListner(OldListener listener){
+        //library.bindListener(listener);
         personalCard.setListener(listener);
         personalCard.send();
-    }
+    }*/
     public void setToken1(Token token1){
         this.token1 = token1;
     }
@@ -92,5 +92,9 @@ public class Player {
 
     public Token getEndGameToken() {
         return endGameToken;
+    }
+
+    public LocalPlayer getLocal(){
+        return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points);
     }
 }

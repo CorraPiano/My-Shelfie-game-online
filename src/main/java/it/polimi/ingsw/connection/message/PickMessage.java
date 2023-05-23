@@ -5,21 +5,26 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Item;
 
 public class PickMessage implements Sendable{
+    // -> cmd: pick
+    // <- notify: pick
 
     public Coordinates coordinates;
     public String name;
     public Item item;
+
     public PickMessage(Coordinates coordinates){
         this.coordinates=coordinates;
         this.name=null;
         this.item=null;
     }
+
     public PickMessage(Coordinates coordinates, String name, Item item){
         this.coordinates=coordinates;
         this.name=name;
         this.item=item;
     }
 
+    @Override
     public MessageHeader getHeader(){
         return MessageHeader.PICK;
     }

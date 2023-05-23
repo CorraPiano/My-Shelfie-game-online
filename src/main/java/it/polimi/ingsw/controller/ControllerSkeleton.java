@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.localModel.LocalGame;
-import it.polimi.ingsw.connection.message.GamesList;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;

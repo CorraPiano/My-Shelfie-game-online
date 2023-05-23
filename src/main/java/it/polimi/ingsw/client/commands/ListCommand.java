@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.commands;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.localModel.LocalGame;
-import it.polimi.ingsw.connection.message.GamesList;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 
 import java.util.ArrayList;

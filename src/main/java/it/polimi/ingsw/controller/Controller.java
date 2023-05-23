@@ -1,22 +1,18 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.localModel.LocalGame;
-import it.polimi.ingsw.connection.SenderTCP;
-import it.polimi.ingsw.connection.message.GamesList;
+import it.polimi.ingsw.connection.Connection;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Controller extends UnicastRemoteObject implements ControllerSkeleton {
 
     private final GameplaysHandler gameplaysHandler;
-    private final BroadcasterRMI broadcasterRMI;
-    public Controller(SenderTCP senderTCP) throws RemoteException{
+    public Controller() throws RemoteException{
         gameplaysHandler = new GameplaysHandler();
-        broadcasterRMI = new BroadcasterRMI(gameplaysHandler, senderTCP);
     }
 
     public synchronized ArrayList<LocalGame> getGameList() throws RemoteException{
@@ -25,26 +21,29 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
 
     public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, ClientSkeleton cc) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException {
         int gameID = gameplaysHandler.nextID();
-        Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID, broadcasterRMI);
+        Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID);
         System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
         gameplaysHandler.addGameplay(gameplay,gameID);
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.bind(id,gameID);
-        broadcasterRMI.addClientController(id,cc);
+        ListenerRMI listener = new ListenerRMI(cc,gameplay.getEventKeeper(),id);
+        new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
     }
 
     //for TCP - to fix
-    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException {
+    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, Connection conn) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException {
         int gameID = gameplaysHandler.nextID();
-        Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID,broadcasterRMI);
+        Gameplay gameplay = new Gameplay(gameMode, maxPlayers,gameID);
         System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.addGameplay(gameplay,gameID);
         gameplaysHandler.bind(id,gameID);
+        ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id);
+        new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
     }
@@ -56,7 +55,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.bind(id,gameID);
-        broadcasterRMI.addClientController(id,cc);
+        ListenerRMI listener = new ListenerRMI(cc,gameplay.getEventKeeper(),id);
+        new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         if(gameplay.isReady())
             gameplay.startGame();
@@ -64,14 +64,19 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
     }
 
     //for TCP - to fix
-    public synchronized String addPlayer(String name, int gameID) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException {
+    public synchronized String addPlayer(String name, int gameID, Connection conn) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
         if(!gameplay.getGameState().equals(GameState.WAIT))
             throw new GameFullException();
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.bind(id,gameID);
+        ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id);
+        new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
+        // per il momento sostituti da tryStartGame
+        //if(gameplay.isReady())
+        //    gameplay.startGame();
         return id;
     }
 
@@ -120,13 +125,11 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
     public synchronized void addChatMessage(String chatMessage,String id) throws InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         System.out.println("CHAT:: "+ gameplay.getGameID()+", "+ gameplay.getPlayerNameByID(id) + ">> " + chatMessage);
-        broadcasterRMI.newChatMessage(gameplay.getGameID(), gameplay.getPlayerNameByID(id),chatMessage);
     }
 
     public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
-        broadcasterRMI.playerLeave(gameplay.getGameID(),gameplay.getPlayerNameByID(id));
         gameplay.endGame();
         // da implementare
     }
