@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.GUI.controllers.Controller;
+import it.polimi.ingsw.client.view.GUI.controllers.GUIController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 
@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 public class SceneHandler {
     private final HashMap<SceneName, Consumer<String>> stageMap;
     private final HashMap<SceneName, Scene> sceneToFxml;
-    private final HashMap<SceneName, Controller> sceneToController;
+    private final HashMap<SceneName, GUIController> sceneToController;
 
 
 
@@ -28,7 +28,7 @@ public class SceneHandler {
             Scene scene = scene = new Scene(fxmlLoader.load());
             name = SceneName.SETUP;
             sceneToFxml.put(name, scene);
-            Controller controller = fxmlLoader.getController();
+            GUIController controller = fxmlLoader.getController();
             controller.setGui(gui);
             sceneToController.put(name, controller);
             // Login
@@ -75,7 +75,7 @@ public class SceneHandler {
     public Scene getScene(SceneName scene){
         return sceneToFxml.get(scene);
     }
-    public Controller getController(SceneName scene){
+    public GUIController getController(SceneName scene){
         return sceneToController.get(scene);
     }
 

@@ -1,18 +1,14 @@
 package it.polimi.ingsw.client.view.GUI;
 
-import it.polimi.ingsw.client.view.GUI.controllers.Controller;
+import it.polimi.ingsw.client.view.GUI.controllers.GUIController;
 import it.polimi.ingsw.client.view.GUI.controllers.FindGameController;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.awt.event.WindowEvent;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +19,7 @@ public class GUI extends Application {
     private Stage secondaryStage;
     private SceneName currentSceneName;
     private Scene currentScene;
-    private Controller controller;
+    private GUIController controller;
     private SceneHandler sceneHandler;
     private HashMap<SceneName, Consumer<Command>> stageLambda;
     private void changeStage(Boolean fullScreen){

@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 import java.util.List;
 
-public class FindGameController implements Controller{
+public class FindGameController implements GUIController {
     private GUI gui;
     @FXML
     private ListView<String> gameList;
@@ -43,6 +43,14 @@ public class FindGameController implements Controller{
 
     @Override
     public void setGui(GUI gui) { this.gui = gui;}
+
+    /**
+     * @return the GUI.
+     */
+    @Override
+    public GUI getGui() {
+        return gui;
+    }
 
     public void update(List<String> games){
         gameList.getItems().addAll(games);

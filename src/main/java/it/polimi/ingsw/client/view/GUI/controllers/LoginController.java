@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class LoginController implements Controller{
+public class LoginController implements GUIController {
     private GUI gui;
     @FXML
     private TextField userID;
@@ -22,5 +22,8 @@ public class LoginController implements Controller{
     }
 
     @Override
-    public void setGui(GUI gui) {this.gui = gui;}
+    public void setGui(GUI gui) { this.gui = gui; }
+
+    @Override
+    public GUI getGui() { return this.gui; }
 }
