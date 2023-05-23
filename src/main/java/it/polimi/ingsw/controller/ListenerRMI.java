@@ -74,7 +74,6 @@ public class ListenerRMI extends Listener{
                                         client.updateCommonGoalCard((LocalCommonCard)sendable);
                                 }
                                 case PERSONALGOALCARD -> {
-                                        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxx");
                                         client.updatePersonalGoalCard((LocalPersonalCard)sendable);
                                 }
                                 case HAND -> {

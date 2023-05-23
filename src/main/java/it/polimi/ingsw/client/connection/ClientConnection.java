@@ -1,10 +1,8 @@
-package it.polimi.ingsw.clientTest;
+package it.polimi.ingsw.client.connection;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.connection.message.*;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -47,5 +45,6 @@ public class ClientConnection implements Runnable{
         out.println(str);
         out.flush();
     }
+
 }
 

@@ -1,16 +1,12 @@
-package it.polimi.ingsw.clientTest;
+package it.polimi.ingsw.client.connection;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.client.localModel.LocalGame;
-import it.polimi.ingsw.connection.TCPMessage;
-import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.connection.message.*;
-import java.rmi.RemoteException;
+
 import java.util.ArrayList;
 
-public class TCPSender extends Sender{
+public class TCPSender extends Sender {
     private final ClientConnection connection;
 
     public TCPSender(ClientConnection connection){

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.clientTest;
+package it.polimi.ingsw.client.connection;
 
 import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.controller.ClientSkeleton;

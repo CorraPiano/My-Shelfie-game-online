@@ -1,13 +1,15 @@
-package it.polimi.ingsw.clientTest;
+package it.polimi.ingsw.client.connection;
 
+import it.polimi.ingsw.client.connection.Sender;
 import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
 
 import java.util.ArrayList;
 
-public class RMISender extends Sender{
+public class RMISender extends Sender {
     public final ControllerSkeleton controller;
     public final Client client;
     public String ID;

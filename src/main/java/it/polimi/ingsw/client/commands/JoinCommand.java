@@ -1,14 +1,13 @@
 package it.polimi.ingsw.client.commands;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.controller.ControllerSkeleton;
-
+import it.polimi.ingsw.client.connection.Sender;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class JoinCommand implements Command {
-    @Override
-    public void execute(ControllerSkeleton controller, Scanner stdin, Client client) {
+
+    public void execute(Sender sender, Scanner stdin, Client client) {
         String name = stdin.next();
         int num = stdin.nextInt();
 
@@ -22,11 +21,6 @@ public class JoinCommand implements Command {
             return;
         }
 
-        try {
-            String ID=controller.addPlayer(name,num,client);
-            client.receiveID(ID);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        sender.addPlayer(name, num);
     }
 }

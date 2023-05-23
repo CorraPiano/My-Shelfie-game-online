@@ -1,20 +1,25 @@
-package it.polimi.ingsw.clientTest;
+package it.polimi.ingsw.client.connection;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.connection.message.*;
 
+
 public class TCPReceiver {
-    private Gson gson;
-    private Client client;
+    private final Gson gson;
+    private final Client client;
+
+    private final boolean DEBUG_MESSAGE = false;
     public TCPReceiver(Client client) {
         this.gson = new Gson();
         this.client = client;
     }
     //gestire il remote Exception
     public void receive(TCPMessage TCPmessage) throws Exception {
-        System.out.println(TCPmessage.getBody());
+        if(DEBUG_MESSAGE)
+            System.out.println(TCPmessage.getBody());
         switch (TCPmessage.getHeader()) {
             case OK-> {
                 client.reveiceOK();

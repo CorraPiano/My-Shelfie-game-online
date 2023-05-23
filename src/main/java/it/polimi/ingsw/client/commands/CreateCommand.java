@@ -1,15 +1,14 @@
 package it.polimi.ingsw.client.commands;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.controller.ControllerSkeleton;
+import it.polimi.ingsw.client.connection.Sender;
 import it.polimi.ingsw.model.GameMode;
-
 import java.util.Objects;
 import java.util.Scanner;
 
 public class CreateCommand implements Command {
-    @Override
-    public void execute(ControllerSkeleton controller, Scanner stdin, Client client) {
+
+    public void execute(Sender sender, Scanner stdin, Client client) {
         String name = stdin.next();
         String gameModeString = stdin.next();
         int num = stdin.nextInt();
@@ -34,11 +33,6 @@ public class CreateCommand implements Command {
             return;
         }
 
-        try {
-            String ID = controller.addFirstPlayer(name,gamemode, num,client);
-            client.receiveID(ID);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        sender.addFirstPlayer(name, gamemode, num);
     }
 }
