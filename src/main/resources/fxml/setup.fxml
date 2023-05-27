@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.client.view.GUI.controllers.SetupController"
-            prefHeight="400.0" prefWidth="600.0"
-            style="-fx-background-image: url(images/misc/sfondo_parquet.jpg); -fx-background-size: cover"
->
-
+<AnchorPane prefHeight="755.0" prefWidth="1014.0" style="-fx-background-image: url(images/misc/sfondo_parquet.jpg); -fx-background-size: cover" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.SetupController">
+   <children>
+      <ImageView fitHeight="476.0" fitWidth="583.0" layoutX="216.0" mouseTransparent="true">
+         <image>
+            <Image url="@../Images/PublisherMaterial/Title%202000x2000px.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="416.0" layoutY="377.0" mnemonicParsing="false" onAction="#onRMIButton" prefHeight="31.0" prefWidth="68.0" text="RMI" />
+      <Button layoutX="556.0" layoutY="377.0" mnemonicParsing="false" onAction="#onTCPButton" prefHeight="31.0" prefWidth="68.0" text="TCP" />
+      <Label layoutX="394.0" layoutY="314.0" text="Choose the connection type">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="80.0" fitWidth="76.0" layoutX="469.0" layoutY="654.0">
+         <image>
+            <Image url="@../Images/PublisherMaterial/Publisher.png" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
-import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.ViewHandler;
-import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.controller.ClientSkeleton;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.DataCard;
+import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.util.Constants.*;
 
-public class Client extends UnicastRemoteObject implements ClientSkeleton {
+public class ClientTUI extends Client {
 
     private final ModelView modelView;
     private final ViewHandler viewHandler;
@@ -23,7 +23,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     private final boolean GRAPHIC = true;
 
-    public Client() throws RemoteException {
+    public ClientTUI() throws RemoteException {
         state = false;
         viewHandler = new ViewHandler();
         modelView = new ModelView();

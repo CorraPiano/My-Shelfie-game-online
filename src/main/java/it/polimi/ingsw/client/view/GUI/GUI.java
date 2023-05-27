@@ -1,7 +1,18 @@
 package it.polimi.ingsw.client.view.GUI;
 
+import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientGUI;
+import it.polimi.ingsw.client.connection.*;
+import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.controllers.GUIController;
 import it.polimi.ingsw.client.view.GUI.controllers.FindGameController;
+import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.controller.ClientSkeleton;
+import it.polimi.ingsw.controller.ControllerSkeleton;
+import it.polimi.ingsw.controller.Settings;
+import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.DataCard;
+import it.polimi.ingsw.model.GameMode;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -9,16 +20,26 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class GUI extends Application {
+public class GUI extends Application implements View {
     private Stage primaryStage;
     private Stage secondaryStage;
     private SceneName currentSceneName;
     private Scene currentScene;
+    // Connection
+    private Sender sender;
+    private ClientGUI client;
     private GUIController controller;
     private SceneHandler sceneHandler;
     private HashMap<SceneName, Consumer<Command>> stageLambda;
@@ -43,14 +64,28 @@ public class GUI extends Application {
             currentSceneName = SceneName.GAME;
             changeStage(false);
         });
+        stageLambda.put(SceneName.SETUP, (command)-> {
+            currentSceneName = SceneName.FINDGAME;
+            changeStage(false);
+        });
+    }
+    private void setupConnection() {
+        try {
+            this.client = new ClientGUI();
+            this.client.setGui(this);
+        } catch (RemoteException e) {
+            System.out.println("connection problem");
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void start(Stage stage) {
+        setupConnection();
         this.primaryStage = stage;
         sceneHandler = new SceneHandler(this);
         setLambdaMap();
-        currentSceneName = SceneName.LOGIN;
+        currentSceneName = SceneName.SETUP;
         controller = sceneHandler.getController(currentSceneName);
         Scene scene = sceneHandler.getScene(currentSceneName);
         this.primaryStage.setOnCloseRequest(windowEvent -> {
@@ -70,20 +105,6 @@ public class GUI extends Application {
     }
     private void testMain(){
         // Change scene test
-        PauseTransition delay = new PauseTransition(Duration.seconds(2)), delay2 = new PauseTransition(Duration.seconds(2));
-        delay.setOnFinished(event -> {
-            switchStage(Command.LOGIN);
-            delay2.play();
-        });
-        delay.play();
-        delay2.setOnFinished(event -> {
-            refreshGameList(Arrays.asList(
-                    "ID: 3 NUmber of player: 3",
-                    "ID: 2 NUmber of player: 3",
-                    "ID: 1 NUmber of player: 3"
-            ));
-        });
-
 
     }
 
@@ -99,6 +120,50 @@ public class GUI extends Application {
         Platform.runLater(() -> stageLambda.get(currentSceneName).accept(command));
         controller = sceneHandler.getController(currentSceneName);
     }
+    @Override
+    public void setSender(Sender sender) {
+        this.sender = sender;
+    }
+
+    @Override
+    public Sender getSender() {
+        return null;
+    }
+
+    @Override
+    public void setClient() {
+
+    }
+
+    @Override
+    public Client getClient() {
+        return this.client;
+    }
+
+    // link: http://patorjk.com/software/taag/#p=testall&f=Calvin%20S&t=SET-UP%20
+    // font: Big
+    /* ***************************************************
+               _____ ______ _______     _    _ _____
+              / ____|  ____|__   __|   | |  | |  __ \
+             | (___ | |__     | |______| |  | | |__) |
+              \___ \|  __|    | |______| |  | |  ___/
+              ____) | |____   | |      | |__| | |
+             |_____/|______|  |_|       \____/|_|
+     ******************************************************/
+    public void setRMIConnection() throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry();
+        ControllerSkeleton controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
+        this.setSender(new RMISender(controller, this.getClient()));
+        this.switchStage(Command.SET_CONNECTION);
+    }
+    public void setTCPConnection() throws IOException {
+        TCPReceiver tcpreceiver = new TCPReceiver(client);
+        ClientConnection clientConnection = new ClientConnection(new Socket("localhost", 8081), tcpreceiver);
+        new Thread(clientConnection).start();
+        this.setSender(new TCPSender(clientConnection));
+        this.switchStage(Command.SET_CONNECTION);
+    }
+
     /* ***************************************************
                  _     ___   ____ ___ _   _
                 | |   / _ \ / ___|_ _| \ | |
@@ -114,10 +179,28 @@ public class GUI extends Application {
         |  _|  | || |\  | |_| | | |_| |/ ___ \| |  | | |___
         |_|   |___|_| \_|____/   \____/_/   \_\_|  |_|_____|
      *******************************************************/
-    public void refreshGameList(List<String> games){
-        FindGameController controllerTmp = (FindGameController) controller;
-        controllerTmp.update(games);
+
+    public void getGamesList() {
+        this.sender.getGameList();
     }
+
+    public void refreshGameList(List<LocalGame> games){
+        FindGameController controllerTmp = (FindGameController) controller;
+        ArrayList<String> gameList = new ArrayList<>();
+        for ( LocalGame g: games) {
+            gameList.add(g.toString());
+        }
+
+        controllerTmp.update(gameList);
+    }
+    public void addFirstPlayer(String name, GameMode gameMode, int numPlayer){
+        sender.addFirstPlayer(name, gameMode, numPlayer);
+    }
+    public void joinGame(String name,int gameId){
+        sender.addPlayer(name, gameId);
+    }
+
+
     /* *****************************************************
       ____    _    __  __ _____
      / ___|  / \  |  \/  | ____|
@@ -125,6 +208,28 @@ public class GUI extends Application {
     | |_| |/ ___ \| |  | | |___
      \____/_/   \_\_|  |_|_____|
      ******************************************************/
+    // Server to client
+    public void updateBoard(LocalBoard board, LocalHand hand){
+    }
+    public void updateBookShelf(LocalBookshelf bookshelf, String name){}
+    public void setCommonGoalCard(ArrayList<LocalCommonCard> commonCards){}
+    public void setPersonalGoalCard(DataCard personalGoalCard){}
 
+    // Client to server
+    public void pickItem(Coordinates coordinates){
+        sender.pickItem(coordinates);
+    }
+    public void putItemList(int column){
+        sender.putItemList(column);
+    }
+    public void sendMessage(String message){}
+    public void leaveGame(){
+        sender.leaveGame();
+    }
+
+    // Chat
+    public void openChat(){}
+    public void closeChat(){}
+    public void sendMessage(String message, String name){}
 
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.connection.message.*;
+import it.polimi.ingsw.controller.ClientSkeleton;
 
 
 public class TCPReceiver {

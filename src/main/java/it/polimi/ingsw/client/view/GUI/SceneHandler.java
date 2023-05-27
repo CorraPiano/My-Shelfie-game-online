@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class SceneHandler {
-    private final HashMap<SceneName, Consumer<String>> stageMap;
+
     private final HashMap<SceneName, Scene> sceneToFxml;
     private final HashMap<SceneName, GUIController> sceneToController;
 
@@ -23,9 +23,10 @@ public class SceneHandler {
         try {
             String path = "/fxml/";
             SceneName name;
+
             // Setup
             FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "setup.fxml"));
-            Scene scene = scene = new Scene(fxmlLoader.load());
+            Scene scene = new Scene(fxmlLoader.load());
             name = SceneName.SETUP;
             sceneToFxml.put(name, scene);
             GUIController controller = fxmlLoader.getController();
@@ -33,7 +34,7 @@ public class SceneHandler {
             sceneToController.put(name, controller);
             // Login
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "login.fxml"));
-            scene = scene = new Scene(fxmlLoader.load());
+            scene = new Scene(fxmlLoader.load());
             name = SceneName.LOGIN;
             sceneToFxml.put(name, scene);
             controller = fxmlLoader.getController();
@@ -55,6 +56,8 @@ public class SceneHandler {
             controller = fxmlLoader.getController();
             controller.setGui(gui);
             sceneToController.put(name, controller);
+            // Chat
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,16 +65,13 @@ public class SceneHandler {
     private void setUpStageMap(){}
 
     public SceneHandler(GUI gui) {
-        this.stageMap = new HashMap<>();
+
         this.sceneToFxml = new HashMap<>();
         this.sceneToController = new HashMap<>();
         setupMap(gui);
         setUpStageMap();
     }
 
-    public void switchScene(SceneName current, String command){
-        stageMap.get(current).accept(command);
-    }
     public Scene getScene(SceneName scene){
         return sceneToFxml.get(scene);
     }

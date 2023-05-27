@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.model.GameMode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -16,6 +17,8 @@ public class FindGameController implements GUIController {
     @FXML
     private TextField gameId;
     @FXML
+    private TextField gameMode;
+    @FXML
     private TextField playerName;
     @FXML
     private TextField playerNameJoin;
@@ -23,22 +26,20 @@ public class FindGameController implements GUIController {
     private TextField numberOfPlayer;
     @FXML
     protected void onSearchGameButton(){
-
-    }
-    public void updateGameList(){
-
+        this.gui.getGamesList();
     }
     @FXML
     protected void onCreateGame(){
         String name = playerName.getText();
+        int mode = Integer.parseInt(gameMode.getText());
         int playerNum = Integer.parseInt(numberOfPlayer.getText());
-        System.out.println("Name: " + name + "Number of player: " + playerNum);
+        gui.addFirstPlayer(name, GameMode.values()[mode], playerNum);
     }
     @FXML
     protected void onJoinGame(){
-        String gameId = this.gameId.getText();
+        int gameId = Integer.parseInt(this.gameId.getText());
         String name = playerNameJoin.getText();
-        System.out.println("JOIN\nGame: "+ gameId + " Name: " + name);
+        gui.joinGame(name, gameId);
     }
 
     @Override
@@ -53,7 +54,10 @@ public class FindGameController implements GUIController {
     }
 
     public void update(List<String> games){
+        gameList.getItems().clear();
         gameList.getItems().addAll(games);
     }
+
+    public void waitStartGame(){}
 
 }

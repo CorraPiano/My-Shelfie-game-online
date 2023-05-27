@@ -1,11 +1,13 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.ViewHandler;
-import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.controller.ClientSkeleton;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Coordinates;
+import it.polimi.ingsw.model.DataCard;
+import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,21 +15,21 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.util.Constants.*;
 
-public class Client extends UnicastRemoteObject implements ClientSkeleton {
+public class ClientGUI extends Client{
 
     private final ModelView modelView;
-    private final ViewHandler viewHandler;
-    //private View view;
+    private GUI gui;
     private String ID;
     private boolean state;
-
     private final boolean GRAPHIC = true;
 
-    public Client() throws RemoteException {
+    public ClientGUI() throws RemoteException {
         state = false;
-        viewHandler = new ViewHandler();
         modelView = new ModelView();
-        //this.view = view;
+    }
+
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 
     public void ping(int ping) throws RemoteException{}
@@ -46,8 +48,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     }
 
     public void receiveGamesList(ArrayList<LocalGame> gameslist) throws RemoteException {
-        gameslist.forEach(System.out::println);
-        System.out.println();
+        gui.refreshGameList(gameslist);
     }
 
     public void updateChat(String name, String message) throws RemoteException {
@@ -56,57 +57,53 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
 
     public void createGame(int gameID) throws RemoteException {
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + " create a game with ID " + ANSI_CYAN + gameID + ANSI_RESET );
+
     }
 
     public void playerJoin(String name) throws RemoteException {
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " joined the game");
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " joined the game");
     }
 
     public void playerLeave(String name) throws RemoteException {
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + ": left the game");
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + ": left the game");
     }
 
     public void startGame(String name) throws RemoteException {
-        if(GRAPHIC) {
-            viewHandler.showIntro();
-            viewHandler.showGame(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
-        }
-        else
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET +  " the game has begun!");
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
+        gui.setCommonGoalCard(modelView.getCommonCards());
+        gui.setPersonalGoalCard(modelView.getDataCard());
+        gui.switchStage(Command.START_GAME);
+
     }
 
     public void newTurn(String name) throws RemoteException {
-        if(GRAPHIC)
-            viewHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
+//        if(GRAPHIC)
+//            viewHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
+//        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
     }
 
     public void lastRound(String name) throws RemoteException {
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has finished his bookshelf!");
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has finished his bookshelf!");
     }
 
     public void endGame(String name) throws RemoteException {
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " game over!");
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " the winner is " + ANSI_CYAN + name);
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " game over!");
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " the winner is " + ANSI_CYAN + name);
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
-        if(GRAPHIC)
-            viewHandler.showBoardAndHand(modelView.getLocalBoard(), modelView.getLocalHand());
-        System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
+
+        gui.updateBoard(modelView.getLocalBoard(), modelView.getLocalHand());
+        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
     }
     public void notifyUndo(String name) throws RemoteException{
-        System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": UNDO ");
+        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": UNDO ");
     }
     public void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException{
-        System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": ORDER with " + list.toString());
+        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": ORDER with " + list.toString());
     }
     public void notifyPut(String name, int column) throws RemoteException{
-        if(GRAPHIC)
-            viewHandler.showBookshelf(modelView.getLocalBookshelfs().get(name));
-        System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
+        gui.updateBookShelf(modelView.getLocalBookshelfs().get(name), name);
+        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
     }
 
 
@@ -163,8 +160,8 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         return state;
     }
 
-    public ViewHandler getViewhandler() {
-        return viewHandler;
+    public GUI getGui() {
+        return gui;
     }
     public ModelView getModelView() {
         return modelView;

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.connection.*;
 import it.polimi.ingsw.controller.Settings;
 import it.polimi.ingsw.controller.ControllerSkeleton;
+import it.polimi.ingsw.client.view.GUI.GUI;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -40,6 +41,7 @@ public class Main {
                 }
             }
         }
+
         GraphicsInterface graphicsInterface = new GraphicsInterface(sender, client);
         System.out.println("client avviato");
         graphicsInterface.joinMatch();

@@ -18,7 +18,7 @@ public class LoginController implements GUIController {
         String user = userID.getText();
         String pw = password.getText();
         System.out.println("User: " + user + "\t pw: "+ pw);
-        gui.login();
+        gui.getClient();
     }
 
     @Override

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.connection;
 import it.polimi.ingsw.client.connection.Sender;
 import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.client.*;
+import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
@@ -14,9 +15,9 @@ public class RMISender extends Sender {
     public final Client client;
     public String ID;
 
-    public RMISender(ControllerSkeleton controller,Client client){
+    public RMISender(ControllerSkeleton controller, Client client){
         this.controller=controller;
-        this.client=client;
+        this.client = client;
     }
     public void getGameList() {
         try {

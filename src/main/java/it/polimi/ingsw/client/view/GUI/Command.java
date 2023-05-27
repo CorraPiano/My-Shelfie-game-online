@@ -5,5 +5,7 @@ public enum Command {
     SIGNIN,
     CREATE_GAME,
     JOIN_GAME,
-    PICK
+    PICK,
+    START_GAME,
+    SET_CONNECTION
 }

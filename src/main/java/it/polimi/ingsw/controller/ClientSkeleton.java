@@ -28,4 +28,8 @@ public interface ClientSkeleton extends Remote {
     void updateCommonGoalCard(LocalCommonCard commonGoalCard) throws RemoteException;
     void updatePersonalGoalCard(LocalPersonalCard personalGoalCard) throws RemoteException;
     void ping(int ping) throws RemoteException;
+    void reveiceOK() throws RemoteException;
+    //void receiveException(String e) throws RemoteException;
+    void receiveID(String id) throws RemoteException;
+    void receiveGamesList(ArrayList<LocalGame> gameList) throws RemoteException;
 }
