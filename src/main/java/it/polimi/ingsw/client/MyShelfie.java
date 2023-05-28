@@ -1,16 +1,17 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.GUI.GUI;
-import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.client.view.CLI;
-import it.polimi.ingsw.client.localModel.ModelView;
+import it.polimi.ingsw.client.view.TUI.TUI;
+import it.polimi.ingsw.controller.Main;
+
+import java.io.IOException;
+import java.rmi.AlreadyBoundException;
 
 public class MyShelfie {
     // 0 server
     // 1 cli
     // 2 gui
-    public static void main( String[] args ){
+    public static void main( String[] args ) throws AlreadyBoundException, IOException {
         MyShelfie app = new MyShelfie();
         if (args.length > 0) {
             String startOption = args[0];
@@ -29,8 +30,11 @@ public class MyShelfie {
         }
     }
 
-    public void startServer(){}
-    public void startTui(){}
+    public void startServer() throws AlreadyBoundException, IOException {
+        Main.main(null);
+    }
+    public void startTui(){ TUI.main(null);
+    }
     public void startGui(){
         GUI.main(null);
     }

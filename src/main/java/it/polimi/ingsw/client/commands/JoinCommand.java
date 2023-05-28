@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.connection.Sender;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.util.Constants.ANSI_RESET;
+import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
+
 public class JoinCommand implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
@@ -12,12 +15,12 @@ public class JoinCommand implements Command {
         int num = stdin.nextInt();
 
         if(Objects.equals(name, "")){
-            System.out.println("CLIENT:: nome non valido");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The name entered is not valid");
             return;
         }
 
         if(num<0){
-            System.out.println("CLIENT:: numero partita non valida");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The gameID entered is not valid");
             return;
         }
 

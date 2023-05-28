@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.TUI;
 
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.model.DataCard;
@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import static it.polimi.ingsw.model.GameMode.EASY;
-import static it.polimi.ingsw.model.GameMode.EXPERT;
 import static it.polimi.ingsw.util.Constants.*;
 
-public class ViewHandler {
-    private CLI cli = new CLI();
+public class OutputHandler {
+    private ShowMethods showMethods = new ShowMethods();
 
     public void showIntro(){
+        System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── ❮❰♦❱❯ ───────────────────────────────────────────────────\n" + ANSI_RESET);
         System.out.println(BROWN_FOREGROUND + LOGO6);
         System.out.println("Player, it’s time to reorganize your library and put your favorite objects back in place!\n" +
                 "Will you be able to do it faster than other players, satisfying the required patterns?\n" +
@@ -93,7 +93,7 @@ public class ViewHandler {
                 break;
 
         }
-        String[] commonCard = cli.showOnlyCommon(localCommonCard).split("\n");
+        String[] commonCard = showMethods.showOnlyCommon(localCommonCard).split("\n");
         String[] cardDescription = description.split("\n");
         for(int i=0; i<commonCard.length; i++){
             if(i<cardDescription.length){
@@ -110,12 +110,12 @@ public class ViewHandler {
     public void showGame(LocalBoard localBoard, Map<String, LocalBookshelf> localBookshelfs, ArrayList<LocalCommonCard> commonCards, DataCard dataCard, ArrayList<LocalPlayer> localPlayerList, GameMode gameMode) {
         StringBuilder game = new StringBuilder();
 
-        String[] board = cli.showBoard(localBoard).toString().split("\n");
-        String[] personalCard = cli.showPersonalCard(dataCard).toString().split("\n");
+        String[] board = showMethods.showBoard(localBoard).toString().split("\n");
+        String[] personalCard = showMethods.showPersonalCard(dataCard).toString().split("\n");
 
         if (gameMode.compareTo(EASY) == 1){
-            String[] commonCard1 = cli.showCommonGoalCards(commonCards.get(0)).toString().split("\n");
-            String[] commonCard2 = cli.showCommonGoalCards(commonCards.get(1)).toString().split("\n");
+            String[] commonCard1 = showMethods.showCommonGoalCards(commonCards.get(0)).toString().split("\n");
+            String[] commonCard2 = showMethods.showCommonGoalCards(commonCards.get(1)).toString().split("\n");
             for(int i=0; i<board.length; i++){
                 game.append(board[i] + commonCard1[i] + commonCard2[i] + personalCard[i] + "\n");
             }
@@ -127,7 +127,7 @@ public class ViewHandler {
 
         String[][] library = new String[localBookshelfs.size()][];
         for(int i=0; i<localBookshelfs.size(); i++){
-            library[i] = cli.showBookshelf(localBookshelfs.get(localPlayerList.get(i).name)).toString().split("\n");
+            library[i] = showMethods.showBookshelf(localBookshelfs.get(localPlayerList.get(i).name)).toString().split("\n");
         }
         for(int j=0; j<library[0].length; j++){
             for(int i=0; i<localBookshelfs.size(); i++){
@@ -141,12 +141,12 @@ public class ViewHandler {
     public void showNewTurn(LocalBoard localBoard, Map<String, LocalBookshelf> localBookshelfs, ArrayList<LocalCommonCard> commonCards, DataCard dataCard, ArrayList<LocalPlayer> localPlayerList, GameMode gameMode) {
         StringBuilder game = new StringBuilder();
 
-        String[] board = cli.showBoard(localBoard).toString().split("\n");
-        String[] personalCard = cli.showPersonalCard(dataCard).toString().split("\n");
+        String[] board = showMethods.showBoard(localBoard).toString().split("\n");
+        String[] personalCard = showMethods.showPersonalCard(dataCard).toString().split("\n");
 
         if (gameMode.compareTo(EASY) == 1){
-            String[] commonCard1 = cli.showCommonGoalCards(commonCards.get(0)).toString().split("\n");
-            String[] commonCard2 = cli.showCommonGoalCards(commonCards.get(1)).toString().split("\n");
+            String[] commonCard1 = showMethods.showCommonGoalCards(commonCards.get(0)).toString().split("\n");
+            String[] commonCard2 = showMethods.showCommonGoalCards(commonCards.get(1)).toString().split("\n");
             for(int i=0; i<board.length; i++){
                 game.append(board[i] + commonCard1[i] + commonCard2[i] + personalCard[i] + "\n");
             }
@@ -158,7 +158,7 @@ public class ViewHandler {
 
         String[][] library = new String[localBookshelfs.size()][];
         for(int i=0; i<localBookshelfs.size(); i++){
-            library[i] = cli.showBookshelf(localBookshelfs.get(localPlayerList.get(i).name)).toString().split("\n");
+            library[i] = showMethods.showBookshelf(localBookshelfs.get(localPlayerList.get(i).name)).toString().split("\n");
         }
         for(int j=0; j<library[0].length; j++){
             for(int i=0; i<localBookshelfs.size(); i++){
@@ -167,21 +167,21 @@ public class ViewHandler {
             game.append("\n");
         }
 
-        System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────────────────────────────────────────────────────────────────────" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── ❮❰♦❱❯ ───────────────────────────────────────────────────" + ANSI_RESET);
         System.out.println(game);
     }
 
     public void showBookshelf(LocalBookshelf bookshelf) {
-        System.out.println(cli.showBookshelf(bookshelf));
+        System.out.println(showMethods.showBookshelf(bookshelf));
     }
 
     public void showBoardAndHand(LocalBoard localBoard, LocalHand localHand) {
         StringBuilder boardHand = new StringBuilder();
 
-        String[] board = cli.showBoard(localBoard).toString().split("\n");
+        String[] board = showMethods.showBoard(localBoard).toString().split("\n");
         for(int i=0; i<board.length; i++){
             if(i==2){
-                StringBuilder hand = cli.showHand(localHand);
+                StringBuilder hand = showMethods.showHand(localHand);
                 boardHand.append(board[i] + hand );
             }
             else {
@@ -195,19 +195,19 @@ public class ViewHandler {
 
     //Metodi che potrebbero servire
     public void showBoard(LocalBoard board) {
-        System.out.println(cli.showBoard(board));
+        System.out.println(showMethods.showBoard(board));
     }
     public void showHand(LocalHand hand) {
-        System.out.println(cli.showHand(hand));
+        System.out.println(showMethods.showHand(hand));
     }
     public void showPlayers(ArrayList<LocalPlayer> playerList) {
-        System.out.println(cli.showPlayers(playerList));
+        System.out.println(showMethods.showPlayers(playerList));
     }
     public void showCommonGoalCards(LocalCommonCard localCommonCard) {
-        System.out.println(cli.showCommonGoalCards(localCommonCard));
+        System.out.println(showMethods.showCommonGoalCards(localCommonCard));
     }
     public void showPersonalGoalCard(DataCard dataCard) {
-        System.out.println(cli.showPersonalCard(dataCard));
+        System.out.println(showMethods.showPersonalCard(dataCard));
     }
 
 }

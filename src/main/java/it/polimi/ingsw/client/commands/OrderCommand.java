@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.connection.Sender;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.util.Constants.ANSI_RESET;
+import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
+
 public class OrderCommand  implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
@@ -21,7 +24,7 @@ public class OrderCommand  implements Command {
                         counter++;
                     }
                     else {
-                        System.out.println("CLIENT:: serve una lista di interi");
+                        System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of integers");
                         return;
                     }
                 } catch (Exception e){
@@ -31,11 +34,11 @@ public class OrderCommand  implements Command {
         }
 
         if(counter<2){
-            System.out.println("CLIENT:: serve una lista di almeno 2 interi");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of at least 2 integers");
             return;
         }
         if(counter>3){
-            System.out.println("CLIENT:: serve una lista di al massimo 3 interi");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of at most 3 integers");
             return;
         }
 

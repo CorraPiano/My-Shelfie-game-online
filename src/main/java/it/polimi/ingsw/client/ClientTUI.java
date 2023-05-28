@@ -1,14 +1,12 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
-import it.polimi.ingsw.client.view.ViewHandler;
-import it.polimi.ingsw.controller.ClientSkeleton;
+import it.polimi.ingsw.client.view.TUI.OutputHandler;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.util.Constants.*;
@@ -16,7 +14,7 @@ import static it.polimi.ingsw.util.Constants.*;
 public class ClientTUI extends Client {
 
     private final ModelView modelView;
-    private final ViewHandler viewHandler;
+    private final OutputHandler outputHandler;
     //private View view;
     private String ID;
     private boolean state;
@@ -25,7 +23,7 @@ public class ClientTUI extends Client {
 
     public ClientTUI() throws RemoteException {
         state = false;
-        viewHandler = new ViewHandler();
+        outputHandler = new OutputHandler();
         modelView = new ModelView();
         //this.view = view;
     }
@@ -56,7 +54,7 @@ public class ClientTUI extends Client {
 
 
     public void createGame(int gameID) throws RemoteException {
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + " create a game with ID " + ANSI_CYAN + gameID + ANSI_RESET );
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The game is created with gameID " + gameID );
     }
 
     public void playerJoin(String name) throws RemoteException {
@@ -69,17 +67,17 @@ public class ClientTUI extends Client {
 
     public void startGame(String name) throws RemoteException {
         if(GRAPHIC) {
-            viewHandler.showIntro();
-            viewHandler.showGame(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
+            outputHandler.showIntro();
+            outputHandler.showGame(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
         }
         else
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET +  " the game has begun!");
+            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET +  "The game has begun!");
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
     }
 
     public void newTurn(String name) throws RemoteException {
         if(GRAPHIC)
-            viewHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
+            outputHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
     }
 
@@ -88,13 +86,13 @@ public class ClientTUI extends Client {
     }
 
     public void endGame(String name) throws RemoteException {
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " game over!");
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " the winner is " + ANSI_CYAN + name);
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "Game over!");
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The winner is " + ANSI_CYAN + name);
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         if(GRAPHIC)
-            viewHandler.showBoardAndHand(modelView.getLocalBoard(), modelView.getLocalHand());
+            outputHandler.showBoardAndHand(modelView.getLocalBoard(), modelView.getLocalHand());
         System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
     }
     public void notifyUndo(String name) throws RemoteException{
@@ -105,7 +103,7 @@ public class ClientTUI extends Client {
     }
     public void notifyPut(String name, int column) throws RemoteException{
         if(GRAPHIC)
-            viewHandler.showBookshelf(modelView.getLocalBookshelfs().get(name));
+            outputHandler.showBookshelf(modelView.getLocalBookshelfs().get(name));
         System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
     }
 
@@ -163,8 +161,8 @@ public class ClientTUI extends Client {
         return state;
     }
 
-    public ViewHandler getViewhandler() {
-        return viewHandler;
+    public OutputHandler getViewhandler() {
+        return outputHandler;
     }
     public ModelView getModelView() {
         return modelView;

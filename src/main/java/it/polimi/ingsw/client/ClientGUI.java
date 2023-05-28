@@ -3,17 +3,12 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
-import it.polimi.ingsw.client.view.ViewHandler;
-import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-
-import static it.polimi.ingsw.util.Constants.*;
 
 public class ClientGUI extends Client{
 

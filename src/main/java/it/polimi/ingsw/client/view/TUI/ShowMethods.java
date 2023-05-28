@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.TUI;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.client.localModel.*;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import static it.polimi.ingsw.util.Constants.*;
 
-public class CLI {
+public class ShowMethods {
 
     // METHODS
     public StringBuilder showLogo() {

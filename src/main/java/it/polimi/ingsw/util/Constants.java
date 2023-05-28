@@ -1,11 +1,17 @@
 package it.polimi.ingsw.util;
 
+import java.io.IOException;
+
 public class Constants {
 
     public static final int nRowBoard = 9;
     public static final int nColumnBoard = 9;
     public static final int nRowBookshelf = 6;
     public static final int nColumnBookshelf = 5;
+
+    public static final String IPV4_PATTERN = "^(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)";
+    public static final String DEFAULT_IP_ADDRESS = "localhost";
+    public static final int DEFAULT_PORT = 1200;
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -26,14 +32,16 @@ public class Constants {
 
     public static final String BROWN_FOREGROUND = "\u001B[38;5;94m";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println(ANSI_GREEN + "❮INFORMATION❯");
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯");
         System.out.println(ANSI_BLUE + "❮INFORMATION❯");
         System.out.println(ANSI_PINK + "❮INFORMATION❯");
         System.out.println(ANSI_CYAN + "❮INFORMATION❯");
         System.out.println(ANSI_WHITE + "❮INFORMATION❯");
-        System.out.println(BROWN_FOREGROUND + LOGO4 + LOGO5 + LOGO6);
+        //System.out.print("\033[H\033[2J");
+        //System.out.flush();
+        //System.out.println(BROWN_FOREGROUND + LOGO6);
 
     }
 
@@ -49,50 +57,21 @@ public class Constants {
     public static final String WHITE_BACKGROUND = "\u001B[107m";
      */
 
+    public static final String MYSHELFIE_LOGIN =
+            "╔╦╗┬ ┬  ╔═╗┬ ┬┌─┐┬  ┌─┐┬┌─┐  ╦  ┌─┐┌─┐┬┌┐┌\n" +
+            "║║║└┬┘  ╚═╗├─┤├┤ │  ├┤ │├┤   ║  │ ││ ┬││││\n" +
+            "╩ ╩ ┴   ╚═╝┴ ┴└─┘┴─┘└  ┴└─┘  ╩═╝└─┘└─┘┴┘└┘";
+
+    public static final String MYSHELFIE_LOBBY =
+            "╔╦╗┬ ┬  ╔═╗┬ ┬┌─┐┬  ┌─┐┬┌─┐  ╦  ┌─┐┌┐ ┌┐ ┬ ┬\n" +
+            "║║║└┬┘  ╚═╗├─┤├┤ │  ├┤ │├┤   ║  │ │├┴┐├┴┐└┬┘\n" +
+            "╩ ╩ ┴   ╚═╝┴ ┴└─┘┴─┘└  ┴└─┘  ╩═╝└─┘└─┘└─┘ ┴ ";
+
     public static final String LOGO1  =
             " ╔╦╗┬ ┬  ╔═╗┬ ┬┌─┐┬  ┌─┐┬┌─┐\n" +
             " ║║║└┬┘  ╚═╗├─┤├┤ │  ├┤ │├┤ \n" +
             " ╩ ╩ ┴   ╚═╝┴ ┴└─┘┴─┘└  ┴└─┘\n";
 
-    public static final String LOGO2  =
-            "888b     d888             .d8888b.  888               888  .d888 d8b          \n" +
-            "8888b   d8888            d88P  Y88b 888               888 d88P\"  Y8P          \n" +
-            "88888b.d88888            Y88b.      888               888 888                 \n" +
-            "888Y88888P888 888  888    \"Y888b.   88888b.   .d88b.  888 888888 888  .d88b.  \n" +
-            "888 Y888P 888 888  888       \"Y88b. 888 \"88b d8P  Y8b 888 888    888 d8P  Y8b \n" +
-            "888  Y8P  888 888  888         \"888 888  888 88888888 888 888    888 88888888 \n" +
-            "888   \"   888 Y88b 888   Y88b  d88P 888  888 Y8b.     888 888    888 Y8b.     \n" +
-            "888       888  \"Y88888    \"Y8888P\"  888  888  \"Y8888  888 888    888  \"Y8888  \n" +
-            "                   888                                                          \n" +
-            "              Y8b d88P                                                        \n" +
-            "               \"Y88P\"";
-
-    public static final String LOGO3  =
-            "███╗   ███╗██╗   ██╗  ███████╗██╗  ██╗███████╗██╗     ███████╗██╗███████╗\n" +
-            "████╗ ████║╚██╗ ██╔╝  ██╔════╝██║  ██║██╔════╝██║     ██╔════╝██║██╔════╝\n" +
-            "██╔████╔██║ ╚████╔╝   ███████╗███████║█████╗  ██║     █████╗  ██║█████╗  \n" +
-            "██║╚██╔╝██║  ╚██╔╝    ╚════██║██╔══██║██╔══╝  ██║     ██╔══╝  ██║██╔══╝  \n" +
-            "██║ ╚═╝ ██║   ██║     ███████║██║  ██║███████╗███████╗██║     ██║███████╗\n" +
-            "╚═╝     ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝\n" +
-            "                                                                         ";
-    public static final String LOGO4 =
-            " _______           ______ _           _    ___ _       \n" +
-            "| __ __ |         / _____) |         | |  / __|_)      \n" +
-            "| || || |_   _   ( (____ | |__  _____| |_| |__ _ _____ \n" +
-            "| ||_|| | | | |   \\____ \\|  _ \\| ___ | (_   __) | ___ |\n" +
-            "| |   | | |_| |   _____) ) | | | ____| | | |  | | ____|\n" +
-            "|_|   |_|\\__  |  (______/|_| |_|_____)\\_)|_|  |_|_____)\n" +
-            "        (____/                                         \n";
-
-    public static final String LOGO5 =
-            "╔═╗╔═╗         ╔═══╗╔╗      ╔╗  ╔═╗      \n" +
-            "║║╚╝║║         ║╔═╗║║║      ║║  ║╔╝      \n" +
-            "║╔╗╔╗║╔╗ ╔╗    ║╚══╗║╚═╗╔══╗║║ ╔╝╚╗╔╗╔══╗\n" +
-            "║║║║║║║║ ║║    ╚══╗║║╔╗║║╔╗║║║ ╚╗╔╝╠╣║╔╗║\n" +
-            "║║║║║║║╚═╝║    ║╚═╝║║║║║║║═╣║╚╗ ║║ ║║║║═╣\n" +
-            "╚╝╚╝╚╝╚═╗╔╝    ╚═══╝╚╝╚╝╚══╝╚═╝ ╚╝ ╚╝╚══╝\n" +
-            "      ╔═╝║                               \n" +
-            "      ╚══╝                               \n";
 
     public static final String LOGO6 =
             "                                      ▄▄                  ▄▄     ▄▄▄▄ ▄▄          \n" +

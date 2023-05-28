@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.GameMode;
 import java.util.Objects;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.util.Constants.ANSI_RESET;
+import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
+
 public class CreateCommand implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
@@ -15,7 +18,7 @@ public class CreateCommand implements Command {
         GameMode gamemode;
 
         if(Objects.equals(name, "")) {
-            System.out.println("CLIENT:: nome non valido");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The name entered is not valid");
             return;
         }
 
@@ -24,12 +27,12 @@ public class CreateCommand implements Command {
         else if(gameModeString.equalsIgnoreCase("EXPERT") || gameModeString.equals("1"))
             gamemode = GameMode.EXPERT;
         else{
-            System.out.println("CLIENT:: gamemode non valida");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The gamemode entered is not valid");
             return;
         }
 
         if(num<2 || num>4) {
-            System.out.println("CLIENT:: nome giocatori non valido");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The number of players entered is not valid");
             return;
         }
 

@@ -29,4 +29,6 @@ module it.polimi.ingsw {
 
     opens it.polimi.ingsw.connection.message ;
     opens it.polimi.ingsw.connection;
+    exports it.polimi.ingsw.client.view.TUI;
+    opens it.polimi.ingsw.client.view.TUI to javafx.fxml;
 }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Item;
 import java.io.Serializable;
 
 public class LocalBookshelf implements Serializable, Sendable {
+
     public final String name;
     public final Item[][] bookshelf;
 
