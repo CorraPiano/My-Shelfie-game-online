@@ -12,8 +12,8 @@ public class CommonCardCommand  implements Command {
     public void execute(Sender sender, Scanner stdin, Client client) {
         if(client.getModelView().getGameMode().compareTo(GameMode.EASY) == 1) {
             System.out.println(BROWN_FOREGROUND + "Here are the current common cards and their description:\n" + ANSI_RESET);
-            client.getViewhandler().showCommonCards(client.getModelView().getCommonCards().get(0));
-            client.getViewhandler().showCommonCards(client.getModelView().getCommonCards().get(1));
+            client.getOutputHandler().showCommonCards(client.getModelView().getCommonCards().get(0));
+            client.getOutputHandler().showCommonCards(client.getModelView().getCommonCards().get(1));
         } else {
             System.out.println(BROWN_FOREGROUND + "There are no CommonGoalCards in EASY game-mode"+ ANSI_RESET);
         }

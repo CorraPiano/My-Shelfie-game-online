@@ -8,7 +8,8 @@ public class SendCommand implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
         // da implementare
+        String receiver = stdin.next();
         String message = stdin.nextLine();
-        sender.addChatMessage(message);
+        sender.addChatMessage(message,receiver);
     }
 }

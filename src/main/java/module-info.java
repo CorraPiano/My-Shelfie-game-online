@@ -31,4 +31,7 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.connection;
     exports it.polimi.ingsw.client.view.TUI;
     opens it.polimi.ingsw.client.view.TUI to javafx.fxml;
+    opens it.polimi.ingsw.client.localModel to javafx.fxml;
+    exports it.polimi.ingsw.client;
+    opens it.polimi.ingsw.client to javafx.fxml;
 }

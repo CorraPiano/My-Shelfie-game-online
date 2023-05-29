@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.connection.TCPMessage;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.Remote;
@@ -9,7 +10,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface ClientSkeleton extends Remote {
-    void updateChat(String name, String message) throws RemoteException;
+    void updateChat(ChatMessage message) throws RemoteException;
     void createGame(int gameID) throws RemoteException;
     void playerJoin(String name) throws RemoteException;
     void playerLeave(String name) throws RemoteException;
@@ -28,8 +29,5 @@ public interface ClientSkeleton extends Remote {
     void updateCommonGoalCard(LocalCommonCard commonGoalCard) throws RemoteException;
     void updatePersonalGoalCard(LocalPersonalCard personalGoalCard) throws RemoteException;
     void ping(int ping) throws RemoteException;
-    void reveiceOK() throws RemoteException;
-    //void receiveException(String e) throws RemoteException;
-    void receiveID(String id) throws RemoteException;
-    void receiveGamesList(ArrayList<LocalGame> gameList) throws RemoteException;
+
 }

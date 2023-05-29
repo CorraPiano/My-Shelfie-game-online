@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.connection.Connection;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.*;
 
@@ -33,7 +34,6 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         return id;
     }
 
-    //for TCP - to fix
     public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, Connection conn) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException {
         int gameID = gameplaysHandler.nextID();
         Gameplay gameplay = new Gameplay(gameMode, maxPlayers,gameID);
@@ -74,17 +74,11 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
-        // per il momento sostituti da tryStartGame
-        //if(gameplay.isReady())
-        //    gameplay.startGame();
+        if(gameplay.isReady())
+            gameplay.startGame();
         return id;
     }
 
-    public void tryStartGame(int gameID) throws InvalidGameIdException {
-        Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
-        if(gameplay.isReady())
-            gameplay.startGame();
-    }
     private void validateCommand(Gameplay gameplay, String id) throws NotInGameException, WrongTurnException, RemoteException {
         if(!gameplay.getGameState().equals(GameState.GAME))
             throw new NotInGameException();
@@ -122,8 +116,9 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         System.out.println("GAME:: mano inserita nel tabellone");
     }
 
-    public synchronized void addChatMessage(String chatMessage,String id) throws InvalidIdException, RemoteException {
+    public synchronized void addChatMessage(ChatMessage chatMessage, String id) throws InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        gameplay.addChatMessage(chatMessage);
         System.out.println("CHAT:: "+ gameplay.getGameID()+", "+ gameplay.getPlayerNameByID(id) + ">> " + chatMessage);
     }
 

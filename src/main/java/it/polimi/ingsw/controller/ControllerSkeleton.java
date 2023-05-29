@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
@@ -20,7 +21,7 @@ public interface ControllerSkeleton extends Remote {
 
     void selectInsertOrder(ArrayList<Integer> order, String id) throws RemoteException, WrongLengthOrderException, WrongContentOrderException, NotInGameException, WrongTurnException, InvalidIdException;
 
-    void addChatMessage(String chatMessage,String id) throws RemoteException, InvalidIdException;
+    void addChatMessage(ChatMessage chatMessage, String id) throws RemoteException, InvalidIdException;
 
     void leaveGame(String id) throws RemoteException, InvalidIdException;
 }

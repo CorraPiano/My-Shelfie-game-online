@@ -1,25 +1,17 @@
 package it.polimi.ingsw.connection;
 
 public enum MessageHeader {
-    //up
+    ID,
     LIST,
     CREATE,
     JOIN,
     LEAVE,
-
-    //up and down
     PICK,
     ORDER,
     UNDO,
     PUT,
-
-    //down
     EXCEPTION,
-    GAMESLIST,
-    OK,
-    ID,
-    PLAYERJOIN,
-    PLAYERLEAVE,
+    NOTHING,
     STARTGAME,
     NEWTURN,
     LASTROUND,
@@ -30,7 +22,6 @@ public enum MessageHeader {
     PERSONALGOALCARD,
     GAME,
     HAND,
-    PLAYER;
-
-
+    PLAYER,
+    CHAT;
 }

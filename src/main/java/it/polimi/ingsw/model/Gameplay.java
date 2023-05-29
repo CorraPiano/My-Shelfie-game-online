@@ -178,6 +178,16 @@ public class Gameplay extends Listenable {
         }
     }
 
+    public void addChatMessage(ChatMessage chatMessage){
+        if(chatMessage.all)
+            eventKeeper.notifyAll(chatMessage);
+        else
+        {
+            eventKeeper.notifyToID(getPlayerIDByName(chatMessage.receiver),chatMessage);
+            eventKeeper.notifyToID(getPlayerIDByName(chatMessage.sender),chatMessage);
+        }
+    }
+
     //si deve poter stoppare il gioco prima della fine
     public void endGame(){
         gameState = GameState.END;
@@ -185,10 +195,8 @@ public class Gameplay extends Listenable {
             p.updatePoints(true);
         }
         playerList=sort(playerList);
-        //broadcasterRMI.updateGame(gameID,this);
-        //broadcasterRMI.endGame(gameID,playerList.get(0).getName());
         eventKeeper.notifyAll(getLocal());
-        eventKeeper.notifyAll(new EndGameMessage(playerHandler.current().getName()));
+        eventKeeper.notifyAll(new EndGameMessage(playerList.get(0).getName()));
     }
 
     private ArrayList<Player> sort(ArrayList<Player>playerList){
@@ -249,6 +257,14 @@ public class Gameplay extends Listenable {
 
     public EventKeeper getEventKeeper(){
         return eventKeeper;
+    }
+
+    public String getPlayerIDByName(String name){
+        for(Player p:playerList){
+            if(p.getName().equals(name))
+                return p.getID();
+        }
+        return null;
     }
 }
 

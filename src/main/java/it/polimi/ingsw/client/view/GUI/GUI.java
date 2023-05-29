@@ -160,7 +160,7 @@ public class GUI extends Application implements View {
         TCPReceiver tcpreceiver = new TCPReceiver(client);
         ClientConnection clientConnection = new ClientConnection(new Socket("localhost", 8081), tcpreceiver);
         new Thread(clientConnection).start();
-        this.setSender(new TCPSender(clientConnection));
+        this.setSender(new TCPSender(clientConnection,client));
         this.switchStage(Command.SET_CONNECTION);
     }
 

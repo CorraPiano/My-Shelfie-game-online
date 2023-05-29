@@ -5,12 +5,11 @@ import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.connection.message.*;
-import it.polimi.ingsw.controller.ClientSkeleton;
-
 
 public class TCPReceiver {
     private final Gson gson;
     private final Client client;
+    private String name;
 
     private final boolean DEBUG_MESSAGE = false;
     public TCPReceiver(Client client) {
@@ -22,8 +21,8 @@ public class TCPReceiver {
         if(DEBUG_MESSAGE)
             System.out.println(TCPmessage.getBody());
         switch (TCPmessage.getHeader()) {
-            case OK-> {
-                client.reveiceOK();
+            case NOTHING -> {
+                client.receiveNothing();
             }
             case ID-> {
                 client.receiveID(TCPmessage.getBody());
@@ -105,6 +104,10 @@ public class TCPReceiver {
             }
             case PLAYER -> {
                 System.out.println("player");
+            }
+            case CHAT -> {
+                ChatMessage message = gson.fromJson(TCPmessage.getBody(),ChatMessage.class);
+                client.updateChat(message);
             }
             default -> {
                 throw new Exception();

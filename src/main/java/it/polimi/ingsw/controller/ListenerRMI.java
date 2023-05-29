@@ -17,6 +17,10 @@ public class ListenerRMI extends Listener{
                 MessageHeader header = sendable.getHeader();
                 try {
                         switch(header){
+                                case CHAT -> {
+                                        ChatMessage message = (ChatMessage) sendable;
+                                        client.updateChat(message);
+                                }
                                 case CREATE -> {
                                         CreateMessage message = (CreateMessage) sendable;
                                         client.createGame(message.gameID);

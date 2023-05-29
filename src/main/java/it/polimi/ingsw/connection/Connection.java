@@ -13,7 +13,7 @@ public class Connection implements Runnable{
     private final Scanner in;
     private final PrintWriter out;
 
-    Gson gson;
+    private Gson gson;
 
 
     public Connection(Socket socket, int num, MessageHandler messageHandler) throws IOException {
@@ -32,16 +32,20 @@ public class Connection implements Runnable{
             //sistemare il thread con wait;
             try {
                 if (in.hasNext()) {
+                    System.out.println("------------------------------------------");
                     String line = in.nextLine();
                     try {
                         TCPMessage message = gson.fromJson(line, TCPMessage.class);
                         messageHandler.receive(message, this);
                     } catch (Exception e) {
+                        e.printStackTrace();
                         TCPMessage TCPmessage = new TCPMessage(MessageHeader.EXCEPTION, e.toString());
                         send(TCPmessage);
                     }
+                } else {
+                        //errore
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

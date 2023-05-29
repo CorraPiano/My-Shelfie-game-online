@@ -36,7 +36,6 @@ public abstract class Listener implements Runnable {
                 }
                 synchronized (eventKeeper) {
                     if (eventKeeper.isPresentPersonal(id, personalCursor)) {
-                        System.out.println("eeeeeeeeeeeeeeeeee");
                         this.handleSendable(eventKeeper.getListenablePersonal(id, personalCursor));
                         personalCursor++;
                     }

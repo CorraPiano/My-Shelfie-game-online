@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.connection;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.ClientState;
 import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.connection.message.*;
 import java.io.IOException;

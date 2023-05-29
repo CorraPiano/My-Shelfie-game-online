@@ -14,6 +14,7 @@ public class HelpCommand implements Command {
                 " ➤ " + ANSI_GREEN + "PUT [column]" + BROWN_FOREGROUND + ": if you have some Items in your hand you can put them in the bookshelf\n" +
                 " ➤ " + ANSI_GREEN + "UNDO" + BROWN_FOREGROUND + ": if you realized that you made a mistake in taking the item you can redo the action\n" +
                 " ➤ " + ANSI_GREEN + "SHOWCOMMONCARD" + BROWN_FOREGROUND + ": use this command tu see the description of the current common cards\n" +
-                " ➤ " + ANSI_GREEN + "SEND [message]" + BROWN_FOREGROUND + ": with this command you can chat with the other players\n" + ANSI_GREEN);
+                " ➤ " + ANSI_GREEN + "CHAT" + BROWN_FOREGROUND + ": with this command you can open the chat\n" +
+                " ➤ " + ANSI_GREEN + "LEAVE" + BROWN_FOREGROUND + ": with this command you will end the game FOR ALL THE PLAYERS \n" + ANSI_GREEN);
     }
 }

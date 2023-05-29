@@ -78,7 +78,7 @@ public class TUI implements View {
         TCPReceiver TCPreceiver = new TCPReceiver(client);
         ClientConnection connection = new ClientConnection(startTCP(),TCPreceiver);
         new Thread(connection).start();
-        return new TCPSender(connection);
+        return new TCPSender(connection,client);
     }
     private static ControllerSkeleton startRMI() throws RemoteException, NotBoundException {
         Registry registry;

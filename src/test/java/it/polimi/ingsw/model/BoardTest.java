@@ -62,8 +62,8 @@ class BoardTest {
         } catch(Exception e){ }
         board.drawBoardItems();
         try {
-            board.getItem(new Coordinates(1, 3));
             board.getItem(new Coordinates(1, 4));
+            board.getItem(new Coordinates(1, 5));
             hand.clear();
             board.getItem(new Coordinates(2, 3));
             board.getItem(new Coordinates(2, 4));

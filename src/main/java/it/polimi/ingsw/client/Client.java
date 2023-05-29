@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.TUI.OutputHandler;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
 
@@ -10,32 +11,70 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 public class Client extends UnicastRemoteObject implements ClientSkeleton {
-
-    private final ModelView modelView;
-    private final OutputHandler outputHandler;
+    protected final ModelView modelView;
     //private View view;
-    private String ID;
-    private boolean state;
-
-    private final boolean GRAPHIC = true;
+    protected String ID;
+    protected String name;
+    protected ClientPhase phase;
+    protected ClientState state;
+    protected final Chat chat;
+    private final boolean DEBUG = false;
 
     public Client() throws RemoteException {
-        state = false;
-        outputHandler = new OutputHandler();
         modelView = new ModelView();
-        //this.view = view;
+        phase = ClientPhase.JOIN;
+        state = ClientState.READY;
+        chat = new Chat(this);
     }
 
+    // funzioni non visibili al server (invocate da sender/receiver)
+    // corrispondono a return di RMI
+    public synchronized void receiveNothing(){
+        state = ClientState.READY;
+        this.notifyAll();
+    }
+    public synchronized void receiveID(String ID){
+        this.ID=ID;
+        phase = ClientPhase.GAME;
+        state = ClientState.READY;
+        this.notifyAll();
+    }
+    public synchronized void setName(String name){ this.name=name; }
+    public synchronized void receiveException(String e){
+        state = ClientState.READY;
+        this.notifyAll();
+    }
+    public synchronized void receiveGamesList(ArrayList<LocalGame> gameslist) throws RemoteException {
+        state = ClientState.READY;
+        this.notifyAll();
+    }
+    public synchronized void putInWait(){ state = ClientState.WAIT; }
+
+    public synchronized void OpenChat(){
+        phase=ClientPhase.CHAT;
+        new Thread(chat).start();
+    }
+    public synchronized void closeChat(){
+        chat.stopThread();
+        phase=ClientPhase.GAME;
+    }
+
+    public synchronized String getID() {
+        return ID;
+    }
+    public synchronized String getName() { return name; }
+    public synchronized ClientPhase getPhase() { return phase; }
+    public synchronized ClientState getState() { return state; }
+    public synchronized ModelView getModelView() {
+        return modelView;
+    }
+    public synchronized Chat getChat() { return chat; }
+
+    // !!! vedere dove serve sincronized
+
+
+    // funzioni visibili al server
     public void ping(int ping) throws RemoteException{}
-
-    public void reveiceOK(){}
-    public void receiveID(String ID){}
-    public void receiveException(String e){
-        System.out.println(e);
-    }
-    public void receiveGamesList(ArrayList<LocalGame> gameslist) throws RemoteException {}
-
-    public void updateChat(String name, String message) throws RemoteException {}
 
     public void createGame(int gameID) throws RemoteException {}
     public void playerJoin(String name) throws RemoteException {}
@@ -43,31 +82,62 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void startGame(String name) throws RemoteException {}
     public void newTurn(String name) throws RemoteException {}
     public void lastRound(String name) throws RemoteException {}
-    public void endGame(String name) throws RemoteException {}
+    public synchronized void endGame(String name) throws RemoteException {
+        if(phase.equals(ClientPhase.CHAT))
+            chat.stopThread();
+        phase=ClientPhase.JOIN;
+    }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{}
     public void notifyUndo(String name) throws RemoteException{}
     public void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException{}
     public void notifyPut(String name, int column) throws RemoteException{}
 
-    public void updateBoard(LocalBoard board) throws RemoteException {}
-    public void updateBookshelf(LocalBookshelf bookshelf) throws RemoteException {}
-    public void updateHand(LocalHand hand) throws RemoteException {}
-    public void updateGame(LocalGame localGame) throws RemoteException {}
-    public void updateCommonGoalCard(LocalCommonCard localCommonCard) throws RemoteException{}
-    public void updatePersonalGoalCard(LocalPersonalCard personalCard) throws RemoteException{}
+    public void updateBoard(LocalBoard board) throws RemoteException {
+        if(DEBUG)
+            System.out.println("--> board received");
+        modelView.setLocalBoard(board);
+    }
 
+    public void updateBookshelf(LocalBookshelf bookshelf) throws RemoteException {
+        if(DEBUG)
+            System.out.println("--> bookshelf received");
+        modelView.setLocalBookshelf(bookshelf);
+    }
 
-    public String getID() {
-        return ID;
+    public void updateHand(LocalHand hand) throws RemoteException {
+        if(DEBUG)
+            System.out.println("--> hand received");
+        modelView.setLocalHand(hand);
     }
-    public boolean getState() {
-        return state;
+
+    public void updateGame(LocalGame localGame) throws RemoteException {
+        if(DEBUG)
+            System.out.println("--> game received");
+        modelView.setLocalPlayer(localGame.playerList);
+        modelView.setGameMode(localGame.gameMode);
     }
-    public OutputHandler getViewhandler() {
-        return outputHandler;
+
+    public void updateCommonGoalCard(LocalCommonCard localCommonCard) throws RemoteException{
+        if(DEBUG)
+            System.out.println("--> commonCard received");
+        modelView.setLocalCommonCard(localCommonCard);
     }
-    public ModelView getModelView() {
-        return modelView;
+
+    public void updatePersonalGoalCard(LocalPersonalCard personalCard) throws RemoteException{
+        if(DEBUG)
+            System.out.println("--> personalCard received");
+        // deve riceve una personal, non datacard !!!
+        modelView.setPersonalCard(new DataCard(personalCard.num));
+    }
+
+    public void updateChat(ChatMessage chatMessage) throws RemoteException {
+        if(DEBUG)
+            System.out.println("--> chat message received");
+        chat.addChatMessage(chatMessage);
+    }
+
+    public OutputHandler getOutputHandler() {
+        return null;
     }
 }

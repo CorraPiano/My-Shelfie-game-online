@@ -25,42 +25,42 @@ public class MessageHandler {
             case LIST -> {
                 ListMessage list = new ListMessage(controller.getGameList());
                 send(list,connection);
-
-                //senderTCP.sendToConnection(list, connection);
             }
             case PICK -> {
                 PickMessage pickMessage = gson.fromJson(TCPmessage.getBody(), PickMessage.class);
                 controller.pickItem(pickMessage.coordinates, socketMap.getIdByConnection(connection));
+                sendNothing(connection);
             }
             case UNDO -> {
                 controller.undoPick(socketMap.getIdByConnection(connection));
+                sendNothing(connection);
             }
             case ORDER -> {
                 OrderMessage orderMessage = gson.fromJson(TCPmessage.getBody(), OrderMessage.class);
                 controller.selectInsertOrder(orderMessage.orderlist, socketMap.getIdByConnection(connection));
+                sendNothing(connection);
             }
             case PUT -> {
                 PutMessage putMessage = gson.fromJson(TCPmessage.getBody(), PutMessage.class);
                 controller.putItemList(putMessage.column, socketMap.getIdByConnection(connection));
+                sendNothing(connection);
             }
             case JOIN -> {
                 JoinMessage joinMessage = gson.fromJson(TCPmessage.getBody(), JoinMessage.class);
                 String id = controller.addPlayer(joinMessage.name, joinMessage.gameID,connection);
                 socketMap.bind(id, connection);
-                //da sistemare sta roba
-                controller.tryStartGame(joinMessage.gameID);
                 sendID(id,connection);
-                //senderTCP.send(MessageHeader.ID, id, id);
-                //TCPMessage message = new TCPMessage(MessageHeader.ID,id);
-                //connection.send(TCPmessage);
             }
             case CREATE -> {
                 CreateMessage createMessage = gson.fromJson(TCPmessage.getBody(), CreateMessage.class);
                 String id = controller.addFirstPlayer(createMessage.name, createMessage.gameMode, createMessage.numPlayers,connection);
                 socketMap.bind(id, connection);
                 sendID(id,connection);
-                //TCPMessage message = new TCPMessage(MessageHeader.ID,id);
-                //connection.send(TCPmessage);
+            }
+            case CHAT -> {
+                ChatMessage chatMessage = gson.fromJson(TCPmessage.getBody(), ChatMessage.class);
+                controller.addChatMessage(chatMessage,socketMap.getIdByConnection(connection) );
+                sendNothing(connection);
             }
             default -> {
                 throw new UnavaiableCommandException();
@@ -76,6 +76,11 @@ public class MessageHandler {
 
     public void sendID(String id, Connection conn){
         TCPMessage TCPmessage = new TCPMessage(MessageHeader.ID,id);
+        conn.send(TCPmessage);
+    }
+
+    public void sendNothing(Connection conn){
+        TCPMessage TCPmessage = new TCPMessage(MessageHeader.NOTHING,"");
         conn.send(TCPmessage);
     }
 

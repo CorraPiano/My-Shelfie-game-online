@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.connection;
 
 import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.Coordinates;
@@ -17,6 +18,7 @@ public abstract class Sender {
     public abstract void undoPick();
     public abstract void putItemList(int column);
     public abstract void selectInsertOrder(ArrayList<Integer> order);
-    public abstract void addChatMessage(String chatMessage);
+    public abstract void addChatMessage(String message, String receiver);
+    public abstract void addChatMessage(String message);
     public abstract void leaveGame();
 }
