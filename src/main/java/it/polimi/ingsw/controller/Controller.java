@@ -116,7 +116,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         System.out.println("GAME:: mano inserita nel tabellone");
     }
 
-    public synchronized void addChatMessage(ChatMessage chatMessage, String id) throws InvalidIdException, RemoteException {
+    public synchronized void addChatMessage(ChatMessage chatMessage, String id) throws InvalidIdException, RemoteException, InvalidNameException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.addChatMessage(chatMessage);
         System.out.println("CHAT:: "+ gameplay.getGameID()+", "+ gameplay.getPlayerNameByID(id) + ">> " + chatMessage);

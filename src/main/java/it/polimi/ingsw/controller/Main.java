@@ -24,7 +24,7 @@ public class Main {
     }
     private static void startRMI(Controller controller) throws RemoteException {
         try{
-            LocateRegistry.createRegistry(1099);
+            LocateRegistry.createRegistry(Settings.RMIPORT);
             Registry registry = LocateRegistry.getRegistry();
             registry.bind(Settings.remoteObjectName, controller);
             System.out.println("RMI attivo");
@@ -36,7 +36,7 @@ public class Main {
     private static void startTCP(Controller controller, MessageHandler messageHandler){
         try{
             // interfacce di scambio
-            ServerSocket serverSocket =new ServerSocket(8081);
+            ServerSocket serverSocket =new ServerSocket(Settings.TCPPORT);
             TCPServer TCPserver = new TCPServer(serverSocket, messageHandler);
             new Thread(TCPserver).start();
             System.out.println("TCP attivo");

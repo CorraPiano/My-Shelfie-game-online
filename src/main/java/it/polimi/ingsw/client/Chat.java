@@ -51,18 +51,17 @@ public class Chat implements Runnable{
                         if(message.sender.equals(client.getName())) {
                             //System.out.printf("\t\t\t\t\t");
                             if (message.all) {
-                                System.out.println(ANSI_YELLOW + "❮ALL❯" + ANSI_CYAN + "you" + ANSI_RESET + ": " + message.message);
+                                System.out.println(ANSI_PINK + "❮ALL❯ " + ANSI_CYAN + "you" + ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
                             } else {
-                                String receiver = message.receiver;
-                                System.out.println(ANSI_YELLOW + "❮private❯" + ANSI_CYAN + "you" + ANSI_RESET + ": " + message.message);
+                                System.out.println(ANSI_PINK + "❮to "+ message.receiver +"❯ " +  ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
                             }
                         }
                         else {
                             if (message.all) {
-                                System.out.println(ANSI_YELLOW + "❮ALL❯" + ANSI_CYAN + message.sender + ANSI_RESET + ": " + message.message);
+                                System.out.println(ANSI_PINK + "❮ALL❯ " + ANSI_CYAN + message.sender + ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
                             } else {
                                 String receiver = message.receiver;
-                                System.out.println(ANSI_YELLOW + "❮private❯" + ANSI_CYAN + message.sender + ANSI_RESET + ": " + message.message);
+                                System.out.println(ANSI_PINK + "❮from "+  message.sender +"❯ " + ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
                             }
                         }
                         cursor++;

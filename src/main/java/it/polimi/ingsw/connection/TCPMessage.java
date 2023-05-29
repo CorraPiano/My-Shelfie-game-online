@@ -13,11 +13,6 @@ public class TCPMessage {
 
     public MessageHeader getHeader(){return header;}
 
-    public boolean is(MessageHeader messageHeader){
-        if(this.header.equals(messageHeader))
-            return true;
-        return false;
-    }
     public String getBody(){return body;}
 }
 
