@@ -16,9 +16,7 @@ public class LocalBoard implements Serializable, Sendable {
     }
     public LocalBoard(Item[][] board){
         this.board=board;
-
     }
-
     public MessageHeader getHeader(){
         return MessageHeader.BOARD;
     }

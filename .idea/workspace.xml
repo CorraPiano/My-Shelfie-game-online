@@ -4,26 +4,80 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2efd1ceb-97f5-4da6-8001-156fe00ca615" name="Changes" comment="CLI fixes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/TUI/TUI.java" afterDir="false" />
+    <list default="true" id="2efd1ceb-97f5-4da6-8001-156fe00ca615" name="Changes" comment="Game Scene basic">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/HelloApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/ClientGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/ClientGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/ClientTUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/ClientTUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/GraphicsInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/TUI/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/MyShelfie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/MyShelfie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/CommonCardCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/CommonCardCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/CreateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/CreateCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/JoinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/JoinCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/OrderCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/OrderCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/PickCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/PickCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/PutCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/commands/PutCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/localModel/LocalBookshelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/localModel/LocalBookshelf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/TUI/ShowMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/ViewHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/TUI/OutputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/util/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/localModel/LocalBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/localModel/LocalBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/localModel/ModelView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/localModel/ModelView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/FindGameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/FindGameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/GUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/GUIController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/SetupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/SetupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/ItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/10.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/10.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/11.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/11.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/12.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/12.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/5.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/7.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/8.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/9.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/common goal cards/back.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/common/back.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Cornici1.1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Blue1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Cornici1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Blue2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Cornici1.3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Blue3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Gatti1.1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Green1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Gatti1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Green2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Gatti1.3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Green3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Giochi1.1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Yellow1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Giochi1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Yellow2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Giochi1.3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Yellow3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Libri1.1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/White1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Libri1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/White2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Libri1.3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/White3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Piante1.1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Pink1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Piante1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Pink2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Piante1.3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Pink3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Trofei1.1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Cyan1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Trofei1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Cyan2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/item tiles/Trofei1.3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/items/Cyan3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals10.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals11.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals12.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals5.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals6.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals7.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals8.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/Personal_Goals9.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/back.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/back.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/front_EMPTY.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/front_EMPTY.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/10.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/10.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/11.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/11.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/12.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/12.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/5.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/7.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/8.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/personal goal cards/old/9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/personal/old/9.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/game.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +88,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -51,6 +106,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2PqZVRBDmmSnbPIQaZHNH91yd9j" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -59,47 +117,65 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/davide/IdeaProjects/ingsw2022-AM06",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/flavi/IdeaProjects/MyShelfie&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.customizations&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="it.polimi.ingsw.client.localModel" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\nicol\Documents\politecnico\Progetto IngSoft\IS23-AM26\src\main\java\it\polimi\ingsw\client\view\GUI" />
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie\src\main\resources" />
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie_javafx\src" />
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie_javafx\src\main\java\it\polimi\ingsw\am26" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nicol\Documents\politecnico\Progetto IngSoft\IS23-AM26\src\main\resources" />
+      <recent name="C:\Users\nicol\Documents\politecnico\Progetto IngSoft\IS23-AM26\src\main\resources\fxml" />
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie\src\main\resources\fxml" />
       <recent name="C:\Users\flavi\IdeaProjects\MyShelfie\src\main\resources" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="it.polimi.ingsw" />
+      <recent name="it.polimi.ingsw.client.view.GUI" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MyShelfie">
-    <configuration name="Constants" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.util.Constants" />
-      <module name="MyShelfie" />
+    <configuration name="GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.client.view.GUI.GUI" />
+      <module name="AM26" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.util.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.HelloApplication" />
+      <module name="AM26" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -109,7 +185,7 @@
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.controller.Main" />
-      <module name="MyShelfie" />
+      <module name="MyShelfie_javafx" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="it.polimi.ingsw.controller.*" />
@@ -120,13 +196,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyShelfie" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+    <configuration name="MyShelfie" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.client.MyShelfie" />
-      <module name="MyShelfie" />
-      <option name="PROGRAM_PARAMETERS" value="0" />
+      <module name="MyShelfie_javafx" />
+      <option name="PROGRAM_PARAMETERS" value="2" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.client.view.TUI.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -134,25 +210,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="it.polimi.ingsw.client.Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+    <configuration name="it.polimi.ingsw.clientTest.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.clientTest.Main" />
+      <module name="MyShelfie" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.clientTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="it.polimi.ingsw.client.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.client.Main" />
       <module name="MyShelfie" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.client.view.TUI.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="it.polimi.ingsw.client.view.GUI.GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.client.view.GUI.GUI" />
-      <module name="MyShelfie" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.client.view.GUI.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -161,19 +237,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Constants" />
       <item itemvalue="Application.MyShelfie" />
-      <item itemvalue="Application.it.polimi.ingsw.client.view.GUI.GUI" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.it.polimi.ingsw.client.Main" />
+      <item itemvalue="Application.it.polimi.ingsw.clientTest.Main" />
+      <item itemvalue="Application.HelloApplication" />
+      <item itemvalue="Application.GUI" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MyShelfie" />
-        <item itemvalue="Application.Constants" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.GUI" />
+        <item itemvalue="Application.HelloApplication" />
+        <item itemvalue="Application.it.polimi.ingsw.clientTest.Main" />
         <item itemvalue="Application.it.polimi.ingsw.client.Main" />
-        <item itemvalue="Application.it.polimi.ingsw.client.view.GUI.GUI" />
       </list>
     </recent_temporary>
   </component>
@@ -188,14 +265,16 @@
       <workItem from="1684186599948" duration="584000" />
       <workItem from="1684187286526" duration="1376000" />
       <workItem from="1684247128833" duration="22413000" />
-      <workItem from="1684794088211" duration="226000" />
-      <workItem from="1684794620830" duration="104000" />
-      <workItem from="1684867493395" duration="3218000" />
-      <workItem from="1685041499899" duration="790000" />
-      <workItem from="1685104786200" duration="377000" />
-      <workItem from="1685110681484" duration="2623000" />
-      <workItem from="1685194902834" duration="3191000" />
-      <workItem from="1685278691562" duration="17415000" />
+      <workItem from="1684672125284" duration="4638000" />
+      <workItem from="1684679981785" duration="10000" />
+      <workItem from="1684680005116" duration="9934000" />
+      <workItem from="1685372529042" duration="2486000" />
+      <workItem from="1685375231199" duration="29000" />
+      <workItem from="1685375315372" duration="86000" />
+      <workItem from="1685375417376" duration="5505000" />
+      <workItem from="1685381507816" duration="4586000" />
+      <workItem from="1685390634425" duration="10308000" />
+      <workItem from="1685430568345" duration="3683000" />
     </task>
     <task id="LOCAL-00001" summary="JavaFX project imported">
       <created>1684188333795</created>
@@ -211,12 +290,12 @@
       <option name="project" value="LOCAL" />
       <updated>1684188383812</updated>
     </task>
-    <task id="LOCAL-00003" summary="CLI fixes">
-      <created>1684793868612</created>
+    <task id="LOCAL-00003" summary="GUi package and classes">
+      <created>1684679908883</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1684793868612</updated>
+      <updated>1684679908885</updated>
     </task>
     <option name="localTasksCounter" value="4" />
     <servers />
@@ -238,8 +317,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="JavaFX project imported" />
     <MESSAGE value="JavaFX project imported and other fixes" />
-    <MESSAGE value="CLI fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="CLI fixes" />
+    <MESSAGE value="GUi package and classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="GUi package and classes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

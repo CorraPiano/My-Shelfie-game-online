@@ -129,6 +129,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
             System.out.println("--> personalCard received");
         // deve riceve una personal, non datacard !!!
         modelView.setPersonalCard(new DataCard(personalCard.num));
+        modelView.setLocalPersonalCard(personalCard);
     }
 
     public void updateChat(ChatMessage chatMessage) throws RemoteException {

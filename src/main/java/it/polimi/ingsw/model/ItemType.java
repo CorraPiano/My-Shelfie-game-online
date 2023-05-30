@@ -15,4 +15,5 @@ public enum ItemType {
     public int getValue() {
         return value;
     }
+
 };

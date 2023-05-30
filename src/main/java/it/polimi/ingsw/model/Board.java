@@ -55,7 +55,7 @@ public class Board extends Listenable {
     }
 
     /* True if we can pick an item from the board */
-    private boolean isCatchable(Coordinates coordinates) throws LimitReachedPickException, OutOfBoardPickException, EmptySlotPickException, NotCatchablePickException {
+    public boolean isCatchable(Coordinates coordinates) throws LimitReachedPickException, OutOfBoardPickException, EmptySlotPickException, NotCatchablePickException {
         int row = coordinates.getRow();
         int column = coordinates.getColumn();
         boolean catchable = false;

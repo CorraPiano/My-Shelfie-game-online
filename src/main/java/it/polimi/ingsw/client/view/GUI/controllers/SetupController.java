@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.connection.ClientConnection;
 import it.polimi.ingsw.client.connection.RMISender;
 import it.polimi.ingsw.client.connection.TCPReceiver;
 import it.polimi.ingsw.client.connection.TCPSender;
+import it.polimi.ingsw.client.localModel.LocalBoard;
+import it.polimi.ingsw.client.localModel.LocalCommonCard;
+import it.polimi.ingsw.client.localModel.LocalPersonalCard;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.controller.Controller;
@@ -19,9 +22,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 public class SetupController implements GUIController {
     private GUI gui;
+
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
@@ -29,6 +34,13 @@ public class SetupController implements GUIController {
 
     @Override
     public GUI getGui() { return this.gui; }
+
+    @Override
+    public void init() {
+
+    }
+
+
     @FXML
     public void onTCPButton(){
         try {

@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.localModel;
 
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.GameMode;
+import it.polimi.ingsw.model.Item;
+import it.polimi.ingsw.model.PersonalGoalCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ public class ModelView {
     private ArrayList<LocalPlayer> localPlayerList;
     private ArrayList<LocalCommonCard> localCommonCardList;
     private DataCard dataCard;
+    private LocalPersonalCard localPersonalCard;
 
 
 
@@ -58,6 +61,9 @@ public class ModelView {
     public void setPersonalCard(DataCard dataCard) {
         this.dataCard = dataCard;
     }
+    public void setLocalPersonalCard (LocalPersonalCard localPersonalCard){
+        this.localPersonalCard = localPersonalCard;
+    }
 
     //GETTERS
     public LocalBoard getLocalBoard() {
@@ -80,5 +86,8 @@ public class ModelView {
     }
     public GameMode getGameMode() {
         return gameMode;
+    }
+    public LocalPersonalCard getLocalPersonalCard(){
+        return localPersonalCard;
     }
 }

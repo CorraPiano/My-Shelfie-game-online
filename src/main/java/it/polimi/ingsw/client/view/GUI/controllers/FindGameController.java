@@ -1,4 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
+import it.polimi.ingsw.client.localModel.LocalBoard;
+import it.polimi.ingsw.client.localModel.LocalCommonCard;
+import it.polimi.ingsw.client.localModel.LocalPersonalCard;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.model.GameMode;
 import javafx.fxml.FXML;
@@ -6,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FindGameController implements GUIController {
@@ -52,6 +56,12 @@ public class FindGameController implements GUIController {
     public GUI getGui() {
         return gui;
     }
+
+    @Override
+    public void init() {
+
+    }
+
 
     public void update(List<String> games){
         gameList.getItems().clear();

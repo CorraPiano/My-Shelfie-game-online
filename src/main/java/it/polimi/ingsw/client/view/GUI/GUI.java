@@ -6,19 +6,15 @@ import it.polimi.ingsw.client.connection.*;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.controllers.GUIController;
 import it.polimi.ingsw.client.view.GUI.controllers.FindGameController;
+import it.polimi.ingsw.client.view.GUI.controllers.GameController;
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
-import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.DataCard;
-import it.polimi.ingsw.model.GameMode;
-import javafx.animation.PauseTransition;
+import it.polimi.ingsw.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -27,9 +23,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 
 public class GUI extends Application implements View {
@@ -43,6 +39,7 @@ public class GUI extends Application implements View {
     private GUIController controller;
     private SceneHandler sceneHandler;
     private HashMap<SceneName, Consumer<Command>> stageLambda;
+
     private void changeStage(Boolean fullScreen){
         primaryStage.setTitle("My Shelfie");
         currentScene = sceneHandler.getScene(currentSceneName);
@@ -55,10 +52,12 @@ public class GUI extends Application implements View {
         stageLambda.put(SceneName.LOGIN, (command)-> {
             currentSceneName = SceneName.FINDGAME;
             changeStage(false);
+
         });
         stageLambda.put(SceneName.FINDGAME, (command)-> {
             currentSceneName = SceneName.GAME;
             changeStage(false);
+
         });
         stageLambda.put(SceneName.GAME, (command)-> {
             currentSceneName = SceneName.GAME;
@@ -102,6 +101,7 @@ public class GUI extends Application implements View {
         stage.show();
         // Funzione che simula un listener
         testMain();
+
     }
     private void testMain(){
         // Change scene test
@@ -117,8 +117,13 @@ public class GUI extends Application implements View {
     }
 
     public void switchStage(Command command){
-        Platform.runLater(() -> stageLambda.get(currentSceneName).accept(command));
-        controller = sceneHandler.getController(currentSceneName);
+        Platform.runLater(() -> {
+            stageLambda.get(currentSceneName).accept(command);
+            controller = sceneHandler.getController(currentSceneName);
+            if ( controller != null ){
+                controller.init();
+            }
+        });
     }
     @Override
     public void setSender(Sender sender) {
@@ -190,7 +195,6 @@ public class GUI extends Application implements View {
         for ( LocalGame g: games) {
             gameList.add(g.toString());
         }
-
         controllerTmp.update(gameList);
     }
     public void addFirstPlayer(String name, GameMode gameMode, int numPlayer){
@@ -210,10 +214,18 @@ public class GUI extends Application implements View {
      ******************************************************/
     // Server to client
     public void updateBoard(LocalBoard board, LocalHand hand){
+        GameController controllertmp = (GameController) this.controller;
     }
     public void updateBookShelf(LocalBookshelf bookshelf, String name){}
-    public void setCommonGoalCard(ArrayList<LocalCommonCard> commonCards){}
-    public void setPersonalGoalCard(DataCard personalGoalCard){}
+
+/*
+    public void init() {
+        this.switchStage(Command.START_GAME);
+        GameController controller1 = (GameController) this.controller;
+
+    }
+*/
+
 
     // Client to server
     public void pickItem(Coordinates coordinates){
@@ -227,9 +239,34 @@ public class GUI extends Application implements View {
         sender.leaveGame();
     }
 
+    public String getCommonPathByType(int type) {
+        return "/Images/common/" + type + ".jpg";
+    }
+
+    public String getItemPathByType(ItemType type) {
+        Random random = new Random();
+        int i = random.nextInt(3) + 1;
+
+        return switch(type){
+            case BLUE -> "/Images/items/Blue" + i + ".png";
+            case YELLOW -> "/Images/items/Yellow" + i + ".png";
+            case GREEN -> "/Images/items/Green" + i + ".png";
+            case CYAN -> "/Images/items/Cyan" + i + ".png";
+            case WHITE -> "/Images/items/White" + i + ".png";
+            case PINK -> "/Images/items/Pink" + i + ".png";
+        };
+
+    }
+
+    public String getPersonalByType(int n) {
+        return "/Images/personal/" + n + ".png";
+    }
+
+
     // Chat
     public void openChat(){}
-    public void closeChat(){}
-    public void sendMessage(String message, String name){}
 
+    public void closeChat(){}
+
+    public void sendMessage(String message, String name){}
 }
