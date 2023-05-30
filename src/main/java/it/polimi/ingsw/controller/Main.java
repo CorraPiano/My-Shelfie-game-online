@@ -23,6 +23,8 @@ public class Main {
 
     }
     private static void startRMI(Controller controller) throws RemoteException {
+        //String ipAddress = new String();
+        //System.setProperty("java.rmi.server.hostname", ipAddress);
         try{
             LocateRegistry.createRegistry(Settings.RMIPORT);
             Registry registry = LocateRegistry.getRegistry();

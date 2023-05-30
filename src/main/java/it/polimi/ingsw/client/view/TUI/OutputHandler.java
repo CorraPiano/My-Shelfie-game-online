@@ -171,6 +171,31 @@ public class OutputHandler {
         System.out.println(game);
     }
 
+    public void showPodium(ArrayList<LocalPlayer> localPlayers){
+        //devo scrivere vittoria a chi ha vinto
+        //devo fare una classifica con gli altri giocatori (secondo terzo quarto posto
+        //devo printare una ISTRUZIONE per dire se vedere le statistiche finali oppure direttamente chiudere il gioco
+
+    }
+
+    public void showStatistics(Map<String, LocalBookshelf> localBookshelfs, ArrayList<LocalPlayer> localPlayerList) {
+        StringBuilder game = new StringBuilder();
+
+        String[][] library = new String[localBookshelfs.size()][];
+        for(int i=0; i<localBookshelfs.size(); i++){
+            library[i] = showMethods.showBookshelf(localBookshelfs.get(localPlayerList.get(i).name)).toString().split("\n");
+        }
+        for(int j=0; j<library[0].length; j++){
+            for(int i=0; i<localBookshelfs.size(); i++){
+                game.append(library[i][j]);
+                //da aggiungere i punti dei vari giocatori
+            }
+            game.append("\n");
+        }
+        System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰STATISTICS❱❯ ─────────────────────────────────────────────────" + ANSI_RESET);
+        System.out.println(game);
+    }
+
     public void showBookshelf(LocalBookshelf bookshelf) {
         System.out.println(showMethods.showBookshelf(bookshelf));
     }
