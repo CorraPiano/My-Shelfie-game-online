@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.GameMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.model.GameMode.EASY;
@@ -172,9 +174,39 @@ public class OutputHandler {
     }
 
     public void showPodium(ArrayList<LocalPlayer> localPlayers){
+
         //devo scrivere vittoria a chi ha vinto
-        //devo fare una classifica con gli altri giocatori (secondo terzo quarto posto
-        //devo printare una ISTRUZIONE per dire se vedere le statistiche finali oppure direttamente chiudere il gioco
+        StringBuilder winner = new StringBuilder();
+        String winnerName = localPlayers.get(0).name;
+        int winnerPointsVariable = localPlayers.get(0).points;
+        int winnerPoints = localPlayers.get(0).points;
+        int digitsCounter = 0;
+
+        if(winnerPointsVariable == 0){
+            digitsCounter = 1;
+        } else {
+            while (winnerPointsVariable >= 1) {
+                winnerPointsVariable = winnerPointsVariable / 10;
+                digitsCounter++;
+            }
+        }
+
+        winner.append("┌───────────────");
+        winner.append("─".repeat(winnerName.length() + 13 + digitsCounter));
+        winner.append("─┐\n" + "│ The winner is " + ANSI_CYAN + winnerName + ANSI_RESET + " with " + winnerPoints + " points │\n" + "└───────────────");
+        winner.append("─".repeat(winnerName.length()+ 13 + digitsCounter));
+        winner.append("─┘\n");
+
+        //devo fare una classifica con gli altri giocatori (secondo terzo quarto posto)
+
+        winner.append(" ➤ The second position goes to " + ANSI_CYAN + localPlayers.get(1).name + ANSI_RESET + " with " + localPlayers.get(1).points + " points\n");
+        if(localPlayers.size()>2){
+            winner.append(" ➤ The third position goes to " + ANSI_CYAN + localPlayers.get(2).name + ANSI_RESET + " with " + localPlayers.get(2).points + " points\n");
+        }
+        if(localPlayers.size() == 4){
+            winner.append(" ➤ The fourth position goes to " + ANSI_CYAN + localPlayers.get(3).name + ANSI_RESET + " with " + localPlayers.get(3).points + " points\n");
+        }
+        System.out.println(winner + "\n");
 
     }
 
@@ -192,7 +224,7 @@ public class OutputHandler {
             }
             game.append("\n");
         }
-        System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰STATISTICS❱❯ ─────────────────────────────────────────────────" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "\n\n────────────────────────────────────────── ❮❰STATISTICS & PODIUM❱❯ ──────────────────────────────────────────" + ANSI_RESET);
         System.out.println(game);
     }
 
@@ -216,7 +248,25 @@ public class OutputHandler {
         System.out.println(boardHand);
     }
 
+    public void showBoardBookshelfHand(LocalBoard localBoard, LocalBookshelf localBookshelf, LocalHand localHand){
+        StringBuilder table = new StringBuilder();
 
+        String[] board = showMethods.showBoard(localBoard).toString().split("\n");
+        String[] library = showMethods.showBookshelf(localBookshelf).toString().split("\n");
+        StringBuilder hand = showMethods.showHand(localHand);
+        for(int i=0; i<board.length; i++){
+            if(i==3) {
+                table.append(board[i] + library[i - 2] + "  " + hand);
+            }
+            else if (i>2) {
+                table.append(board[i] + library[i-2] + "\n");
+            }
+            else {
+                table.append(board[i] + "\n");
+            }
+        }
+        System.out.println(table);
+    }
 
     //Metodi che potrebbero servire
     public void showBoard(LocalBoard board) {

@@ -43,7 +43,7 @@ public class Chat implements Runnable{
         active = true;
         try {
             //Process p = Runtime.getRuntime().exec("cmd /c start");
-            System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────────────\n" + ANSI_RESET);
+            System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
             synchronized (this) {
                 while (active) {
                     if (isPresent(cursor)) {
