@@ -19,7 +19,7 @@ public class MessageHandler {
         //this.senderTCP=senderTCP;
         this.gson=new Gson();
     }
-    public void receive(TCPMessage TCPmessage, Connection connection) throws RemoteException, InvalidIdException, GameFullException, NameAlreadyExistentException, InvalidGameIdException, UnavaiableCommandException, GameModeException, NumPlayersException, EmptyHandException, NotInGameException, WrongTurnException, InvalidColumnPutException, NotEnoughSpacePutException, WrongLengthOrderException, WrongContentOrderException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
+    public void receive(TCPMessage TCPmessage, Connection connection) throws RemoteException, InvalidIdException, GameFullException, NameAlreadyExistentException, InvalidGameIdException, UnavaiableCommandException, GameModeException, NumPlayersException, EmptyHandException, NotInGameException, WrongTurnException, InvalidColumnPutException, NotEnoughSpacePutException, WrongLengthOrderException, WrongContentOrderException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException, InvalidNameException {
 
         switch (TCPmessage.getHeader()) {
             case LIST -> {
@@ -56,6 +56,10 @@ public class MessageHandler {
                 String id = controller.addFirstPlayer(createMessage.name, createMessage.gameMode, createMessage.numPlayers,connection);
                 socketMap.bind(id, connection);
                 sendID(id,connection);
+            }
+            case LEAVE -> {
+                controller.leaveGame(socketMap.getIdByConnection(connection));
+                sendNothing(connection);
             }
             case CHAT -> {
                 ChatMessage chatMessage = gson.fromJson(TCPmessage.getBody(), ChatMessage.class);

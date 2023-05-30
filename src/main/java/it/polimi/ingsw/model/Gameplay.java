@@ -178,14 +178,25 @@ public class Gameplay extends Listenable {
         }
     }
 
-    public void addChatMessage(ChatMessage chatMessage){
-        if(chatMessage.all)
+    public void addChatMessage(ChatMessage chatMessage) throws InvalidNameException {
+        if(chatMessage.all) {
             eventKeeper.notifyAll(chatMessage);
-        else
-        {
-            eventKeeper.notifyToID(getPlayerIDByName(chatMessage.receiver),chatMessage);
-            eventKeeper.notifyToID(getPlayerIDByName(chatMessage.sender),chatMessage);
+            return;
         }
+        if(!chatMessage.receiver.equals(chatMessage.sender) && playerList.stream().map(Player::getName).anyMatch(s -> s.equals(chatMessage.receiver)))
+        {
+            for(Player p:playerList){
+                if(p.getName().equals(chatMessage.receiver))
+                    eventKeeper.notifyToID(p.getID(),chatMessage);
+                if(p.getName().equals(chatMessage.sender))
+                    eventKeeper.notifyToID(p.getID(),chatMessage);
+            }
+            return;
+        }
+        throw new InvalidNameException();
+            //eventKeeper.notifyToID(p.getID(),chatMessage);
+            //eventKeeper.notifyToID(getPlayerIDByName(chatMessage.sender),chatMessage);
+
     }
 
     //si deve poter stoppare il gioco prima della fine

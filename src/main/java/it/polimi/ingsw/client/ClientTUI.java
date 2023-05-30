@@ -66,7 +66,10 @@ public class ClientTUI extends Client {
     public void newTurn(String name) throws RemoteException {
         if(phase.equals(ClientPhase.GAME))
             outputHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
+        if(name.equals(this.name))
+            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "your turn!" + ANSI_RESET);
+        else
+            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
     }
 
     public void lastRound(String name) throws RemoteException {
@@ -81,6 +84,7 @@ public class ClientTUI extends Client {
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "Game over!");
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The winner is " + ANSI_CYAN + name + ANSI_RESET);
         System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Enter any key to continue ...");
+        // stampare la fine del gioco
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{

@@ -21,7 +21,7 @@ public interface ControllerSkeleton extends Remote {
 
     void selectInsertOrder(ArrayList<Integer> order, String id) throws RemoteException, WrongLengthOrderException, WrongContentOrderException, NotInGameException, WrongTurnException, InvalidIdException;
 
-    void addChatMessage(ChatMessage chatMessage, String id) throws RemoteException, InvalidIdException;
+    void addChatMessage(ChatMessage chatMessage, String id) throws RemoteException, InvalidIdException, InvalidNameException;
 
     void leaveGame(String id) throws RemoteException, InvalidIdException;
 }

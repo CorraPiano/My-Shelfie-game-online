@@ -20,26 +20,18 @@ import static it.polimi.ingsw.util.Constants.*;
 
 public class TUI implements View {
 
+    private static String IP;
+    private static int port;
     private Sender sender;
     //private ClientTUI client;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
 
         System.out.println(BROWN_FOREGROUND + MYSHELFIE_LOGIN + ANSI_RESET + "\n");
 
-        //setupConnection(ClientTUI client);
-        ClientTUI client;
-        try {
-            client = new ClientTUI();
-        } catch (RemoteException e) {
-            System.out.println("Connection problem");
-            throw new RuntimeException(e);
-        }
-
+        ClientTUI client = new ClientTUI();
         setupAddressAndPort(client);
-
         setupCommunicationMethod(client);
-
     }
 
     private void setupConnection(ClientTUI client) {
@@ -57,7 +49,24 @@ public class TUI implements View {
         System.out.println("              Type the number of the desired option");
         Scanner stdin = new Scanner(System.in);
         Sender sender = null;
+
         while(true) {
+            Scanner in = new Scanner(System.in);
+            String line = in.next();
+            try {
+                if (line.equalsIgnoreCase("RMI") || line.equals("0")) {
+                    sender = new RMISender(startRMI(), client);
+                    break;
+                }
+                if (line.equalsIgnoreCase("TCP") || line.equals("1")) {
+                    sender = createTCPConnection(client);
+                    break;
+                }
+                System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid input");
+            } catch(Exception e){}
+        }
+
+        /*while(true) {
             if(stdin.hasNext()){
                 try{
                     int x = stdin.nextInt();
@@ -69,7 +78,7 @@ public class TUI implements View {
                     break;
                 } catch(Exception e){ stdin.nextLine(); }
             }
-        }
+        }*/
         InputHandler inputHandler = new InputHandler(sender, client);
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "Client started");
         inputHandler.joinMatch();
@@ -83,51 +92,72 @@ public class TUI implements View {
     private static ControllerSkeleton startRMI() throws RemoteException, NotBoundException {
         Registry registry;
         ControllerSkeleton controller;
-        registry = LocateRegistry.getRegistry();
+        registry = LocateRegistry.getRegistry(IP,Settings.RMIPORT);
         controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
         return controller;
     }
     private static Socket startTCP() throws IOException {
-        return new Socket("localhost", 8081);
+        return new Socket(IP, Settings.TCPPORT);
     }
     private static void setupAddressAndPort(ClientTUI client){
-        Scanner scanner = new Scanner(System.in);
-        String IPAddress;
-        int port;
-
         System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Please insert the IP address of the server (format: x.y.z.w)");
-        IPAddress = setIPAddress(scanner.nextLine());
+        System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Insted press ENTER for default address");
+        setIPAddress();
 
-        System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Please insert the port that the server is listening on");
-        port = setPort(scanner.nextInt());
+        //System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Please insert the port that the server is listening on");
+        //setPort();
 
-        //devo ancora mettere queste porte da qualche parte
     }
-    private static int setPort(int input) {
-        if(1024 < input && input < 8090) {
-            return input;
-        }
+    private static void setPort() {
+        Scanner in = new Scanner(System.in);
+        try {
+            int input = in.nextInt();
+            if (1024 < input && input < 8090) {
+                port = input;
+                return;
+            }
+        } catch(Exception e) {};
         System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid port\n");
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The server will be listening on the default port: " + Constants.DEFAULT_PORT + "\n");
-        return Constants.DEFAULT_PORT;
+        port = Constants.DEFAULT_PORT;
     }
-    private static String setIPAddress(String input) {
-        if(input.matches(Constants.IPV4_PATTERN)) {
-            return input;
-        }
+
+    private static void setIPAddress() {
+        Scanner in = new Scanner(System.in);
+        try {
+            String input = in.nextLine();
+            if(input.isEmpty()){
+                IP = Settings.IP;
+                System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The IP address will be set to the default: " + Settings.IP + "\n");
+                return;
+            }
+            if (input.matches(Constants.IPV4_PATTERN)) {
+                IP = input;
+                return;
+            }
+        } catch(Exception e) {};
         System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid IP address!");
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The IP address will be set to the default: " + Constants.DEFAULT_IP_ADDRESS + "\n");
-        return Constants.DEFAULT_IP_ADDRESS;
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The IP address will be set to the default: " + Settings.IP + "\n");
+        IP = Settings.IP;
     }
 
+    @Override
+    public void setSender(Sender sender) {
 
-    // The other Methods
+    }
+
     @Override
-    public void setSender(Sender sender) { }
+    public Sender getSender() {
+        return null;
+    }
+
     @Override
-    public Sender getSender() { return null; }
+    public void setClient() {
+
+    }
+
     @Override
-    public void setClient() { }
-    @Override
-    public Client getClient() { return null; }
+    public Client getClient() {
+        return null;
+    }
 }
