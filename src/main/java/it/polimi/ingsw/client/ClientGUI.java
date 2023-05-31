@@ -47,7 +47,7 @@ public class ClientGUI extends Client{
     }
 
     public void updateChat(String name, String message) throws RemoteException {
-        // da implementare
+        gui.sendMessage(message, name);
     }
 
 

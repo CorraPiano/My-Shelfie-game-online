@@ -24,7 +24,7 @@
       <ImageView fx:id="common1" fitHeight="70.0" fitWidth="96.0" layoutX="44.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="personalGoalCard" fitHeight="103.0" fitWidth="119.0" layoutX="343.0" layoutY="545.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="common2" fitHeight="70.0" fitWidth="96.0" layoutX="177.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="chat" layoutX="985.0" layoutY="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="54.0" text="Chat " />
+      <Button fx:id="chat" layoutX="985.0" layoutY="21.0" mnemonicParsing="false" onAction="#onChat" prefHeight="26.0" prefWidth="54.0" text="Chat " />
       <Button layoutX="818.0" layoutY="596.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="194.0" text="Switch to other players view" />
       <Label layoutX="577.0" layoutY="484.0" prefHeight="26.0" prefWidth="181.0" text="Total points scored:">
          <font>

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.exception.EmptySlotPickException;
 import it.polimi.ingsw.exception.LimitReachedPickException;
@@ -10,18 +11,33 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Item;
 import it.polimi.ingsw.model.ItemType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class GameController implements GUIController {
     private GUI gui;
+    private Parent root;
+    private Stage stage;
+    private Scene scene;
+    String path = "/fxml/";
+
     @FXML
     private AnchorPane backgroundPane;
     @FXML
@@ -106,7 +122,6 @@ public class GameController implements GUIController {
     public String getCommonPathByType(int type) {
         return "/Images/common/" + (type + 1) + ".jpg";
     }
-
     public String getItemPathByType(ItemType type) {
         Random random = new Random();
         int i = random.nextInt(3) + 1;
@@ -121,13 +136,11 @@ public class GameController implements GUIController {
         };
 
     }
-
     public String getPersonalByType(int n) {
         return "/Images/personal/" + n + ".png";
     }
 
    /* On click methods */
-
     public void onBoardClicked (MouseEvent event) {
         Coordinates clickCoordinates = getBoardCellsIndexes(event);
         ImageView clickedImageView = (ImageView) boardGrid.getChildren().stream()
@@ -195,6 +208,9 @@ public class GameController implements GUIController {
         this.localBookshelf = updatedBookshelf;
     }*/
 
+    public void onChat(javafx.event.ActionEvent actionEvent) throws IOException {
+        this.gui.switchStage(Command.CHAT);
+    }
 }
 
 
