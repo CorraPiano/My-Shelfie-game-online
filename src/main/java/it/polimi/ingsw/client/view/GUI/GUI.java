@@ -215,17 +215,12 @@ public class GUI extends Application implements View {
     // Server to client
     public void updateBoard(LocalBoard board, LocalHand hand){
         GameController controllertmp = (GameController) this.controller;
+        //controllertmp.updateBoard(board,hand);
     }
-    public void updateBookShelf(LocalBookshelf bookshelf, String name){}
-
-/*
-    public void init() {
-        this.switchStage(Command.START_GAME);
-        GameController controller1 = (GameController) this.controller;
-
+    public void updateBookShelf(LocalBookshelf localBookshelf, String name){
+        GameController controllertmp = (GameController) this.controller;
+        //controllertmp.updateBookShelf(localBookshelf);
     }
-*/
-
 
     // Client to server
     public void pickItem(Coordinates coordinates){
@@ -238,30 +233,6 @@ public class GUI extends Application implements View {
     public void leaveGame(){
         sender.leaveGame();
     }
-
-    public String getCommonPathByType(int type) {
-        return "/Images/common/" + type + ".jpg";
-    }
-
-    public String getItemPathByType(ItemType type) {
-        Random random = new Random();
-        int i = random.nextInt(3) + 1;
-
-        return switch(type){
-            case BLUE -> "/Images/items/Blue" + i + ".png";
-            case YELLOW -> "/Images/items/Yellow" + i + ".png";
-            case GREEN -> "/Images/items/Green" + i + ".png";
-            case CYAN -> "/Images/items/Cyan" + i + ".png";
-            case WHITE -> "/Images/items/White" + i + ".png";
-            case PINK -> "/Images/items/Pink" + i + ".png";
-        };
-
-    }
-
-    public String getPersonalByType(int n) {
-        return "/Images/personal/" + n + ".png";
-    }
-
 
     // Chat
     public void openChat(){}
