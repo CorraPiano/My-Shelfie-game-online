@@ -208,7 +208,8 @@ public class GameController implements GUIController {
         this.localBookshelf = updatedBookshelf;
     }*/
 
-    public void onChat(javafx.event.ActionEvent actionEvent) throws IOException {
+    //ora si può aprire soltanto una volta la chat, da risolvere
+    public void onChat(javafx.event.ActionEvent actionEvent) {
         this.gui.switchStage(Command.CHAT);
     }
 }

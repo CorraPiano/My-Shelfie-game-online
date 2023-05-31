@@ -255,6 +255,8 @@ public class GUI extends Application implements View {
     public void putItemList(int column){
         sender.putItemList(column);
     }
+
+    //non ancora funzionante, da risolvere
     public void sendMessage(String message, String receiver){
         sender.addChatMessage(message, receiver);
 
