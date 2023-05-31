@@ -7,5 +7,10 @@ public enum Command {
     JOIN_GAME,
     PICK,
     START_GAME,
-    SET_CONNECTION
+    SET_CONNECTION,
+    CHAT,
+    SHOW_BOOKSHELFS,
+    QUIT,
+    SHOW_STATISTICS,
+    END
 }
