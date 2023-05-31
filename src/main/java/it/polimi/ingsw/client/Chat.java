@@ -43,7 +43,7 @@ public class Chat implements Runnable{
         active = true;
         try {
             //Process p = Runtime.getRuntime().exec("cmd /c start");
-            System.out.println(BROWN_FOREGROUND + "\n\n─────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────────────\n" + ANSI_RESET);
+            System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
             synchronized (this) {
                 while (active) {
                     if (isPresent(cursor)) {
@@ -51,17 +51,17 @@ public class Chat implements Runnable{
                         if(message.sender.equals(client.getName())) {
                             //System.out.printf("\t\t\t\t\t");
                             if (message.all) {
-                                System.out.println(ANSI_PINK + "❮ALL❯ " + ANSI_CYAN + "you" + ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
+                                System.out.println(ANSI_YELLOW + "❮TO ALL❯ " + ANSI_CYAN + "you" + ANSI_RESET + ": " + ANSI_GREEN + message.message + ANSI_RESET);
                             } else {
-                                System.out.println(ANSI_PINK + "❮to "+ message.receiver +"❯ " +  ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
+                                System.out.println(ANSI_YELLOW + "❮TO "+ message.receiver +"❯ " +  ANSI_RESET + ": " + ANSI_GREEN + message.message + ANSI_RESET);
                             }
                         }
                         else {
                             if (message.all) {
-                                System.out.println(ANSI_PINK + "❮ALL❯ " + ANSI_CYAN + message.sender + ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
+                                System.out.println(ANSI_YELLOW + "❮TO ALL❯ " + ANSI_CYAN + message.sender + ANSI_RESET + ": " + ANSI_GREEN + message.message + ANSI_RESET);
                             } else {
                                 String receiver = message.receiver;
-                                System.out.println(ANSI_PINK + "❮from "+  message.sender +"❯ " + ANSI_RESET + " : " + ANSI_GREEN + message.message + ANSI_RESET);
+                                System.out.println(ANSI_YELLOW + "❮FROM "+  message.sender +"❯ " + ANSI_RESET + ": " + ANSI_GREEN + message.message + ANSI_RESET);
                             }
                         }
                         cursor++;

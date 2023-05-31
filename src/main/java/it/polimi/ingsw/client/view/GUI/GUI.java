@@ -49,24 +49,37 @@ public class GUI extends Application implements View {
     }
     private void setLambdaMap(){
         stageLambda = new HashMap<>();
-        stageLambda.put(SceneName.LOGIN, (command)-> {
-            currentSceneName = SceneName.FINDGAME;
-            changeStage(false);
-
-        });
-        stageLambda.put(SceneName.FINDGAME, (command)-> {
-            currentSceneName = SceneName.GAME;
-            changeStage(false);
-
-        });
-        stageLambda.put(SceneName.GAME, (command)-> {
-            currentSceneName = SceneName.GAME;
-            changeStage(false);
-        });
         stageLambda.put(SceneName.SETUP, (command)-> {
             currentSceneName = SceneName.FINDGAME;
             changeStage(false);
         });
+        stageLambda.put(SceneName.LOGIN, (command)-> {
+            currentSceneName = SceneName.FINDGAME;
+            changeStage(false);
+        });
+        stageLambda.put(SceneName.FINDGAME, (command)-> {
+            currentSceneName = SceneName.GAME;
+            changeStage(false);
+        });
+        stageLambda.put(SceneName.GAME, (command)-> {
+            if(command == Command.CHAT) {
+                currentSceneName = SceneName.CHAT;
+            }
+            else if(command == Command.SHOW_BOOKSHELFS) {
+                currentSceneName = SceneName.CHAT;
+            }
+            else if(command == Command.END) {
+                currentSceneName = SceneName.END;
+            }
+            changeStage(false);
+        });
+        stageLambda.put(SceneName.END, (command)-> {
+            if(command == Command.SHOW_STATISTICS) {
+                currentSceneName = SceneName.STATISTICS;
+            }
+            changeStage(false);
+        });
+
     }
     private void setupConnection() {
         try {

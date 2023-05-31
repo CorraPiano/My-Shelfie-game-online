@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.commands.BroadcastCommand;
 import it.polimi.ingsw.client.commands.SendCommand;
 import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.client.view.GUI.GUIMain;
 import it.polimi.ingsw.client.view.TUI.TUI;
 import it.polimi.ingsw.controller.Main;
 
@@ -43,7 +44,7 @@ public class MyShelfie {
     public void startTui() throws RemoteException { TUI.main(null);
     }
     public void startGui(){
-        GUI.main(null);
+        GUIMain.main(null);
     }
 
     private void choseOption() throws AlreadyBoundException, IOException {

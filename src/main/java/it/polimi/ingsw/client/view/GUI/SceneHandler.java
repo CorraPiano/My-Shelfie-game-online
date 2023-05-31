@@ -14,7 +14,6 @@ public class SceneHandler {
     private final HashMap<SceneName, GUIController> sceneToController;
 
 
-
     /*
         - Set all the fxml and the HashMap relative to the scene
         - Set the gui for all controllers
@@ -32,6 +31,7 @@ public class SceneHandler {
             GUIController controller = fxmlLoader.getController();
             controller.setGui(gui);
             sceneToController.put(name, controller);
+
             // Login
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "login.fxml"));
             scene = new Scene(fxmlLoader.load());
@@ -40,6 +40,7 @@ public class SceneHandler {
             controller = fxmlLoader.getController();
             controller.setGui(gui);
             sceneToController.put(name, controller);
+
             // Find game
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "find-game.fxml"));
             scene = new Scene(fxmlLoader.load());
@@ -48,6 +49,7 @@ public class SceneHandler {
             controller = fxmlLoader.getController();
             controller.setGui(gui);
             sceneToController.put(name, controller);
+
             // Game
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "game.fxml"));
             scene = new Scene(fxmlLoader.load());
@@ -56,7 +58,15 @@ public class SceneHandler {
             controller = fxmlLoader.getController();
             controller.setGui(gui);
             sceneToController.put(name, controller);
+
             // Chat
+            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "chat.fxml"));
+            scene = new Scene(fxmlLoader.load());
+            name = SceneName.CHAT;
+            sceneToFxml.put(name, scene);
+            controller = fxmlLoader.getController();
+            controller.setGui(gui);
+            sceneToController.put(name, controller);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -65,7 +75,6 @@ public class SceneHandler {
     private void setUpStageMap(){}
 
     public SceneHandler(GUI gui) {
-
         this.sceneToFxml = new HashMap<>();
         this.sceneToController = new HashMap<>();
         setupMap(gui);

@@ -38,7 +38,6 @@ public class ClientTUI extends Client {
     public synchronized void closeChat(){
         chat.stopThread();
         phase=ClientPhase.GAME;
-        // System.out.println(BROWN_FOREGROUND + "\n\n─────── ❮❰ GAME ❱❯ ─────────────────────────────────────────────────────────\n" + ANSI_RESET);
         outputHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
     }
 
@@ -67,7 +66,7 @@ public class ClientTUI extends Client {
         if(phase.equals(ClientPhase.GAME))
             outputHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
         if(name.equals(this.name))
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "your turn!" + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "your turn!");
         else
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
     }
@@ -81,15 +80,16 @@ public class ClientTUI extends Client {
         if(phase.equals(ClientPhase.CHAT))
             chat.stopThread();
         phase=ClientPhase.JOIN;
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "Game over!");
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The winner is " + ANSI_CYAN + name + ANSI_RESET);
+
+        outputHandler.showStatistics(modelView.getLocalBookshelfs(), modelView.getLocalPlayerList());
+        outputHandler.showPodium(modelView.getLocalPlayerList());
         System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Enter any key to continue ...");
-        // stampare la fine del gioco
+
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         if(phase.equals(ClientPhase.GAME))
-            outputHandler.showBoardAndHand(modelView.getLocalBoard(), modelView.getLocalHand());
+            outputHandler.showBoardBookshelfHand(modelView.getLocalBoard(), modelView.getLocalBookshelfs().get(name), modelView.getLocalHand());
         System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
     }
     public void notifyUndo(String name) throws RemoteException{
