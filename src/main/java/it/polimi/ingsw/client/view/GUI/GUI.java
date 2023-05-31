@@ -40,44 +40,57 @@ public class GUI extends Application implements View {
     private SceneHandler sceneHandler;
     private HashMap<SceneName, Consumer<Command>> stageLambda;
 
-    private void changeStage(Boolean fullScreen){
-        primaryStage.setTitle("My Shelfie");
-        currentScene = sceneHandler.getScene(currentSceneName);
-        controller = sceneHandler.getController(currentSceneName);
-        primaryStage.setScene(currentScene);
-        primaryStage.show();
+    private void changeStage(Boolean fullScreen, Boolean secondStage){
+        if(!secondStage){
+            primaryStage.setTitle("My Shelfie");
+            currentScene = sceneHandler.getScene(currentSceneName);
+            controller = sceneHandler.getController(currentSceneName);
+            primaryStage.setScene(currentScene);
+            primaryStage.show();
+        } else{
+            secondaryStage = new Stage();
+            secondaryStage.setTitle("My Shelfie");
+            currentScene = sceneHandler.getScene(currentSceneName);
+            controller = sceneHandler.getController(currentSceneName);
+            secondaryStage.setScene(currentScene);
+            secondaryStage.show();
+        }
+
     }
     private void setLambdaMap(){
         stageLambda = new HashMap<>();
         stageLambda.put(SceneName.SETUP, (command)-> {
             currentSceneName = SceneName.FINDGAME;
-            changeStage(false);
+            changeStage(false, false);
         });
         stageLambda.put(SceneName.LOGIN, (command)-> {
             currentSceneName = SceneName.FINDGAME;
-            changeStage(false);
+            changeStage(false, false);
         });
         stageLambda.put(SceneName.FINDGAME, (command)-> {
             currentSceneName = SceneName.GAME;
-            changeStage(false);
+            changeStage(false, false);
         });
         stageLambda.put(SceneName.GAME, (command)-> {
             if(command == Command.CHAT) {
                 currentSceneName = SceneName.CHAT;
+                changeStage(false, true);
             }
             else if(command == Command.SHOW_BOOKSHELFS) {
-                currentSceneName = SceneName.CHAT;
+                currentSceneName = SceneName.BOOKSHELFS;
+                changeStage(false, false);
             }
             else if(command == Command.END) {
                 currentSceneName = SceneName.END;
+                changeStage(false, false);
             }
-            changeStage(false);
+
         });
         stageLambda.put(SceneName.END, (command)-> {
             if(command == Command.SHOW_STATISTICS) {
                 currentSceneName = SceneName.STATISTICS;
             }
-            changeStage(false);
+            changeStage(false, false);
         });
 
     }
@@ -242,7 +255,10 @@ public class GUI extends Application implements View {
     public void putItemList(int column){
         sender.putItemList(column);
     }
-    public void sendMessage(String message){}
+    public void sendMessage(String message, String receiver){
+        sender.addChatMessage(message, receiver);
+
+    }
     public void leaveGame(){
         sender.leaveGame();
     }
@@ -252,5 +268,4 @@ public class GUI extends Application implements View {
 
     public void closeChat(){}
 
-    public void sendMessage(String message, String name){}
 }
