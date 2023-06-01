@@ -50,6 +50,15 @@ public class SceneHandler {
             controller.setGui(gui);
             sceneToController.put(name, controller);
 
+            // Lobby
+            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "lobby.fxml"));
+            scene = new Scene(fxmlLoader.load());
+            name = SceneName.LOBBY;
+            sceneToFxml.put(name, scene);
+            controller = fxmlLoader.getController();
+            controller.setGui(gui);
+            sceneToController.put(name, controller);
+
             // Game
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "game.fxml"));
             scene = new Scene(fxmlLoader.load());

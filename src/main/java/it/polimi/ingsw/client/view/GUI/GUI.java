@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientGUI;
 import it.polimi.ingsw.client.connection.*;
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.view.GUI.controllers.ChatController;
 import it.polimi.ingsw.client.view.GUI.controllers.GUIController;
 import it.polimi.ingsw.client.view.GUI.controllers.FindGameController;
 import it.polimi.ingsw.client.view.GUI.controllers.GameController;
@@ -25,7 +26,6 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Consumer;
 
 public class GUI extends Application implements View {
@@ -55,7 +55,6 @@ public class GUI extends Application implements View {
             secondaryStage.setScene(currentScene);
             secondaryStage.show();
         }
-
     }
     private void setLambdaMap(){
         stageLambda = new HashMap<>();
@@ -70,6 +69,7 @@ public class GUI extends Application implements View {
         stageLambda.put(SceneName.FINDGAME, (command)-> {
             currentSceneName = SceneName.GAME;
             changeStage(false, false);
+            this.initGame();
         });
         stageLambda.put(SceneName.GAME, (command)-> {
             if(command == Command.CHAT) {
@@ -77,7 +77,7 @@ public class GUI extends Application implements View {
                 changeStage(false, true);
             }
             else if(command == Command.SHOW_BOOKSHELFS) {
-                currentSceneName = SceneName.BOOKSHELFS;
+                currentSceneName = SceneName.CHAT;
                 changeStage(false, false);
             }
             else if(command == Command.END) {
@@ -115,7 +115,7 @@ public class GUI extends Application implements View {
         Scene scene = sceneHandler.getScene(currentSceneName);
         this.primaryStage.setOnCloseRequest(windowEvent -> {
             windowEvent.consume();
-            int exitStatus = ConfirmationBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
+            int exitStatus = AlertBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
             if(exitStatus == 1) {
                 System.exit(0);
             }
@@ -145,10 +145,6 @@ public class GUI extends Application implements View {
     public void switchStage(Command command){
         Platform.runLater(() -> {
             stageLambda.get(currentSceneName).accept(command);
-            controller = sceneHandler.getController(currentSceneName);
-            if ( controller != null ){
-                controller.init();
-            }
         });
     }
     @Override
@@ -166,9 +162,17 @@ public class GUI extends Application implements View {
 
     }
 
+    public Scene getScene() {
+        return sceneHandler.getScene(currentSceneName);
+    }
+
     @Override
     public Client getClient() {
         return this.client;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     // link: http://patorjk.com/software/taag/#p=testall&f=Calvin%20S&t=SET-UP%20
@@ -221,7 +225,7 @@ public class GUI extends Application implements View {
         for ( LocalGame g: games) {
             gameList.add(g.toString());
         }
-        controllerTmp.update(gameList);
+        controllerTmp.updateList(gameList);
     }
     public void addFirstPlayer(String name, GameMode gameMode, int numPlayer){
         sender.addFirstPlayer(name, gameMode, numPlayer);
@@ -238,6 +242,11 @@ public class GUI extends Application implements View {
     | |_| |/ ___ \| |  | | |___
      \____/_/   \_\_|  |_|_____|
      ******************************************************/
+
+    public void initGame(){
+        GameController c = (GameController) sceneHandler.getController(currentSceneName);
+        c.init();
+    }
     // Server to client
     public void updateBoard(LocalBoard board, LocalHand hand){
         GameController controllertmp = (GameController) this.controller;
@@ -255,17 +264,31 @@ public class GUI extends Application implements View {
     public void putItemList(int column){
         sender.putItemList(column);
     }
-    public void sendMessage(String message, String receiver){
-        sender.addChatMessage(message, receiver);
 
-    }
     public void leaveGame(){
         sender.leaveGame();
     }
 
-    // Chat
+    /* **********************************************************
+               _____ _    _       _______
+              / ____| |  | |   /\|__   __|
+             | |    | |__| |  /  \  | |
+             | |    |  __  | / /\ \ | |
+             | |____| |  | |/ ____ \| |
+              \_____|_|  |_/_/    \_\_|
+     ***************************************************************/
+
     public void openChat(){}
 
     public void closeChat(){}
+    public void updateChat(String message, String name){
+        ChatController chat = (ChatController) this.controller;
+        Platform.runLater(() ->{
+            chat.updateChat(message, name);
+        });
+    }
+    public void sendMessage(String message, String receiver){
+        sender.addChatMessage(message, receiver);
+    }
 
 }

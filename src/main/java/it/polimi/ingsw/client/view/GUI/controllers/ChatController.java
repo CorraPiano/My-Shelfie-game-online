@@ -30,6 +30,7 @@ public class ChatController implements GUIController {
     public void displayMessage(String message){
         chatField.getItems().add(message);
     }
+    public void updateChat(String message, String name){}
 
     @Override
     public void setGui(GUI gui) { this.gui = gui; }

@@ -1,42 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="755.0" prefWidth="1014.0" style="-fx-background-image: url(images/misc/sfondo_parquet.jpg); -fx-background-size:cover" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.FindGameController">
+<AnchorPane prefHeight="755.0" prefWidth="1014.0" styleClass="root" stylesheets="@../css/find-game-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.FindGameController">
    <children>
-      <Button layoutX="306.0" layoutY="350.0" mnemonicParsing="false" onAction="#onCreateGame" text="Create">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="111.0" layoutY="124.0" prefHeight="47.0" prefWidth="792.0" text="Choose an existing game or create a new one" textAlignment="CENTER" textFill="#250f0fd6">
          <font>
-            <Font size="13.0" />
-         </font>
-      </Button>
-      <Label layoutX="254.0" layoutY="206.0" prefHeight="25.0" prefWidth="172.0" text="Create a new game">
-         <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold Italic" size="32.0" />
          </font>
       </Label>
-      <TextField fx:id="playerName" layoutX="253.0" layoutY="238.0" prefHeight="25.0" prefWidth="162.0" promptText="Your game name" />
-      <TextField fx:id="numberOfPlayer" layoutX="253.0" layoutY="312.0" prefHeight="25.0" prefWidth="162.0" promptText="Number of player" />
-      <Label layoutX="477.0" layoutY="206.0" prefHeight="27.0" prefWidth="206.0" text="Join an existing game">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="gameId" layoutX="477.0" layoutY="274.0" prefHeight="25.0" prefWidth="162.0" promptText="Game ID" />
-      <Button layoutX="531.0" layoutY="311.0" mnemonicParsing="false" onAction="#onJoinGame" prefHeight="28.0" prefWidth="55.0" text="Join">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Button>
-      <TextField fx:id="playerNameJoin" layoutX="477.0" layoutY="238.0" prefHeight="25.0" prefWidth="162.0" promptText="Your game name" />
-      <ListView fx:id="gameList" layoutX="247.0" layoutY="470.0" prefHeight="81.0" prefWidth="422.0" />
-      <Button fx:id="searchGame" layoutX="440.0" layoutY="427.0" mnemonicParsing="false" onAction="#onSearchGameButton" text="Search" />
-      <Label layoutX="383.0" layoutY="402.0" text="Search for an existing game">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <TextField fx:id="gameMode" layoutX="253.0" layoutY="274.0" prefHeight="25.0" prefWidth="162.0" promptText="Game mode" />
+      <Pane fx:id="createPane" layoutX="55.0" layoutY="224.0" prefHeight="286.0" prefWidth="348.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+         <children>
+            <Button layoutX="141.0" layoutY="228.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="27.0" prefWidth="61.0" text="Create">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Label layoutX="89.0" layoutY="14.0" prefHeight="27.0" prefWidth="171.0" text="Create a new game" textFill="#322020">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="gameMode" layoutX="88.0" layoutY="160.0" prefHeight="25.0" prefWidth="171.0" promptText="Game mode" />
+            <TextField fx:id="numberOfPlayer" layoutX="88.0" layoutY="121.0" prefHeight="25.0" prefWidth="171.0" promptText="Number of player" />
+            <TextField fx:id="playerName" layoutX="89.0" layoutY="82.0" prefHeight="25.0" prefWidth="171.0" promptText="Your game name" />
+         </children>
+      </Pane>
+      <Pane layoutX="429.0" layoutY="224.0" prefHeight="286.0" prefWidth="529.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+         <children>
+            <ListView fx:id="gameList" layoutX="33.0" layoutY="112.0" opacity="0.78" prefHeight="103.0" prefWidth="463.0" stylesheets="@../css/find-game-style.css" />
+            <TextField fx:id="playerNameJoin" layoutX="33.0" layoutY="54.0" prefHeight="25.0" prefWidth="171.0" promptText="Your game name" />
+            <Label layoutX="171.0" layoutY="12.0" prefHeight="27.0" prefWidth="216.0" text="Join an existing game" textFill="#322020">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button layoutX="273.0" layoutY="229.0" mnemonicParsing="false" onAction="#onJoinGame" prefHeight="25.0" prefWidth="55.0" text="Join">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="208.0" layoutY="229.0" mnemonicParsing="false" onAction="#onSearchGameButton" prefHeight="27.0" prefWidth="55.0" text="Games" textAlignment="CENTER" />
+            <Label layoutX="33.0" layoutY="87.0" prefHeight="25.0" prefWidth="463.0" text="Click 'Games' and choose one of the follwing games" textFill="#322020">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <ImageView fitHeight="114.0" fitWidth="105.0" layoutX="455.0" layoutY="618.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/PublisherMaterial/Publisher.png" />
+         </image>
+      </ImageView>
    </children>
+   <effect>
+      <Blend />
+   </effect>
 </AnchorPane>
