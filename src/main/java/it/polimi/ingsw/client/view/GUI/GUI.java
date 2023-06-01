@@ -26,6 +26,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 
 public class GUI extends Application implements View {
@@ -55,6 +56,7 @@ public class GUI extends Application implements View {
             secondaryStage.setScene(currentScene);
             secondaryStage.show();
         }
+
     }
     private void setLambdaMap(){
         stageLambda = new HashMap<>();
@@ -69,7 +71,6 @@ public class GUI extends Application implements View {
         stageLambda.put(SceneName.FINDGAME, (command)-> {
             currentSceneName = SceneName.GAME;
             changeStage(false, false);
-            this.initGame();
         });
         stageLambda.put(SceneName.GAME, (command)-> {
             if(command == Command.CHAT) {
