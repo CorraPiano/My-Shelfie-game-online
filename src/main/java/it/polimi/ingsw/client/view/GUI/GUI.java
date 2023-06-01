@@ -71,6 +71,7 @@ public class GUI extends Application implements View {
         stageLambda.put(SceneName.FINDGAME, (command)-> {
             currentSceneName = SceneName.GAME;
             changeStage(false, false);
+            this.initGame();
         });
         stageLambda.put(SceneName.GAME, (command)-> {
             if(command == Command.CHAT) {
