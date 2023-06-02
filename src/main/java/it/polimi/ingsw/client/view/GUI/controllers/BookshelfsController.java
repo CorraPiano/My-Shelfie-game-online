@@ -1,4 +1,16 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
-public class BookshelfsController {
+import it.polimi.ingsw.client.view.GUI.GUI;
+
+public class BookshelfsController implements GUIController{
+
+    @Override
+    public void setGui(GUI gui) {
+
+    }
+
+    @Override
+    public GUI getGui() {
+        return null;
+    }
 }

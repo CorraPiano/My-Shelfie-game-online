@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
 import it.polimi.ingsw.client.localModel.LocalPlayer;
+import it.polimi.ingsw.client.view.GUI.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 import static it.polimi.ingsw.util.Constants.ANSI_CYAN;
 import static it.polimi.ingsw.util.Constants.ANSI_RESET;
 
-public class EndController {
+public class EndController implements GUIController {
 
     @FXML
     Label title;
@@ -40,4 +41,13 @@ public class EndController {
     public void onShowStatistics(){}
     public void onQuit(){}
 
+    @Override
+    public void setGui(GUI gui) {
+
+    }
+
+    @Override
+    public GUI getGui() {
+        return null;
+    }
 }

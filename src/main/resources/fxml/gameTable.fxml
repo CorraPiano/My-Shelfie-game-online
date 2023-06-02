@@ -98,7 +98,7 @@
       </Pane>
       <Pane layoutX="312.0" layoutY="19.0" prefHeight="229.0" prefWidth="182.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
          <children>
-            <Button fx:id="bookshelfs" layoutX="19.0" layoutY="112.0" mnemonicParsing="false" text="Player's bookshelfs" />
+            <Button fx:id="bookshelfs" layoutX="19.0" layoutY="112.0" mnemonicParsing="false" onAction="#onBookshelfs" text="Player's bookshelfs" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="8.0" prefHeight="36.0" prefWidth="169.0" text="Utility" textAlignment="CENTER" textFill="#250f0fd6">
                <font>
                   <Font name="System Bold Italic" size="20.0" />

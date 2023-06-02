@@ -77,19 +77,45 @@ public class SceneHandler {
             controller.setGui(gui);
             sceneToController.put(name, controller);
 
+            // Bookshelfs
+            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "bookshelfs.fxml"));
+            scene = new Scene(fxmlLoader.load());
+            name = SceneName.BOOKSHELFS;
+            sceneToFxml.put(name, scene);
+            controller = fxmlLoader.getController();
+            controller.setGui(gui);
+            sceneToController.put(name, controller);
+
+            // End
+            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "end.fxml"));
+            scene = new Scene(fxmlLoader.load());
+            name = SceneName.END;
+            sceneToFxml.put(name, scene);
+            controller = fxmlLoader.getController();
+            controller.setGui(gui);
+            sceneToController.put(name, controller);
+
+            // Statistics
+            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "statistics.fxml"));
+            scene = new Scene(fxmlLoader.load());
+            name = SceneName.STATISTICS;
+            sceneToFxml.put(name, scene);
+            controller = fxmlLoader.getController();
+            controller.setGui(gui);
+            sceneToController.put(name, controller);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    private void setUpStageMap(){}
 
+    private void setUpStageMap(){}
     public SceneHandler(GUI gui) {
         this.sceneToFxml = new HashMap<>();
         this.sceneToController = new HashMap<>();
         setupMap(gui);
         setUpStageMap();
     }
-
     public Scene getScene(SceneName scene){
         return sceneToFxml.get(scene);
     }

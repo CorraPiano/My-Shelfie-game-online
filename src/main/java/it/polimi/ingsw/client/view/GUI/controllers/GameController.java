@@ -250,6 +250,9 @@ public class GameController implements GUIController {
     public void onChat(javafx.event.ActionEvent actionEvent){
         this.gui.switchStage(Command.CHAT);
     }
+    public void onBookshelfs(javafx.event.ActionEvent actionEvent) {
+        this.gui.switchStage(Command.SHOW_BOOKSHELFS);
+    }
 }
 
 

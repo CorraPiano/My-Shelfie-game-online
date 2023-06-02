@@ -78,13 +78,12 @@ public class GUI extends Application implements View {
             }
             else if(command == Command.SHOW_BOOKSHELFS) {
                 currentSceneName = SceneName.BOOKSHELFS;
-                changeStage(false, false);
+                changeStage(false, true);
             }
             else if(command == Command.END) {
                 currentSceneName = SceneName.END;
                 changeStage(false, false);
             }
-
         });
         stageLambda.put(SceneName.END, (command)-> {
             if(command == Command.SHOW_STATISTICS) {
@@ -92,8 +91,8 @@ public class GUI extends Application implements View {
             }
             changeStage(false, false);
         });
-
     }
+
     private void setupConnection() {
         try {
             this.client = new ClientGUI();
@@ -131,7 +130,6 @@ public class GUI extends Application implements View {
     }
     private void testMain(){
         // Change scene test
-
     }
 
     public SceneName getCurrentScene() {
@@ -207,6 +205,7 @@ public class GUI extends Application implements View {
                 |_____\___/ \____|___|_| \_|
      ****************************************************/
     public void login(){};
+
     /* ***************************************************
          _____ ___ _   _ ____     ____    _    __  __ _____
         |  ___|_ _| \ | |  _ \   / ___|  / \  |  \/  | ____|
@@ -269,6 +268,17 @@ public class GUI extends Application implements View {
         sender.leaveGame();
     }
 
+    /* ********************************************************
+      ____   ____   ____  _  __ _____ _    _ ______ _      ______ _____
+     |  _ \ / __ \ / __ \| |/ // ____| |  | |  ____| |    |  ____/ ____|
+     | |_) | |  | | |  | | ' /| (___ | |__| | |__  | |    | |__ | (___
+     |  _ <| |  | | |  | |  <  \___ \|  __  |  __| | |    |  __| \___ \
+     | |_) | |__| | |__| | . \ ____) | |  | | |____| |____| |    ____) |
+     |____/ \____/ \____/|_|\_\_____/|_|  |_|______|______|_|   |_____/
+    ***********************************************************/
+
+    //public void initBookshelfs(){}
+
     /* **********************************************************
                _____ _    _       _______
               / ____| |  | |   /\|__   __|
@@ -294,6 +304,7 @@ public class GUI extends Application implements View {
             sender.addChatMessage(message, receiver);
         }
     }
+    //TODO: sarebbe bello risolvere il fatto che non si possa riaprire la chat
 
     /* *********************
      ______ _   _ _____
