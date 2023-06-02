@@ -250,13 +250,13 @@ public class GUI extends Application implements View {
         c.init();
     }
     // Server to client
-    public void updateBoard(LocalBoard board, LocalHand hand){
+    public void updateBoard(LocalBoard updatedBoard, LocalHand updatedHand){
         GameController controllertmp = (GameController) this.controller;
-        //controllertmp.updateBoard(board,hand);
+        controllertmp.updateBoard( updatedBoard, updatedHand);
     }
-    public void updateBookShelf(LocalBookshelf localBookshelf, String name){
+    public void updateBookShelf(LocalBookshelf localBookshelf){
         GameController controllertmp = (GameController) this.controller;
-        //controllertmp.updateBookShelf(localBookshelf);
+        controllertmp.updateBookShelf(localBookshelf);
     }
 
     // Client to server

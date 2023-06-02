@@ -31,19 +31,23 @@ public class ChatController implements GUIController {
         displayMessage("YOU TO " + reciever + ": " + message);
     }
 
-    public void displayMessage(String message){
+    public void displayMessage(String message) {
         chatField.getItems().add(message);
     }
-    public void updateChat(String message, String name){}
+
+    public void updateChat(String message, String name) {
+    }
 
     //gestire la scelta di "a chi" inviare il messaggio
 
     @Override
-    public void setGui(GUI gui) { this.gui = gui; }
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
 
     @Override
-    public GUI getGui() { return this.gui; }
+    public GUI getGui() {
+        return this.gui;
+    }
 
-    @Override
-    public void init() {}
 }

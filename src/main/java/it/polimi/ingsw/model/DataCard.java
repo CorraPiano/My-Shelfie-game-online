@@ -3,11 +3,14 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.connection.message.Sendable;
 import it.polimi.ingsw.util.Constants;
+import it.polimi.ingsw.model.BagItem;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
+
+import static it.polimi.ingsw.model.BagItem.getItemPathByType;
 
 /*
 * CLASSE CHE IMPLEMENTA UNA STRUTTURA DATI PER MEMORIZZARE LE COORDINATE
@@ -167,17 +170,17 @@ public class DataCard implements Serializable {
 
     private Item convert(int n){
         if(n==0)
-            return new Item(ItemType.GREEN);
+            return new Item(ItemType.GREEN,getItemPathByType(ItemType.GREEN));
         if(n==1)
-            return new Item(ItemType.YELLOW);
+            return new Item(ItemType.YELLOW,getItemPathByType(ItemType.YELLOW));
         if(n==2)
-            return new Item(ItemType.BLUE);
+            return new Item(ItemType.BLUE,getItemPathByType(ItemType.BLUE));
         if(n==3)
-            return new Item(ItemType.PINK);
+            return new Item(ItemType.PINK,getItemPathByType(ItemType.PINK));
         if(n==4)
-            return new Item(ItemType.CYAN);
+            return new Item(ItemType.CYAN,getItemPathByType(ItemType.CYAN));
         if(n==5)
-            return new Item(ItemType.WHITE);
+            return new Item(ItemType.WHITE,getItemPathByType(ItemType.WHITE));
         return null;
     }
 

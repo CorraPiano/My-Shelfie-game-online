@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
 import it.polimi.ingsw.client.localModel.*;
-import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.exception.EmptySlotPickException;
 import it.polimi.ingsw.exception.LimitReachedPickException;
@@ -11,33 +10,23 @@ import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Item;
 import it.polimi.ingsw.model.ItemType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-
-import java.awt.event.ActionEvent;
-import java.io.IOException;
+import javafx.scene.layout.GridPane;;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
+import it.polimi.ingsw.util.Constants;
+
+import static it.polimi.ingsw.util.Constants.*;
 
 public class GameController implements GUIController {
     private GUI gui;
-    private Parent root;
-    private Stage stage;
-    private Scene scene;
-    String path = "/fxml/";
-
     @FXML
     private AnchorPane backgroundPane;
     @FXML
@@ -56,7 +45,14 @@ public class GameController implements GUIController {
     private ImageView personalGoalCard;
     @FXML
     private Button chat;
-
+    @FXML
+    private ImageView hand1;
+    @FXML
+    private ImageView hand2;
+    @FXML
+    private ImageView hand3;
+    @FXML
+    private Label errorLabel;
     private LocalBoard localBoard;
     private LocalHand localHand;
     private LocalPersonalCard localPersonalCard;
@@ -77,140 +73,173 @@ public class GameController implements GUIController {
         initCommon(gui.getClient().getModelView().getCommonCards());
         initPersonal(localPersonalCard.num);
     }
-    public void initPersonal(int num) {
-        URL url = getClass().getResource(getPersonalByType(num));
-        if(url != null) {
-            personalGoalCard.setImage(new Image(url.toString()));
-        }
+    public void initBoard(LocalBoard localBoard){
+        this.localBoard = localBoard;
+        showBoard();
     }
     public void initCommon(ArrayList<LocalCommonCard> commonCards) {
-
         int type1 = commonCards.get(0).getType();
         int type2 = commonCards.get(1).getType();
 
         URL url1 = getClass().getResource(getCommonPathByType(type1));
-                if(url1 != null) {
-                    common1.setImage(new Image(url1.toString()));
-                }
+        if(url1 != null) {
+            common1.setImage(new Image(url1.toString()));
+        }
 
         URL url2 = getClass().getResource(getCommonPathByType(type2));
         if(url2 != null) {
             common2.setImage(new Image(url2.toString()));
         }
     }
-    public void initBoard(LocalBoard localBoard){
-        this.localBoard = localBoard;
-        for (int i = 0; i < 9; i++){
-            for (int j = 0; j < 9; j++){
+    public void initPersonal(int num) {
+        URL url = getClass().getResource(getPersonalByType(num));
+        if(url != null) {
+            personalGoalCard.setImage(new Image(url.toString()));
+        }
+    }
+
+   /* On click methods */
+    public void onBoardClicked (MouseEvent event) {
+        Coordinates clickCoordinates = getBoardCellsIndexes(event);
+        ImageView imageHand = getImageViewFromGridPane(boardGrid,clickCoordinates.getRow(), clickCoordinates.getColumn());
+        System.out.println(clickCoordinates.getRow() + " " + clickCoordinates.getColumn());
+
+        if (isCatchable(clickCoordinates)) {
+            gui.pickItem(clickCoordinates);
+            if (imageHand != null){
+                showSelectedItem(imageHand);
+            }
+        }
+
+    }
+    public void onBookshelfClick(MouseEvent event){
+        int column = getBookshelfCellsColumn(event);
+        gui.putItemList(column);
+        showBookshelf();
+        showBoard();
+    }
+
+    /* Show methods */
+    public void showBookshelf() {
+    }
+    public void showBoard() {
+        for (int i = 8; i >= 0; i--) {
+            for (int j = 0; j < nColumnBoard; j++) {
                 Item item = localBoard.board[i][j];
                 if (item != null) {
-                    URL url = getClass().getResource(getItemPathByType(item.getType()));
+                    URL url = getClass().getResource(item.getImagePath());
                     if (url != null) {
                         ImageView imageView = new ImageView();
                         Image image = new Image(url.toString());
                         imageView.setImage(image);
                         imageView.setFitWidth(49);
                         imageView.setFitHeight(49);
-                        boardGrid.add(imageView, i, j);
+                        boardGrid.add(imageView,i,j);
                     }
                 }
             }
         }
     }
 
-    /* Images and paths getters */
-    public String getCommonPathByType(int type) {
-        return "/Images/common/" + (type + 1) + ".jpg";
-    }
-    public String getItemPathByType(ItemType type) {
-        Random random = new Random();
-        int i = random.nextInt(3) + 1;
-
-        return switch(type){
-            case BLUE -> "/Images/items/Blue" + i + ".png";
-            case YELLOW -> "/Images/items/Yellow" + i + ".png";
-            case GREEN -> "/Images/items/Green" + i + ".png";
-            case CYAN -> "/Images/items/Cyan" + i + ".png";
-            case WHITE -> "/Images/items/White" + i + ".png";
-            case PINK -> "/Images/items/Pink" + i + ".png";
-        };
-
-    }
-    public String getPersonalByType(int n) {
-        return "/Images/personal/" + n + ".png";
-    }
-
-   /* On click methods */
-    public void onBoardClicked (MouseEvent event) {
-        Coordinates clickCoordinates = getBoardCellsIndexes(event);
-        ImageView clickedImageView = (ImageView) boardGrid.getChildren().stream()
-                .filter(node -> GridPane.getRowIndex(node) == clickCoordinates.getRow()
-                        && GridPane.getColumnIndex(node) == clickCoordinates.getColumn())
-                .findFirst()
-                .orElse(null);
-
-        if (clickCoordinates != null) {
-            gui.pickItem(clickCoordinates);
-        }
-    }
-    public void onBookshelfClick(MouseEvent event){
-        int column = getBookshelfCellsColumn(event);
-        gui.putItemList(column);
-
-    }
     public Coordinates getBoardCellsIndexes(MouseEvent event){
-        int numColumns = 9;
-        int numRows = 9;
 
-        double cellWidth = boardGrid.getWidth() / numColumns;
-        double cellHeight = boardGrid.getHeight() / numRows;
+        double cellWidth = boardGrid.getWidth() / nColumnBoard;
+        double cellHeight = boardGrid.getHeight() / nRowBoard;
         int clickedRow = (int) (event.getY() / cellHeight);
         int clickedCol = (int) (event.getX() / cellWidth);
 
         return new Coordinates(clickedRow,clickedCol);
     }
     public int getBookshelfCellsColumn(MouseEvent event){
-        int numColumns = 5;
-        int numRows = 6;
-
-        double cellWidth = boardGrid.getWidth() / numColumns;
+        double cellWidth = bookshelfGrid.getWidth() / nColumnBookshelf;
         int clickedCol = (int) (event.getX() / cellWidth);
 
         return clickedCol;
     }
 
-    /* Updating and printing */
-    /*public void printBookshelf(int column, LocalHand hand) {
-        //dovrò aggiungere la hand riordinata nella colonna passata come parametro
-        for (Item item : localHand.hand){
-            for(int i = 0; i < 5; i++){
-                if (localBookshelf.bookshelf[i][column] == null) {
-                    bookshelfGrid.add();
-                    i = 6;
-                }
-            }
-
-        }
-    }*/
-
-    /*   public void updateBoard(LocalBoard updatedBoard, LocalHand hand){
+    /* Updating  */
+    public void updateBoard(LocalBoard updatedBoard, LocalHand hand) {
+        this.localBoard = updatedBoard;
         this.localHand = hand;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (localBoard.board[i][j] != updatedBoard.board[i][j]) {
-                    localBoard.board[i][j] = updatedBoard.board[i][j];
-                }
+        System.out.println("Update Board done");
+    }
+    public void updateBookShelf(LocalBookshelf updatedBookshelf){
+        this.localBookshelf = updatedBookshelf;
+        System.out.println("Update Bookshelf done");
+    }
+
+    /* Images */
+    public boolean isImageViewEmpty(ImageView imageView) {
+        return imageView.getImage() == null;
+    }
+    public void showSelectedItem(ImageView imageview){
+        if (isImageViewEmpty(hand1)){
+            hand1.setImage(imageview.getImage());
+        }
+        else if (isImageViewEmpty(hand2)){
+            hand2.setImage(imageview.getImage());
+        }
+        else hand3.setImage(imageview.getImage());
+    }
+    public ImageView getImageViewFromGridPane(GridPane gridPane, int rowIndex, int columnIndex) {
+        ImageView imageView = null;
+
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getRowIndex(node) == rowIndex && GridPane.getColumnIndex(node) == columnIndex && node instanceof ImageView) {
+                imageView = (ImageView) node;
+                break;
             }
         }
-    }*/
 
-    /*public void updateBookShelf(LocalBookshelf updatedBookshelf){
-        this.localBookshelf = updatedBookshelf;
-    }*/
+        return imageView;
+    }
+    public String getCommonPathByType(int type) {
+        return "/Images/common/" + (type + 1) + ".jpg";
+    }
+    public String getPersonalByType(int n) {
+        return "/Images/personal/" + n + ".png";
+    }
 
-    //ora si può aprire soltanto una volta la chat, da risolvere
-    public void onChat(javafx.event.ActionEvent actionEvent) {
-        this.gui.switchStage(Command.CHAT);
+    /* Checking */
+    public boolean isCatchable(Coordinates coordinates)  {
+        int row = coordinates.getRow();
+        int column = coordinates.getColumn();
+        boolean catchable = false;
+
+        if ((row < 0 || row > 8) || (column < 0 || column > 8))
+            errorLabel.setText("Out of Board Pick !");
+
+        if (localBoard.board[row][column] == null)
+            errorLabel.setText("Empty Slot !");
+
+        if (row == 0 || column == 0 || row == 8 || column == 8)
+            catchable = true;
+        else if (localBoard.board[row - 1][column] == null )
+            catchable = true;
+        else if (localBoard.board[row + 1][column] == null )
+            catchable = true;
+        else if (localBoard.board[row][column - 1] == null )
+            catchable = true;
+        else if (localBoard.board[row][column + 1] == null )
+            catchable = true;
+
+        return catchable;
+        } //TODO
+
+    /*True se c'è ancora spazio nella libreria */
+    public boolean noSpaceLeft(int column, int itemListSize) {
+        int counterSpace = 0;
+        for(int i = (nRowBookshelf - 1); i >= 0; i--) { // (nRow-1) because we count also the row 0
+            if(localBookshelf.bookshelf[i][column] == null) {
+                counterSpace++;
+            }
+        }
+        return (counterSpace >= itemListSize);
+    }
+
+    /* Switch Buttons */
+    public void onChat(){
+
     }
 }
 

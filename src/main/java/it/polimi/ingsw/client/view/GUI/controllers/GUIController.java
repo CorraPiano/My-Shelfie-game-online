@@ -10,6 +10,5 @@ import java.util.ArrayList;
 public interface GUIController {
     void setGui(GUI gui);
     GUI getGui();
-    void init();
 
 }

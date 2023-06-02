@@ -14,8 +14,4 @@ public class LobbyController implements GUIController{
         return null;
     }
 
-    @Override
-    public void init() {
-
-    }
 }

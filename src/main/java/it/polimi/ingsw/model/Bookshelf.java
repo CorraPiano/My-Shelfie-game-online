@@ -8,6 +8,8 @@ import it.polimi.ingsw.exception.NotEnoughSpacePutException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static it.polimi.ingsw.model.BagItem.getItemPathByType;
+
 public class Bookshelf extends Listenable {
     //ATTRIBUTES
     private final int nColumns;
@@ -146,22 +148,22 @@ public class Bookshelf extends Listenable {
                     this.library[i][j] = null;
                 }
                 else if(matrix[i][j] == 0) {
-                    this.library[i][j] = new Item(ItemType.GREEN);
+                    this.library[i][j] = new Item(ItemType.GREEN,getItemPathByType(ItemType.GREEN));
                 }
                 else if(matrix[i][j] == 1){
-                    this.library[i][j] = new Item(ItemType.YELLOW);
+                    this.library[i][j] = new Item(ItemType.YELLOW,getItemPathByType(ItemType.YELLOW));
                 }
                 else if(matrix[i][j] == 2){
-                    this.library[i][j] = new Item(ItemType.BLUE);
+                    this.library[i][j] = new Item(ItemType.BLUE,getItemPathByType(ItemType.BLUE));
                 }
                 else if(matrix[i][j] == 3){
-                    this.library[i][j] = new Item(ItemType.PINK);
+                    this.library[i][j] = new Item(ItemType.PINK,getItemPathByType(ItemType.PINK));
                 }
                 else if(matrix[i][j] == 4){
-                    this.library[i][j] = new Item(ItemType.CYAN);
+                    this.library[i][j] = new Item(ItemType.CYAN,getItemPathByType(ItemType.CYAN));
                 }
                 else if(matrix[i][j] == 5){
-                    this.library[i][j] = new Item(ItemType.WHITE);
+                    this.library[i][j] = new Item(ItemType.WHITE,getItemPathByType(ItemType.WHITE));
                 }
               }
         }

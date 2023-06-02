@@ -71,11 +71,6 @@ public class FindGameController implements GUIController {
         return gui;
     }
 
-    @Override
-    public void init() {
-    }
-
-
     public void updateList(List<String> games) {
         if(games.size() == 0){
             Label label = new Label("I can't find any game");

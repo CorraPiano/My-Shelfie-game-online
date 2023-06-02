@@ -35,12 +35,6 @@ public class SetupController implements GUIController {
     @Override
     public GUI getGui() { return this.gui; }
 
-    @Override
-    public void init() {
-
-    }
-
-
     @FXML
     public void onTCPButton(){
         try {

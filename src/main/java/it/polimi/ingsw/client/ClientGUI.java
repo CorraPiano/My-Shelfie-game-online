@@ -95,7 +95,7 @@ public class ClientGUI extends Client{
         //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": ORDER with " + list.toString());
     }
     public void notifyPut(String name, int column) throws RemoteException{
-        gui.updateBookShelf(modelView.getLocalBookshelfs().get(name), name);
+        gui.updateBookShelf(modelView.getLocalBookshelfs().get(name));
         //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
     }
 
