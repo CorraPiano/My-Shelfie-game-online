@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.Item;
@@ -46,11 +47,6 @@ public class ClientGUI extends Client{
         gui.refreshGameList(gameslist);
     }
 
-    public void updateChat(String name, String message) throws RemoteException {
-        gui.updateChat(message, name);
-    }
-
-
     public void createGame(int gameID) throws RemoteException {
 
     }
@@ -79,6 +75,8 @@ public class ClientGUI extends Client{
     }
 
     public void endGame(String name) throws RemoteException {
+        gui.updateEnd(name, modelView.getLocalPlayerList());
+        gui.updateStatistics(name, modelView.getLocalBookshelfs(), modelView.getLocalPlayerList());
         //System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " game over!");
         //System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " the winner is " + ANSI_CYAN + name);
     }
@@ -141,6 +139,14 @@ public class ClientGUI extends Client{
         if(GRAPHIC) {
             modelView.setPersonalCard(new DataCard(personalCard.num));
             modelView.setLocalPersonalCard(personalCard);
+        }
+        else
+            System.out.println("--> personalCard received");
+    }
+
+    public void updateChat(ChatMessage chatMessage) throws RemoteException {
+        if(GRAPHIC) {
+            gui.updateChat(chatMessage, name);
         }
         else
             System.out.println("--> personalCard received");

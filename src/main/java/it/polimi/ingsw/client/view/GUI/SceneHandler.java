@@ -60,7 +60,7 @@ public class SceneHandler {
             sceneToController.put(name, controller);
 
             // Game
-            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "game.fxml"));
+            fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "gameTable.fxml"));
             scene = new Scene(fxmlLoader.load());
             name = SceneName.GAME;
             sceneToFxml.put(name, scene);

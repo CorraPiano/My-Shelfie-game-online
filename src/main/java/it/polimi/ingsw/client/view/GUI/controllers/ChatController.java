@@ -1,15 +1,15 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
 import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
 
-import java.awt.*;
+import java.util.Objects;
 
 public class ChatController implements GUIController {
     private GUI gui;
@@ -19,35 +19,36 @@ public class ChatController implements GUIController {
     @FXML
     TextField chatMessage;
     @FXML
+    TextField receiver;
+    @FXML
     private ListView<String> chatField;
-    private MenuButton recipient;
 
 
     public void sendMessage(ActionEvent event) {
         String message = chatMessage.getText();
-        //String reciever = recipient.getItems().toString(); //non ho la più pallida idea se si faccia così o meno
-        String reciever = null;
-        gui.sendMessage(message, reciever);
-        displayMessage("YOU TO " + reciever + ": " + message);
+        if(Objects.equals(receiver.getText(), "")){
+            gui.sendMessage(message, null);
+        } else {
+            String receiverName = receiver.getText();
+            gui.sendMessage(message, receiverName);
+        }
     }
 
-    public void displayMessage(String message) {
-        chatField.getItems().add(message);
+    public void displayMessage(ChatMessage chatMessage, String name){
+        if (chatMessage.receiver == null && !Objects.equals(chatMessage.sender, name)){
+            chatField.getItems().add("<TO ALL> " + chatMessage.sender + ": " + chatMessage.message);
+        } else if (chatMessage.receiver == null && Objects.equals(chatMessage.sender, name)) {
+            chatField.getItems().add("<YOU TO ALL> " + chatMessage.message);
+        } else if (chatMessage.receiver != null && Objects.equals(chatMessage.sender, name)){
+            chatField.getItems().add("<YOU TO " + chatMessage.receiver + "> " + chatMessage.message);
+        } else {
+            chatField.getItems().add("<TO YOU> " + chatMessage.sender + ": " + chatMessage.message);
+        }
     }
-
-    public void updateChat(String message, String name) {
-    }
-
-    //gestire la scelta di "a chi" inviare il messaggio
 
     @Override
-    public void setGui(GUI gui) {
-        this.gui = gui;
-    }
+    public void setGui(GUI gui) { this.gui = gui; }
 
     @Override
-    public GUI getGui() {
-        return this.gui;
-    }
-
+    public GUI getGui() { return this.gui; }
 }

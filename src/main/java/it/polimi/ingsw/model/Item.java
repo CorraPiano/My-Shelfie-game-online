@@ -6,7 +6,12 @@ import java.util.Random;
 public class Item implements Serializable {
     //OPTION private boolean state;
     private final ItemType type;
-    private final String imagePath;
+    private String imagePath = null;
+
+    public Item (ItemType type) {
+        this.type = type;
+    }
+
     public Item (ItemType type, String imagePath) {
         this.type = type;
         this.imagePath = imagePath;

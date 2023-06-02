@@ -1,18 +1,15 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
-import it.polimi.ingsw.exception.EmptySlotPickException;
-import it.polimi.ingsw.exception.LimitReachedPickException;
-import it.polimi.ingsw.exception.NotCatchablePickException;
-import it.polimi.ingsw.exception.OutOfBoardPickException;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Item;
-import it.polimi.ingsw.model.ItemType;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,8 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
-import it.polimi.ingsw.util.Constants;
 
 import static it.polimi.ingsw.util.Constants.*;
 
@@ -53,6 +48,8 @@ public class GameController implements GUIController {
     private ImageView hand3;
     @FXML
     private Label errorLabel;
+    @FXML
+    private ListView<String> gameNotifications;
     private LocalBoard localBoard;
     private LocalHand localHand;
     private LocalPersonalCard localPersonalCard;
@@ -100,12 +97,15 @@ public class GameController implements GUIController {
 
    /* On click methods */
     public void onBoardClicked (MouseEvent event) {
-        Coordinates clickCoordinates = getBoardCellsIndexes(event);
-        ImageView imageHand = getImageViewFromGridPane(boardGrid,clickCoordinates.getRow(), clickCoordinates.getColumn());
-        System.out.println(clickCoordinates.getRow() + " " + clickCoordinates.getColumn());
+        Coordinates clickGridCoordinates = getGridCellsIndexes(event);
+        Coordinates clickBoardCoordinates = getBoardCellsIndexes(event);
+        ImageView imageHand = getImageViewFromGridPane(boardGrid,clickGridCoordinates.getRow(), clickGridCoordinates.getColumn());
 
-        if (isCatchable(clickCoordinates)) {
-            gui.pickItem(clickCoordinates);
+        //System.out.println("Coordinate della griglia: " + clickGridCoordinates.getRow() + " " + clickGridCoordinates.getColumn());
+        //System.out.println("Coordinate della board: " + clickBoardCoordinates.getRow() + " " + clickBoardCoordinates.getColumn());
+
+        if (isCatchable(clickBoardCoordinates)) {
+            gui.pickItem(clickBoardCoordinates);
             if (imageHand != null){
                 showSelectedItem(imageHand);
             }
@@ -120,8 +120,7 @@ public class GameController implements GUIController {
     }
 
     /* Show methods */
-    public void showBookshelf() {
-    }
+    public void showBookshelf() {   }
     public void showBoard() {
         for (int i = 8; i >= 0; i--) {
             for (int j = 0; j < nColumnBoard; j++) {
@@ -141,14 +140,19 @@ public class GameController implements GUIController {
         }
     }
 
-    public Coordinates getBoardCellsIndexes(MouseEvent event){
-
+    public Coordinates getGridCellsIndexes(MouseEvent event){
         double cellWidth = boardGrid.getWidth() / nColumnBoard;
         double cellHeight = boardGrid.getHeight() / nRowBoard;
         int clickedRow = (int) (event.getY() / cellHeight);
         int clickedCol = (int) (event.getX() / cellWidth);
-
         return new Coordinates(clickedRow,clickedCol);
+    }
+    public Coordinates getBoardCellsIndexes(MouseEvent event){
+        double cellWidth = boardGrid.getWidth() / nColumnBoard;
+        double cellHeight = boardGrid.getHeight() / nRowBoard;
+        int clickedRow = (int) (event.getY() / cellHeight);
+        int clickedCol = (int) (event.getX() / cellWidth);
+        return new Coordinates(8 - clickedRow,clickedCol);
     }
     public int getBookshelfCellsColumn(MouseEvent event){
         double cellWidth = bookshelfGrid.getWidth() / nColumnBookshelf;
@@ -161,11 +165,11 @@ public class GameController implements GUIController {
     public void updateBoard(LocalBoard updatedBoard, LocalHand hand) {
         this.localBoard = updatedBoard;
         this.localHand = hand;
-        System.out.println("Update Board done");
+        //System.out.println("Update Board done");
     }
     public void updateBookShelf(LocalBookshelf updatedBookshelf){
         this.localBookshelf = updatedBookshelf;
-        System.out.println("Update Bookshelf done");
+        //System.out.println("Update Bookshelf done");
     }
 
     /* Images */
@@ -206,12 +210,14 @@ public class GameController implements GUIController {
         int column = coordinates.getColumn();
         boolean catchable = false;
 
-        if ((row < 0 || row > 8) || (column < 0 || column > 8))
-            errorLabel.setText("Out of Board Pick !");
-
-        if (localBoard.board[row][column] == null)
-            errorLabel.setText("Empty Slot !");
-
+        if ((row < 0 || row > 8) || (column < 0 || column > 8)) {
+            gameNotifications.getItems().add("<ERROR> out of bound pick!");
+            //errorLabel.setText("Out of Board Pick !");
+        }
+        if (localBoard.board[row][column] == null) {
+            gameNotifications.getItems().add("<ERROR> empty slot!");
+            //errorLabel.setText("Empty Slot !");
+        }
         if (row == 0 || column == 0 || row == 8 || column == 8)
             catchable = true;
         else if (localBoard.board[row - 1][column] == null )
@@ -223,6 +229,9 @@ public class GameController implements GUIController {
         else if (localBoard.board[row][column + 1] == null )
             catchable = true;
 
+        if(!catchable){
+            gameNotifications.getItems().add("<ERROR> you cannot pick that item!");
+        }
         return catchable;
         } //TODO
 
@@ -238,8 +247,8 @@ public class GameController implements GUIController {
     }
 
     /* Switch Buttons */
-    public void onChat(){
-
+    public void onChat(javafx.event.ActionEvent actionEvent){
+        this.gui.switchStage(Command.CHAT);
     }
 }
 

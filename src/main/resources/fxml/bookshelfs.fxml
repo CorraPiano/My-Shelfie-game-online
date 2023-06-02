@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<AnchorPane prefHeight="755.0" prefWidth="1014.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.BookshelfsController">
+   <children>
+      <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <Label text="Congratulazioni, hai vinto!" style="-fx-font-size: 24px; -fx-text-fill: #ffffff;" />
+         <Button fx:id="mainMenuButton" text="Torna al menu principale" style="-fx-font-size: 18px; -fx-background-color: #3cb371; -fx-text-fill: #ffffff;" />
+      </VBox>
+   </children>
+</AnchorPane>

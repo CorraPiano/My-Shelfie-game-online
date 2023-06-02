@@ -4,11 +4,9 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientGUI;
 import it.polimi.ingsw.client.connection.*;
 import it.polimi.ingsw.client.localModel.*;
-import it.polimi.ingsw.client.view.GUI.controllers.ChatController;
-import it.polimi.ingsw.client.view.GUI.controllers.GUIController;
-import it.polimi.ingsw.client.view.GUI.controllers.FindGameController;
-import it.polimi.ingsw.client.view.GUI.controllers.GameController;
+import it.polimi.ingsw.client.view.GUI.controllers.*;
 import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
 import it.polimi.ingsw.model.*;
@@ -26,7 +24,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class GUI extends Application implements View {
@@ -79,7 +77,7 @@ public class GUI extends Application implements View {
                 changeStage(false, true);
             }
             else if(command == Command.SHOW_BOOKSHELFS) {
-                currentSceneName = SceneName.CHAT;
+                currentSceneName = SceneName.BOOKSHELFS;
                 changeStage(false, false);
             }
             else if(command == Command.END) {
@@ -281,16 +279,47 @@ public class GUI extends Application implements View {
      ***************************************************************/
 
     public void openChat(){}
-
     public void closeChat(){}
-    public void updateChat(String message, String name){
+
+    public void updateChat(ChatMessage chatMessage, String name){
         ChatController chat = (ChatController) this.controller;
         Platform.runLater(() ->{
-            chat.updateChat(message, name);
+            chat.displayMessage(chatMessage, name);
         });
     }
     public void sendMessage(String message, String receiver){
-        sender.addChatMessage(message, receiver);
+        if(receiver == null){
+            sender.addChatMessage(message);
+        } else {
+            sender.addChatMessage(message, receiver);
+        }
     }
 
+    /* *********************
+     ______ _   _ _____
+     |  ____| \ | |  __ \
+     | |__  |  \| | |  | |
+     |  __| | . ` | |  | |
+     | |____| |\  | |__| |
+     |______|_| \_|_____/
+     **********************/
+
+    public void updateEnd(String name, ArrayList<LocalPlayer> localPlayers){
+        EndController end = (EndController) this.controller;
+        end.updateLabel(name, localPlayers);
+    }
+
+    /* *******************************************************************
+       _____ _______    _______ _____  _____ _______ _____ _____  _____
+      / ____|__   __|/\|__   __|_   _|/ ____|__   __|_   _/ ____|/ ____|
+     | (___    | |  /  \  | |    | | | (___    | |    | || |    | (___
+      \___ \   | | / /\ \ | |    | |  \___ \   | |    | || |     \___ \
+      ____) |  | |/ ____ \| |   _| |_ ____) |  | |   _| || |____ ____) |
+     |_____/   |_/_/    \_\_|  |_____|_____/   |_|  |_____\_____|_____/
+     ********************************************************************/
+
+    public void updateStatistics(String name, Map<String, LocalBookshelf> localBookshelfMap, ArrayList<LocalPlayer> localPlayers){
+        StatisticsController statistics = (StatisticsController) this.controller;
+        statistics.updateBookshelfs(name, localBookshelfMap, localPlayers);
+    }
 }
