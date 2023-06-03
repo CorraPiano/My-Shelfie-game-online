@@ -40,6 +40,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         this.notifyAll();
     }
     public synchronized void setName(String name){ this.name=name; }
+    public synchronized void setId(String id){ this.ID=id; }
     public synchronized void receiveException(String e){
         state = ClientState.READY;
         this.notifyAll();
@@ -79,6 +80,12 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void createGame(int gameID) throws RemoteException {}
     public void playerJoin(String name) throws RemoteException {}
     public void playerLeave(String name) throws RemoteException {}
+    public void playerDisconnect(String name) throws RemoteException {}
+    public synchronized void playerReconnect(String name) throws RemoteException {
+        //phase = ClientPhase.GAME;
+        state = ClientState.READY;
+        this.notifyAll();
+    }
     public void startGame(String name) throws RemoteException {}
     public void newTurn(String name) throws RemoteException {}
     public void lastRound(String name) throws RemoteException {}
@@ -140,5 +147,9 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
 
     public OutputHandler getOutputHandler() {
         return null;
+    }
+
+    public void lostConnection(){
+        phase = ClientPhase.CLOSE;
     }
 }

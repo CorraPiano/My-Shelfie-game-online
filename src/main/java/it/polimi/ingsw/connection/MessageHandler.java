@@ -19,7 +19,7 @@ public class MessageHandler {
         //this.senderTCP=senderTCP;
         this.gson=new Gson();
     }
-    public void receive(TCPMessage TCPmessage, Connection connection) throws RemoteException, InvalidIdException, GameFullException, NameAlreadyExistentException, InvalidGameIdException, UnavaiableCommandException, GameModeException, NumPlayersException, EmptyHandException, NotInGameException, WrongTurnException, InvalidColumnPutException, NotEnoughSpacePutException, WrongLengthOrderException, WrongContentOrderException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException, InvalidNameException {
+    public void receive(TCPMessage TCPmessage, Connection connection) throws RemoteException, InvalidIdException, GameFullException, NameAlreadyExistentException, InvalidGameIdException, UnavaiableCommandException, GameModeException, NumPlayersException, EmptyHandException, NotInGameException, WrongTurnException, InvalidColumnPutException, NotEnoughSpacePutException, WrongLengthOrderException, WrongContentOrderException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException, InvalidNameException, GameFinishedException {
 
         switch (TCPmessage.getHeader()) {
             case LIST -> {
@@ -57,6 +57,12 @@ public class MessageHandler {
                 socketMap.bind(id, connection);
                 sendID(id,connection);
             }
+            case RECONNECTION -> {
+                ReconnectMessage reconnectMessage = gson.fromJson(TCPmessage.getBody(), ReconnectMessage.class);
+                controller.reconnect(reconnectMessage.id,connection);
+                socketMap.bind(reconnectMessage.id, connection);
+                sendID(reconnectMessage.id,connection);
+            }
             case LEAVE -> {
                 controller.leaveGame(socketMap.getIdByConnection(connection));
                 sendNothing(connection);
@@ -72,20 +78,30 @@ public class MessageHandler {
         }
     }
 
-    public void send(Sendable sendable, Connection conn){
+    private void send(Sendable sendable, Connection conn){
         String json =  gson.toJson(sendable);
         TCPMessage TCPmessage = new TCPMessage(sendable.getHeader(),json);
-        conn.send(TCPmessage);
+        try {
+            conn.send(TCPmessage);
+        } catch(Exception e){}
     }
 
-    public void sendID(String id, Connection conn){
+    private void sendID(String id, Connection conn){
         TCPMessage TCPmessage = new TCPMessage(MessageHeader.ID,id);
-        conn.send(TCPmessage);
+        try {
+            conn.send(TCPmessage);
+        } catch(Exception e){}
     }
 
-    public void sendNothing(Connection conn){
+    private void sendNothing(Connection conn){
         TCPMessage TCPmessage = new TCPMessage(MessageHeader.NOTHING,"");
-        conn.send(TCPmessage);
+        try {
+            conn.send(TCPmessage);
+        } catch(Exception e){}
+    }
+
+    public void notifyDisconnection(Connection conn){
+
     }
 
 }

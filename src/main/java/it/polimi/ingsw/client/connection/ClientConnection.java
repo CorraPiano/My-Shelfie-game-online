@@ -25,8 +25,8 @@ public class ClientConnection implements Runnable{
     public void run() {
         // gestire la chiusura della connesione
         while(true){
-            String line = in.nextLine();
             try{
+                String line = in.nextLine();
                 TCPMessage message = gson.fromJson(line, TCPMessage.class);
                 try {
                     TCPreceiver.receive(message);
@@ -34,7 +34,8 @@ public class ClientConnection implements Runnable{
 
                 }
             } catch(Exception e){
-
+                TCPreceiver.lostConnection();
+                break;
             }
         }
     }

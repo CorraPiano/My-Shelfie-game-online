@@ -1,4 +1,5 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.connection.Connection;
 import it.polimi.ingsw.connection.message.ChatMessage;
@@ -28,7 +29,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.bind(id,gameID);
-        ListenerRMI listener = new ListenerRMI(cc,gameplay.getEventKeeper(),id);
+        ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
@@ -42,7 +43,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         String id = player.getID();
         gameplaysHandler.addGameplay(gameplay,gameID);
         gameplaysHandler.bind(id,gameID);
-        ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id);
+        ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
@@ -55,7 +56,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.bind(id,gameID);
-        ListenerRMI listener = new ListenerRMI(cc,gameplay.getEventKeeper(),id);
+        ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         if(gameplay.isReady())
@@ -71,7 +72,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.bind(id,gameID);
-        ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id);
+        ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         if(gameplay.isReady())
@@ -119,13 +120,30 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
     public synchronized void addChatMessage(ChatMessage chatMessage, String id) throws InvalidIdException, RemoteException, InvalidNameException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.addChatMessage(chatMessage);
-        System.out.println("CHAT:: "+ gameplay.getGameID()+", "+ gameplay.getPlayerNameByID(id) + ">> " + chatMessage);
+        System.out.println("CHAT:: "+ gameplay.getGameID()+", "+ gameplay.getPlayerNameByID(id));
     }
 
     public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
-        gameplay.endGame();
-        // da implementare
+        gameplay.leave(id);
     }
+
+    public synchronized void reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        gameplay.reconnect(id);
+        System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
+        ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
+        new Thread(listener).start();
+        //gameplay.leave(id);
+    }
+    public synchronized void reconnect(String id,Connection conn) throws InvalidIdException, GameFinishedException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        gameplay.reconnect(id);
+        System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
+        ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
+        new Thread(listener).start();
+        //gameplay.leave(id);
+    }
+
 }

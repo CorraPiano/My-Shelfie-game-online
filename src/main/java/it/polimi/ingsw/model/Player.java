@@ -17,15 +17,28 @@ public class Player extends Listenable{
     private boolean firstPlayerSeat;
     private Token endGameToken;
 
+    private boolean connected;
+
     //METHODS
-    public Player(String name){
+    public Player(String name, int gameID){
         this.name = name;
         library = new Bookshelf(name);
         //personalCard = new PersonalGoalCard(library);
         //creation of the ID code
-        ID = UUID.randomUUID().toString();
+        //ID = UUID.randomUUID().toString();
+        ID = name + "_" + gameID;
+        connected = true;
     }
 
+    public boolean connectionState(){
+        return connected;
+    }
+    public void disconnect(){
+        connected = false;
+    }
+    public void reconnect() {
+        connected = true;
+    }
     /*public void bindListner(OldListener listener){
         //library.bindListener(listener);
         personalCard.setListener(listener);

@@ -1,8 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.connection.message.*;
 import it.polimi.ingsw.model.EventKeeper;
+import it.polimi.ingsw.model.Gameplay;
+
+import java.rmi.RemoteException;
 
 public abstract class Listener implements Runnable {
 
@@ -10,11 +14,13 @@ public abstract class Listener implements Runnable {
     private final EventKeeper eventKeeper;
     private int cursor;
     private int personalCursor;
-    protected Gson gson;
-    private String id;
+    protected final Gson gson;
+    private final String id;
+    private final Gameplay gameplay;
 
-    public Listener(EventKeeper eventKeeper, String id) {
-        this.eventKeeper = eventKeeper;
+    public Listener(Gameplay gameplay, String id) {
+        this.eventKeeper = gameplay.getEventKeeper();
+        this.gameplay = gameplay;
         active=true;
         cursor=0;
         personalCursor=0;
@@ -28,30 +34,29 @@ public abstract class Listener implements Runnable {
 
 
     public void run() {
+        System.out.println("thread avviato");
         try {
             while (true) {
-                synchronized (this) {
-                    if (!active)
-                        break;
-                }
                 synchronized (eventKeeper) {
                     if (eventKeeper.isPresentPersonal(id, personalCursor)) {
                         this.handleSendable(eventKeeper.getListenablePersonal(id, personalCursor));
                         personalCursor++;
                     }
-                    else if (eventKeeper.isPresent(cursor)) {
-                        this.handleSendable(eventKeeper.getListenable(cursor));
-                        cursor++;
-                    } else
-                        eventKeeper.wait();
+                    else {
+                        ping();
+                        eventKeeper.wait(5000);
+                    }
                 }
             }
-        } catch (InterruptedException e){
-            e.printStackTrace();
+        } catch (Exception e){
+            gameplay.disconnect(id);
         }
+        System.out.println("thread terminato");
     }
 
     abstract void handleSendable(Sendable sendable);
+
+    abstract void ping() throws Exception;
 
 
 }

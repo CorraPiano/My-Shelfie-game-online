@@ -6,6 +6,8 @@ import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
+
+import java.rmi.ConnectException;
 import java.util.ArrayList;
 
 public class RMISender extends Sender {
@@ -20,7 +22,10 @@ public class RMISender extends Sender {
         try {
             ArrayList<LocalGame> list = controller.getGameList();
             client.receiveGamesList(list);
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }
+        catch (Exception e){
             client.receiveException(e.toString());
         }
     }
@@ -29,6 +34,8 @@ public class RMISender extends Sender {
             client.setName(name);
             String ID = controller.addFirstPlayer(name, gameMode, numPlayer, client);
             client.receiveID(ID);
+        } catch(ConnectException e) {
+            client.lostConnection();
         } catch (Exception e){
             client.receiveException(e.toString());
         }
@@ -38,6 +45,8 @@ public class RMISender extends Sender {
             client.setName(name);
             String ID = controller.addPlayer(name,gameID,client);
             client.receiveID(ID);
+        } catch(ConnectException e) {
+            client.lostConnection();
         } catch (Exception e){
             client.receiveException(e.toString());
         }
@@ -46,7 +55,9 @@ public class RMISender extends Sender {
         try {
             controller.pickItem(coordinates,client.getID());
             client.receiveNothing();
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
             client.receiveException(e.toString());
         }
     }
@@ -54,7 +65,9 @@ public class RMISender extends Sender {
         try {
             controller.undoPick(client.getID());
             client.receiveNothing();
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
             client.receiveException(e.toString());
         }
     }
@@ -62,7 +75,9 @@ public class RMISender extends Sender {
         try {
             controller.putItemList(column,client.getID());
             client.receiveNothing();
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
             client.receiveException(e.toString());
         }
     }
@@ -70,7 +85,9 @@ public class RMISender extends Sender {
         try {
             controller.selectInsertOrder(order,client.getID());
             client.receiveNothing();
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
             client.receiveException(e.toString());
         }
     }
@@ -78,7 +95,9 @@ public class RMISender extends Sender {
         try{
             controller.addChatMessage(new ChatMessage(client.getName(), message, receiver), client.getID());
             client.receiveNothing();
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
             client.receiveException(e.toString());
         }
     }
@@ -86,7 +105,9 @@ public class RMISender extends Sender {
         try{
             controller.addChatMessage(new ChatMessage(client.getName(), message), client.getID());
             client.receiveNothing();
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
             client.receiveException(e.toString());
         }
     }
@@ -94,7 +115,23 @@ public class RMISender extends Sender {
         try {
             controller.leaveGame(client.getID());
             client.receiveNothing();
-        } catch (Exception e){
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
+            client.receiveException(e.toString());
+        }
+    }
+
+    public void reconnectGame(String name, int gameID) {
+        String id = name + "_" + String.valueOf(gameID);
+        try {
+            client.setName(name);
+            controller.reconnect(id,client);
+            client.receiveID(id);
+        } catch(ConnectException e) {
+            client.lostConnection();
+        }catch (Exception e){
+            e.printStackTrace();
             client.receiveException(e.toString());
         }
     }

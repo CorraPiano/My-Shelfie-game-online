@@ -50,6 +50,14 @@ public class TCPReceiver {
                 LeaveMessage event = gson.fromJson(TCPmessage.getBody(),LeaveMessage.class);
                 client.playerLeave(event.name);
             }
+            case DISCONNECTION -> {
+                DisconnectMessage event = gson.fromJson(TCPmessage.getBody(),DisconnectMessage.class);
+                client.playerDisconnect(event.name);
+            }
+            case RECONNECTION -> {
+                ReconnectMessage event = gson.fromJson(TCPmessage.getBody(),ReconnectMessage.class);
+                client.playerReconnect(event.id);
+            }
             case LIST -> {
                 ListMessage list = gson.fromJson(TCPmessage.getBody(), ListMessage.class);
                 client.receiveGamesList(list.gamesList);
@@ -109,12 +117,16 @@ public class TCPReceiver {
                 ChatMessage message = gson.fromJson(TCPmessage.getBody(),ChatMessage.class);
                 client.updateChat(message);
             }
+            case PING -> {
+                //System.out.println("...ricevuto un ping");
+            }
             default -> {
                 throw new Exception();
             }
         }
+    }
 
-
-
+    public void lostConnection(){
+        client.lostConnection();
     }
 }

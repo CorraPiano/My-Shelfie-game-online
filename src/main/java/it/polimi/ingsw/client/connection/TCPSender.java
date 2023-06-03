@@ -57,5 +57,13 @@ public class TCPSender extends Sender {
         connection.send(new LeaveMessage());
         client.putInWait();
     }
+    public void reconnectGame(String name,int gameID) {
+        String id = name+"_"+gameID;
+        connection.send(new ReconnectMessage(id));
+        client.setName(name);
+        client.setId(id);
+        client.putInWait();
+    }
+
 }
 

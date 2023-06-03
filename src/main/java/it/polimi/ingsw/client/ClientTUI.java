@@ -42,6 +42,7 @@ public class ClientTUI extends Client {
     }
 
     public void createGame(int gameID) throws RemoteException {
+        phase = ClientPhase.GAME;
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The game is created with gameID " + gameID );
     }
 
@@ -51,6 +52,17 @@ public class ClientTUI extends Client {
 
     public void playerLeave(String name) throws RemoteException {
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + ": left the game");
+    }
+    public void playerDisconnect(String name) throws RemoteException {
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + ": has lost the connection");
+    }
+
+    @Override
+    public synchronized void playerReconnect(String name) throws RemoteException {
+        phase = ClientPhase.GAME;
+        state = ClientState.READY;
+        this.notifyAll();
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + ": has reconnected");
     }
 
     public void startGame(String name) throws RemoteException {
@@ -102,6 +114,14 @@ public class ClientTUI extends Client {
         if(phase.equals(ClientPhase.GAME))
             outputHandler.showBookshelf(modelView.getLocalBookshelfs().get(name));
         System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
+    }
+
+    public void lostConnection(){
+        chat.stopThread();
+        phase = ClientPhase.CLOSE;
+        state = ClientState.READY;
+        System.out.println("connection lost");
+        System.exit(0);
     }
 
 }

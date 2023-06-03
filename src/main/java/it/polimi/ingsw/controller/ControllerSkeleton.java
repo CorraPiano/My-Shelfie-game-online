@@ -1,4 +1,5 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.exception.*;
@@ -24,4 +25,6 @@ public interface ControllerSkeleton extends Remote {
     void addChatMessage(ChatMessage chatMessage, String id) throws RemoteException, InvalidIdException, InvalidNameException;
 
     void leaveGame(String id) throws RemoteException, InvalidIdException;
+
+    void reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException;
 }
