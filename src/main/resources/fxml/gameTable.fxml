@@ -121,9 +121,9 @@
                   </Label>
                   <HBox prefHeight="64.0" prefWidth="174.0">
                      <children>
-                        <ImageView fx:id="hand1" fitHeight="58.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="hand2" fitHeight="58.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="hand3" fitHeight="58.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="hand1" fitHeight="58.0" fitWidth="58.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="hand2" fitHeight="58.0" fitWidth="58.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="hand3" fitHeight="58.0" fitWidth="58.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                </children>

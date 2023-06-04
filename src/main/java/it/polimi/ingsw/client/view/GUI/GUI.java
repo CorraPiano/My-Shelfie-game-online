@@ -263,6 +263,9 @@ public class GUI extends Application implements View {
     public void putItemList(int column){
         sender.putItemList(column);
     }
+    public void selectInsertOrder(ArrayList<Integer> positions) {
+        sender.selectInsertOrder(positions);
+    }
 
     public void leaveGame(){
         sender.leaveGame();

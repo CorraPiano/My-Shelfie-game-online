@@ -55,32 +55,45 @@ public class Board extends Listenable {
     }
 
     /* True if we can pick an item from the board */
-    public boolean isCatchable(Coordinates coordinates) throws LimitReachedPickException, OutOfBoardPickException, EmptySlotPickException, NotCatchablePickException {
+    public boolean isCatchable(Coordinates coordinates) throws LimitReachedPickException, OutOfBoardPickException, EmptySlotPickException, NotCatchablePickException, NotLinearPickException {
         int row = coordinates.getRow();
         int column = coordinates.getColumn();
         boolean catchable = false;
 
-        if(hand.getSize()>2)
+        if(hand.getSize() > 2) {
             throw new LimitReachedPickException();
+        }
 
-        if ((row < 0 || row > 8) || (column < 0 || column > 8))
+        if ((row < 0 || row > 8) || (column < 0 || column > 8)) {
             throw new OutOfBoardPickException();
-        if (mask[row][column]>numPlayers)
+        }
+        if (mask[row][column]>numPlayers) {
             throw new OutOfBoardPickException();
+        }
 
-        if (livingRoom[row][column] == null)
+        if (livingRoom[row][column] == null) {
             throw new EmptySlotPickException();
+        }
 
-        if (row == 0 || column == 0 || row == 8 || column == 8)
+        if (hand.containsCoords(new Coordinates(row - 1,column -1)) ||
+            hand.containsCoords(new Coordinates(row - 1,column +1)) ||
+            hand.containsCoords(new Coordinates(row + 1,column -1)) ||
+            hand.containsCoords(new Coordinates(row + 1,column +1)))
+
+            throw new NotLinearPickException();
+
+        else if (livingRoom[row - 1][column] == null && !hand.containsCoords(new Coordinates(row - 1, column))) {
             catchable = true;
-        else if (livingRoom[row - 1][column] == null && !hand.containsCoords(new Coordinates(row - 1, column)))
-                catchable = true;
-        else if (livingRoom[row + 1][column] == null && !hand.containsCoords(new Coordinates(row + 1, column)))
-                catchable = true;
-        else if (livingRoom[row][column - 1] == null && !hand.containsCoords(new Coordinates(row, column - 1)))
-                    catchable = true;
-        else if (livingRoom[row][column + 1] == null && !hand.containsCoords(new Coordinates(row, column + 1)))
-                        catchable = true;
+        }
+        else if (livingRoom[row + 1][column] == null && !hand.containsCoords(new Coordinates(row + 1, column))) {
+            catchable = true;
+        }
+        else if (livingRoom[row][column - 1] == null && !hand.containsCoords(new Coordinates(row, column - 1))) {
+            catchable = true;
+        }
+        else if (livingRoom[row][column + 1] == null && !hand.containsCoords(new Coordinates(row, column + 1))) {
+            catchable = true;
+        }
 
         if(catchable)
               return hand.checkNewCoordinates(coordinates);

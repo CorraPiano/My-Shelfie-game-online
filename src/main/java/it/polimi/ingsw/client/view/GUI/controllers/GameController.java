@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI.controllers;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.exception.LimitReachedPickException;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.Item;
 import javafx.fxml.FXML;
@@ -47,13 +48,14 @@ public class GameController implements GUIController {
     @FXML
     private ImageView hand3;
     @FXML
-    private Label errorLabel;
-    @FXML
     private ListView<String> gameNotifications;
+    private int clickCount;
     private LocalBoard localBoard;
     private LocalHand localHand;
     private LocalPersonalCard localPersonalCard;
     private LocalBookshelf localBookshelf;
+    private ArrayList<Integer> handOrder = new ArrayList<>();
+    private ArrayList<Coordinates> localHandCoordinates = new ArrayList<>();
 
     @Override
     public void setGui(GUI gui) { this.gui = gui;}
@@ -65,10 +67,10 @@ public class GameController implements GUIController {
         this.localBoard = gui.getClient().getModelView().getLocalBoard();
         this.localPersonalCard = gui.getClient().getModelView().getLocalPersonalCard();
         this.localHand = gui.getClient().getModelView().getLocalHand();
-
+        this.clickCount = 0;
         initBoard(localBoard);
-        initCommon(gui.getClient().getModelView().getCommonCards());
         initPersonal(localPersonalCard.num);
+        //initCommon(gui.getClient().getModelView().getCommonCards());
     }
     public void initBoard(LocalBoard localBoard){
         this.localBoard = localBoard;
@@ -98,29 +100,54 @@ public class GameController implements GUIController {
    /* On click methods */
     public void onBoardClicked (MouseEvent event) {
         Coordinates clickGridCoordinates = getGridCellsIndexes(event);
-        Coordinates clickBoardCoordinates = getBoardCellsIndexes(event);
-        ImageView imageHand = getImageViewFromGridPane(boardGrid,clickGridCoordinates.getRow(), clickGridCoordinates.getColumn());
-
-        //System.out.println("Coordinate della griglia: " + clickGridCoordinates.getRow() + " " + clickGridCoordinates.getColumn());
-        //System.out.println("Coordinate della board: " + clickBoardCoordinates.getRow() + " " + clickBoardCoordinates.getColumn());
+        Coordinates clickBoardCoordinates = getBoardCellsIndexes(event); //actual model coordinates
+        ImageView imageHand = getImageViewFromGridPane(boardGrid, clickGridCoordinates.getRow(), clickGridCoordinates.getColumn());
+        localHandCoordinates.add(clickBoardCoordinates);
 
         if (isCatchable(clickBoardCoordinates)) {
             gui.pickItem(clickBoardCoordinates);
-            if (imageHand != null){
+            if(imageHand != null) {
                 showSelectedItem(imageHand);
+                boardGrid.getChildren().remove(imageHand);
             }
         }
 
     }
-    public void onBookshelfClick(MouseEvent event){
+    public void onBookshelfClick(MouseEvent event) {
         int column = getBookshelfCellsColumn(event);
         gui.putItemList(column);
-        showBookshelf();
+        showBookshelf(column);
         showBoard();
+    }
+    public void onHandClick(MouseEvent event){
+        ImageView clickedImageView = (ImageView) event.getSource();
+        if (clickedImageView == hand1)
+            handOrder.add(0);
+        else if (clickedImageView == hand2)
+            handOrder.add(1);
+        else if (clickedImageView == hand3)
+            handOrder.add(2);
     }
 
     /* Show methods */
-    public void showBookshelf() {   }
+    public void showBookshelf(int column) {
+        for (int i = nRowBookshelf - 1; i >= 0; i--) {
+            for (int j = 0; j < nColumnBookshelf; j++) {
+                Item item = localBookshelf.bookshelf[i][j];
+                if (item != null) {
+                    URL url = getClass().getResource(item.getImagePath());
+                    if (url != null) {
+                        ImageView imageView = new ImageView();
+                        Image image = new Image(url.toString());
+                        imageView.setImage(image);
+                        imageView.setFitWidth(20);
+                        imageView.setFitHeight(20);
+                        bookshelfGrid.add(imageView,i,j); //TODO indici da invertire
+                    }
+                }
+            }
+        }
+    }
     public void showBoard() {
         for (int i = 8; i >= 0; i--) {
             for (int j = 0; j < nColumnBoard; j++) {
@@ -131,15 +158,16 @@ public class GameController implements GUIController {
                         ImageView imageView = new ImageView();
                         Image image = new Image(url.toString());
                         imageView.setImage(image);
-                        imageView.setFitWidth(49);
-                        imageView.setFitHeight(49);
-                        boardGrid.add(imageView,i,j);
+                        imageView.setFitWidth(45);
+                        imageView.setFitHeight(45);
+                        boardGrid.add(imageView,i,j); //TODO indici da invertire
                     }
                 }
             }
         }
     }
 
+    /* Coordinates getters */
     public Coordinates getGridCellsIndexes(MouseEvent event){
         double cellWidth = boardGrid.getWidth() / nColumnBoard;
         double cellHeight = boardGrid.getHeight() / nRowBoard;
@@ -169,13 +197,13 @@ public class GameController implements GUIController {
     }
     public void updateBookShelf(LocalBookshelf updatedBookshelf){
         this.localBookshelf = updatedBookshelf;
-        //System.out.println("Update Bookshelf done");
     }
 
     /* Images */
     public boolean isImageViewEmpty(ImageView imageView) {
         return imageView.getImage() == null;
     }
+
     public void showSelectedItem(ImageView imageview){
         if (isImageViewEmpty(hand1)){
             hand1.setImage(imageview.getImage());
@@ -208,32 +236,53 @@ public class GameController implements GUIController {
     public boolean isCatchable(Coordinates coordinates)  {
         int row = coordinates.getRow();
         int column = coordinates.getColumn();
-        boolean catchable = false;
 
-        if ((row < 0 || row > 8) || (column < 0 || column > 8)) {
-            gameNotifications.getItems().add("<ERROR> out of bound pick!");
-            //errorLabel.setText("Out of Board Pick !");
+        if (localHandCoordinates.size() > 3) {
+            gameNotifications.getItems().add( "<ERROR> too many items selected!" );
+            return false;
         }
+
         if (localBoard.board[row][column] == null) {
             gameNotifications.getItems().add("<ERROR> empty slot!");
-            //errorLabel.setText("Empty Slot !");
+            localHandCoordinates.remove(coordinates);
+            return false;
         }
-        if (row == 0 || column == 0 || row == 8 || column == 8)
-            catchable = true;
-        else if (localBoard.board[row - 1][column] == null )
-            catchable = true;
-        else if (localBoard.board[row + 1][column] == null )
-            catchable = true;
-        else if (localBoard.board[row][column - 1] == null )
-            catchable = true;
-        else if (localBoard.board[row][column + 1] == null )
-            catchable = true;
 
-        if(!catchable){
-            gameNotifications.getItems().add("<ERROR> you cannot pick that item!");
+        if (notLinearCheck(coordinates))
+        {
+            gameNotifications.getItems().add("<ERROR> not linear pick exception!");
+            localHandCoordinates.remove(coordinates);
+            return false;
         }
-        return catchable;
-        } //TODO
+        if (checkDistance(coordinates)){
+            gameNotifications.getItems().add("<ERROR> not adjacent pick!");
+            localHandCoordinates.remove(coordinates);
+            return false;
+        }
+
+        else if (localBoard.board[row - 1][column] == null && !localHandCoordinates.contains(new Coordinates(row - 1, column)))
+             return true;
+        else if (localBoard.board[row + 1][column] == null && !localHandCoordinates.contains(new Coordinates(row + 1, column)))
+            return true;
+        else if (localBoard.board[row][column - 1] == null && !localHandCoordinates.contains(new Coordinates(row,column - 1)))
+            return true;
+        else if (localBoard.board[row][column + 1] == null && !localHandCoordinates.contains(new Coordinates(row, column + 1)))
+            return true;
+
+        return false;
+        }
+    private boolean checkDistance(Coordinates coordinates) {
+        int row = coordinates.getRow();
+        int column = coordinates.getColumn();
+
+        if ( localHandCoordinates.size() == 2 ){
+            return (Math.abs(row - localHandCoordinates.get(0).getRow()) > 1) || (Math.abs(column - localHandCoordinates.get(0).getColumn()) > 1);
+        }
+        else if ( localHandCoordinates.size() == 3){
+        return (Math.abs(row - localHandCoordinates.get(1).getRow()) > 1) || (Math.abs(column - localHandCoordinates.get(1).getColumn()) > 1);
+        }
+        return false;
+    }
 
     /*True se c'è ancora spazio nella libreria */
     public boolean noSpaceLeft(int column, int itemListSize) {
@@ -244,6 +293,14 @@ public class GameController implements GUIController {
             }
         }
         return (counterSpace >= itemListSize);
+    }
+    public boolean notLinearCheck(Coordinates coordinates) {
+        int row = coordinates.getRow();
+        int column = coordinates.getColumn();
+        return localHandCoordinates.contains(new Coordinates(row - 1, column - 1)) ||
+                localHandCoordinates.contains(new Coordinates(row - 1, column + 1)) ||
+                localHandCoordinates.contains(new Coordinates(row + 1, column - 1)) ||
+                localHandCoordinates.contains(new Coordinates(row + 1, column + 1));
     }
 
     /* Switch Buttons */
