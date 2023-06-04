@@ -27,6 +27,13 @@ public class PlayerHandler{
 
     //ritorna false se la partitia è finita
     public boolean next() {
+        int numPlayersAvaiable = 0;
+        for(Player p:playerList){
+            if(p.connectionState())
+                numPlayersAvaiable++;
+        }
+        if(numPlayersAvaiable<2)
+            return false;
         if(curr<size-1)
             curr=curr+1;
         else{
@@ -35,6 +42,8 @@ public class PlayerHandler{
             else
                 curr=0;
         }
+        if(!playerList.get(curr).connectionState())
+            next();
         return true;
     }
 

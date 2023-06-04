@@ -176,6 +176,6 @@ public class Board extends Listenable {
         Item[][] board = new Item[nRows][nColumns];
         for(int i=0;i<nRows;i++)
             System.arraycopy(livingRoom[i], 0, board[i], 0, nRows);
-        return new LocalBoard(livingRoom);
+        return new LocalBoard(board);
     }
 }

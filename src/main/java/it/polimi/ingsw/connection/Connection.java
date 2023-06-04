@@ -1,6 +1,7 @@
 package it.polimi.ingsw.connection;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.connection.message.LeaveMessage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ public class Connection implements Runnable{
 
     private Gson gson;
 
+    private boolean active;
 
     public Connection(Socket socket, int num, MessageHandler messageHandler) throws IOException {
         this.num = num;
@@ -22,6 +24,7 @@ public class Connection implements Runnable{
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream());
         gson = new Gson();
+        active = true;
     }
 
     public void run() {
@@ -31,27 +34,28 @@ public class Connection implements Runnable{
         while(true) {
             //sistemare il thread con wait;
             try {
-                if (in.hasNext()) {
-                    System.out.println("------------------------------------------");
-                    String line = in.nextLine();
-                    try {
-                        TCPMessage message = gson.fromJson(line, TCPMessage.class);
-                        messageHandler.receive(message, this);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        TCPMessage TCPmessage = new TCPMessage(MessageHeader.EXCEPTION, e.toString());
-                        send(TCPmessage);
-                    }
-                } else {
-                        //errore
+                //System.out.println("------------------------------------------");
+                String line = in.nextLine();
+                try {
+                    TCPMessage message = gson.fromJson(line, TCPMessage.class);
+                    messageHandler.receive(message, this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    TCPMessage TCPmessage = new TCPMessage(MessageHeader.EXCEPTION, e.toString());
+                    send(TCPmessage);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                active = false;
+                break;
             }
         }
+        System.out.println("connessione terminata");
     }
 
-    public synchronized void send(TCPMessage TCPmessage){
+    public synchronized void send(TCPMessage TCPmessage) throws Exception {
+        if(!active)
+            throw new Exception();
         String str = gson.toJson(TCPmessage);
         out.println(str);
         out.flush();

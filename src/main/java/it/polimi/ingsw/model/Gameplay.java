@@ -5,12 +5,14 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.connection.message.*;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
-public class Gameplay extends Listenable {
+public class Gameplay extends Listenable{
 
     private final GameMode gameMode;
     private GameState gameState;
-    private int gameID;
+    private final int gameID;
     private final int numPlayers;
     private final Board board;
     private CommonGoalCard commonGoalCard1;
@@ -51,12 +53,15 @@ public class Gameplay extends Listenable {
             bagCommon = null;
         gameState = GameState.WAIT;
         eventKeeper.notifyAll(new CreateMessage(gameID));
+
+        //Thread th = new Thread(this);
+        //        th.start();
     }
 
     public Player addPlayer(String name) throws GameFullException, NameAlreadyExistentException {
         if(!checkName(name))
             throw new NameAlreadyExistentException();
-        Player player = new Player(name);
+        Player player = new Player(name,gameID);
         eventKeeper.addPersonalList(player.getID());
         player.setEventKeeper(eventKeeper);
         player.getLibrary().setEventKeeper(eventKeeper);
@@ -64,6 +69,7 @@ public class Gameplay extends Listenable {
         //attenzione: al primo giocatore lancia una eccezione !!!
         //broadcasterRMI.playerJoin(gameID,name);
         eventKeeper.notifyAll(new JoinMessage(name));
+        //playerPing.put(player.getID(),System.currentTimeMillis());
         return player;
     }
 
@@ -253,6 +259,14 @@ public class Gameplay extends Listenable {
         }
         return null;
     }
+    public Player getPlayerByID(String id){
+        for(Player p: playerList){
+            if(p.getID().equals(id))
+                return p;
+        }
+        return null;
+    }
+
 
     public int getGameID() {
         return gameID;
@@ -277,6 +291,35 @@ public class Gameplay extends Listenable {
         }
         return null;
     }
+
+
+    public void leave(String id){
+        eventKeeper.notifyAll(new LeaveMessage(getPlayerNameByID(id)));
+        endGame();
+    }
+
+    public void disconnect(String id){
+        getPlayerByID(id).disconnect();
+        eventKeeper.notifyAll(new DisconnectMessage(getPlayerNameByID(id)));
+        System.out.println(getPlayerNameByID(id)+" si è disconnesso");
+        if(playerHandler.current().getID().equals(id))
+        {
+            releaseHand();
+            if(playerHandler.next())
+                eventKeeper.notifyAll(new NewTurnMessage(playerHandler.current().getName()));
+            else
+                endGame();
+        }
+        //endGame();
+    }
+
+    public void reconnect(String id) throws GameFinishedException {
+        if(gameState.equals(GameState.END) || getPlayerByID(id).connectionState() )
+            throw new GameFinishedException();
+        getPlayerByID(id).reconnect();
+        eventKeeper.notifyAll(new ReconnectMessage(getPlayerNameByID(id)));
+    }
+
 }
 
 

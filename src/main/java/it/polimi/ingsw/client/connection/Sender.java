@@ -21,4 +21,6 @@ public abstract class Sender {
     public abstract void addChatMessage(String message, String receiver);
     public abstract void addChatMessage(String message);
     public abstract void leaveGame();
+    public abstract void reconnectGame(String name, int gameID);
+
 }

@@ -34,13 +34,15 @@ public class InputHandler {
                 try {
                     switch (line.toUpperCase()) {
                         case "CREATE" -> new CreateCommand().execute(sender, stdin, client);
+                        case "RECONNECT" -> new ReconnectCommand().execute(sender, stdin, client);
                         case "JOIN" -> new JoinCommand().execute(sender, stdin, client);
                         case "LIST" -> new ListCommand().execute(sender, stdin, client);
                         case "HELP" -> new HelpCommand().execute(sender, stdin, client);
-                        case "EXIT" -> new HelpCommand().execute(sender, stdin, client);
+                        //case "EXIT" -> new HelpCommand().execute(sender, stdin, client);
                         default ->  System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
                     }
                 } catch (Exception e){
+                    e.printStackTrace();
                     System.out.println(e);
                 }
             }
@@ -54,7 +56,8 @@ public class InputHandler {
             }
             System.out.println();
         }
-        playMatch();
+        if(client.getPhase().equals(ClientPhase.GAME))
+            playMatch();
     }
 
     private void presentation() {

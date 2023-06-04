@@ -4,12 +4,15 @@ import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.connection.message.*;
 import it.polimi.ingsw.model.EventKeeper;
+import it.polimi.ingsw.model.Gameplay;
+
+import java.rmi.RemoteException;
 
 public class ListenerRMI extends Listener{
         ClientSkeleton client;
 
-        public ListenerRMI(ClientSkeleton client, EventKeeper eventKeeper, String id ){
-                super(eventKeeper,id);
+        public ListenerRMI(ClientSkeleton client, Gameplay gameplay, String id){
+                super(gameplay,id);
                 this.client = client;
         }
 
@@ -32,6 +35,14 @@ public class ListenerRMI extends Listener{
                                 case LEAVE -> {
                                         LeaveMessage message = (LeaveMessage) sendable;
                                         client.playerLeave(message.name);
+                                }
+                                case DISCONNECTION -> {
+                                        DisconnectMessage message = (DisconnectMessage) sendable;
+                                        client.playerDisconnect(message.name);
+                                }
+                                case RECONNECTION -> {
+                                        ReconnectMessage message = (ReconnectMessage) sendable;
+                                        client.playerReconnect(message.id);
                                 }
                                 case PICK -> {
                                         PickMessage message = (PickMessage) sendable;
@@ -83,10 +94,13 @@ public class ListenerRMI extends Listener{
                                 case HAND -> {
                                         client.updateHand((LocalHand)sendable);
                                 }
-
                         }
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
+        }
+
+        public void ping() throws Exception {
+                client.ping(0);
         }
 }

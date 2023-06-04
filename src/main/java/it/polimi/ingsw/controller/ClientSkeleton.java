@@ -14,6 +14,8 @@ public interface ClientSkeleton extends Remote {
     void createGame(int gameID) throws RemoteException;
     void playerJoin(String name) throws RemoteException;
     void playerLeave(String name) throws RemoteException;
+    void playerDisconnect(String name) throws RemoteException;
+    void playerReconnect(String name) throws RemoteException;
     void startGame(String name) throws RemoteException;
     void newTurn(String name) throws RemoteException;
     void lastRound(String name) throws RemoteException;

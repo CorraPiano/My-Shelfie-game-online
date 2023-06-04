@@ -1,22 +1,31 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.connection.message.Sendable;
+import it.polimi.ingsw.controller.Settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EventKeeper {
-    ArrayList<Sendable> listenableList;
-    HashMap<String,ArrayList<Sendable>> personalList;
+    private final ArrayList<Sendable> listenableList;
+    private final HashMap<String,ArrayList<Sendable>> personalList;
+    private final HashMap<String,Long> lastPing;
+
+    private final ArrayList<String> idList;
 
     public EventKeeper(){
         this.listenableList=new ArrayList<>();
         this.personalList=new HashMap<>();
+        this.lastPing = new HashMap<>();
+        this.idList = new ArrayList<>();
     }
 
+//if (System.currentTimeMillis() - playerPing.get(p.getID()) > 10000) {
     public synchronized void addPersonalList(String id){
-        ArrayList<Sendable> l = new ArrayList<>();
+        ArrayList<Sendable> l = new ArrayList<>(listenableList);
+        this.idList.add(id);
         this.personalList.put(id,l);
+        this.lastPing.put(id,System.currentTimeMillis());
     }
 
     public synchronized boolean isPresent(int n) {
@@ -47,8 +56,10 @@ public class EventKeeper {
     }
 
     public synchronized void notifyAll(Sendable sendable){
-        System.out.println(sendable);
+        //System.out.println(sendable);
         listenableList.add(sendable);
+        for(String id: idList)
+            personalList.get(id).add(sendable);
         this.notifyAll();
     }
 
@@ -57,5 +68,9 @@ public class EventKeeper {
             personalList.get(id).add(sendable);
             this.notifyAll();
         }
+    }
+
+    public synchronized boolean checkConnection(String id){
+        return System.currentTimeMillis() - lastPing.get(id) <= Settings.timeout;
     }
 }
