@@ -1,7 +1,7 @@
-![alt text](assets/Title2000x618px.png)
+![alt text](src/main/resources/Images/assets/Title2000x618px.png)
  
 <p align="center">
-    <img src="assets/Boxnoshadow280x280.png"/>
+    <img src="src/main/resources/Images/assets/Boxnoshadow280x280.png"/>
     <br>
     <br>
     Software Engineering Project - <a href="https://www.polimi.it/">Politecnico di Milano</a> (2022-2023)
@@ -14,19 +14,16 @@ The project consists of a Java version of the board game *MyShelfie*, made by [_
 ## Implemented functionalities
 | Functionality          | Status                            |
 |:-----------------------|:---------------------------------:|
-| Basic rules            |   ![alt text](assets/cross.png)   |
-| Complete rules         |   ![alt text](assets/cross.png)   |
-| TUI                    |   ![alt text](assets/cross.png)   |
-| Socket                 |   ![alt text](assets/cross.png)   |
-| RMI                    |   ![alt text](assets/cross.png)   |
-| Multiple games         |   ![alt text](assets/cross.png)   |
-| Persistency            |   ![alt text](assets/cross.png)   |
-| Disconnection Handling |   ![alt text](assets/cross.png)   |
-| Chat                   |   ![alt text](assets/cross.png)   |
-
-![alt text](assets/tick.png) Implemented
-
-![alt text](assets/cross.png) Not Implemented
+| Basic rules            |   ![alt text](src/main/resources/Images/assets/tick.png)   |
+| Complete rules         |   ![alt text](src/main/resources/Images/assets/tick.png)   |
+| TUI                    |   ![alt text](src/main/resources/Images/assets/tick.png)   |
+| GUI                    |   ![alt text](src/main/resources/Images/assets/cross.png)   |
+| Socket                 |   ![alt text](src/main/resources/Images/assets/tick.png)   |
+| RMI                    |   ![alt text](src/main/resources/Images/assets/tick.png)   |
+| Multiple games         |   ![alt text](src/main/resources/Images/assets/tick.png)   |
+| Persistency            |   ![alt text](src/main/resources/Images/assets/cross.png)   |
+| Disconnection Handling |   ![alt text](src/main/resources/Images/assets/cross.png)   |
+| Chat                   |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 
 ## Test cases
 
