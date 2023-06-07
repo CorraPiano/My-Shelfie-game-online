@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2efd1ceb-97f5-4da6-8001-156fe00ca615" name="Changes" comment="Game Scene and GUI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/view/GUI/controllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/gameTable.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/gameTable.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,6 +217,7 @@
       <workItem from="1686072503798" duration="22184000" />
       <workItem from="1686124959446" duration="11549000" />
       <workItem from="1686143584796" duration="2144000" />
+      <workItem from="1686148353907" duration="645000" />
     </task>
     <task id="LOCAL-00001" summary="JavaFX project imported">
       <created>1684188333795</created>
@@ -262,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686137129357</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Game Scene and GUI">
+      <created>1686148553424</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1686148553424</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
