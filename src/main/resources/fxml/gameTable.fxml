@@ -127,6 +127,17 @@
       </Pane>
       <Text layoutX="551.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(chair of current player)" />
       <Text layoutX="577.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(current points)" />
-      <HBox layoutX="551.0" layoutY="358.0" prefHeight="40.0" prefWidth="262.0" />
+      <GridPane layoutX="551.0" layoutY="360.0" opacity="0.0" prefHeight="34.0" prefWidth="266.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
    </children>
 </AnchorPane>

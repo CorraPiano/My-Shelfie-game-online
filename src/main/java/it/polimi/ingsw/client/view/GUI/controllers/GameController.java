@@ -167,7 +167,7 @@ public class GameController implements GUIController {
     public void showBoard() {
         LocalBoard localBoard = modelView.getLocalBoard();
         resetBoard();
-        localHandCoordinates.clear();
+
 
         for (int i = 0; i < nRowBoard; i++) {
                 for (int j = 0; j < nColumnBoard; j++) {
@@ -345,7 +345,7 @@ public class GameController implements GUIController {
         }
         return checkNear && (checkSameRow || checkSameColumn);
     }
-    /*True se c'è ancora spazio nella colonna */
+    /* True se c'è ancora spazio nella colonna */
     public boolean checkFreeColumn(int column) {
         int counterSpace = 0;
         LocalBookshelf localBookshelf = new LocalBookshelf(gui.getClient().getName(),null);
@@ -373,14 +373,12 @@ public class GameController implements GUIController {
     }
     public void showArrows(){
         for (int j = 0; j < nColumnBookshelf; j++){
-            if (checkFreeColumn(j)) {
                 Image arrowImage = new Image("/Images/misc/arrow.png");
                 ImageView arrowImageView = new ImageView(arrowImage);
                 int columnIndex = j;
                 int rowIndex = 0;
                 arrowPane.add(arrowImageView, columnIndex, rowIndex);
                 System.out.println("Eseguito");
-            }
         }
 
     }
