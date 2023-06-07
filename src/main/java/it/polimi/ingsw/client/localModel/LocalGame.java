@@ -43,3 +43,4 @@ public class LocalGame implements Serializable, Sendable {
         return MessageHeader.GAME;
     }
 }
+

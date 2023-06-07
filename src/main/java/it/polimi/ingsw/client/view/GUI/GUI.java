@@ -247,13 +247,18 @@ public class GUI extends Application implements View {
         c.init();
     }
     // Server to client
-    public void updateBoard(LocalBoard updatedBoard, LocalHand updatedHand){
-        GameController controllertmp = (GameController) this.controller;
-        controllertmp.updateBoard( updatedBoard, updatedHand);
+    public void updateBoard(){
+        Platform.runLater(() -> {
+            GameController controllertmp = (GameController) this.controller;
+            controllertmp.showBoard();
+        });
     }
-    public void updateBookShelf(LocalBookshelf localBookshelf){
+    public void updateBookShelf(){
         GameController controllertmp = (GameController) this.controller;
-        controllertmp.updateBookShelf(localBookshelf);
+            Platform.runLater(()->{
+            controllertmp.showBookshelf();
+        });
+
     }
 
     // Client to server
@@ -266,7 +271,13 @@ public class GUI extends Application implements View {
     public void selectInsertOrder(ArrayList<Integer> positions) {
         sender.selectInsertOrder(positions);
     }
+    public void setTurn(String name) {
+        Platform.runLater(() -> {
+            GameController controllertmp = (GameController) this.controller;
+            controllertmp.setTurn(name);
+        });
 
+    }
     public void leaveGame(){
         sender.leaveGame();
     }
@@ -290,10 +301,9 @@ public class GUI extends Application implements View {
              | |____| |  | |/ ____ \| |
               \_____|_|  |_/_/    \_\_|
      ***************************************************************/
-
     public void openChat(){}
-    public void closeChat(){}
 
+    public void closeChat(){}
     public void updateChat(ChatMessage chatMessage, String name){
         ChatController chat = (ChatController) this.controller;
         Platform.runLater(() ->{
@@ -307,6 +317,7 @@ public class GUI extends Application implements View {
             sender.addChatMessage(message, receiver);
         }
     }
+
     //TODO: sarebbe bello risolvere il fatto che non si possa riaprire la chat
 
     /* *********************
@@ -335,5 +346,13 @@ public class GUI extends Application implements View {
     public void updateStatistics(String name, Map<String, LocalBookshelf> localBookshelfMap, ArrayList<LocalPlayer> localPlayers){
         StatisticsController statistics = (StatisticsController) this.controller;
         statistics.updateBookshelfs(name, localBookshelfMap, localPlayers);
+    }
+
+    public void updateHand() {
+        Platform.runLater(() -> {
+            GameController controllertmp = (GameController) this.controller;
+            controllertmp.showHand();
+        });
+
     }
 }

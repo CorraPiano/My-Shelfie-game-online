@@ -68,6 +68,7 @@ public class ClientGUI extends Client{
 //        if(GRAPHIC)
 //            viewHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
 //        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
+        gui.setTurn(name);
     }
 
     public void lastRound(String name) throws RemoteException {
@@ -82,18 +83,22 @@ public class ClientGUI extends Client{
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
-
-        gui.updateBoard(modelView.getLocalBoard(), modelView.getLocalHand());
+        gui.updateBoard();
+        gui.updateHand();
         //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
     }
     public void notifyUndo(String name) throws RemoteException{
+        gui.updateBoard();
+        gui.updateHand();
         //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": UNDO ");
     }
     public void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException{
+        gui.updateHand();
         //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": ORDER with " + list.toString());
     }
     public void notifyPut(String name, int column) throws RemoteException{
-        gui.updateBookShelf(modelView.getLocalBookshelfs().get(name));
+        gui.updateHand();
+        gui.updateBookShelf();
         //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
     }
 

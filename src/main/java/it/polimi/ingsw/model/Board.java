@@ -63,7 +63,6 @@ public class Board extends Listenable {
         if(hand.getSize() > 2) {
             throw new LimitReachedPickException();
         }
-
         if ((row < 0 || row > 8) || (column < 0 || column > 8)) {
             throw new OutOfBoardPickException();
         }
@@ -74,13 +73,6 @@ public class Board extends Listenable {
         if (livingRoom[row][column] == null) {
             throw new EmptySlotPickException();
         }
-
-        if (hand.containsCoords(new Coordinates(row - 1,column -1)) ||
-            hand.containsCoords(new Coordinates(row - 1,column +1)) ||
-            hand.containsCoords(new Coordinates(row + 1,column -1)) ||
-            hand.containsCoords(new Coordinates(row + 1,column +1)))
-
-            throw new NotLinearPickException();
 
         else if (livingRoom[row - 1][column] == null && !hand.containsCoords(new Coordinates(row - 1, column))) {
             catchable = true;
@@ -159,7 +151,7 @@ public class Board extends Listenable {
     }
 
     /* Getters and setters*/
-    public Item[][] getLivingRoom() {return livingRoom;}
+    public Item[][] getLivingRoom() { return livingRoom; }
     public Item getLivingRoomItem (Coordinates coordinates) {
         return livingRoom[coordinates.getRow()][coordinates.getColumn()];
     }

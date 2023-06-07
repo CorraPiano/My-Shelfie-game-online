@@ -58,12 +58,7 @@
                </image>
             </ImageView>
             <ImageView fx:id="personalGoalCard" fitHeight="153.0" fitWidth="132.0" layoutX="334.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="60.0" fitWidth="55.0" layoutX="419.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/PublisherMaterial/Publisher.png" />
-               </image>
-            </ImageView>
-            <GridPane fx:id="bookshelfGrid" gridLinesVisible="true" hgap="17.0" layoutX="46.0" layoutY="38.0" onMouseClicked="#onBookshelfClick" opacity="0.0" prefHeight="254.0" prefWidth="239.0" vgap="10.0">
+            <GridPane fx:id="bookshelfGrid" hgap="15.0" layoutX="45.0" layoutY="35.0" onMouseClicked="#onBookshelfClick" prefHeight="254.0" prefWidth="239.0" vgap="7.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -110,7 +105,7 @@
       </Pane>
       <ImageView fx:id="common1" fitHeight="151.0" fitWidth="214.0" layoutX="782.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="common2" fitHeight="158.0" fitWidth="214.0" layoutX="784.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true" />
-      <Pane layoutX="531.0" layoutY="259.0" prefHeight="123.0" prefWidth="198.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+      <Pane layoutX="530.0" layoutY="222.0" prefHeight="123.0" prefWidth="198.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
          <children>
             <VBox layoutX="13.0" layoutY="7.0" prefHeight="112.0" prefWidth="156.0">
                <children>
@@ -121,9 +116,9 @@
                   </Label>
                   <HBox prefHeight="64.0" prefWidth="174.0">
                      <children>
-                        <ImageView fx:id="hand1" fitHeight="58.0" fitWidth="58.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="hand2" fitHeight="58.0" fitWidth="58.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="hand3" fitHeight="58.0" fitWidth="58.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="hand1" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="hand2" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="hand3" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                </children>
@@ -132,5 +127,6 @@
       </Pane>
       <Text layoutX="551.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(chair of current player)" />
       <Text layoutX="577.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(current points)" />
+      <HBox layoutX="551.0" layoutY="358.0" prefHeight="40.0" prefWidth="262.0" />
    </children>
 </AnchorPane>
