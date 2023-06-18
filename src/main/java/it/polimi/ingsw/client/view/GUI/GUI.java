@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.connection.*;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.controllers.*;
 import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
@@ -258,7 +259,12 @@ public class GUI extends Application implements View {
             Platform.runLater(()->{
             controllertmp.showBookshelf();
         });
-
+    }
+    public void updateGlobalNotifications(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column){
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.showGlobalNotification(notificationsType, name, coordinates, list, column);
+        });
     }
 
     // Client to server
@@ -304,12 +310,22 @@ public class GUI extends Application implements View {
     public void openChat(){}
 
     public void closeChat(){}
+    /*
     public void updateChat(ChatMessage chatMessage, String name){
         ChatController chat = (ChatController) this.controller;
         Platform.runLater(() ->{
             chat.displayMessage(chatMessage, name);
         });
     }
+    */
+    public void updateChat(ChatMessage chatMessage, String name){
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.displayMessage(chatMessage, name);
+        });
+    }
+
+
     public void sendMessage(String message, String receiver){
         if(receiver == null){
             sender.addChatMessage(message);

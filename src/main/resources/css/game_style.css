@@ -2,3 +2,62 @@
     -fx-background-image: url(../Images/misc/sfondo_parquet.jpg);
     -fx-background-size: cover;
 }
+
+.imageView {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0, 0, 0);
+}
+
+.tab-pane {
+    -fx-tab-min-height: 20;
+    -fx-tab-max-height: 20;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;
+    -fx-font-size: 16px;
+}
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+.tab-pane .tab-header-area .tab {
+    -fx-background-color: #B88551;
+    /* colore per le celle non selezionate */
+}
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: #A48165;
+    /* colore per la casella selezionata */
+}
+.tab-pane .tab-content-area {
+    -fx-background-color: #A48165;
+    -fx-padding: 10;
+    /* colore per lo sfondo */
+}
+
+.list-view{
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+}
+.list-view .list-cell {
+    -fx-background-color: transparent;
+}
+.list-view .scroll-bar {
+    -fx-background-color: transparent;
+}
+.list-view .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+.list-view .scroll-bar:horizontal .thumb,
+.list-view .scroll-bar:vertical .thumb,
+.list-view .scroll-bar:horizontal:vertical .thumb {
+    -fx-background-color: #B88551;
+}
+
+.text-field{
+    -fx-background-color: #B88551;
+}
+
+.button{
+    -fx-background-color: #B88551;
+}
+
+.text-area{
+    -fx-background-color: #B88551;
+}

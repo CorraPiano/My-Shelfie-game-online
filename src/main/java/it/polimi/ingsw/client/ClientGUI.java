@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.DataCard;
@@ -61,7 +62,6 @@ public class ClientGUI extends Client{
 
     public void startGame(String name) throws RemoteException {
         gui.switchStage(Command.START_GAME);
-
     }
 
     public void newTurn(String name) throws RemoteException {
@@ -69,6 +69,7 @@ public class ClientGUI extends Client{
 //            viewHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
 //        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
         gui.setTurn(name);
+        gui.updateBoard();
     }
 
     public void lastRound(String name) throws RemoteException {
@@ -85,21 +86,21 @@ public class ClientGUI extends Client{
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         gui.updateBoard();
         gui.updateHand();
-        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
+        gui.updateGlobalNotifications(NotificationsType.PICK, name, coordinates, new ArrayList<>(), 0);
     }
     public void notifyUndo(String name) throws RemoteException{
         gui.updateBoard();
         gui.updateHand();
-        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": UNDO ");
+        gui.updateGlobalNotifications(NotificationsType.UNDO, name, new Coordinates(), new ArrayList<>(), 0);
     }
     public void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException{
         gui.updateHand();
-        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": ORDER with " + list.toString());
+        gui.updateGlobalNotifications(NotificationsType.ORDER, name, new Coordinates(), list, 0);
     }
     public void notifyPut(String name, int column) throws RemoteException{
         gui.updateHand();
         gui.updateBookShelf();
-        //System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
+        gui.updateGlobalNotifications(NotificationsType.PUT, name, new Coordinates(), new ArrayList<>(), column);
     }
 
 

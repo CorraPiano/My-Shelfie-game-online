@@ -1,29 +1,33 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
 import it.polimi.ingsw.client.localModel.*;
-import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
-import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.client.view.utils.NotificationsType;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.Item;
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
+import static it.polimi.ingsw.client.view.utils.NotificationsType.*;
 import static it.polimi.ingsw.util.Constants.*;
 
 public class GameController implements GUIController {
@@ -45,17 +49,35 @@ public class GameController implements GUIController {
     @FXML
     private ImageView personalGoalCard;
     @FXML
-    private Button chat;
-    @FXML
     private ImageView hand1;
     @FXML
     private ImageView hand2;
     @FXML
     private ImageView hand3;
     @FXML
-    private ListView<String> gameNotifications;
-    @FXML
     private GridPane arrowPane;
+    @FXML
+    private TextFlow currentPlayer;
+    @FXML
+    private TextFlow currentPoints;
+
+    //NOTIFCATIONS
+    @FXML
+    private ListView<String> gameNotifications;
+    private int notificationsLenght = 0;
+
+    //CHAT
+    @FXML
+    private Button sendButton;
+    @FXML
+    private TextField chatMessage;
+    @FXML
+    private TextField receiver;
+    @FXML
+    private ListView<String> chatField;
+    private int chatLenght = 0;
+
+
     private ModelView modelView;
 
     private LocalBookshelf localBookshelf;
@@ -64,6 +86,8 @@ public class GameController implements GUIController {
     private ArrayList<Image> handImages = new ArrayList<>();
     private ArrayList<Coordinates> localHandCoordinates = new ArrayList<>();
     private int handClickCount;
+
+
 
     @Override
     public void setGui(GUI gui) {
@@ -81,6 +105,7 @@ public class GameController implements GUIController {
         showBoard();
         initPersonal(modelView.getLocalPersonalCard().num);
         initCommon(modelView.getCommonCards());
+
     }
     public void initCommon(ArrayList<LocalCommonCard> commonCards) {
         if (gui.getClient().getModelView().getGameMode().equals(GameMode.EASY))
@@ -91,17 +116,20 @@ public class GameController implements GUIController {
         URL url1 = getClass().getResource(getCommonPathByType(type1));
         if (url1 != null) {
             common1.setImage(new Image(url1.toString()));
+            common1.getStyleClass().add("imageView");
         }
 
         URL url2 = getClass().getResource(getCommonPathByType(type2));
         if (url2 != null) {
             common2.setImage(new Image(url2.toString()));
+            common2.getStyleClass().add("imageView");
         }
     }
     public void initPersonal(int num) {
         URL url = getClass().getResource(getPersonalByType(num));
         if (url != null) {
             personalGoalCard.setImage(new Image(url.toString()));
+            personalGoalCard.getStyleClass().add("imageView");
         }
     }
 
@@ -109,16 +137,17 @@ public class GameController implements GUIController {
     public void onBoardClicked(MouseEvent event) {
         Coordinates clickGridCoordinates = getGridCellsIndexes(event);
         Coordinates clickBoardCoordinates = getBoardCellsIndexes(event); //actual model coordinates
-        localHandCoordinates.add(clickBoardCoordinates);
-        //if(isCatchable(clickBoardCoordinates)) {
+        if(isCatchable(clickBoardCoordinates)) {
             gui.pickItem(clickBoardCoordinates);
-        //}
+            localHandCoordinates.add(clickBoardCoordinates);
+        }
     }
     public void onBookshelfClick(MouseEvent event) {
         int column = getBookshelfCellsColumn(event);
         if (handClickCount != 0 ) {
             //showArrows();
             gui.putItemList(column);
+            localHandCoordinates.clear();
             setEffectNull();
             //removeArrows();
         }
@@ -256,6 +285,9 @@ public class GameController implements GUIController {
         hand3.setImage(null);
     }
     public void setTurn(String name){
+        Text text = new Text(name);
+        currentPlayer.getChildren().clear();
+        currentPlayer.getChildren().add(text);
         if(! name.equals(gui.getClient().getName())){
             bookshelfGrid.setDisable(true);
             boardGrid.setDisable(true);
@@ -282,45 +314,38 @@ public class GameController implements GUIController {
     public boolean isCatchable(Coordinates coordinates)  {
         int row = coordinates.getRow();
         int column = coordinates.getColumn();
-        boolean catchable = false;
         LocalBoard localBoard = modelView.getLocalBoard();
 
         if (localHandCoordinates.size() > 3) {
-            gameNotifications.getItems().add( "<ERROR> too many items selected!" );
-            localHandCoordinates.remove(coordinates);
+            showLocalNotification(TOOMANYITEMS);
             return false;
         }
         if ((row < 0 || row > 8) || (column < 0 || column > 8)) {
-            gameNotifications.getItems().add("<ERROR> out of Board slot!");
-            localHandCoordinates.remove(coordinates);
+            showLocalNotification(OUTOFBOARD);
             return false;
-
         }
         if (localBoard.board[row][column] == null) {
-            gameNotifications.getItems().add("<ERROR> empty slot!");
-            localHandCoordinates.remove(coordinates);
+            showLocalNotification(EMPTYSLOT);
             return false;
         }
 
-        else if (localBoard.board[row - 1][column] == null && !localHandCoordinates.contains(new Coordinates(row - 1, column))) {
-            catchable = true;
+        if (localBoard.board[row - 1][column] == null && !localHandCoordinates.contains(new Coordinates(row - 1, column))) {
+            return checkNewCoordinates(coordinates);
         }
         else if (localBoard.board[row + 1][column] == null && !localHandCoordinates.contains(new Coordinates(row + 1, column))) {
-            catchable = true;
+            return checkNewCoordinates(coordinates);
         }
         else if (localBoard.board[row][column - 1] == null && !localHandCoordinates.contains(new Coordinates(row,column - 1))) {
-            catchable = true;
+            return checkNewCoordinates(coordinates);
         }
         else if (localBoard.board[row][column + 1] == null && !localHandCoordinates.contains(new Coordinates(row, column + 1))) {
-            catchable = true;
-        }
-
-        if (catchable)
             return checkNewCoordinates(coordinates);
-
-        gameNotifications.getItems().add("<ERROR> not Pickable!");
-        return false;
         }
+        else {
+            showLocalNotification(NOTCATCHABLE);
+            return false;
+        }
+    }
     public boolean checkNewCoordinates (Coordinates coordinates) {
         if (localHandCoordinates.isEmpty())
             return true;
@@ -357,13 +382,62 @@ public class GameController implements GUIController {
         return counterSpace > 0;
     }
 
-    /* Switch Buttons */
+    //Notifications methods
+    public void showLocalNotification(NotificationsType notificationsType) {
+        switch (notificationsType){
+            case TOOMANYITEMS -> gameNotifications.getItems().add("❮ERROR❯ too many items selected!");
+            case OUTOFBOARD -> gameNotifications.getItems().add("❮ERROR❯ out of Board slot!");
+            case EMPTYSLOT -> gameNotifications.getItems().add("❮ERROR❯ empty slot!");
+            case NOTCATCHABLE -> gameNotifications.getItems().add("❮ERROR❯ not catchable!");
+        }
+        notificationsLenght = notificationsLenght + 1;
+        gameNotifications.scrollTo(notificationsLenght);
+    }
+    public void showGlobalNotification(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column) {
+        switch (notificationsType){
+            case PICK -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": PICK, coord. " + coordinates.toString());
+            case UNDO -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": UNDO ");
+            case ORDER -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": ORDER with " + list.toString());
+            case PUT -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": PUT, column " + column);
+        }
+        notificationsLenght = notificationsLenght + 1;
+        gameNotifications.scrollTo(notificationsLenght);
+    }
+
+    //Chat methods
+    public void sendMessage(ActionEvent event) {
+        String message = chatMessage.getText();
+        chatMessage.clear();
+        if(Objects.equals(receiver.getText(), "")){
+            gui.sendMessage(message, null);
+        } else {
+            String receiverName = receiver.getText();
+            gui.sendMessage(message, receiverName);
+        }
+    }
+    public void displayMessage(ChatMessage chatMessage, String name) {
+        if (chatMessage.receiver == null && !Objects.equals(chatMessage.sender, name)){
+            chatField.getItems().add("❮TO ALL❯ " + chatMessage.sender + ": " + chatMessage.message);
+        } else if (chatMessage.receiver == null && Objects.equals(chatMessage.sender, name)) {
+            chatField.getItems().add("❮YOU TO ALL❯ " + chatMessage.message);
+        } else if (chatMessage.receiver != null && Objects.equals(chatMessage.sender, name)){
+            chatField.getItems().add("❮YOU TO " + chatMessage.receiver + "❯ " + chatMessage.message);
+        } else {
+            chatField.getItems().add("❮TO YOU❯ " + chatMessage.sender + ": " + chatMessage.message);
+        }
+
+        chatLenght = chatLenght + 1;
+        chatField.scrollTo(chatLenght);
+    }
+
+    /* Switch Buttons
     public void onChat(javafx.event.ActionEvent actionEvent){
         this.gui.switchStage(Command.CHAT);
     }
     public void onBookshelfs(javafx.event.ActionEvent actionEvent) {
         this.gui.switchStage(Command.SHOW_BOOKSHELFS);
     }
+     */
 
     /* Other features */
     public void setEffectNull(){
@@ -404,6 +478,7 @@ public class GameController implements GUIController {
 
         return imageView;
     }
+
 }
 
 
