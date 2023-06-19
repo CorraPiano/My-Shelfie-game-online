@@ -100,6 +100,7 @@ public class ClientGUI extends Client{
     public void notifyPut(String name, int column) throws RemoteException{
         gui.updateHand();
         gui.updateBookShelf();
+        gui.updatePlayersBookshelfs(modelView.getLocalBookshelfs(), name, this.name);
         gui.updateGlobalNotifications(NotificationsType.PUT, name, new Coordinates(), new ArrayList<>(), column);
     }
 

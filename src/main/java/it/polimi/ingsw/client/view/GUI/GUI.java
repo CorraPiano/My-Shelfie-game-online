@@ -297,7 +297,12 @@ public class GUI extends Application implements View {
      |____/ \____/ \____/|_|\_\_____/|_|  |_|______|______|_|   |_____/
     ***********************************************************/
 
-    //public void initBookshelfs(){}
+    public void updatePlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer, String nameClientPlayer) {
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.showPlayersBookshelfs(localBookshelfs, nameBookshelfPlayer, nameClientPlayer);
+        });
+    }
 
     /* **********************************************************
                _____ _    _       _______

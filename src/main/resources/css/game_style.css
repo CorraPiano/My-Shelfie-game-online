@@ -7,6 +7,10 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0, 0, 0);
 }
 
+.pane{
+    -fx-background-color: #A48165;
+}
+
 .tab-pane {
     -fx-tab-min-height: 20;
     -fx-tab-max-height: 20;

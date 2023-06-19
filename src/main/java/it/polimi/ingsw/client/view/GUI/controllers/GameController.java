@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 import static it.polimi.ingsw.client.view.utils.NotificationsType.*;
@@ -32,28 +33,39 @@ import static it.polimi.ingsw.util.Constants.*;
 
 public class GameController implements GUIController {
     private GUI gui;
-    @FXML
-    private AnchorPane backgroundPane;
-    @FXML
-    private GridPane boardGrid;
-    @FXML
-    private GridPane bookshelfGrid;
+
+    //BOARD
     @FXML
     private ImageView board;
     @FXML
+    private GridPane boardGrid;
+
+
+    //PERSONAL BOOKSHELF
+    @FXML
     private ImageView bookshelf;
     @FXML
-    private ImageView common1;
-    @FXML
-    private ImageView common2;
-    @FXML
-    private ImageView personalGoalCard;
+    private GridPane bookshelfGrid;
+
+    //HAND
     @FXML
     private ImageView hand1;
     @FXML
     private ImageView hand2;
     @FXML
     private ImageView hand3;
+
+    //PERSONAL AND COMMON
+    @FXML
+    private ImageView common1;
+    @FXML
+    private ImageView common2;
+    @FXML
+    private ImageView personalGoalCard;
+
+    //OTHER
+    @FXML
+    private AnchorPane backgroundPane;
     @FXML
     private GridPane arrowPane;
     @FXML
@@ -77,18 +89,35 @@ public class GameController implements GUIController {
     private ListView<String> chatField;
     private int chatLenght = 0;
 
+    //BOOKSHELF OF OTHER PLAYERS
+    @FXML
+    private ImageView bookshelf1;
+    @FXML
+    private GridPane bookshelf1Grid;
+    @FXML
+    private Text bookshelf1name;
+    @FXML
+    private ImageView bookshelf2;
+    @FXML
+    private GridPane bookshelf2Grid;
+    @FXML
+    private Text bookshelf2name;
+    @FXML
+    private ImageView bookshelf3;
+    @FXML
+    private GridPane bookshelf3Grid;
+    @FXML
+    private Text bookshelf3name;
 
+    //ATTRIBUTES
     private ModelView modelView;
-
     private LocalBookshelf localBookshelf;
     private ArrayList<Integer> handOrder = new ArrayList<>();
-
     private ArrayList<Image> handImages = new ArrayList<>();
     private ArrayList<Coordinates> localHandCoordinates = new ArrayList<>();
     private int handClickCount;
 
-
-
+    //METHODS
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
@@ -105,7 +134,7 @@ public class GameController implements GUIController {
         showBoard();
         initPersonal(modelView.getLocalPersonalCard().num);
         initCommon(modelView.getCommonCards());
-
+        initBookshelfs(modelView.getLocalBookshelfs());
     }
     public void initCommon(ArrayList<LocalCommonCard> commonCards) {
         if (gui.getClient().getModelView().getGameMode().equals(GameMode.EASY))
@@ -132,12 +161,27 @@ public class GameController implements GUIController {
             personalGoalCard.getStyleClass().add("imageView");
         }
     }
+    public void initBookshelfs(Map<String, LocalBookshelf> mappa){
+        URL url = getClass().getResource("/Images/boards/bookshelf_orth.png");
+        if (url != null) {
+            if(mappa.size() >= 2){
+                bookshelf1.setImage(new Image(url.toString()));
+                if(mappa.size() >= 3){
+                    bookshelf2.setImage(new Image(url.toString()));
+                    if(mappa.size() >= 4){
+                        bookshelf3.setImage(new Image(url.toString()));
+                    }
+                }
+            }
+        }
+    }
 
     /* On click methods */
     public void onBoardClicked(MouseEvent event) {
         Coordinates clickGridCoordinates = getGridCellsIndexes(event);
         Coordinates clickBoardCoordinates = getBoardCellsIndexes(event); //actual model coordinates
         if(isCatchable(clickBoardCoordinates)) {
+            System.out.println("entra nell'if --> is Catchable funziona");
             gui.pickItem(clickBoardCoordinates);
             localHandCoordinates.add(clickBoardCoordinates);
         }
@@ -193,6 +237,52 @@ public class GameController implements GUIController {
             }
         }
     }
+
+    public void showPlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer, String nameClientPlayer) {
+        int index = 1;
+        GridPane gridPane = new GridPane();
+
+        for(String s : localBookshelfs.keySet()){
+            if(!Objects.equals(nameClientPlayer, s)){
+                if(Objects.equals(nameBookshelfPlayer, s)){
+                    switch (index){
+                        case 1 -> {
+                            gridPane = bookshelf1Grid;
+                            bookshelf1name.setText(s);
+                        }
+                        case 2 -> {
+                            gridPane = bookshelf2Grid;
+                            bookshelf2name.setText(s);
+                        }
+                        case 3 -> {
+                            gridPane = bookshelf3Grid;
+                            bookshelf3name.setText(s);
+                        }
+                    }
+                    resetPlayersBookshelfs(gridPane);
+                    for (int i=0; i<nRowBookshelf; i++){
+                        for(int j=0; j<nColumnBookshelf; j++){
+                            Item item = localBookshelfs.get(s).bookshelf[i][j];
+                            if(item != null){
+                                URL url = getClass().getResource(item.getImagePath());
+                                if(url != null){
+                                    ImageView imageView = new ImageView();
+                                    Image image = new Image(url.toString());
+                                    imageView.setImage(image);
+                                    imageView.setFitWidth(23.5);
+                                    imageView.setFitHeight(23.6);
+                                    gridPane.add(imageView, j, nRowBookshelf - 1 - i);
+                                }
+                            }
+                        }
+                    }
+                }
+                index++;
+            }
+
+        }
+    }
+
     public void showBoard() {
         LocalBoard localBoard = modelView.getLocalBoard();
         resetBoard();
@@ -251,6 +341,7 @@ public class GameController implements GUIController {
         double cellHeight = boardGrid.getHeight() / nRowBoard;
         int clickedRow = (int) (event.getY() / cellHeight);
         int clickedCol = (int) (event.getX() / cellWidth);
+        System.out.println("getGridCellsIndex ritorna:\n riga --> " + clickedRow + "\n colonna --> " + clickedCol + "\n");
         return new Coordinates(clickedRow, clickedCol);
     }
     public Coordinates getBoardCellsIndexes(MouseEvent event) {
@@ -258,6 +349,7 @@ public class GameController implements GUIController {
         double cellHeight = boardGrid.getHeight() / nRowBoard;
         int clickedRow = (int) (event.getY() / cellHeight);
         int clickedCol = (int) (event.getX() / cellWidth);
+        System.out.println("getBoardCellsIndex ritorna:\n riga --> " + (8-clickedRow) + "\n colonna --> " + clickedCol + "\n");
         return new Coordinates(8 - clickedRow, clickedCol);
     }
     public int getBookshelfCellsColumn(MouseEvent event) {
@@ -275,6 +367,12 @@ public class GameController implements GUIController {
     }
     private void resetBookshelf() {
         for (Node node : bookshelfGrid.getChildren()) {
+            if(node instanceof ImageView)
+                ((ImageView) node).setImage(null);
+        }
+    }
+    private void resetPlayersBookshelfs(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
             if(node instanceof ImageView)
                 ((ImageView) node).setImage(null);
         }
@@ -329,6 +427,10 @@ public class GameController implements GUIController {
             return false;
         }
 
+        if (row == 0 || row == 8 || column == 0 || column == 8){
+            System.out.println("Entro nell'if di GameController");
+            return checkNewCoordinates(coordinates);
+        }
         if (localBoard.board[row - 1][column] == null && !localHandCoordinates.contains(new Coordinates(row - 1, column))) {
             return checkNewCoordinates(coordinates);
         }
@@ -478,7 +580,6 @@ public class GameController implements GUIController {
 
         return imageView;
     }
-
 }
 
 
