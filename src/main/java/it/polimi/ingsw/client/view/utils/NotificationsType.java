@@ -8,5 +8,5 @@ public enum NotificationsType {
         PICK,
         UNDO,
         ORDER,
-        PUT,
+        PUT, LASTROUND,
 }

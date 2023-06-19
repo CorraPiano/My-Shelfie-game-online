@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ClientGUI extends Client{
 
@@ -49,58 +50,54 @@ public class ClientGUI extends Client{
     }
 
     public void createGame(int gameID) throws RemoteException {
-
     }
 
     public void playerJoin(String name) throws RemoteException {
-        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " joined the game");
     }
 
     public void playerLeave(String name) throws RemoteException {
-        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + ": left the game");
     }
 
     public void startGame(String name) throws RemoteException {
         gui.switchStage(Command.START_GAME);
+        gui.setTurn(name);
     }
 
     public void newTurn(String name) throws RemoteException {
-//        if(GRAPHIC)
-//            viewHandler.showNewTurn(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
-//        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
         gui.setTurn(name);
         gui.updateBoard();
     }
 
     public void lastRound(String name) throws RemoteException {
-        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has finished his bookshelf!");
+        gui.updateGlobalNotifications(NotificationsType.LASTROUND, name, new Coordinates(), new ArrayList<>(), 0);
     }
 
     public void endGame(String name) throws RemoteException {
         gui.updateEnd(name, modelView.getLocalPlayerList());
         gui.updateStatistics(name, modelView.getLocalBookshelfs(), modelView.getLocalPlayerList());
-        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " game over!");
-        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯" + ANSI_RESET + " the winner is " + ANSI_CYAN + name);
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         gui.updateBoard();
-        gui.updateHand();
+        if(Objects.equals(name, this.name)){
+            gui.updateHand();
+        }
         gui.updateGlobalNotifications(NotificationsType.PICK, name, coordinates, new ArrayList<>(), 0);
     }
     public void notifyUndo(String name) throws RemoteException{
         gui.updateBoard();
-        gui.updateHand();
+        if(Objects.equals(name, this.name)){ gui.updateHand(); }
         gui.updateGlobalNotifications(NotificationsType.UNDO, name, new Coordinates(), new ArrayList<>(), 0);
     }
     public void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException{
-        gui.updateHand();
+        if(Objects.equals(name, this.name)){ gui.updateHand(); }
         gui.updateGlobalNotifications(NotificationsType.ORDER, name, new Coordinates(), list, 0);
     }
     public void notifyPut(String name, int column) throws RemoteException{
-        gui.updateHand();
+        if(Objects.equals(name, this.name)){ gui.updateHand(); }
         gui.updateBookShelf();
-        gui.updatePlayersBookshelfs(modelView.getLocalBookshelfs(), name, this.name);
+        gui.updatePlayersBookshelfs(modelView.getLocalBookshelfs(), name);
+        gui.updateCurrentPoints();
         gui.updateGlobalNotifications(NotificationsType.PUT, name, new Coordinates(), new ArrayList<>(), column);
     }
 
@@ -159,20 +156,13 @@ public class ClientGUI extends Client{
             System.out.println("--> personalCard received");
     }
 
-
-    public String getID() {
-        return ID;
-    }
-
-    /*public boolean getState() {
+    /*
+    public boolean getState() {
         return state;
-    }
-*/
-    public GUI getGui() {
-        return gui;
-    }
-    public ModelView getModelView() {
-        return modelView;
-    }
+    } */
+
+    public String getID() { return ID; }
+    public GUI getGui() { return gui; }
+    public ModelView getModelView() { return modelView; }
 
 }

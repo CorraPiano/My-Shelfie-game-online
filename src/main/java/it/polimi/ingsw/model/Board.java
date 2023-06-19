@@ -60,7 +60,6 @@ public class Board extends Listenable {
         int column = coordinates.getColumn();
         boolean catchable = false;
 
-        System.out.println("entra in is catchable in board");
 
         if(hand.getSize() > 2) {
             throw new LimitReachedPickException();
@@ -76,7 +75,6 @@ public class Board extends Listenable {
             throw new EmptySlotPickException();
         }
         if (row == 0 || row == 8 || column == 0 || column == 8){
-            System.out.println("entra nell'if di is catchable in board");
             catchable = true;
         }
         else if (livingRoom[row - 1][column] == null && !hand.containsCoords(new Coordinates(row - 1, column))) {
@@ -91,7 +89,6 @@ public class Board extends Listenable {
         else if (livingRoom[row][column + 1] == null && !hand.containsCoords(new Coordinates(row, column + 1))) {
             catchable = true;
         }
-        System.out.println("va avanti...");
         if(catchable)
               return hand.checkNewCoordinates(coordinates);
         throw new NotCatchablePickException();

@@ -254,10 +254,22 @@ public class GUI extends Application implements View {
             controllertmp.showBoard();
         });
     }
+    public void updateHand() {
+        Platform.runLater(() -> {
+            GameController controllertmp = (GameController) this.controller;
+            controllertmp.showHand();
+        });
+    }
     public void updateBookShelf(){
         GameController controllertmp = (GameController) this.controller;
             Platform.runLater(()->{
             controllertmp.showBookshelf();
+        });
+    }
+    public void updateCurrentPoints() {
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.showCurrentPoints();
         });
     }
     public void updateGlobalNotifications(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column){
@@ -297,10 +309,10 @@ public class GUI extends Application implements View {
      |____/ \____/ \____/|_|\_\_____/|_|  |_|______|______|_|   |_____/
     ***********************************************************/
 
-    public void updatePlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer, String nameClientPlayer) {
+    public void updatePlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer) {
         GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
-            controllertmp.showPlayersBookshelfs(localBookshelfs, nameBookshelfPlayer, nameClientPlayer);
+            controllertmp.showPlayersBookshelfs(localBookshelfs, nameBookshelfPlayer);
         });
     }
 
@@ -367,13 +379,5 @@ public class GUI extends Application implements View {
     public void updateStatistics(String name, Map<String, LocalBookshelf> localBookshelfMap, ArrayList<LocalPlayer> localPlayers){
         StatisticsController statistics = (StatisticsController) this.controller;
         statistics.updateBookshelfs(name, localBookshelfMap, localPlayers);
-    }
-
-    public void updateHand() {
-        Platform.runLater(() -> {
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showHand();
-        });
-
     }
 }

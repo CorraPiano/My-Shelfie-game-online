@@ -25,5 +25,7 @@ public class LocalPlayer implements Serializable, Sendable {
     public MessageHeader getHeader(){
         return MessageHeader.PLAYER;
     }
-
+    public int getPoints() {
+        return points;
+    }
 }

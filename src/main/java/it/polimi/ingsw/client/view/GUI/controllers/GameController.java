@@ -178,10 +178,9 @@ public class GameController implements GUIController {
 
     /* On click methods */
     public void onBoardClicked(MouseEvent event) {
-        Coordinates clickGridCoordinates = getGridCellsIndexes(event);
+        //Coordinates clickGridCoordinates = getGridCellsIndexes(event);
         Coordinates clickBoardCoordinates = getBoardCellsIndexes(event); //actual model coordinates
         if(isCatchable(clickBoardCoordinates)) {
-            System.out.println("entra nell'if --> is Catchable funziona");
             gui.pickItem(clickBoardCoordinates);
             localHandCoordinates.add(clickBoardCoordinates);
         }
@@ -238,9 +237,10 @@ public class GameController implements GUIController {
         }
     }
 
-    public void showPlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer, String nameClientPlayer) {
+    public void showPlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer) {
         int index = 1;
         GridPane gridPane = new GridPane();
+        String nameClientPlayer = gui.getClient().getName();
 
         for(String s : localBookshelfs.keySet()){
             if(!Objects.equals(nameClientPlayer, s)){
@@ -279,14 +279,12 @@ public class GameController implements GUIController {
                 }
                 index++;
             }
-
         }
     }
 
     public void showBoard() {
         LocalBoard localBoard = modelView.getLocalBoard();
         resetBoard();
-
 
         for (int i = 0; i < nRowBoard; i++) {
                 for (int j = 0; j < nColumnBoard; j++) {
@@ -331,8 +329,18 @@ public class GameController implements GUIController {
                 hand3.setImage(image);
             }
         }
+    }
 
-
+    public void showCurrentPoints() {
+        String playerName = gui.getClient().getName();
+        for (LocalPlayer p : modelView.getLocalPlayerList()){
+            if (Objects.equals(p.name, playerName)){
+                Text text = new Text();
+                text.setText("" + p.getPoints());
+                currentPoints.getChildren().clear();
+                currentPoints.getChildren().add(text);
+            }
+        }
     }
 
     /* Coordinates getters */
@@ -341,7 +349,7 @@ public class GameController implements GUIController {
         double cellHeight = boardGrid.getHeight() / nRowBoard;
         int clickedRow = (int) (event.getY() / cellHeight);
         int clickedCol = (int) (event.getX() / cellWidth);
-        System.out.println("getGridCellsIndex ritorna:\n riga --> " + clickedRow + "\n colonna --> " + clickedCol + "\n");
+        //System.out.println("getGridCellsIndex ritorna:\n riga --> " + clickedRow + "\n colonna --> " + clickedCol + "\n");
         return new Coordinates(clickedRow, clickedCol);
     }
     public Coordinates getBoardCellsIndexes(MouseEvent event) {
@@ -349,7 +357,7 @@ public class GameController implements GUIController {
         double cellHeight = boardGrid.getHeight() / nRowBoard;
         int clickedRow = (int) (event.getY() / cellHeight);
         int clickedCol = (int) (event.getX() / cellWidth);
-        System.out.println("getBoardCellsIndex ritorna:\n riga --> " + (8-clickedRow) + "\n colonna --> " + clickedCol + "\n");
+        //System.out.println("getBoardCellsIndex ritorna:\n riga --> " + (8-clickedRow) + "\n colonna --> " + clickedCol + "\n");
         return new Coordinates(8 - clickedRow, clickedCol);
     }
     public int getBookshelfCellsColumn(MouseEvent event) {
@@ -428,7 +436,6 @@ public class GameController implements GUIController {
         }
 
         if (row == 0 || row == 8 || column == 0 || column == 8){
-            System.out.println("Entro nell'if di GameController");
             return checkNewCoordinates(coordinates);
         }
         if (localBoard.board[row - 1][column] == null && !localHandCoordinates.contains(new Coordinates(row - 1, column))) {
@@ -501,6 +508,7 @@ public class GameController implements GUIController {
             case UNDO -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": UNDO ");
             case ORDER -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": ORDER with " + list.toString());
             case PUT -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": PUT, column " + column);
+            case LASTROUND -> gameNotifications.getItems().add("❮INFO❯ " + name + " has finished his bookshelf!");
         }
         notificationsLenght = notificationsLenght + 1;
         gameNotifications.scrollTo(notificationsLenght);
