@@ -184,7 +184,7 @@ public class GUI extends Application implements View {
               ____) | |____   | |      | |__| | |
              |_____/|______|  |_|       \____/|_|
      ******************************************************/
-    public void setRMIConnection() throws RemoteException, NotBoundException {
+    public void setRMIConnection() throws RemoteException, NotBoundException{
         Registry registry = LocateRegistry.getRegistry();
         ControllerSkeleton controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
         this.setSender(new RMISender(controller, this.getClient()));
@@ -282,6 +282,7 @@ public class GUI extends Application implements View {
     // Client to server
     public void pickItem(Coordinates coordinates){
         sender.pickItem(coordinates);
+        System.out.println("pick");
     }
     public void putItemList(int column){
         sender.putItemList(column);

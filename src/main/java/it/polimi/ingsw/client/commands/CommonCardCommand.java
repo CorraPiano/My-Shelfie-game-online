@@ -10,10 +10,10 @@ import static it.polimi.ingsw.util.Constants.*;
 public class CommonCardCommand  implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
-        if(client.getModelView().getGameMode().compareTo(GameMode.EASY) == 1) {
+        if(client.getModelView().getGameMode().equals(GameMode.EASY)) {
             System.out.println(BROWN_FOREGROUND + "Here are the current common cards and their description:\n" + ANSI_RESET);
-            client.getOutputHandler().showCommonCards(client.getModelView().getCommonCards().get(0));
-            client.getOutputHandler().showCommonCards(client.getModelView().getCommonCards().get(1));
+            ((ClientTUI)client).getOutputHandler().showCommonCards(client.getModelView().getCommonCards().get(0));
+            ((ClientTUI)client).getOutputHandler().showCommonCards(client.getModelView().getCommonCards().get(1));
         } else {
             System.out.println(BROWN_FOREGROUND + "There are no CommonGoalCards in EASY game-mode"+ ANSI_RESET);
         }

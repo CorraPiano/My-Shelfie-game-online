@@ -12,13 +12,22 @@ import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
 public class CreateCommand implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
-        String name = stdin.next();
-        String gameModeString = stdin.next();
-        int num = stdin.nextInt();
+        String name;
+        String gameModeString;
         GameMode gamemode;
+        int numPlayers;
+
+        try {
+            name = stdin.next();
+            gameModeString = stdin.next();
+            numPlayers = stdin.nextInt();
+        } catch(Exception e){
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "\n" + "invalid command parameters");
+            return;
+        }
 
         if(Objects.equals(name, "")) {
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The name entered is not valid");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The name should not be void");
             return;
         }
 
@@ -31,11 +40,12 @@ public class CreateCommand implements Command {
             return;
         }
 
-        if(num<2 || num>4) {
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The number of players entered is not valid");
+        if(numPlayers<2 || numPlayers>4) {
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The number of players must be between 2 and 4");
             return;
         }
 
-        sender.addFirstPlayer(name, gamemode, num);
+        //client.putInWait();
+        sender.addFirstPlayer(name, gamemode, numPlayers);
     }
 }

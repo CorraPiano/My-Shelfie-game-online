@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.connection.message.*;
+import it.polimi.ingsw.controller.Settings;
+
+import java.net.Socket;
 
 public class TCPReceiver {
     private final Gson gson;
@@ -27,12 +30,15 @@ public class TCPReceiver {
             case ID-> {
                 client.receiveID(TCPmessage.getBody());
             }
+            case NAME-> {
+                client.receiveName(TCPmessage.getBody());
+            }
             case EXCEPTION-> {
                 client.receiveException(TCPmessage.getBody());
             }
             case CREATE -> {
                 CreateMessage event = gson.fromJson(TCPmessage.getBody(), CreateMessage.class);
-                client.createGame(event.gameID);
+                client.createGame(event.gameID,event.gameMode,event.numPlayers);
             }
             case ENDGAME-> {
                 EndGameMessage event = gson.fromJson(TCPmessage.getBody(), EndGameMessage.class);
@@ -80,7 +86,7 @@ public class TCPReceiver {
             }
             case STARTGAME -> {
                 StartGameMessage event = gson.fromJson(TCPmessage.getBody(), StartGameMessage.class);
-                client.startGame(event.name);
+                client.startGame();
             }
             case UNDO -> {
                 UndoMessage message = gson.fromJson(TCPmessage.getBody(),UndoMessage.class);
@@ -98,9 +104,13 @@ public class TCPReceiver {
                 LocalCommonCard commonGoalCard= gson.fromJson(TCPmessage.getBody(),LocalCommonCard.class);
                 client.updateCommonGoalCard(commonGoalCard);
             }
-            case GAME -> {
-                LocalGame localGame= gson.fromJson(TCPmessage.getBody(),LocalGame.class);
+            /*case GAME -> {
+                LocalGame localGame = gson.fromJson(TCPmessage.getBody(),LocalGame.class);
                 client.updateGame(localGame);
+            }*/
+            case PLAYERLIST -> {
+                LocalPlayerList localPlayerList = gson.fromJson(TCPmessage.getBody(),LocalPlayerList.class);
+                client.updatePlayerList(localPlayerList);
             }
             case HAND-> {
                 LocalHand hand = gson.fromJson(TCPmessage.getBody(),LocalHand.class);
@@ -127,6 +137,7 @@ public class TCPReceiver {
     }
 
     public void lostConnection(){
-        client.lostConnection();
+        //client.lostConnection();
     }
+
 }

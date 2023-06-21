@@ -42,10 +42,9 @@ public class Chat implements Runnable{
         int cursor = 0;
         active = true;
         try {
-            //Process p = Runtime.getRuntime().exec("cmd /c start");
             System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
-            synchronized (this) {
-                while (active) {
+            while (client.getPhase().equals(ClientPhase.CHAT)) {
+                synchronized (this) {
                     if (isPresent(cursor)) {
                         ChatMessage message = getChatMessage(cursor);
                         if(message.sender.equals(client.getName())) {
@@ -70,7 +69,6 @@ public class Chat implements Runnable{
                         // fixare wait e synchronized
                     }
                 }
-
             }
         } catch (Exception e){
             e.printStackTrace();

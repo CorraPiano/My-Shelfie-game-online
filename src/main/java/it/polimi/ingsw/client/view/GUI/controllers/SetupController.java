@@ -51,6 +51,8 @@ public class SetupController implements GUIController {
             // Alert box
         } catch (NotBoundException e) {
             // Alert box
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

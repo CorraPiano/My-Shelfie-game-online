@@ -15,24 +15,15 @@ public class LocalGame implements Serializable, Sendable {
     public final int currPerson;
     public final GameState gameState;
 
-    public final ArrayList<LocalPlayer> playerList;
+    //public final ArrayList<LocalPlayer> playerList;
 
-    public LocalGame(GameMode gameMode, int gameID, int maxPerson, int currPerson, GameState gameState, ArrayList<LocalPlayer> playerList){
+    public LocalGame(GameMode gameMode, int gameID, int maxPerson, int currPerson, GameState gameState){
         this.gameMode=gameMode;
         this.gameID=gameID;
         this.maxPerson=maxPerson;
         this.currPerson=currPerson;
         this.gameState=gameState;
-        this.playerList=playerList;
-    }
-
-    public LocalGame(){
-        this.gameMode=null;
-        this.gameID=0;
-        this.maxPerson=0;
-        this.currPerson=0;
-        this.gameState=null;
-        this.playerList=null;
+        //this.playerList=playerList;
     }
 
     public String toString(){

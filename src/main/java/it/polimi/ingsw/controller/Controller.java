@@ -28,8 +28,9 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         gameplaysHandler.addGameplay(gameplay,gameID);
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
-        gameplaysHandler.bind(id,gameID);
+        //gameplaysHandler.bind(id,gameID);
         ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
+        gameplaysHandler.bind(id,gameID,listener);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
@@ -42,9 +43,10 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.addGameplay(gameplay,gameID);
-        gameplaysHandler.bind(id,gameID);
         ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
-        new Thread(listener).start();
+        Thread t = new Thread(listener);
+        gameplaysHandler.bind(id,gameID,listener);
+        t.start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
     }
@@ -55,9 +57,10 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
             throw new GameFullException();
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
-        gameplaysHandler.bind(id,gameID);
         ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
-        new Thread(listener).start();
+        Thread t = new Thread(listener);
+        gameplaysHandler.bind(id,gameID,listener);
+        t.start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         if(gameplay.isReady())
             gameplay.startGame();
@@ -71,8 +74,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
             throw new GameFullException();
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
-        gameplaysHandler.bind(id,gameID);
         ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
+        gameplaysHandler.bind(id,gameID,listener);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         if(gameplay.isReady())
@@ -125,25 +128,36 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
 
     public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        gameplaysHandler.remove(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
         gameplay.leave(id);
     }
 
-    public synchronized void reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException {
+    public synchronized String reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.reconnect(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
         ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
-        new Thread(listener).start();
+        Thread t = new Thread(listener);
+        gameplaysHandler.rebind(id,listener);
+        t.start();
+        return gameplay.getPlayerNameByID(id);
         //gameplay.leave(id);
     }
-    public synchronized void reconnect(String id,Connection conn) throws InvalidIdException, GameFinishedException {
+    public synchronized String reconnect(String id,Connection conn) throws InvalidIdException, GameFinishedException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.reconnect(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
         ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
-        new Thread(listener).start();
+        Thread t = new Thread(listener);
+        gameplaysHandler.rebind(id,listener);
+        t.start();
+        return gameplay.getPlayerNameByID(id);
         //gameplay.leave(id);
+    }
+
+    public synchronized void ping(int n) throws RemoteException{
+
     }
 
 }

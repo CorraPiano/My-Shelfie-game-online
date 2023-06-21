@@ -59,9 +59,9 @@ public class MessageHandler {
             }
             case RECONNECTION -> {
                 ReconnectMessage reconnectMessage = gson.fromJson(TCPmessage.getBody(), ReconnectMessage.class);
-                controller.reconnect(reconnectMessage.id,connection);
+                String name = controller.reconnect(reconnectMessage.id,connection);
                 socketMap.bind(reconnectMessage.id, connection);
-                sendID(reconnectMessage.id,connection);
+                sendName(name,connection);
             }
             case LEAVE -> {
                 controller.leaveGame(socketMap.getIdByConnection(connection));
@@ -71,6 +71,8 @@ public class MessageHandler {
                 ChatMessage chatMessage = gson.fromJson(TCPmessage.getBody(), ChatMessage.class);
                 controller.addChatMessage(chatMessage,socketMap.getIdByConnection(connection) );
                 sendNothing(connection);
+            }
+            case PING -> {
             }
             default -> {
                 throw new UnavaiableCommandException();
@@ -92,7 +94,12 @@ public class MessageHandler {
             conn.send(TCPmessage);
         } catch(Exception e){}
     }
-
+    private void sendName(String name, Connection conn){
+        TCPMessage TCPmessage = new TCPMessage(MessageHeader.NAME,name);
+        try {
+            conn.send(TCPmessage);
+        } catch(Exception e){}
+    }
     private void sendNothing(Connection conn){
         TCPMessage TCPmessage = new TCPMessage(MessageHeader.NOTHING,"");
         try {
@@ -100,8 +107,5 @@ public class MessageHandler {
         } catch(Exception e){}
     }
 
-    public void notifyDisconnection(Connection conn){
-
-    }
 
 }

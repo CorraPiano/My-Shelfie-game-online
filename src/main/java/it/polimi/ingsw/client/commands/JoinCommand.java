@@ -11,19 +11,28 @@ import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
 public class JoinCommand implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
-        String name = stdin.next();
-        int num = stdin.nextInt();
+        String name;
+        int gameID;
+
+        try{
+            name = stdin.next();
+            gameID = stdin.nextInt();
+        } catch(Exception e){
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "\n" + "invalid command parameters");
+            return;
+        }
 
         if(Objects.equals(name, "")){
             System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The name entered is not valid");
             return;
         }
 
-        if(num<0){
+        if(gameID<0){
             System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The gameID entered is not valid");
             return;
         }
 
-        sender.addPlayer(name, num);
+        //client.putInWait();
+        sender.addPlayer(name, gameID);
     }
 }

@@ -155,7 +155,7 @@ public class DataCard implements Serializable {
         return m;
     }
 
-    public Item[][] getCardMatrix(){
+    /*public Item[][] getCardMatrix(){
         Item[][] cardMatrix = new Item[Constants.nRowBookshelf][Constants.nColumnBookshelf];
 
         for(int i=0;i<Constants.nRowBookshelf;i++) {
@@ -182,6 +182,6 @@ public class DataCard implements Serializable {
         if(n==5)
             return new Item(ItemType.WHITE,getItemPathByType(ItemType.WHITE));
         return null;
-    }
+    }*/
 
 }

@@ -17,7 +17,9 @@ public class Player extends Listenable{
     private boolean firstPlayerSeat;
     private Token endGameToken;
 
+    private boolean endGame;
     private boolean connected;
+    private boolean left;
 
     //METHODS
     public Player(String name, int gameID){
@@ -26,18 +28,25 @@ public class Player extends Listenable{
         //personalCard = new PersonalGoalCard(library);
         //creation of the ID code
         //ID = UUID.randomUUID().toString();
+        //ID = "#" + name + "#" + gameID + "#" + UUID.randomUUID().toString();
         ID = name + "_" + gameID;
         connected = true;
+        left = false;
     }
 
     public boolean connectionState(){
         return connected;
     }
+    public boolean hasLeft(){ return left;}
     public void disconnect(){
         connected = false;
     }
     public void reconnect() {
         connected = true;
+    }
+
+    public void leave(){
+        left=true;
     }
     /*public void bindListner(OldListener listener){
         //library.bindListener(listener);
@@ -82,9 +91,9 @@ public class Player extends Listenable{
     }
 
     public int getPoints() { return points; }
-    public void updatePoints(boolean isLastRound){
+    public void updatePoints(boolean endGame){
         this.points = 0;
-
+        this.endGame=endGame;
         // points from tokens
         if(token1 != null) { this.points = this.points + this.token1.getValue(); }
         if(token2 != null) { this.points = this.points + this.token2.getValue(); }
@@ -92,7 +101,7 @@ public class Player extends Listenable{
         // points from bookshelf
         if(library != null ) { this.points = this.points + this.library.calculatePoints(); }
         // points from personalGoalCard
-        if(isLastRound && personalCard != null) { this.points = this.points + this.personalCard.calculatePoints(); }
+        if(endGame && personalCard != null) { this.points = this.points + this.personalCard.calculatePoints(); }
     }
 
     public Token getToken1() {
@@ -108,6 +117,8 @@ public class Player extends Listenable{
     }
 
     public LocalPlayer getLocal(){
+        if(endGame)
+            return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,personalCard.getNum());
         return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points);
     }
 }

@@ -162,6 +162,7 @@ public class GameController implements GUIController {
         }
     }
     public void initBookshelfs(Map<String, LocalBookshelf> mappa){
+        System.out.println("----");
         URL url = getClass().getResource("/Images/boards/bookshelf_orth.png");
         if (url != null) {
             if(mappa.size() >= 2){
@@ -336,7 +337,7 @@ public class GameController implements GUIController {
         for (LocalPlayer p : modelView.getLocalPlayerList()){
             if (Objects.equals(p.name, playerName)){
                 Text text = new Text();
-                text.setText("" + p.getPoints());
+                text.setText("" + p.points);
                 currentPoints.getChildren().clear();
                 currentPoints.getChildren().add(text);
             }

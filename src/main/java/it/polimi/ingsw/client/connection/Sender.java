@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public abstract class Sender {
+
     public abstract void getGameList();
     public abstract void addFirstPlayer(String name, GameMode gameMode, int numPlayer);
     public abstract void addPlayer(String name, int gameID);
@@ -21,6 +22,8 @@ public abstract class Sender {
     public abstract void addChatMessage(String message, String receiver);
     public abstract void addChatMessage(String message);
     public abstract void leaveGame();
-    public abstract void reconnectGame(String name, int gameID);
+    public abstract void reconnectGame(String id);
+    public abstract void ping (int n) throws Exception;
+    public abstract void connect() throws Exception;
 
 }

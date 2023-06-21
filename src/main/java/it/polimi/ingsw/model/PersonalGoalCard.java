@@ -10,6 +10,7 @@ public class PersonalGoalCard extends Listenable {
     private Bookshelf library;
     private Integer points;
     private String ID;
+    //mettere numero a enum
     private int num;
     public PersonalGoalCard(int n) {
         this.card = new DataCard(n);
@@ -48,9 +49,13 @@ public class PersonalGoalCard extends Listenable {
         return card;
     }
 
-
     @Override
     public LocalPersonalCard getLocal() {
-        return new LocalPersonalCard(card.getCardMatrix(),num);
+        //return new LocalPersonalCard(card.getCardMatrix(),num);
+        return new LocalPersonalCard(num);
+    }
+
+    public int getNum(){
+        return this.num;
     }
 }

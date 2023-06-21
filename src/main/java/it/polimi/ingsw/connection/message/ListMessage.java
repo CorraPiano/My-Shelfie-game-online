@@ -13,7 +13,7 @@ public class ListMessage implements Sendable{
     public final ArrayList<LocalGame> gamesList;
 
     public ListMessage(){
-        this.gamesList = new ArrayList<>();
+        this.gamesList = null;
     }
 
     public ListMessage(ArrayList<LocalGame> gamesList){

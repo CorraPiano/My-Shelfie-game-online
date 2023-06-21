@@ -100,6 +100,7 @@ public class Hand extends Listenable {
         Item[] items = new Item[hand.size()];
         for(int i=0;i<hand.size();i++)
             items[i]=hand.get(i);
-        return new LocalHand(items,hand.size());
+        ArrayList<Coordinates> coordinates = new ArrayList<>(coordinatesList);
+        return new LocalHand(items,hand.size(),coordinates);
     }
 }

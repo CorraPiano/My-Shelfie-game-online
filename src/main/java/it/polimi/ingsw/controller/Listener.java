@@ -36,13 +36,12 @@ public abstract class Listener implements Runnable {
     public void run() {
         System.out.println("thread avviato");
         try {
-            while (true) {
+            while (active) {
                 synchronized (eventKeeper) {
                     if (eventKeeper.isPresentPersonal(id, personalCursor)) {
                         this.handleSendable(eventKeeper.getListenablePersonal(id, personalCursor));
                         personalCursor++;
-                    }
-                    else {
+                    } else {
                         ping();
                         eventKeeper.wait(5000);
                     }

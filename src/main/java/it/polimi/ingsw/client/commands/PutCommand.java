@@ -10,9 +10,17 @@ import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
 public class PutCommand  implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
-        int n = stdin.nextInt();
+        int n;
+
+        try{
+            n = stdin.nextInt();
+        } catch (Exception e){
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "\n" + "invalid command parameters");
+            return;
+        }
+
         if (n <0 || n>=5) {
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The column entered are not correct");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The column entered is not valid");
             return;
         }
 

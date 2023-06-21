@@ -11,6 +11,9 @@ import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
 public class OrderCommand  implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
+
+        //to be fixed
+
         String line = "";
         ArrayList<Integer> list = new ArrayList<>();
         int counter =0;

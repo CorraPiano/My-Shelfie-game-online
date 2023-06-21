@@ -23,6 +23,90 @@ public class InputHandler {
         stdin = new Scanner(System.in);
     }
 
+
+
+    public void inputReader() {
+        client.getOutputHandler().presentation();
+        String line;
+        while(!client.getPhase().equals(ClientPhase.CLOSE)){
+            line = stdin.next();
+            try {
+                switch (client.getPhase()) {
+                    case HOME -> {
+                        switch (line.toUpperCase()) {
+                            case "CREATE" -> new CreateCommand().execute(sender, stdin, client);
+                            case "RECONNECT" -> new ReconnectCommand().execute(sender, stdin, client);
+                            case "JOIN" -> new JoinCommand().execute(sender, stdin, client);
+                            case "LIST" -> new ListCommand().execute(sender, stdin, client);
+                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "EXIT" -> new ExitCommand().execute(sender, stdin, client);
+                            default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
+                        }
+                    }
+                    /*case LOBBY -> {
+                        switch (line.toUpperCase()) {
+                            case "LEAVE" -> new LeaveCommand().execute(sender, stdin, client);
+                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "CHAT" -> new ChatCommand().execute(sender, stdin, client);
+                        }
+                    }*/
+                    case GAME -> {
+                        switch (line.toUpperCase()) {
+                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "LEAVE" -> new LeaveCommand().execute(sender, stdin, client);
+                            case "PICK" -> new PickCommand().execute(sender, stdin, client);
+                            case "UNDO" -> new UndoCommand().execute(sender, stdin, client);
+                            case "ORDER" -> new OrderCommand().execute(sender, stdin, client);
+                            case "PUT" -> new PutCommand().execute(sender, stdin, client);
+                            case "SHOW" -> new CommonCardCommand().execute(sender, stdin, client);
+                            case "CHAT" -> new ChatCommand().execute(sender, stdin, client);
+                            default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
+                        }
+                    }
+                    case CHAT -> {
+                        switch (line.toUpperCase()) {
+                            case "/SEND", "@" -> new SendCommand().execute(sender, stdin, client);
+                            case "/BROADCAST" -> new BroadcastCommand().execute(sender, stdin, client);
+                            case "/HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "/CLOSE" -> client.closeChat();
+                            default -> new BroadcastCommand().execute(sender, stdin, line);
+                        }
+                    }
+                    case HOME_RECONNECTION, MATCH_RECONNECTION -> {
+                        switch (line.toUpperCase()) {
+                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "EXIT" -> new ExitCommand().execute(sender, stdin, client);
+                            default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
+                        }
+                    }
+                    /*case MATCH_RECONNECTION -> {
+                        switch (line.toUpperCase()) {
+                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "LEAVE" -> new ExitCommand().execute(sender, stdin, client);
+                            default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
+                        }
+                    }*/
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                System.out.println(e);
+            }
+            while (client.getState().equals(ClientState.WAIT)) {
+                try {
+                    synchronized (client) {
+                        client.wait();
+                    }
+                } catch (Exception e){}
+            }
+            stdin = new Scanner(System.in);
+        }
+    }
+
+
+
+
+/*
+
     public void joinMatch(){
 
         presentation();
@@ -60,16 +144,6 @@ public class InputHandler {
             playMatch();
     }
 
-    private void presentation() {
-        System.out.println(BROWN_FOREGROUND + "\n───────────────────────────────── ❮❰♦❱❯ ─────────────────────────────────" + ANSI_RESET);
-        System.out.println(BROWN_FOREGROUND + MYSHELFIE_LOBBY + ANSI_RESET + "\n");
-        System.out.println(
-                ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Here you can the use the following commands with their format:\n" +
-                "              ➤ CREATE <username> <gamemode> <number_of_players>: to create a new game\n" +
-                "                       (EASY -> gamemode = 0, EXPERT -> gamemode = 1)\n" +
-                "              ➤ JOIN <username> <gameID>: to join an existing game\n" +
-                "              ➤ LIST: to have the list of the current free games");
-    }
 
     public void playMatch(){
         String line;
@@ -134,5 +208,5 @@ public class InputHandler {
             }
         }
     }
-
+*/
 }

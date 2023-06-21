@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class ListCommand  implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
+        //client.putInWait();
         sender.getGameList();
     }
+
 }

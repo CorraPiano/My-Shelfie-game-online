@@ -38,6 +38,8 @@ public class Connection implements Runnable{
                 String line = in.nextLine();
                 try {
                     TCPMessage message = gson.fromJson(line, TCPMessage.class);
+                    if(!message.getHeader().equals(MessageHeader.PING))
+                        System.out.println("<- "+message.getHeader()+" : "+message.getBody());
                     messageHandler.receive(message, this);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -54,6 +56,8 @@ public class Connection implements Runnable{
     }
 
     public synchronized void send(TCPMessage TCPmessage) throws Exception {
+        if(!TCPmessage.getHeader().equals(MessageHeader.PING))
+            System.out.println("-> "+TCPmessage.getHeader() + " : " + TCPmessage.getBody());
         if(!active)
             throw new Exception();
         String str = gson.toJson(TCPmessage);

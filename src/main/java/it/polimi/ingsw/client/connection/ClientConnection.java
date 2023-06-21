@@ -14,12 +14,14 @@ public class ClientConnection implements Runnable{
     private final PrintWriter out;
     private final Gson gson;
     private final TCPReceiver TCPreceiver;
+    private boolean active;
 
     public ClientConnection(Socket socket, TCPReceiver TCPreceiver) throws IOException {
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream());
         gson = new Gson();
         this.TCPreceiver=TCPreceiver;
+        active = true;
     }
 
     public void run() {
@@ -34,13 +36,15 @@ public class ClientConnection implements Runnable{
 
                 }
             } catch(Exception e){
-                TCPreceiver.lostConnection();
+                active=false;
                 break;
             }
         }
     }
 
-    public void send(Sendable message){
+    public void send(Sendable message) throws Exception {
+        if(!active)
+            throw new Exception();
         String json = gson.toJson(message);
         TCPMessage TCPmessage = new TCPMessage(message.getHeader(),json);
         String str = gson.toJson(TCPmessage);

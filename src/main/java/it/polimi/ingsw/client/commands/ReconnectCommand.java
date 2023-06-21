@@ -2,8 +2,8 @@ package it.polimi.ingsw.client.commands;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.connection.Sender;
+import it.polimi.ingsw.client.LocalSave;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.util.Constants.ANSI_RESET;
@@ -11,19 +11,25 @@ import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
 
 public class ReconnectCommand implements Command{
     public void execute(Sender sender, Scanner stdin, Client client) {
-        String name = stdin.next();
-        int num = stdin.nextInt();
+        String id;
 
-        if(Objects.equals(name, "")){
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The name entered is not valid");
+        /*id = LocalSave.recoverID();
+
+        if(id==null) {
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "There isn't a game to reconnect");
+            return;
+        }*/
+
+        try{
+            String name = stdin.next();
+            int gameID = stdin.nextInt();
+            id = name +"_"+gameID;
+        } catch(Exception e){
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "\n" + "invalid command parameters");
             return;
         }
 
-        if(num<0){
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The gameID entered is not valid");
-            return;
-        }
-
-        sender.reconnectGame(name, num);
+        //client.putInWait();
+        sender.reconnectGame(id);
     }
 }

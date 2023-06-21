@@ -15,13 +15,14 @@ public class GameplaysHandler {
     private ArrayList<Gameplay> gameplayList = null;
     //mappa ogni giocatore al gameID
     private final HashMap<String, Integer> mapID;
+    private final HashMap<String, Listener > mapListener;
     //mappa ogni gameID ai giocatori
    // private final HashMap<Integer, ArrayList<String>> mapGame;
 
     public GameplaysHandler(){
         mapID = new HashMap<>();
-        //mapGame = new HashMap<>();
         gameplayList = new ArrayList<Gameplay>();
+        mapListener = new HashMap<>();
     }
 
     public int nextID() {
@@ -33,9 +34,22 @@ public class GameplaysHandler {
         //mapGame.put(gameID,new ArrayList<>());
     }
 
-    public void bind(String id, int gameID){
+    public void bind(String id, int gameID, Listener listener){
+        clean();
         mapID.put(id,gameID);
+        mapListener.put(id,listener);
         //mapGame.get(gameID).add(id);
+    }
+
+    public void rebind(String id, Listener  listener){
+        mapListener.put(id,listener);
+    }
+
+    public void remove(String id){
+        clean();
+        mapID.remove(id);
+        mapListener.get(id).disconnect();
+        mapListener.remove(id);
     }
 
     public Gameplay getGameplay(int gameID) throws InvalidGameIdException {
@@ -55,14 +69,24 @@ public class GameplaysHandler {
         ArrayList<LocalGame> list = new ArrayList<>();
         for(Gameplay g: gameplayList){
             if(g.getGameState().equals(GameState.WAIT)){
-                LocalGame lg = new LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getCurrentPlayers(),g.getGameState(),null);
+                LocalGame lg = new LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getCurrentPlayers(),g.getGameState());
                 list.add(lg);
              }
         }
         return list;
     }
 
-    //public ArrayList<String> getPlayersFromGameplay(int gameID){
-        //return mapGame.get(gameID);
-    //}
+    private void clean(){
+        for(String id: mapID.keySet()){
+            if(gameplayList.get(mapID.get(id)).getGameState().equals(GameState.END)) {
+                mapID.remove(id);
+                mapListener.get(id).disconnect();
+                mapListener.remove(id);
+            }
+        }
+        /*for(int i=0; i<gameplayList.size();i++){
+            if(gameplayList.get(i).getGameState().equals(GameState.END))
+                gameplayList.set(i,null);
+        }*/
+    }
 }

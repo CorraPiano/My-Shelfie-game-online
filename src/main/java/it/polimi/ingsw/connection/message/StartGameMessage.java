@@ -5,12 +5,13 @@ import it.polimi.ingsw.connection.MessageHeader;
 public class StartGameMessage implements Sendable{
     // <- notify: start game
 
-    public String name;
+    //public String name;
 
-    public StartGameMessage(String name){
-        this.name=name;
+    //public StartGameMessage(String name){
+     //   this.name=name;
+    //}
+    public StartGameMessage(){
     }
-
     @Override
     public MessageHeader getHeader() {
         return MessageHeader.STARTGAME;

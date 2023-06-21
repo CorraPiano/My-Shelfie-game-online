@@ -11,10 +11,19 @@ import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
 public class PickCommand  implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
-        int n1 = stdin.nextInt();
-        int n2 = stdin.nextInt();
+        int n1;
+        int n2;
+
+        try {
+            n1 = stdin.nextInt();
+            n2 = stdin.nextInt();
+        } catch (Exception e){
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "\n" + "invalid command parameters");
+            return;
+        }
+
         if (n1<0 || n1>9 || n2<0 || n2>9) {
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The coordinates entered are not correct");
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "The coordinates entered are not valid");
             return;
         }
 

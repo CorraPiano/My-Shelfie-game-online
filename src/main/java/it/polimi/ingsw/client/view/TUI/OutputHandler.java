@@ -15,6 +15,17 @@ import static it.polimi.ingsw.util.Constants.*;
 public class OutputHandler {
     private ShowMethods showMethods = new ShowMethods();
 
+    public void presentation() {
+        System.out.println(BROWN_FOREGROUND + "\n───────────────────────────────── ❮❰♦❱❯ ─────────────────────────────────" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + MYSHELFIE_LOBBY + ANSI_RESET + "\n");
+        System.out.println(
+                ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Here you can the use the following commands with their format:\n" +
+                        "              ➤ CREATE <username> <gamemode> <number_of_players>: to create a new game\n" +
+                        "                       (EASY -> gamemode = 0, EXPERT -> gamemode = 1)\n" +
+                        "              ➤ JOIN <username> <gameID>: to join an existing game\n" +
+                        "              ➤ LIST: to have the list of the current free games");
+    }
+
     public void showIntro(){
         System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── ❮❰♦❱❯ ───────────────────────────────────────────────────\n" + ANSI_RESET);
         System.out.println(BROWN_FOREGROUND + LOGO6);

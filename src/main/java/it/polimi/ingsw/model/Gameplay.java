@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.client.localModel.LocalPlayer;
+import it.polimi.ingsw.client.localModel.LocalPlayerList;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.connection.message.*;
 
@@ -21,8 +22,7 @@ public class Gameplay extends Listenable{
     private final BagCommon bagCommon;
     private PlayerHandler playerHandler;
     private final Hand hand;
-    private ArrayList<Player> playerList;
-
+    //private ArrayList<Player> playerList;
     private EventKeeper eventKeeper;
 
     //da eliminare
@@ -34,17 +34,20 @@ public class Gameplay extends Listenable{
             throw new GameModeException();
         if(numPlayers<=1 || numPlayers>4)
             throw new NumPlayersException();
-        eventKeeper = new EventKeeper();
+
         this.gameID = gameID;
         this.gameMode = gameMode;
         this.numPlayers = numPlayers;
-        this.playerList = new ArrayList<Player>();
-        //this.broadcasterRMI = broadcasterRMI;
-        //this.listener= new OldListener(gameID,broadcasterRMI);
-        hand = new Hand();
+        //.playerList = new ArrayList<Player>();
+        this.hand = new Hand();
+        this.board = new Board(numPlayers,hand);
+        this.playerHandler =  new PlayerHandler(this);
+
+        eventKeeper = new EventKeeper();
+        setEventKeeper(eventKeeper);
         hand.setEventKeeper(eventKeeper);
-        board = new Board(numPlayers,hand);
         board.setEventKeeper(eventKeeper);
+        playerHandler.setEventKeeper(eventKeeper);
 
         bagPersonal = new BagPersonal();
         if (gameMode.equals(GameMode.EXPERT))
@@ -52,73 +55,75 @@ public class Gameplay extends Listenable{
         else
             bagCommon = null;
         gameState = GameState.WAIT;
-        eventKeeper.notifyAll(new CreateMessage(gameID));
 
-        //Thread th = new Thread(this);
-        //        th.start();
+        notifyEvent(new CreateMessage(gameMode,gameID,numPlayers));
     }
 
     public Player addPlayer(String name) throws GameFullException, NameAlreadyExistentException {
-        if(!checkName(name))
+        if(!playerHandler.checkName(name))
             throw new NameAlreadyExistentException();
+
         Player player = new Player(name,gameID);
-        eventKeeper.addPersonalList(player.getID());
         player.setEventKeeper(eventKeeper);
         player.getLibrary().setEventKeeper(eventKeeper);
-        playerList.add(player);
-        //attenzione: al primo giocatore lancia una eccezione !!!
-        //broadcasterRMI.playerJoin(gameID,name);
-        eventKeeper.notifyAll(new JoinMessage(name));
-        //playerPing.put(player.getID(),System.currentTimeMillis());
+        eventKeeper.addPersonalList(player.getID());
+        playerHandler.addPlayer(player);
+
+        //playerList.add(player);
+        //notifyUpdate();
+        notifyEvent(new JoinMessage(name));
+
         return player;
     }
 
     public boolean isReady(){
-        return playerList.size() == numPlayers;
+        return playerHandler.getNumPlayer()==numPlayers;
+        //return playerList.size() == numPlayers;
     }
 
-    private boolean checkName(String name){
-        for(Player p: playerList)
-            if(p.getName().equals(name))
-                return false;
-        return true;
-    }
 
     public void startGame(){
         gameState = GameState.GAME;
+
+        //crea le common, che una volta ricevuta la tokenlist si aggiorneranno inviandosi
         if (gameMode.equals(GameMode.EXPERT)){
-            // capire se mettere le token presso la common o presso gameplay
             commonGoalCard1 = bagCommon.drawCommonGoalCard();
-            //commonGoalCard1.setListener(listener);
             commonGoalCard1.setEventKeeper(eventKeeper);
             commonGoalCard1.setTokenList(createTokenList());
             commonGoalCard2 = bagCommon.drawCommonGoalCard();
             commonGoalCard2.setEventKeeper(eventKeeper);
             commonGoalCard2.setTokenList(createTokenList());
         }
-        for(Player p: playerList) {
+
+        //crea le personal, che si autoinvia al giocatore corretto
+        for(Player p: playerHandler.getPlayerList()) {
             PersonalGoalCard personalCard = bagPersonal.drawPersonalGoalCard();
             personalCard.setEventKeeper(eventKeeper);
             p.setPersonalGoalCard(personalCard);
-            //p.bindListner(listener);
         }
-        board.drawBoardItems();
-        playerHandler = new PlayerHandler(playerList);
-        playerHandler.current().setFirstPlayerSeat(true);
-        //broadcasterRMI.updateGame(gameID,this);
-        //broadcasterRMI.startGame(gameID,playerHandler.current().getName());
-        eventKeeper.notifyAll(getLocal());
-        for(Player p:playerList)
-            p.getLibrary().sendBookshelf();
-        eventKeeper.notifyAll(new StartGameMessage(playerHandler.current().getName()));
-        //far iniziare a caso il primo giocatore
-    }
 
-    public LocalGame getLocal(){
-        ArrayList<LocalPlayer> list = new ArrayList<>();
-        for(Player p: playerList)
-            list.add(p.getLocal());
-        return new LocalGame(gameMode,gameID,numPlayers,playerList.size(),gameState,list);
+        //aggiorna la board, che si autoinvia
+        board.drawBoardItems();
+
+        // notifica l'avvio del gioco
+        eventKeeper.notifyAll(new StartGameMessage());
+
+        //sceglie il primo giocatore
+        playerHandler.choseFirstPlayer();
+        playerHandler.current().setFirstPlayerSeat(true);
+        eventKeeper.notifyAll(new NewTurnMessage(playerHandler.current().getName()));
+
+
+
+        // crea playerhandler
+        //playerHandler = new PlayerHandler(playerList);
+
+        //eventKeeper.notifyAll(getLocal());
+        //for(Player p:playerList)
+        //    p.getLibrary().sendBookshelf();
+        //far iniziare a caso il primo giocatore
+
+
     }
 
     private ArrayList<Token> createTokenList(){
@@ -136,13 +141,17 @@ public class Gameplay extends Listenable{
             Item item = board.getLivingRoomItem(coordinates);
             board.getItem(coordinates);
             eventKeeper.notifyAll(new PickMessage(coordinates,playerHandler.current().getName(),item));
-            //broadcasterRMI.notifyPick(gameID,playerHandler.current().getName() ,coordinates, item);
     }
 
     public void releaseHand() {
         board.releaseHand();
-        //broadcasterRMI.notifyUndo(gameID,playerHandler.current().getName());
         eventKeeper.notifyAll(new UndoMessage(playerHandler.current().getName()));
+    }
+
+    public void selectOrderHand(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
+        hand.selectOrder(list);
+        //broadcasterRMI.notifyOrder(gameID, "", list);
+        eventKeeper.notifyAll(new OrderMessage(list,playerHandler.current().getName()));
     }
 
     public void putItemList(int column) throws EmptyHandException, InvalidColumnPutException, NotEnoughSpacePutException {
@@ -153,24 +162,31 @@ public class Gameplay extends Listenable{
         library.putItemList(hand.getHand(),column);
         board.endTurn();
 
-        //broadcasterRMI.notifyPut(gameID,playerHandler.current().getName(),column);
         eventKeeper.notifyAll(new PutMessage(column,playerHandler.current().getName()));
 
         if(gameMode.equals(GameMode.EXPERT))
-            checkFullfillCommonGoalCard(currentPlayer );
+            checkFullfillCommonGoalCard(currentPlayer);
         if(library.isFull()) {
             currentPlayer.setEndGameToken();
             playerHandler.notifyLastRound();
-            //broadcasterRMI.lastRound(gameID, playerHandler.current().getName());
-            eventKeeper.notifyAll(new LastRoundMessage(playerHandler.current().getName()));
+            notifyEvent(new LastRoundMessage(playerHandler.current().getName()));
         }
-        if(playerHandler.next()) {
-            currentPlayer.updatePoints(false);
-            //broadcasterRMI.newTurn(gameID, playerHandler.current().getName());
-            eventKeeper.notifyAll(new NewTurnMessage(playerHandler.current().getName()));
+        currentPlayer.updatePoints(false);
+        endTurn();
+    }
+
+    public void endTurn() {
+        if (playerHandler.next()){
+            notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
         }
         else
             endGame();
+    }
+
+    public void endGame(){
+        gameState = GameState.END;
+        String name = playerHandler.makeFinalClassification();
+        eventKeeper.notifyAll(new EndGameMessage(name));
     }
 
     private void checkFullfillCommonGoalCard(Player currentPlayer ){
@@ -189,6 +205,7 @@ public class Gameplay extends Listenable{
             eventKeeper.notifyAll(chatMessage);
             return;
         }
+        ArrayList<Player> playerList = playerHandler.getPlayerList();
         if(!chatMessage.receiver.equals(chatMessage.sender) && playerList.stream().map(Player::getName).anyMatch(s -> s.equals(chatMessage.receiver)))
         {
             for(Player p:playerList){
@@ -200,44 +217,48 @@ public class Gameplay extends Listenable{
             return;
         }
         throw new InvalidNameException();
-            //eventKeeper.notifyToID(p.getID(),chatMessage);
-            //eventKeeper.notifyToID(getPlayerIDByName(chatMessage.sender),chatMessage);
-
     }
 
     //si deve poter stoppare il gioco prima della fine
-    public void endGame(){
-        gameState = GameState.END;
-        for(Player p: playerList) {
-            p.updatePoints(true);
+
+    public void leave(String id){
+        getPlayerByID(id).leave();
+        getPlayerByID(id).disconnect();
+        notifyEvent(new LeaveMessage(getPlayerNameByID(id)));
+        playerMiss(id);
+    }
+
+    public void disconnect(String id){
+        getPlayerByID(id).disconnect();
+        notifyEvent(new DisconnectMessage(getPlayerNameByID(id)));
+        System.out.println(getPlayerNameByID(id)+" si è disconnesso");
+        playerMiss(id);
+    }
+
+    private void playerMiss(String id){
+        if(gameState.equals(GameState.WAIT)){
+            playerHandler.removePlayer(id);
         }
-        playerList=sort(playerList);
-        eventKeeper.notifyAll(getLocal());
-        eventKeeper.notifyAll(new EndGameMessage(playerList.get(0).getName()));
+        else if(gameState.equals(GameState.GAME) && playerHandler.current().getID().equals(id))
+        {
+            board.releaseHand();
+            endTurn();
+        }
     }
 
-    private ArrayList<Player> sort(ArrayList<Player>playerList){
-        return playerList.stream().sorted((x,y)->{
-            if(x.getPoints()<y.getPoints())
-                return 1;
-            if(x.getPoints()==y.getPoints() && x.getFirstPlayerSeat() && !y.getFirstPlayerSeat())
-                return -1;
-            if(x.getPoints()==y.getPoints() && y.getFirstPlayerSeat() && !x.getFirstPlayerSeat())
-                return 1;
-            if(x.getPoints()>y.getPoints())
-                return -1;
-            return 0;
-        }).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    public void reconnect(String id) throws GameFinishedException {
+        if(gameState.equals(GameState.END) || getPlayerByID(id).connectionState() )
+            throw new GameFinishedException();
+        getPlayerByID(id).reconnect();
+        eventKeeper.notifyAll(new ReconnectMessage(getPlayerNameByID(id)));
     }
 
-    public void selectOrderHand(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
-        hand.selectOrder(list);
-        //broadcasterRMI.notifyOrder(gameID, "", list);
-        eventKeeper.notifyAll(new OrderMessage(list,playerHandler.current().getName()));
-    }
+
+
+    //GETTER
 
     public ArrayList<Player> getPlayerList(){
-        return playerList;
+        return playerHandler.getPlayerList();
     }
 
     public GameMode getGameMode(){
@@ -252,21 +273,20 @@ public class Gameplay extends Listenable{
         return playerHandler.current().getID();
     }
 
-    public String getPlayerNameByID(String id){
-        for(Player p: playerList){
-            if(p.getID().equals(id))
-                return p.getName();
-        }
-        return null;
-    }
     public Player getPlayerByID(String id){
-        for(Player p: playerList){
-            if(p.getID().equals(id))
-                return p;
-        }
+        return playerHandler.getPlayerByID(id);
+    }
+
+    public String getPlayerNameByID(String id){
+        Player player = playerHandler.getPlayerByID(id);
+        if(player!=null)
+            return player.getName();
         return null;
     }
 
+    public LocalGame getLocal(){
+        return new LocalGame(gameMode,gameID,numPlayers,playerHandler.getNumPlayer(),gameState);
+    }
 
     public int getGameID() {
         return gameID;
@@ -277,7 +297,7 @@ public class Gameplay extends Listenable{
     }
 
     public int getCurrentPlayers() {
-        return playerList.size();
+        return playerHandler.getNumPlayer();
     }
 
     public EventKeeper getEventKeeper(){
@@ -285,40 +305,9 @@ public class Gameplay extends Listenable{
     }
 
     public String getPlayerIDByName(String name){
-        for(Player p:playerList){
-            if(p.getName().equals(name))
-                return p.getID();
-        }
-        return null;
+        return playerHandler.getPlayerIDByName(name);
     }
 
-
-    public void leave(String id){
-        eventKeeper.notifyAll(new LeaveMessage(getPlayerNameByID(id)));
-        endGame();
-    }
-
-    public void disconnect(String id){
-        getPlayerByID(id).disconnect();
-        eventKeeper.notifyAll(new DisconnectMessage(getPlayerNameByID(id)));
-        System.out.println(getPlayerNameByID(id)+" si è disconnesso");
-        if(playerHandler.current().getID().equals(id))
-        {
-            releaseHand();
-            if(playerHandler.next())
-                eventKeeper.notifyAll(new NewTurnMessage(playerHandler.current().getName()));
-            else
-                endGame();
-        }
-        //endGame();
-    }
-
-    public void reconnect(String id) throws GameFinishedException {
-        if(gameState.equals(GameState.END) || getPlayerByID(id).connectionState() )
-            throw new GameFinishedException();
-        getPlayerByID(id).reconnect();
-        eventKeeper.notifyAll(new ReconnectMessage(getPlayerNameByID(id)));
-    }
 
 }
 

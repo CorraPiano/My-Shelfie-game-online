@@ -20,7 +20,6 @@ public class ListenerTCP extends Listener{
         try {
             String json = gson.toJson(sendable);
             TCPMessage TCPmessage = new TCPMessage(sendable.getHeader(), json);
-            //System.out.println(sendable.getHeader() + ": " + json);
             connection.send(TCPmessage);
         } catch (Exception e){
             e.printStackTrace();

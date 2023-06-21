@@ -19,10 +19,10 @@ public class CreateMessage implements Sendable{
         this.gameID=0;
     }
 
-    public CreateMessage(int gameID){
+    public CreateMessage(GameMode gameMode,int gameID, int numPlayers){
         this.name=null;
-        this.gameMode=null;
-        this.numPlayers=0;
+        this.gameMode=gameMode;
+        this.numPlayers=numPlayers;
         this.gameID=gameID;
     }
 

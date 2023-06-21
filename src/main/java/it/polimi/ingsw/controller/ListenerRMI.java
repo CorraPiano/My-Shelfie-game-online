@@ -26,7 +26,7 @@ public class ListenerRMI extends Listener{
                                 }
                                 case CREATE -> {
                                         CreateMessage message = (CreateMessage) sendable;
-                                        client.createGame(message.gameID);
+                                        client.createGame(message.gameID,message.gameMode,message.numPlayers);
                                 }
                                 case JOIN ->{
                                         JoinMessage message = (JoinMessage) sendable;
@@ -62,7 +62,7 @@ public class ListenerRMI extends Listener{
                                 }
                                 case STARTGAME -> {
                                         StartGameMessage message = (StartGameMessage) sendable;
-                                        client.startGame(message.name);
+                                        client.startGame();
                                 }
                                 case NEWTURN -> {
                                         NewTurnMessage message = (NewTurnMessage) sendable;
@@ -82,8 +82,11 @@ public class ListenerRMI extends Listener{
                                 case BOARD -> {
                                         client.updateBoard((LocalBoard)sendable);
                                 }
-                                case GAME -> {
+                                /*case GAME -> {
                                         client.updateGame((LocalGame)sendable);
+                                }*/
+                                case PLAYERLIST -> {
+                                        client.updatePlayerList((LocalPlayerList)sendable);
                                 }
                                 case COMMONGOALCARD -> {
                                         client.updateCommonGoalCard((LocalCommonCard)sendable);

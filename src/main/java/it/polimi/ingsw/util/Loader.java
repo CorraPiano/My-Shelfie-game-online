@@ -13,9 +13,11 @@ public class Loader {
             FileReader file = new FileReader("src/main/java/it/polimi/ingsw/util/BoardMask");
             BufferedReader reader = new BufferedReader(file);
             String json = reader.readLine();
-            System.out.println(json);
+            reader.close();
+            file.close();
+            //System.out.println(json);
             int[][] mask = gson.fromJson(json,int[][].class);
-            System.out.println(mask);
+            //System.out.println(mask);
             return mask;
         } catch(Exception e){
             e.printStackTrace();
