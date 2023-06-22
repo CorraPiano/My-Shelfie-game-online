@@ -67,7 +67,7 @@ public class GameController implements GUIController {
     @FXML
     private AnchorPane backgroundPane;
     @FXML
-    private GridPane arrowPane;
+    private GridPane arrowGrid;
     @FXML
     private TextFlow currentPlayer;
     @FXML
@@ -108,14 +108,16 @@ public class GameController implements GUIController {
     private GridPane bookshelf3Grid;
     @FXML
     private Text bookshelf3name;
+    @FXML
+    private Button orderConfirm;
 
     //ATTRIBUTES
     private ModelView modelView;
     private LocalBookshelf localBookshelf;
     private ArrayList<Integer> handOrder = new ArrayList<>();
     private ArrayList<Image> handImages = new ArrayList<>();
-    private ArrayList<Coordinates> localHandCoordinates = new ArrayList<>();
     private int handClickCount;
+    private boolean HandVisible;
 
     //METHODS
     @Override
@@ -130,7 +132,6 @@ public class GameController implements GUIController {
     /* Scene initializers */
     public void init() {
         this.modelView = gui.getClient().getModelView();
-
         showBoard();
         initPersonal(modelView.getLocalPersonalCard().num);
         initCommon(modelView.getCommonCards());
@@ -183,35 +184,60 @@ public class GameController implements GUIController {
         Coordinates clickBoardCoordinates = getBoardCellsIndexes(event); //actual model coordinates
         if(isCatchable(clickBoardCoordinates)) {
             gui.pickItem(clickBoardCoordinates);
-            localHandCoordinates.add(clickBoardCoordinates);
         }
     }
     public void onBookshelfClick(MouseEvent event) {
         int column = getBookshelfCellsColumn(event);
-        if (handClickCount != 0 ) {
-            //showArrows();
             gui.putItemList(column);
-            localHandCoordinates.clear();
             setEffectNull();
             //removeArrows();
-        }
+
     }
     public void onHandClick(MouseEvent event) {
-        handClickCount++;
+
         ImageView clickedImageView = (ImageView) event.getSource();
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.YELLOW);
         dropShadow.setWidth(20);
         dropShadow.setHeight(20);
-        clickedImageView.setEffect(dropShadow);
 
-        if (clickedImageView.equals(hand1))
-            handOrder.add(0);
-        else if (clickedImageView.equals(hand2))
-            handOrder.add(1);
-        else if (clickedImageView.equals(hand3))
-            handOrder.add(2);
+        if (clickedImageView.getEffect() == null ) {
+            clickedImageView.setEffect(dropShadow);
+            if (clickedImageView.equals(hand1)) {
+                handOrder.add(0);
+                System.out.println("Added 0");
+            } else if (clickedImageView.equals(hand2)) {
+                handOrder.add(1);
+                System.out.println("Added 1");
+            } else if (clickedImageView.equals(hand3)){
+                handOrder.add(2);
+                System.out.println("Added 2");
+            }
+        }
 
+        else {
+            clickedImageView.setEffect(null);
+            if (clickedImageView.equals(hand1)) {
+                handOrder.remove(Integer.valueOf(0));
+                System.out.println("removed 0");
+            }
+
+            else if (clickedImageView.equals(hand2)) {
+                handOrder.remove(Integer.valueOf(1));
+                System.out.println("removed 1");
+            }
+            else if (clickedImageView.equals(hand3)) {
+                handOrder.remove(Integer.valueOf(2));
+                System.out.println("removed 2");
+            }
+
+        }
+
+    }
+    public void onTickClick() {
+        gui.selectInsertOrder(handOrder);
+        handOrder.clear();
+        showArrows();
     }
 
     /* Show methods */
@@ -237,7 +263,6 @@ public class GameController implements GUIController {
             }
         }
     }
-
     public void showPlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer) {
         int index = 1;
         GridPane gridPane = new GridPane();
@@ -282,7 +307,6 @@ public class GameController implements GUIController {
             }
         }
     }
-
     public void showBoard() {
         LocalBoard localBoard = modelView.getLocalBoard();
         resetBoard();
@@ -307,31 +331,33 @@ public class GameController implements GUIController {
     }
     public void showHand() {
         removeHandImages();
-        handClickCount = 0;
+        //handClickCount = 0;
         LocalHand localHand = modelView.getLocalHand();
-        if (localHand.size > 0){
-            URL url = getClass().getResource(localHand.hand[0].getImagePath());
-            if (url != null) {
-                Image image = new Image(url.toString());
-                hand1.setImage(image);
+
+        if (HandVisible) {
+            if (localHand.size > 0) {
+                URL url = getClass().getResource(localHand.hand[0].getImagePath());
+                if (url != null) {
+                    Image image = new Image(url.toString());
+                    hand1.setImage(image);
+                }
             }
-        }
-        if (localHand.size > 1){
-            URL url = getClass().getResource(localHand.hand[1].getImagePath());
-            if (url != null) {
-                Image image = new Image(url.toString());
-                hand2.setImage(image);
+            if (localHand.size > 1) {
+                URL url = getClass().getResource(localHand.hand[1].getImagePath());
+                if (url != null) {
+                    Image image = new Image(url.toString());
+                    hand2.setImage(image);
+                }
             }
-        }
-        if (localHand.size > 2){
-            URL url = getClass().getResource(localHand.hand[2].getImagePath());
-            if (url != null) {
-                Image image = new Image(url.toString());
-                hand3.setImage(image);
+            if (localHand.size > 2) {
+                URL url = getClass().getResource(localHand.hand[2].getImagePath());
+                if (url != null) {
+                    Image image = new Image(url.toString());
+                    hand3.setImage(image);
+                }
             }
         }
     }
-
     public void showCurrentPoints() {
         String playerName = gui.getClient().getName();
         for (LocalPlayer p : modelView.getLocalPlayerList()){
@@ -340,6 +366,19 @@ public class GameController implements GUIController {
                 text.setText("" + p.points);
                 currentPoints.getChildren().clear();
                 currentPoints.getChildren().add(text);
+            }
+        }
+    }
+    public void showArrows(){
+        for (int j = 0; j < nColumnBookshelf; j++){
+            URL url = getClass().getResource("/Images/items/Blue1.png");
+            if(url != null) {
+                Image arrow = new Image(url.toString());
+                ImageView arrowImageView = new ImageView();
+                arrowImageView.setImage(arrow);
+                arrowImageView.setFitWidth(20);
+                arrowImageView.setFitHeight(20);
+                arrowGrid.add(arrowImageView, j, 0);
             }
         }
     }
@@ -361,13 +400,13 @@ public class GameController implements GUIController {
         //System.out.println("getBoardCellsIndex ritorna:\n riga --> " + (8-clickedRow) + "\n colonna --> " + clickedCol + "\n");
         return new Coordinates(8 - clickedRow, clickedCol);
     }
+
     public int getBookshelfCellsColumn(MouseEvent event) {
         double cellWidth = bookshelfGrid.getWidth() / nColumnBookshelf;
         int clickedCol = (int) (event.getX() / cellWidth);
 
         return clickedCol;
     }
-
     /* Updating  */
     public void resetBoard(){
         for (Node node : boardGrid.getChildren()) {
@@ -391,6 +430,7 @@ public class GameController implements GUIController {
         hand2.setImage(null);
         hand3.setImage(null);
     }
+
     public void setTurn(String name){
         Text text = new Text(name);
         currentPlayer.getChildren().clear();
@@ -398,14 +438,15 @@ public class GameController implements GUIController {
         if(! name.equals(gui.getClient().getName())){
             bookshelfGrid.setDisable(true);
             boardGrid.setDisable(true);
+            HandVisible = false;
         }
         else if(name.equals(gui.getClient().getName())){
             bookshelfGrid.setDisable(false);
             boardGrid.setDisable(false);
+            HandVisible = true;
         }
 
     }
-
     /* Images */
     public boolean isImageViewEmpty(ImageView imageView) {
         return imageView.getImage() == null;
@@ -413,17 +454,18 @@ public class GameController implements GUIController {
     public String getCommonPathByType(int type) {
         return "/Images/common/" + (type + 1) + ".jpg";
     }
+
     public String getPersonalByType(int n) {
         return "/Images/personal/" + n + ".png";
     }
-
     /* Checking */
     public boolean isCatchable(Coordinates coordinates)  {
         int row = coordinates.getRow();
         int column = coordinates.getColumn();
         LocalBoard localBoard = modelView.getLocalBoard();
+        LocalHand localHand = modelView.getLocalHand();
 
-        if (localHandCoordinates.size() > 3) {
+        if (localHand.coordinatesList.size() > 3) {
             showLocalNotification(TOOMANYITEMS);
             return false;
         }
@@ -439,16 +481,16 @@ public class GameController implements GUIController {
         if (row == 0 || row == 8 || column == 0 || column == 8){
             return checkNewCoordinates(coordinates);
         }
-        if (localBoard.board[row - 1][column] == null && !localHandCoordinates.contains(new Coordinates(row - 1, column))) {
+        if (localBoard.board[row - 1][column] == null && !localHand.coordinatesList.contains(new Coordinates(row - 1, column))) {
             return checkNewCoordinates(coordinates);
         }
-        else if (localBoard.board[row + 1][column] == null && !localHandCoordinates.contains(new Coordinates(row + 1, column))) {
+        else if (localBoard.board[row + 1][column] == null && !localHand.coordinatesList.contains(new Coordinates(row + 1, column))) {
             return checkNewCoordinates(coordinates);
         }
-        else if (localBoard.board[row][column - 1] == null && !localHandCoordinates.contains(new Coordinates(row,column - 1))) {
+        else if (localBoard.board[row][column - 1] == null && !localHand.coordinatesList.contains(new Coordinates(row,column - 1))) {
             return checkNewCoordinates(coordinates);
         }
-        else if (localBoard.board[row][column + 1] == null && !localHandCoordinates.contains(new Coordinates(row, column + 1))) {
+        else if (localBoard.board[row][column + 1] == null && !localHand.coordinatesList.contains(new Coordinates(row, column + 1))) {
             return checkNewCoordinates(coordinates);
         }
         else {
@@ -456,8 +498,10 @@ public class GameController implements GUIController {
             return false;
         }
     }
+
     public boolean checkNewCoordinates (Coordinates coordinates) {
-        if (localHandCoordinates.isEmpty())
+        LocalHand localHand = modelView.getLocalHand();
+        if (localHand.coordinatesList.isEmpty())
             return true;
 
         boolean checkNear = false;
@@ -466,7 +510,7 @@ public class GameController implements GUIController {
         int row = coordinates.getRow();
         int column = coordinates.getColumn();
 
-        for (Coordinates c : localHandCoordinates) {
+        for (Coordinates c : localHand.coordinatesList) {
             if (c.equals(coordinates))
                 return false;
             if (c.getRow() != row)
@@ -480,17 +524,6 @@ public class GameController implements GUIController {
         }
         return checkNear && (checkSameRow || checkSameColumn);
     }
-    /* True se c'è ancora spazio nella colonna */
-    public boolean checkFreeColumn(int column) {
-        int counterSpace = 0;
-        LocalBookshelf localBookshelf = new LocalBookshelf(gui.getClient().getName(),null);
-        for(int i = (nRowBookshelf - 1); i >= 0; i--) {
-            if(localBookshelf.bookshelf[i][column] == null) {
-                counterSpace++;
-            }
-        }
-        return counterSpace > 0;
-    }
 
     //Notifications methods
     public void showLocalNotification(NotificationsType notificationsType) {
@@ -503,6 +536,7 @@ public class GameController implements GUIController {
         notificationsLenght = notificationsLenght + 1;
         gameNotifications.scrollTo(notificationsLenght);
     }
+
     public void showGlobalNotification(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column) {
         switch (notificationsType){
             case PICK -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": PICK, coord. " + coordinates.toString());
@@ -514,7 +548,6 @@ public class GameController implements GUIController {
         notificationsLenght = notificationsLenght + 1;
         gameNotifications.scrollTo(notificationsLenght);
     }
-
     //Chat methods
     public void sendMessage(ActionEvent event) {
         String message = chatMessage.getText();
@@ -526,6 +559,7 @@ public class GameController implements GUIController {
             gui.sendMessage(message, receiverName);
         }
     }
+
     public void displayMessage(ChatMessage chatMessage, String name) {
         if (chatMessage.receiver == null && !Objects.equals(chatMessage.sender, name)){
             chatField.getItems().add("❮TO ALL❯ " + chatMessage.sender + ": " + chatMessage.message);
@@ -548,24 +582,13 @@ public class GameController implements GUIController {
     public void onBookshelfs(javafx.event.ActionEvent actionEvent) {
         this.gui.switchStage(Command.SHOW_BOOKSHELFS);
     }
-     */
-
+    */
     /* Other features */
+
     public void setEffectNull(){
         hand1.setEffect(null);
         hand2.setEffect(null);
         hand3.setEffect(null);
-    }
-    public void showArrows(){
-        for (int j = 0; j < nColumnBookshelf; j++){
-                Image arrowImage = new Image("/Images/misc/arrow.png");
-                ImageView arrowImageView = new ImageView(arrowImage);
-                int columnIndex = j;
-                int rowIndex = 0;
-                arrowPane.add(arrowImageView, columnIndex, rowIndex);
-                System.out.println("Eseguito");
-        }
-
     }
     public void showSelectedItem(ImageView imageview){
         if (isImageViewEmpty(hand1)){
