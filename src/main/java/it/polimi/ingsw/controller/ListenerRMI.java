@@ -11,8 +11,8 @@ import java.rmi.RemoteException;
 public class ListenerRMI extends Listener{
         ClientSkeleton client;
 
-        public ListenerRMI(ClientSkeleton client, Gameplay gameplay, String id){
-                super(gameplay,id);
+        public ListenerRMI(ClientSkeleton client, Controller controller, EventKeeper eventKeeper, String id, String name){
+                super(controller, eventKeeper, id, name);
                 this.client = client;
         }
 
@@ -20,6 +20,10 @@ public class ListenerRMI extends Listener{
                 MessageHeader header = sendable.getHeader();
                 try {
                         switch(header){
+                                case TIMER -> {
+                                        TimerMessage message = (TimerMessage) sendable;
+                                        client.timer(message.seconds);
+                                }
                                 case CHAT -> {
                                         ChatMessage message = (ChatMessage) sendable;
                                         client.updateChat(message);
@@ -74,7 +78,7 @@ public class ListenerRMI extends Listener{
                                 }
                                 case ENDGAME -> {
                                         EndGameMessage message = (EndGameMessage) sendable;
-                                        client.endGame(message.name);
+                                        client.endGame(message.name,message.cause);
                                 }
                                 case BOOKSHELF -> {
                                         client.updateBookshelf((LocalBookshelf)sendable);

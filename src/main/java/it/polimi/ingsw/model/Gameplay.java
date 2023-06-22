@@ -1,13 +1,9 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.client.localModel.LocalGame;
-import it.polimi.ingsw.client.localModel.LocalPlayer;
-import it.polimi.ingsw.client.localModel.LocalPlayerList;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.connection.message.*;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 public class Gameplay extends Listenable{
 
@@ -25,6 +21,8 @@ public class Gameplay extends Listenable{
     //private ArrayList<Player> playerList;
     private EventKeeper eventKeeper;
 
+    private int numDisconnection;
+
     //da eliminare
     //private final BroadcasterRMI broadcasterRMI;
     //private final OldListener listener;
@@ -35,6 +33,7 @@ public class Gameplay extends Listenable{
         if(numPlayers<=1 || numPlayers>4)
             throw new NumPlayersException();
 
+        numDisconnection=0;
         this.gameID = gameID;
         this.gameMode = gameMode;
         this.numPlayers = numPlayers;
@@ -43,7 +42,7 @@ public class Gameplay extends Listenable{
         this.board = new Board(numPlayers,hand);
         this.playerHandler =  new PlayerHandler(this);
 
-        eventKeeper = new EventKeeper();
+        eventKeeper = new EventKeeper(this);
         setEventKeeper(eventKeeper);
         hand.setEventKeeper(eventKeeper);
         board.setEventKeeper(eventKeeper);
@@ -79,6 +78,10 @@ public class Gameplay extends Listenable{
     public boolean isReady(){
         return playerHandler.getNumPlayer()==numPlayers;
         //return playerList.size() == numPlayers;
+    }
+
+    public boolean isFinished(){
+        return gameState.equals(GameState.END);
     }
 
 
@@ -180,13 +183,18 @@ public class Gameplay extends Listenable{
             notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
         }
         else
-            endGame();
+            gameState = GameState.END;
     }
 
     public void endGame(){
         gameState = GameState.END;
         String name = playerHandler.makeFinalClassification();
-        eventKeeper.notifyAll(new EndGameMessage(name));
+        if(playerHandler.numPlayersAvaiable()<2)
+            eventKeeper.notifyAll(new EndGameMessage(name,EndCause.NOT_ENOUGH_ACTIVE_PLAYER));
+        else if(playerHandler.numPlayersConnected()<2)
+            eventKeeper.notifyAll(new EndGameMessage(name,EndCause.DISCONNECTED_PLAYERS_NOT_RECONNECT_ON_TIME));
+        else
+            eventKeeper.notifyAll(new EndGameMessage(name,EndCause.LAST_ROUND_FINISHED));
     }
 
     private void checkFullfillCommonGoalCard(Player currentPlayer ){
@@ -223,16 +231,20 @@ public class Gameplay extends Listenable{
 
     public void leave(String id){
         getPlayerByID(id).leave();
-        getPlayerByID(id).disconnect();
         notifyEvent(new LeaveMessage(getPlayerNameByID(id)));
         playerMiss(id);
     }
 
     public void disconnect(String id){
+        numDisconnection++;
         getPlayerByID(id).disconnect();
         notifyEvent(new DisconnectMessage(getPlayerNameByID(id)));
-        System.out.println(getPlayerNameByID(id)+" si è disconnesso");
+        //System.out.println(getPlayerNameByID(id)+" si è disconnesso");
         playerMiss(id);
+    }
+
+    public int getNumDisconnection(){
+        return numDisconnection;
     }
 
     private void playerMiss(String id){
@@ -246,13 +258,16 @@ public class Gameplay extends Listenable{
         }
     }
 
-    public void reconnect(String id) throws GameFinishedException {
-        if(gameState.equals(GameState.END) || getPlayerByID(id).connectionState() )
+    public void reconnect(String id) throws GameFinishedException, AlreadyConnectedException, GameLeftException {
+        if(gameState.equals(GameState.END) || getPlayerByID(id).isConnected() )
             throw new GameFinishedException();
+        if(getPlayerByID(id).isConnected())
+            throw new AlreadyConnectedException();
+        if(getPlayerByID(id).isInactive())
+            throw new GameLeftException();
         getPlayerByID(id).reconnect();
         eventKeeper.notifyAll(new ReconnectMessage(getPlayerNameByID(id)));
     }
-
 
 
     //GETTER
@@ -306,6 +321,27 @@ public class Gameplay extends Listenable{
 
     public String getPlayerIDByName(String name){
         return playerHandler.getPlayerIDByName(name);
+    }
+
+    public boolean currentPlayerIsConnected(){
+        return playerHandler.current().isConnected();
+    }
+
+    public int getNumPlayersConnected(){
+        return playerHandler.numPlayersConnected();
+    }
+
+    public boolean isConnected(String id){
+        return playerHandler.getPlayerByID(id).isConnected();
+    }
+
+    public boolean checkTimer(Long time){
+        long n = time + 60000 - System.currentTimeMillis();
+        boolean b = (!isFinished() && getNumDisconnection() == numDisconnection && getNumPlayersConnected() < 2 && n>0 && !currentPlayerIsConnected());
+        if(b)
+            notifyEvent(new TimerMessage((int)n));
+        return b;
+        //System.currentTimeMillis() - time < 60000
     }
 
 

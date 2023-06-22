@@ -26,7 +26,7 @@ public interface ControllerSkeleton extends Remote {
 
     void leaveGame(String id) throws RemoteException, InvalidIdException;
 
-    String reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException;
+    String reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException;
 
     void ping(int n) throws RemoteException;
 }

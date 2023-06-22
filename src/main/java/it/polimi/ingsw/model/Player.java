@@ -2,22 +2,22 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.client.localModel.LocalPlayer;
 
-import java.util.UUID;
-
 
 public class Player extends Listenable{
     //ATTRIBUTES
-    private String name;
-    private String ID; //example: 067e6162-3b6f-4ae2-a171-2470b63dff00
+    private final String name;
+    private final String ID; //example: 067e6162-3b6f-4ae2-a171-2470b63dff00
     private Token token1;
     private Token token2;
     private PersonalGoalCard personalCard;
     private int points;
-    private Bookshelf library;
+    private final Bookshelf library;
     private boolean firstPlayerSeat;
     private Token endGameToken;
 
     private boolean endGame;
+
+    private PlayerState playerState;
     private boolean connected;
     private boolean left;
 
@@ -30,23 +30,27 @@ public class Player extends Listenable{
         //ID = UUID.randomUUID().toString();
         //ID = "#" + name + "#" + gameID + "#" + UUID.randomUUID().toString();
         ID = name + "_" + gameID;
-        connected = true;
-        left = false;
+        //connected = true;
+        //left = false;
+        playerState = PlayerState.ACTIVE;
     }
 
-    public boolean connectionState(){
-        return connected;
+    public PlayerState getState(){
+        return playerState;
     }
-    public boolean hasLeft(){ return left;}
+    public boolean isConnected(){
+        return playerState.equals(PlayerState.ACTIVE);
+    }
+    public boolean isInactive(){ return playerState.equals(PlayerState.INACTIVE);}
+
     public void disconnect(){
-        connected = false;
+        playerState = PlayerState.DISCONNECTED;
     }
     public void reconnect() {
-        connected = true;
+        playerState = PlayerState.ACTIVE;
     }
-
     public void leave(){
-        left=true;
+        playerState = PlayerState.INACTIVE;
     }
     /*public void bindListner(OldListener listener){
         //library.bindListener(listener);

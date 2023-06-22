@@ -5,10 +5,12 @@ import it.polimi.ingsw.connection.MessageHeader;
 public class EndGameMessage implements Sendable{
     // <- notify: end game
 
-    public String name;
+    public final String name;
+    public final EndCause cause;
 
-    public EndGameMessage(String name){
+    public EndGameMessage(String name, EndCause cause){
         this.name=name;
+        this.cause=cause;
     }
 
     @Override

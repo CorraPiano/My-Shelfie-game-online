@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.TUI.OutputHandler;
+import it.polimi.ingsw.connection.message.EndCause;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.Item;
@@ -144,7 +145,7 @@ public class ClientTUI extends Client {
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has finished his bookshelf!");
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + " one round left!");
     }
-    public void endGame(String name) throws RemoteException {
+    public void endGame(String name, EndCause cause) throws RemoteException {
         if(getPhase().equals(ClientPhase.CHAT))
             chat.stopThread();
         setPhase(ClientPhase.HOME);
@@ -216,6 +217,12 @@ public class ClientTUI extends Client {
         setPhase(ClientPhase.HOME);
         System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + "you "+ ANSI_RESET + "left the game!");
         outputHandler.presentation();
+    }
+
+    public void timer(int seconds) throws RemoteException{
+        seconds = seconds/1000;
+        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + seconds  +" seconds "+ ANSI_RESET + "left before the end of the game!");
+        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "the timer will stop if someone joins the game!");
     }
 
 }

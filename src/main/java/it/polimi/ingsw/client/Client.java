@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.TUI.OutputHandler;
 import it.polimi.ingsw.connection.message.ChatMessage;
+import it.polimi.ingsw.connection.message.EndCause;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.model.*;
 
@@ -10,8 +11,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.util.Constants.ANSI_RESET;
-import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
+import static it.polimi.ingsw.util.Constants.*;
 
 public class Client extends UnicastRemoteObject implements ClientSkeleton {
     protected ModelView modelView;
@@ -97,7 +97,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void startGame() throws RemoteException {}
     public void newTurn(String name) throws RemoteException {}
     public void lastRound(String name) throws RemoteException {}
-    public void endGame(String name) throws RemoteException {
+    public void endGame(String name, EndCause cause) throws RemoteException {
         setPhase(ClientPhase.HOME);
     }
 
@@ -158,5 +158,10 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     }
     public void leaveGame() {
         setPhase(ClientPhase.HOME);
+    }
+
+    public void timer(int seconds) throws RemoteException {
+        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + seconds  +" seconds "+ ANSI_RESET + "left before the end of the game!");
+        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "the timer will stop if someone joins the game!");
     }
 }

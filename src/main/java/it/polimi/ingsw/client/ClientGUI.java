@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
+import it.polimi.ingsw.connection.message.EndCause;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.GameMode;
@@ -14,8 +15,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static it.polimi.ingsw.util.Constants.ANSI_RESET;
-import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
+import static it.polimi.ingsw.util.Constants.*;
 
 public class ClientGUI extends Client{
 
@@ -103,7 +103,7 @@ public class ClientGUI extends Client{
         gui.updateGlobalNotifications(NotificationsType.LASTROUND, name, new Coordinates(), new ArrayList<>(), 0);
     }
 
-    public void endGame(String name) throws RemoteException {
+    public void endGame(String name, EndCause cause) throws RemoteException {
         setPhase(ClientPhase.HOME);
         gui.updateEnd(name, modelView.getLocalPlayerList());
         gui.updateStatistics(name, modelView.getLocalBookshelfs(), modelView.getLocalPlayerList());
@@ -177,6 +177,11 @@ public class ClientGUI extends Client{
     public void updateChat(ChatMessage chatMessage) throws RemoteException {
         gui.updateChat(chatMessage, name);
         System.out.println("--> personalCard received");
+    }
+
+    public void timer(int seconds) throws RemoteException{
+        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + seconds  +" seconds "+ ANSI_RESET + "left before the end of the game!");
+        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "the timer will stop if someone joins the game!");
     }
 
     /*

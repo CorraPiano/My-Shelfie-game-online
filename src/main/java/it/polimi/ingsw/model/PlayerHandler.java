@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.client.localModel.LocalPlayer;
 import it.polimi.ingsw.client.localModel.LocalPlayerList;
-import it.polimi.ingsw.connection.message.Sendable;
 
 import java.util.ArrayList;
 
@@ -75,6 +74,7 @@ public class PlayerHandler extends Listenable {
                 break;
             }
         }
+        notifyUpdate();
     }
 
     public String makeFinalClassification(){
@@ -108,27 +108,27 @@ public class PlayerHandler extends Listenable {
             return null;
     }
 
-    private int numPlayersAvaiable(){
+    public int numPlayersAvaiable(){
         int numPlayersAvaiable = 0;
         for(Player p:playerList){
-            if(!p.hasLeft())
+            if(!p.isInactive())
                 numPlayersAvaiable++;
         }
         return numPlayersAvaiable;
     }
 
-    private int numPlayersConnected(){
+    public int numPlayersConnected(){
         int numPlayersConnected = 0;
         for(Player p:playerList){
-            if(p.connectionState())
+            if(p.isConnected())
                 numPlayersConnected ++;
         }
         return numPlayersConnected ;
     }
 
     //ritorna false se la partitia è finita
-    public void futureCheck(){
-        int check = turn;
+    //public void futureCheck(){
+        /*int check = turn;
         Long time = System.currentTimeMillis();
         while(check==turn && numPlayersConnected()<2 && System.currentTimeMillis()-time<60000) {
             try {
@@ -137,16 +137,17 @@ public class PlayerHandler extends Listenable {
                 }
             } catch(Exception e){}
         }
-        if(current().connectionState() || check!=turn)
+        if(current().isConnected() || check!=turn)
             return;
         if(numPlayersConnected()>=2) {
             gameplay.endTurn();
         }
         else
-            gameplay.endGame();
-    }
+            gameplay.endGame();*/
+    //}
 
     public boolean next() {
+
         turn++;
         if (curr < size - 1) {
             curr = curr + 1;
@@ -159,13 +160,13 @@ public class PlayerHandler extends Listenable {
             curr = 0;
         }
 
-        if(current().hasLeft())
+        if(current().isInactive())
             return next();
-        if(!current().connectionState()){
+        if(!current().isConnected()){
             if(numPlayersConnected()>=2)
                 return next();
-            else
-                new Thread(this::futureCheck).start();
+            //else
+              //  new Thread(this::futureCheck).start();
         }
         notifyUpdate();
         return true;

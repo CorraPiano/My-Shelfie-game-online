@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.connection.message.Sendable;
 import it.polimi.ingsw.controller.Settings;
 
@@ -12,12 +13,17 @@ public class EventKeeper {
     private final HashMap<String,Long> lastPing;
 
     private final ArrayList<String> idList;
+    private final HashMap<String,Integer> offsets;
 
-    public EventKeeper(){
+    private final Gameplay gameplay;
+
+    public EventKeeper(Gameplay gameplay){
         this.listenableList=new ArrayList<>();
         this.personalList=new HashMap<>();
         this.lastPing = new HashMap<>();
         this.idList = new ArrayList<>();
+        this.gameplay = gameplay;
+        this.offsets = new HashMap<>();
     }
 
 //if (System.currentTimeMillis() - playerPing.get(p.getID()) > 10000) {
@@ -25,6 +31,7 @@ public class EventKeeper {
         ArrayList<Sendable> l = new ArrayList<>(listenableList);
         this.idList.add(id);
         this.personalList.put(id,l);
+        this.offsets.put(id,0);
         this.lastPing.put(id,System.currentTimeMillis());
     }
 
@@ -39,18 +46,30 @@ public class EventKeeper {
             return null;
     }
 
-    public synchronized boolean isPresentPersonal(String id,int n) {
+    public synchronized boolean isPresentPersonal(String id,int s) {
+        int n =  offsets.get(id);
         if(personalList.containsKey(id)) {
             return n < personalList.get(id).size();
         }
         return false;
     }
 
-    public synchronized Sendable getListenablePersonal(String id, int n) {
+    public synchronized void setOffset(String id, int n){
+        offsets.put(id,n);
+    }
+
+    public synchronized Sendable getListenablePersonal(String id,int s) {
+        int n =  offsets.get(id);
         if(personalList.containsKey(id)) {
             ArrayList<Sendable> l = personalList.get(id);
-            if (n < l.size() && n >= 0)
-                return l.get(n);
+            if (n < l.size() && n >= 0) {
+                Sendable sendable = l.get(n);
+                if(sendable.getHeader().equals(MessageHeader.TIMER))
+                    l.remove(n);
+                else
+                    offsets.put(id,n+1);;
+                return sendable;
+            }
         }
         return null;
     }
@@ -58,8 +77,10 @@ public class EventKeeper {
     public synchronized void notifyAll(Sendable sendable){
         //System.out.println(sendable);
         listenableList.add(sendable);
-        for(String id: idList)
-            personalList.get(id).add(sendable);
+        for(String id: idList) {
+            if(!sendable.getHeader().equals(MessageHeader.TIMER) || gameplay.isConnected(id))
+                personalList.get(id).add(sendable);
+        }
         this.notifyAll();
     }
 

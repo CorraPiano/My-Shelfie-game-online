@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.connection.TCPMessage;
 import it.polimi.ingsw.connection.message.ChatMessage;
+import it.polimi.ingsw.connection.message.EndCause;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.Remote;
@@ -19,7 +20,7 @@ public interface ClientSkeleton extends Remote {
     void startGame() throws RemoteException;
     void newTurn(String name) throws RemoteException;
     void lastRound(String name) throws RemoteException;
-    void endGame(String name) throws RemoteException;
+    void endGame(String name, EndCause cause) throws RemoteException;
     void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException;
     void notifyUndo(String name) throws RemoteException;
     void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException;
@@ -32,5 +33,7 @@ public interface ClientSkeleton extends Remote {
     void updateCommonGoalCard(LocalCommonCard commonGoalCard) throws RemoteException;
     void updatePersonalGoalCard(LocalPersonalCard personalGoalCard) throws RemoteException;
     void ping(int ping) throws RemoteException;
+
+    void timer(int seconds) throws RemoteException;
 
 }

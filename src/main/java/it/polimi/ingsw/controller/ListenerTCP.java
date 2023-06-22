@@ -11,8 +11,8 @@ public class ListenerTCP extends Listener{
 
     Connection connection;
 
-    public ListenerTCP(Connection connection, Gameplay gameplay, String id){
-        super(gameplay,id);
+    public ListenerTCP(Connection connection,  Controller controller, EventKeeper eventKeeper, String id, String name){
+        super(controller, eventKeeper, id, name);
         this.connection = connection;
     }
 

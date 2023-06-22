@@ -15,14 +15,14 @@ public class GameplaysHandler {
     private ArrayList<Gameplay> gameplayList = null;
     //mappa ogni giocatore al gameID
     private final HashMap<String, Integer> mapID;
-    private final HashMap<String, Listener > mapListener;
+    //private final HashMap<String, Listener > mapListener;
     //mappa ogni gameID ai giocatori
    // private final HashMap<Integer, ArrayList<String>> mapGame;
 
     public GameplaysHandler(){
         mapID = new HashMap<>();
         gameplayList = new ArrayList<Gameplay>();
-        mapListener = new HashMap<>();
+        //mapListener = new HashMap<>();
     }
 
     public int nextID() {
@@ -34,33 +34,33 @@ public class GameplaysHandler {
         //mapGame.put(gameID,new ArrayList<>());
     }
 
-    public void bind(String id, int gameID, Listener listener){
-        clean();
+    public void bind(String id, int gameID){
+        //clean();
         mapID.put(id,gameID);
-        mapListener.put(id,listener);
+        //mapListener.put(id,listener);
         //mapGame.get(gameID).add(id);
     }
 
-    public void rebind(String id, Listener  listener){
-        mapListener.put(id,listener);
-    }
+    //public void rebind(String id, Listener  listener){
+    //    mapListener.put(id,listener);
+    //}
 
     public void remove(String id){
-        clean();
+        //clean();
         mapID.remove(id);
-        mapListener.get(id).disconnect();
-        mapListener.remove(id);
+        //mapListener.get(id).disconnect();
+        //mapListener.remove(id);
     }
 
     public Gameplay getGameplay(int gameID) throws InvalidGameIdException {
         System.out.println(gameplayList.size()+" "+gameID);
-        if(gameID>=0 && gameID<gameplayList.size())
+        if(gameID>=0 && gameID<gameplayList.size() && gameplayList.get(gameID)!=null)
             return gameplayList.get(gameID);
         throw new InvalidGameIdException();
     }
 
     public Gameplay getHisGameplay(String id) throws InvalidIdException {
-        if(mapID.containsKey(id))
+        if(mapID.containsKey(id) && gameplayList.get(mapID.get(id))!=null)
             return gameplayList.get(mapID.get(id));
         throw new InvalidIdException();
     }
@@ -68,7 +68,7 @@ public class GameplaysHandler {
     public ArrayList<LocalGame> getGameplayList(){
         ArrayList<LocalGame> list = new ArrayList<>();
         for(Gameplay g: gameplayList){
-            if(g.getGameState().equals(GameState.WAIT)){
+            if(g!=null && g.getGameState().equals(GameState.WAIT)){
                 LocalGame lg = new LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getCurrentPlayers(),g.getGameState());
                 list.add(lg);
              }
@@ -76,7 +76,15 @@ public class GameplaysHandler {
         return list;
     }
 
-    private void clean(){
+    public void removeGame(int gameID){
+        gameplayList.set(gameID,null);
+        for(String s: mapID.keySet())
+            if(mapID.get(s)==gameID)
+                mapID.remove(s);
+        System.out.println("gameplay "+gameID+" rimosso dalla mappa");
+    }
+
+    /*private void clean(){
         for(String id: mapID.keySet()){
             if(gameplayList.get(mapID.get(id)).getGameState().equals(GameState.END)) {
                 mapID.remove(id);
@@ -84,9 +92,9 @@ public class GameplaysHandler {
                 mapListener.remove(id);
             }
         }
-        /*for(int i=0; i<gameplayList.size();i++){
+        for(int i=0; i<gameplayList.size();i++){
             if(gameplayList.get(i).getGameState().equals(GameState.END))
                 gameplayList.set(i,null);
-        }*/
-    }
+        }
+    }*/
 }

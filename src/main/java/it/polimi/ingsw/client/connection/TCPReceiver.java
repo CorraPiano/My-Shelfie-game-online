@@ -42,7 +42,7 @@ public class TCPReceiver {
             }
             case ENDGAME-> {
                 EndGameMessage event = gson.fromJson(TCPmessage.getBody(), EndGameMessage.class);
-                client.endGame(event.name);
+                client.endGame(event.name,event.cause);
             }
             case JOIN -> {
                 JoinMessage event = gson.fromJson(TCPmessage.getBody(),JoinMessage.class);
@@ -129,6 +129,10 @@ public class TCPReceiver {
             }
             case PING -> {
                 //System.out.println("...ricevuto un ping");
+            }
+            case TIMER -> {
+                TimerMessage message = gson.fromJson(TCPmessage.getBody(),TimerMessage.class);
+                client.timer(message.seconds);
             }
             default -> {
                 throw new Exception();

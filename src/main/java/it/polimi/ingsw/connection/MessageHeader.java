@@ -28,5 +28,6 @@ public enum MessageHeader {
     PUT,
     RECONNECTION,
     STARTGAME,
+    TIMER,
     UNDO;
 }

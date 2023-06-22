@@ -29,8 +29,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         //gameplaysHandler.bind(id,gameID);
-        ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
-        gameplaysHandler.bind(id,gameID,listener);
+        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
+        gameplaysHandler.bind(id,gameID);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
@@ -43,9 +43,9 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         gameplaysHandler.addGameplay(gameplay,gameID);
-        ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
+        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
         Thread t = new Thread(listener);
-        gameplaysHandler.bind(id,gameID,listener);
+        gameplaysHandler.bind(id,gameID);
         t.start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         return id;
@@ -57,9 +57,9 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
             throw new GameFullException();
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
-        ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
+        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         Thread t = new Thread(listener);
-        gameplaysHandler.bind(id,gameID,listener);
+        gameplaysHandler.bind(id,gameID);
         t.start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         if(gameplay.isReady())
@@ -74,8 +74,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
             throw new GameFullException();
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
-        ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
-        gameplaysHandler.bind(id,gameID,listener);
+        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
+        gameplaysHandler.bind(id,gameID);
         new Thread(listener).start();
         System.out.println("SERVER:: giocatore connesso con nome " + name);
         if(gameplay.isReady())
@@ -118,6 +118,15 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         validateCommand(gameplay,id);
         gameplay.putItemList(column);
         System.out.println("GAME:: mano inserita nel tabellone");
+        if(gameplay.isFinished())
+        {
+            gameplay.endGame();
+            gameplaysHandler.removeGame(gameplay.getGameID());
+        }
+        else if(gameplay.getNumPlayersConnected()<2 && !gameplay.currentPlayerIsConnected())
+        {
+            new Thread(new Timer(this,gameplay)).start();
+        }
     }
 
     public synchronized void addChatMessage(ChatMessage chatMessage, String id) throws InvalidIdException, RemoteException, InvalidNameException {
@@ -131,28 +140,61 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         gameplaysHandler.remove(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
         gameplay.leave(id);
+        if(gameplay.isFinished())
+        {
+            gameplay.endGame();
+            gameplaysHandler.removeGame(gameplay.getGameID());
+        }
+        else if(gameplay.getNumPlayersConnected()<2 && !gameplay.currentPlayerIsConnected())
+        {
+            new Thread(new Timer(this,gameplay)).start();
+        }
     }
 
-    public synchronized String reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException {
+    public synchronized void disconnect(String id) throws InvalidIdException {
+        Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        System.out.println(gameplay.getPlayerNameByID(id)+" si è disconnesso");
+        gameplay.disconnect(id);
+
+        if(gameplay.isFinished())
+        {
+            gameplay.endGame();
+            gameplaysHandler.removeGame(gameplay.getGameID());
+        }
+        else if(gameplay.getNumPlayersConnected()<2 && !gameplay.currentPlayerIsConnected())
+        {
+            new Thread(new Timer(this,gameplay)).start();
+        }
+    }
+
+    public synchronized void endgame(Gameplay gameplay){
+        gameplay.endGame();
+        gameplaysHandler.removeGame(gameplay.getGameID());
+    }
+
+    public synchronized String reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.reconnect(id);
+        String name = gameplay.getPlayerNameByID(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
-        ListenerRMI listener = new ListenerRMI(cc,gameplay,id);
+        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         Thread t = new Thread(listener);
-        gameplaysHandler.rebind(id,listener);
+        //gameplaysHandler.rebind(id,listener);
         t.start();
-        return gameplay.getPlayerNameByID(id);
+        this.notifyAll();
+        return name;
         //gameplay.leave(id);
     }
-    public synchronized String reconnect(String id,Connection conn) throws InvalidIdException, GameFinishedException {
+    public synchronized String reconnect(String id,Connection conn) throws InvalidIdException, GameFinishedException, AlreadyConnectedException, GameLeftException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.reconnect(id);
+        String name = gameplay.getPlayerNameByID(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
-        ListenerTCP listener = new ListenerTCP(conn,gameplay,id);
+        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
         Thread t = new Thread(listener);
-        gameplaysHandler.rebind(id,listener);
+        //gameplaysHandler.rebind(id,listener);
         t.start();
-        return gameplay.getPlayerNameByID(id);
+        return name;
         //gameplay.leave(id);
     }
 

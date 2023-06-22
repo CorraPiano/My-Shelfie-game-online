@@ -116,8 +116,9 @@ public class RMISender extends Sender {
         }catch (Exception e){
             client.receiveException(e.toString());
         }
-        client.setPhase(ClientPhase.HOME);
+        client.leaveGame();
     }
+
     public synchronized void reconnectGame(String id) {
         try {
             client.setID(id);
