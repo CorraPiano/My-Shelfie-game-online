@@ -13,11 +13,11 @@ public class OrderCommand  implements Command {
     public void execute(Sender sender, Scanner stdin, Client client) {
 
         //to be fixed
-
+        int size = client.getHandSize();
         String line = "";
         ArrayList<Integer> list = new ArrayList<>();
         int counter =0;
-        while(!line.equals(".") && counter<3){
+        while(counter<size){
             if(stdin.hasNext()) {
                 line = stdin.next();
                 try {
@@ -27,24 +27,28 @@ public class OrderCommand  implements Command {
                         counter++;
                     }
                     else {
-                        System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of integers");
+                        System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of "+ size + " positive integers");
                         return;
                     }
                 } catch (Exception e){
-                    break;
+                    System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of "+ size +" positive integers");
+                    return;
                 }
             }
         }
 
-        if(counter<2){
+        /*if(counter<2){
             System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of at least 2 integers");
             return;
-        }
-        if(counter>3){
+        }*/
+        /*if(counter>3){
             System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of at most 3 integers");
             return;
-        }
+        }*/
 
-        sender.selectInsertOrder(list);
+        if(counter!=size)
+            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of " + size +" positive integers");
+        else
+            sender.selectInsertOrder(list);
     }
 }

@@ -13,6 +13,7 @@ public class PersonalGoalCardTest {
         PersonalGoalCard g;
         for(int i=0; i< input.numberOfTests(); i++){
             g = new PersonalGoalCard(0);
+            g.setBookshelf(input.getInputLibrary(i));
             Assertions.assertEquals(input.getResult(i), g.calculatePoints(), "Matrice numero: " + i);
         }
 

@@ -103,9 +103,11 @@ public class Player extends Listenable{
         if(token2 != null) { this.points = this.points + this.token2.getValue(); }
         if(endGameToken != null) { this.points = this.points + this.endGameToken.getValue(); }
         // points from bookshelf
-        if(library != null ) { this.points = this.points + this.library.calculatePoints(); }
+        this.points = this.points + this.library.calculatePoints();
         // points from personalGoalCard
-        if(endGame && personalCard != null) { this.points = this.points + this.personalCard.calculatePoints(); }
+        if(endGame && personalCard != null) {
+            this.points = this.points + this.personalCard.calculatePoints();
+        }
     }
 
     public Token getToken1() {
@@ -122,7 +124,7 @@ public class Player extends Listenable{
 
     public LocalPlayer getLocal(){
         if(endGame)
-            return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,personalCard.getNum());
-        return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points);
+            return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points,personalCard.getNum(),playerState);
+        return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points,playerState);
     }
 }

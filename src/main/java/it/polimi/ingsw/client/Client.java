@@ -20,13 +20,16 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     protected String name;
     protected  ClientPhase phase;
     protected  ClientState state;
-    protected final Chat chat;
+    protected  Chat chat;
     private final boolean DEBUG = false;
 
     public Client() throws RemoteException {
         phase = ClientPhase.HOME;
         state = ClientState.READY;
-        chat = new Chat(this);
+    }
+
+    public synchronized int getHandSize(){
+        return modelView.getLocalHand().size;
     }
 
     public synchronized ModelView getModelView() { return modelView; }

@@ -45,7 +45,8 @@ public class ClientTUI extends Client {
     //FROM TCP (to create similarity with RMI)
     public void receiveGamesList(ArrayList<LocalGame> gameslist){
         // fix grafico
-        gameslist.forEach(System.out::println);
+        outputHandler.showList(gameslist);
+        //gameslist.forEach(System.out::println);
         setState(ClientState.READY);
     }
     public void receiveID(String ID){
@@ -122,6 +123,7 @@ public class ClientTUI extends Client {
     public void startGame() throws RemoteException {
         setPhase(ClientPhase.GAME);
         modelView.init();
+        chat = new Chat(this);
         outputHandler.showIntro();
         //outputHandler.showGame(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET +  "The game has begun!");
@@ -194,7 +196,8 @@ public class ClientTUI extends Client {
 
     // reconnection
     public void lostConnection(){
-        chat.stopThread();
+        if(getPhase().equals(ClientPhase.CHAT))
+            chat.stopThread();
         System.out.println();
         System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "connection lost!");
         System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "you can close the application with EXIT command");

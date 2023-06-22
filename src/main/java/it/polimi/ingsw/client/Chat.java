@@ -38,11 +38,20 @@ public class Chat implements Runnable{
         return n < chatList.size();
     }
 
+    private void printIntro(){
+        System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "Here you can chat with the other players:\n" + ANSI_RESET  +
+                    " ➤ " + ANSI_GREEN + "for a public message simply write in the console \n" +
+                    " ➤ " + ANSI_GREEN + "for a private message use /send [player name] [message] \n" +
+                    " ➤ " + ANSI_GREEN + "for closing the chat type /CLOSE \n" +
+                    " ➤ " + ANSI_GREEN + "for the list of command type /HELP \n" + ANSI_RESET);
+    }
+
     public void run() {
         int cursor = 0;
         active = true;
         try {
-            System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
+            printIntro();
             while (client.getPhase().equals(ClientPhase.CHAT)) {
                 synchronized (this) {
                     if (isPresent(cursor)) {

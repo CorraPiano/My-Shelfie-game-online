@@ -41,7 +41,6 @@ public class PersonalGoalCard extends Listenable {
                 }
             });
         }
-
         return pointVet[points];
     }
 

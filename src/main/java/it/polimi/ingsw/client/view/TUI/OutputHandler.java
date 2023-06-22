@@ -15,6 +15,27 @@ import static it.polimi.ingsw.util.Constants.*;
 public class OutputHandler {
     private ShowMethods showMethods = new ShowMethods();
 
+    public void showList(ArrayList<LocalGame> gameslist){
+        System.out.println();
+        if(gameslist.isEmpty()) {
+            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "there are not avaiable gameplay!"+ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "You can create a new gameplay with the CREATE command :"+ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "Here is the list of the avaiable gameplays:" + ANSI_RESET);
+            for (LocalGame lg : gameslist) {
+                System.out.print("\t\t\t"+" ➤ ");
+                System.out.print("\t"+ANSI_CYAN + "GameID: " + ANSI_RESET + lg.gameID + ", ");
+                System.out.print("\t"+ANSI_CYAN  + "gamemode: " + ANSI_RESET + lg.gameMode + ", ");
+                System.out.print("\t"+ANSI_CYAN + "N° players: " + ANSI_RESET + lg.maxPerson + ", ");
+                System.out.print("\t"+ANSI_CYAN  + "N° actual players: " + ANSI_RESET + lg.currPerson + " ");
+                System.out.print("\t"+ANSI_RESET + "\n");
+            }
+            System.out.println("\n"+ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "You can join one of this game with the JOIN command" + ANSI_RESET);
+        }
+        System.out.println();
+    }
+
     public void presentation() {
         System.out.println(BROWN_FOREGROUND + "\n───────────────────────────────── ❮❰♦❱❯ ─────────────────────────────────" + ANSI_RESET);
         System.out.println(BROWN_FOREGROUND + MYSHELFIE_LOBBY + ANSI_RESET + "\n");

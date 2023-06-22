@@ -22,7 +22,7 @@ public class Board extends Listenable {
         this.bagItem = new BagItem();
         this.numPlayers = numPlayers;
         this.hand = hand;
-        this.mask = Loader.LoadBoard();
+        this.mask = new Loader().LoadBoard();
     }
 
     /* Draws random items to fill the board */

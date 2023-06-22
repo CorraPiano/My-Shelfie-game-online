@@ -140,6 +140,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         gameplaysHandler.remove(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
         gameplay.leave(id);
+        if(!gameplay.isReady())
+            return;
         if(gameplay.isFinished())
         {
             gameplay.endGame();
