@@ -68,5 +68,6 @@
 
 #orderConfirm {
     -fx-graphic: url('../Images/assets/tick.png');
-    -fx-graphic-size: 4px;
 }
+
+

@@ -24,7 +24,6 @@ public class Bookshelf extends Listenable {
         this.nRows = 6;
         this.name=name;
         this.library = new Item[nRows][nColumns];
-
         this.mask = new boolean[nRows][nColumns];
         resetMask();
     }
