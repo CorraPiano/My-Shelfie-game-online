@@ -66,6 +66,21 @@
     -fx-background-color: #B88551;
 }
 
+.table-view {
+    -fx-background-color: #A48165;
+    -fx-table-cell-border-color: #A48165;
+}
+.column-header {
+    -fx-background-color: #A48165;
+}
+.highlighted-row1 {
+    -fx-background-color: #B88551;
+}
+.highlighted-row2 {
+    -fx-background-color: #A48165;
+}
+
+
 #orderConfirm {
     -fx-graphic: url('../Images/assets/tick.png');
 }

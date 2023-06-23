@@ -266,16 +266,17 @@ public class GUI extends Application implements View {
             controllertmp.showBookshelf();
         });
     }
-    public void updateCurrentPoints() {
-        GameController controllertmp = (GameController) this.controller;
-        Platform.runLater(()->{
-            controllertmp.showCurrentPoints();
-        });
-    }
+
     public void updateGlobalNotifications(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column){
         GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
             controllertmp.showGlobalNotification(notificationsType, name, coordinates, list, column);
+        });
+    }
+    public void updateTableView() {
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.showTableView();
         });
     }
 
