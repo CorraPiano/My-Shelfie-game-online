@@ -2,22 +2,13 @@ package it.polimi.ingsw.client.view.TUI;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.client.localModel.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import static it.polimi.ingsw.util.Constants.*;
 
-public class ShowMethods {
+public class TUIPrinter {
 
-    // METHODS
-    public StringBuilder showLogo() {
-        StringBuilder logo = new StringBuilder();
-        logo.append(LOGO1);
-        return logo;
-    }
-
-    public StringBuilder showBoard(LocalBoard board) {
+    /** <p> return a string that rapresent the TUI rapresentation of the passed Board </p>
+     */
+    public String getBoardString(LocalBoard board) {
         StringBuilder table = new StringBuilder();
 
         table.append("\n");
@@ -64,10 +55,12 @@ public class ShowMethods {
             table.append(ANSI_RESET + "  \n");
         }
         table.append("              Board             \n");
-        return table;
+        return table.toString();
     }
 
-    public StringBuilder showBookshelf(LocalBookshelf bookshelf) {
+    /** <p> return a string that rapresent the TUI rapresentation of the passed Bookshelf </p>
+     */
+    public String getBookshelfString(LocalBookshelf bookshelf) {
         StringBuilder library = new StringBuilder();
 
         library.append("\n");
@@ -119,11 +112,18 @@ public class ShowMethods {
             }
             library.append(ANSI_RESET + "\n");
         }
-        library.append("      " + bookshelf.name + "'s Bookshelf   ");
-        return library;
+        String str = bookshelf.name + "'s Bookshelf";
+        if(str.length()>22)
+            str = " ".repeat(4) +str.substring(0,18)+"...";
+        else
+            str = " ".repeat(4) + str + " ".repeat(23 - str.length() - 1);;
+        library.append(str);
+        return library.toString();
     }
 
-    public StringBuilder showHand(LocalHand hand) {
+    /** <p> return a string that rapresent the TUI rapresentation of the passed Hand </p>
+     */
+    public String getHandString(LocalHand hand) {
         StringBuilder string = new StringBuilder();
         string.append("Hand: ");
         for(Item item: hand.hand) {
@@ -137,13 +137,14 @@ public class ShowMethods {
             }
         }
         string.append("\n");
-        return string;
+        return string.toString();
     }
 
-    public StringBuilder showPersonalCard(DataCard dataCard) {
+    /** <p> return a string that rapresent the TUI rapresentation of the passed DataCard </p>
+     */
+    public String getPersonalCardString(DataCard dataCard) {
         StringBuilder card = new StringBuilder();
         Coordinates coordinates = new Coordinates();
-        HashMap<Coordinates, Integer> personalMap = new HashMap<>();
 
         card.append("\n\n");
         for (int i = nRowBookshelf; i > -3; i--) {
@@ -156,10 +157,8 @@ public class ShowMethods {
                 case 0 -> card.append("  ₀");
             }
             for (int j = 0; j < nColumnBookshelf; j++) {
-
                 coordinates.setRow(i);
                 coordinates.setColumn(j);
-
                 if (i >= 0 && i != nRowBookshelf) {
                     if (j == 0) {
                         card.append(ANSI_RESET + " │");
@@ -173,18 +172,13 @@ public class ShowMethods {
                             case 4 -> card.append(CYAN_BACKGROUND + "   ");
                             case 5 -> card.append(WHITE_BACKGROUND + "   ");
                         }
-                        if(j == nColumnBookshelf - 1) {
-                            card.append(ANSI_RESET + "│ ");
-                        } else {
-                            card.append(ANSI_RESET + "│");
-                        }
                     } else {
                         card.append(ANSI_RESET + "   " + DEFAULT_BACKGROUND);
-                        if(j == nColumnBookshelf - 1) {
-                            card.append(ANSI_RESET + "│ ");
-                        } else {
-                            card.append(ANSI_RESET + "│");
-                        }
+                    }
+                    if(j == nColumnBookshelf - 1) {
+                        card.append(ANSI_RESET + "│ ");
+                    } else {
+                        card.append(ANSI_RESET + "│");
                     }
                 } else if (i == nRowBookshelf) {
                     if (j == 0) {
@@ -213,66 +207,45 @@ public class ShowMethods {
                 }
             }
             card.append(ANSI_RESET + "\n");
-
         }
         card.append("      PersonalGoalCard     \n");
-        return card;
+        return card.toString();
     }
 
-    public StringBuilder showPlayers(ArrayList<LocalPlayer> playerList) {
-        StringBuilder players = new StringBuilder();
-        players.append("\nEcco i giocatori: ");
-        for(LocalPlayer p:playerList) {
-            players.append(p.name + " ");
-            if(p.firstPlayerSeat)
-                players.append("*\n");
-            else
-                players.append("\n");
-        }
-        players.append("\n");
-        return players;
-    }
-
-    public StringBuilder showCommonGoalCards(LocalCommonCard localCommonCard) {
-        String card = new String();
-        String token = new String();
+    /** <p> return a string that rapresent the TUI rapresentation of the passed CommonGoalCard with its tokens</p>
+     */
+    public String getCommonCardString(LocalCommonCard localCommonCard) {
         StringBuilder commonCard = new StringBuilder();
         commonCard.append("\n\n                           \n");
 
-        switch (localCommonCard.type) {
-            case 0 -> card = commonCard1;
-            case 1 -> card = commonCard2;
-            case 2 -> card = commonCard3;
-            case 3 -> card = commonCard4;
-            case 4 -> card = commonCard5;
-            case 5 -> card = commonCard6;
-            case 6 -> card = commonCard7;
-            case 7 -> card = commonCard8;
-            case 8 -> card = commonCard9;
-            case 9 -> card = commonCard10;
-            case 10 -> card = commonCard11;
-            case 11 -> card = commonCard12;
-        }
+        //card image
+        String card = getCommonCardImageString(localCommonCard);
         String[] cardResult  = card.split("\n");
 
-        int index = localCommonCard.tokenList.size();
-        switch (localCommonCard.tokenList.get(0).getValue()) {
-            case 2 -> token = token2;
-            case 4 -> token = token4;
-            case 6 -> token = token6;
-            case 8 -> token = token8;
-        }
+        //token
+        String token = switch (localCommonCard.tokenList.get(0).getValue()) {
+            case 2 -> token2;
+            case 4 -> token4;
+            case 6 -> token6;
+            case 8 -> token8;
+            default -> "";
+        };
         String[] tokenResult  = token.split("\n");
 
+        //generate string
+        String string;
         for(int i=0; i<cardResult.length || i<tokenResult.length; i++) {
-            commonCard.append(cardResult[i] + tokenResult[i] + "\n");
+            string = cardResult[i] + tokenResult[i] + "\n";
+            commonCard.append(string);
         }
         commonCard.append("    CommonGoalCard         \n");
-        return commonCard;
+        return commonCard.toString();
     }
 
-    public String showOnlyCommon(LocalCommonCard localCommonCard) {
-        String card = new String();
+    /** <p> return a  TUI rapresentation of the image of the passed CommonGoalCard</p>
+     */
+    public String getCommonCardImageString(LocalCommonCard localCommonCard) {
+        String card = "";
 
         switch (localCommonCard.type) {
             case 0 -> card = commonCard1;
@@ -289,6 +262,79 @@ public class ShowMethods {
             case 11 -> card = commonCard12;
         }
         return card;
+    }
+
+    /** <p> return a  TUI rapresentation of the description of the passed CommonGoalCard</p>
+     */
+    public String getCommonCardDescriptionString(LocalCommonCard localCommonCard){
+        return switch (localCommonCard.type) {
+            case 0 -> """
+
+                    Six groups each containing at least
+                    2 tiles of the same type (not necessarily
+                    in the depicted shape).
+                    The tiles of one group can be different
+                    from those of another group.""";
+            case 1 -> """
+
+                    Four groups each containing at least
+                    4 tiles of the same type (not necessarily
+                    in the depicted shape).
+                    The tiles of one group can be different
+                    from those of another group.""";
+            case 2 -> """
+
+                    Four tiles of the same type in the four
+                    corners of the bookshelf.""";
+            case 3 -> """
+
+                    Two groups each containing 4 tiles of
+                    the same type in a 2x2 square. The tiles
+                    of one square can be different from
+                    those of the other square.""";
+            case 4 -> """
+
+                    Three columns each formed by 6 tiles
+                    of maximum three different types. One
+                    column can show the same or a different
+                    combination of another column.""";
+            case 5 -> """
+
+                    Eight tiles of the same type. There’s no
+                    restriction about the position of these
+                    tiles.""";
+            case 6 -> """
+
+                    Five tiles of the same type forming a
+                    diagonal.""";
+            case 7 -> """
+
+                    Four lines each formed by 5 tiles of
+                    maximum three different types. One
+                    line can show the same or a different
+                    combination of another line.""";
+            case 8 -> """
+
+                    Two columns each formed by 6
+                    different types of tiles.""";
+            case 9 -> """
+
+                    Two lines each formed by 5 different
+                    types of tiles. One line can show the
+                    same or a different combination of the
+                    other line.""";
+            case 10 -> """
+                                            
+                    Five tiles of the same type forming an X.""";
+            case 11 -> """
+
+                    Five columns of increasing or decreasing
+                    height. Starting from the first column on
+                    the left or on the right, each next column
+                    must be made of exactly one more tile.
+                    Tiles can be of any type.""";
+            default -> "";
+        };
     }
 
 }

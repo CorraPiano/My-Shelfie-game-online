@@ -13,8 +13,7 @@ public class ReconnectCommand implements Command{
     public void execute(Sender sender, Scanner stdin, Client client) {
         String id;
 
-        /*id = LocalSave.recoverID();
-
+        /* id = LocalSave.recoverID();
         if(id==null) {
             System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "There isn't a game to reconnect");
             return;
@@ -29,7 +28,6 @@ public class ReconnectCommand implements Command{
             return;
         }
 
-        //client.putInWait();
         sender.reconnectGame(id);
     }
 }

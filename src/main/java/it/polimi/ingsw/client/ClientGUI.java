@@ -7,13 +7,11 @@ import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.connection.message.EndCause;
 import it.polimi.ingsw.model.Coordinates;
-import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static it.polimi.ingsw.util.Constants.*;
 
@@ -25,6 +23,7 @@ public class ClientGUI extends Client{
 
     public ClientGUI() throws RemoteException {
         //state = false;
+        modelView = new ModelView();
     }
 
     public void setGui(GUI gui) {
@@ -72,7 +71,7 @@ public class ClientGUI extends Client{
 
     public void createGame(int gameID, GameMode gameMode, int numPlayers) throws RemoteException {
         setPhase(ClientPhase.LOBBY);
-        modelView = new ModelView(gameID,gameMode,numPlayers);
+        modelView.init(gameID,gameMode,numPlayers,getName());
     }
 
     public void playerJoin(String name) throws RemoteException {
@@ -93,12 +92,13 @@ public class ClientGUI extends Client{
 
     public void startGame() throws RemoteException {
         setPhase(ClientPhase.GAME);
-        modelView.init();
+        modelView.loadPlayers();
         chat = new Chat(this);
         gui.switchStage(Command.START_GAME);
     }
 
     public void newTurn(String name) throws RemoteException {
+        modelView.setCurrentPlayer(name);
         gui.setTurn(name);
         gui.updateBoard();
         gui.updateTableView();

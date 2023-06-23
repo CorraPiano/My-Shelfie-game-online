@@ -2,14 +2,11 @@ package it.polimi.ingsw.client.view.TUI;
 
 import it.polimi.ingsw.client.ClientPhase;
 import it.polimi.ingsw.client.ClientState;
-import it.polimi.ingsw.client.ClientTUI;
-import it.polimi.ingsw.client.commands.CommonCardCommand;
-import it.polimi.ingsw.client.commands.HelpCommand;
+import it.polimi.ingsw.client.ClientTUI;;
+import it.polimi.ingsw.client.LocalSave;
 import it.polimi.ingsw.client.connection.Sender;
 import it.polimi.ingsw.client.commands.*;
-
 import java.util.Scanner;
-
 import static it.polimi.ingsw.util.Constants.*;
 
 public class InputHandler {
@@ -23,9 +20,11 @@ public class InputHandler {
         stdin = new Scanner(System.in);
     }
 
-
-    public void inputReader() {
-        client.getOutputHandler().presentation();
+    /** <p> </p>keep waiting and handling the input of the user, according to the phase of the client</p>
+     *  <p> In the input is valid, an action is performed </p>
+     */
+    public void readInput() {
+        client.getOutputHandler().showHomeIntro();
         String line;
         while(!client.getPhase().equals(ClientPhase.CLOSE)){
             line = stdin.next();
@@ -36,28 +35,28 @@ public class InputHandler {
                             case "CREATE" -> new CreateCommand().execute(sender, stdin, client);
                             case "RECONNECT" -> new ReconnectCommand().execute(sender, stdin, client);
                             case "JOIN" -> new JoinCommand().execute(sender, stdin, client);
-                            case "LIST" -> new ListCommand().execute(sender, stdin, client);
-                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
-                            case "EXIT" -> new ExitCommand().execute(sender, stdin, client);
+                            case "LIST" -> sender.getGameList();
+                            case "HELP" -> help();
+                            case "EXIT" -> closeApp();
                             default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
                         }
                     }
                     case LOBBY -> {
                         switch (line.toUpperCase()) {
-                            case "LEAVE" -> new LeaveCommand().execute(sender, stdin, client);
-                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "LEAVE" -> leave();
+                            case "HELP" -> help();
                         }
                     }
                     case GAME -> {
                         switch (line.toUpperCase()) {
-                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
-                            case "LEAVE" -> new LeaveCommand().execute(sender, stdin, client);
+                            case "HELP" -> help();
+                            case "LEAVE" -> leave();
                             case "PICK" -> new PickCommand().execute(sender, stdin, client);
-                            case "UNDO" -> new UndoCommand().execute(sender, stdin, client);
+                            case "UNDO" -> sender.undoPick();
                             case "ORDER" -> new OrderCommand().execute(sender, stdin, client);
                             case "PUT" -> new PutCommand().execute(sender, stdin, client);
-                            case "SHOW" -> new CommonCardCommand().execute(sender, stdin, client);
-                            case "CHAT" -> new ChatCommand().execute(sender, stdin, client);
+                            case "SHOW_COMMON" -> client.getOutputHandler().showCommonCards();
+                            case "CHAT" -> client.openChat();
                             default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
                         }
                     }
@@ -65,32 +64,45 @@ public class InputHandler {
                         switch (line.toUpperCase()) {
                             case "/SEND", "@" -> new SendCommand().execute(sender, stdin, client);
                             case "/BROADCAST" -> new BroadcastCommand().execute(sender, stdin, client);
-                            case "/HELP" -> new HelpCommand().execute(sender, stdin, client);
+                            case "/HELP" -> help();
                             case "/CLOSE" -> client.closeChat();
                             default -> new BroadcastCommand().execute(sender, stdin, line);
                         }
                     }
                     case HOME_RECONNECTION, MATCH_RECONNECTION -> {
                         switch (line.toUpperCase()) {
-                            case "HELP" -> new HelpCommand().execute(sender, stdin, client);
-                            case "EXIT" -> new ExitCommand().execute(sender, stdin, client);
+                            case "HELP" -> help();
+                            case "EXIT" -> closeApp();
                             default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
                         }
                     }
                 }
             } catch (Exception e){
-                e.printStackTrace();
-                System.out.println(e);
+                System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid input");
             }
             while (client.getState().equals(ClientState.WAIT)) {
                 try {
                     synchronized (client) {
                         client.wait();
                     }
-                } catch (Exception e){}
+                } catch (Exception ignored){}
             }
+            // create a new scanner to get rid of the unread input in the buffer
             stdin = new Scanner(System.in);
         }
     }
 
+    private void closeApp(){
+        client.getOutputHandler().showByeBye();
+        System.exit(0);
+    }
+
+    private void help(){
+        client.getOutputHandler().showHelp(client.getPhase());
+    }
+
+    private void leave(){
+        LocalSave.clear();
+        sender.leaveGame();
+    }
 }

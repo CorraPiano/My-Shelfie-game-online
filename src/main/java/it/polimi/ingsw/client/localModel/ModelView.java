@@ -2,8 +2,6 @@ package it.polimi.ingsw.client.localModel;
 
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.GameMode;
-import it.polimi.ingsw.model.Item;
-import it.polimi.ingsw.model.PersonalGoalCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,19 +23,22 @@ public class ModelView {
     private GameMode gameMode;
     private int numPlayers;
     private int gameID;
+    private String currentPlayer;
     private LocalBoard localBoard;
     private ArrayList<LocalPlayer> localPlayerList;
     private Map<String, LocalBookshelf> localBookshelfMap;
     private LocalHand localHand;
     private ArrayList<LocalCommonCard> localCommonCardList;
     private LocalPersonalCard localPersonalCard;
-
-    //per end game
-    private Map<String, LocalPersonalCard> personalCardMap;
+    private String localName;
 
 
     //CONSTRUCTOR
-    public ModelView(int gameID ,GameMode gameMode, int numPlayers) {
+    public ModelView() {
+
+    }
+
+    public void init(int gameID ,GameMode gameMode, int numPlayers, String localName){
         this.gameID=gameID;
         this.gameMode=gameMode;
         this.numPlayers=numPlayers;
@@ -45,28 +46,29 @@ public class ModelView {
         this.localPlayerList = new ArrayList<>();
         this.localHand = new LocalHand();
         this.localCommonCardList = new ArrayList<>();
+        this.currentPlayer= "";
+        this.localName = localName;
     }
 
-    public void init(){
+    public void loadPlayers(){
         for (LocalPlayer p: localPlayerList) {
-            System.out.println(p);
             this.localBookshelfMap.put(p.name, new LocalBookshelf(p.name));
         }
     }
+
 
     //SETTERS
     //public void setLocalGame(LocalGame localGame){
     //this.localGame = localGame;
     //}
+    public void setCurrentPlayer(String name){
+        currentPlayer=name;
+    }
     public void setLocalBoard(LocalBoard localBoard) {
         this.localBoard = localBoard;
     }
     public void setLocalPlayerList(LocalPlayerList localPlayerList){
         this.localPlayerList = localPlayerList.playerList;
-        for(LocalPlayer lp: this.localPlayerList){
-            if(lp.numPersonalCard!=-1)
-                personalCardMap.put(lp.name,new LocalPersonalCard(lp.numPersonalCard,new DataCard(lp.numPersonalCard)));
-        }
     }
     public void setLocalBookshelf(LocalBookshelf localBookshelf) {
         this.localBookshelfMap.put(localBookshelf.name, localBookshelf);
@@ -90,7 +92,18 @@ public class ModelView {
         this.localPersonalCard = new LocalPersonalCard(localPersonalCard.num,new DataCard(localPersonalCard.num));
     }
 
+
     //GETTERS
+
+    public String getLocalName(){
+        return localName;
+    }
+    public LocalCommonCard getCommonCard(int n){
+        return localCommonCardList.get(n);
+    }
+    public String getCurrentPlayer(){
+        return currentPlayer;
+    }
     public LocalBoard getLocalBoard() {
         return localBoard;
     }
@@ -119,7 +132,7 @@ public class ModelView {
         return gameID;
     }
 
-    public int getCurrentPlayer(){
+    public int getNumOfPlayer(){
         return localPlayerList.size();
     }
     public LocalPersonalCard getLocalPersonalCard(){

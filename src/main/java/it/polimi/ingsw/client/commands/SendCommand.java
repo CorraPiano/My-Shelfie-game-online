@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class SendCommand implements Command {
 
     public void execute(Sender sender, Scanner stdin, Client client) {
-        // da implementare
+        // inserire controlli
         String receiver = stdin.next();
         String message = stdin.nextLine();
         sender.addChatMessage(message,receiver);

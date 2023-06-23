@@ -37,15 +37,6 @@ public class OrderCommand  implements Command {
             }
         }
 
-        /*if(counter<2){
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of at least 2 integers");
-            return;
-        }*/
-        /*if(counter>3){
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of at most 3 integers");
-            return;
-        }*/
-
         if(counter!=size)
             System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Is required a list of " + size +" positive integers");
         else
