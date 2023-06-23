@@ -81,9 +81,14 @@ public class ClientGUI extends Client{
     public void playerLeave(String name) throws RemoteException {
     }
 
+    public void playerDisconnect(String name) throws RemoteException {
+        gui.updateTableView();
+    }
+
     public void playerReconnect(String name) throws RemoteException {
         // se arriva prima il name, la fase sara gia a GAME
         setPhase(ClientPhase.GAME);
+        gui.updateTableView();
     }
 
     public void startGame() throws RemoteException {
@@ -91,12 +96,12 @@ public class ClientGUI extends Client{
         modelView.init();
         chat = new Chat(this);
         gui.switchStage(Command.START_GAME);
-        //gui.setTurn(name);
     }
 
     public void newTurn(String name) throws RemoteException {
         gui.setTurn(name);
         gui.updateBoard();
+        gui.updateTableView();
     }
 
     public void lastRound(String name) throws RemoteException {
@@ -131,7 +136,6 @@ public class ClientGUI extends Client{
         gui.updateHand();
         gui.updateBookShelf();
         gui.updatePlayersBookshelfs(modelView.getLocalBookshelfs(), name);
-        gui.updateCurrentPoints();
         gui.updateGlobalNotifications(NotificationsType.PUT, name, new Coordinates(), new ArrayList<>(), column);
     }
 

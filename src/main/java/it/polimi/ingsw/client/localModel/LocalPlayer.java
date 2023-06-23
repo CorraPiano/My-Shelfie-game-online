@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Token;
 import java.io.Serializable;
 
 public class LocalPlayer implements Serializable, Sendable {
+
     public final String name;
     public final boolean firstPlayerSeat;
     public final Token endGameToke;
@@ -39,10 +40,13 @@ public class LocalPlayer implements Serializable, Sendable {
         this.playerState = playerState;
     }
 
-    public MessageHeader getHeader(){
-        return MessageHeader.PLAYER;
-    }
-    public int getPoints() {
-        return points;
-    }
+    public MessageHeader getHeader(){ return MessageHeader.PLAYER; }
+    public int getPoints() { return points; }
+    public String getName() { return name; }
+    public Token getEndGameToke() { return endGameToke; }
+    public Token getToken1() { return token1; }
+    public Token getToken2() { return token2; }
+    public boolean isFirstPlayerSeat() { return firstPlayerSeat; }
+    public int getNumPersonalCard() { return numPersonalCard; }
+    public PlayerState getPlayerState() { return playerState; }
 }
