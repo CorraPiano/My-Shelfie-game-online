@@ -6,28 +6,31 @@ import it.polimi.ingsw.exception.WrongLengthOrderException;
 
 import java.util.ArrayList;
 
+/**
+ * The Hand class represents a player's hand in the game.
+ * It contains a list of items and their corresponding coordinates.
+ */
 public class Hand extends Listenable {
     private ArrayList<Item> hand;
     private ArrayList<Coordinates> coordinatesList;
 
+    /**
+     * Constructs a new Hand object.
+     * Initializes the list of items and coordinates.
+     */
     public Hand (){
         hand = new ArrayList<Item>();
         coordinatesList = new ArrayList<Coordinates>();
         //setListener(listener);
     }
 
-    public int getSize(){
-        return  hand.size();
-    }
-
-    public ArrayList<Item> getHand(){
-        return hand;
-    }
-
-    public ArrayList<Coordinates> getCoordinatesList(){
-        return coordinatesList;
-    }
-
+    /**
+     * Adds an item to the hand with its corresponding coordinates.
+     * Notifies the listeners about the update.
+     *
+     * @param item        The item to be added to the hand.
+     * @param coordinates The coordinates of the item.
+     */
     public void putItem(Item item, Coordinates coordinates){
         hand.add(item);
         coordinatesList.add(coordinates);
@@ -35,10 +38,20 @@ public class Hand extends Listenable {
         notifyUpdate();
     }
 
+    /**
+     * Checks if the hand contains the specified coordinates.
+     *
+     * @param coordinates The coordinates to check.
+     * @return True if the hand contains the coordinates, false otherwise.
+     */
     public boolean containsCoords(Coordinates coordinates){
         return coordinatesList.contains(coordinates);
     }
 
+    /**
+     * Clears the hand by removing all items and their coordinates.
+     * Notifies the listeners about the update.
+     */
     public void clear(){
         hand.clear();
         coordinatesList.clear();
@@ -46,6 +59,15 @@ public class Hand extends Listenable {
         notifyUpdate();
     }
 
+    /**
+     * Reorders the items in the hand based on the specified order list.
+     * The order list contains the indices of items in the desired order.
+     * Notifies the listeners about the update.
+     *
+     * @param list The order list specifying the new item order.
+     * @throws WrongLengthOrderException   if the length of the order list is different from the size of the hand.
+     * @throws WrongContentOrderException if the order list contains invalid indices.
+     */
     public void selectOrder(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
         checkContentOrderList(list);
         ArrayList<Item> supp1=new ArrayList<>();
@@ -70,6 +92,14 @@ public class Hand extends Listenable {
         }
     }
 
+    /**
+     * Checks if the specified coordinates can be added to the hand.
+     * The coordinates must be adjacent to an existing item in the hand
+     * and belong to the same row or column.
+     *
+     * @param coordinates The coordinates to check.
+     * @return True if the coordinates can be added to the hand, false otherwise.
+     */
     public boolean checkNewCoordinates(Coordinates coordinates) {
         if (coordinatesList.isEmpty())
             return true;
@@ -95,6 +125,38 @@ public class Hand extends Listenable {
         return checkNear && (checkSameRow || checkSameColumn);
     }
 
+    /**
+     * Returns the size of the hand.
+     *
+     * @return The size of the hand.
+     */
+    public int getSize(){
+        return  hand.size();
+    }
+
+    /**
+     * Returns the list of items in the hand.
+     *
+     * @return The list of items in the hand.
+     */
+    public ArrayList<Item> getHand(){
+        return hand;
+    }
+
+    /**
+     * Returns the list of coordinates corresponding to the items in the hand.
+     *
+     * @return The list of coordinates corresponding to the items in the hand.
+     */
+    public ArrayList<Coordinates> getCoordinatesList(){
+        return coordinatesList;
+    }
+
+    /**
+     * Converts the hand to its local representation.
+     *
+     * @return The local representation of the hand.
+     */
     @Override
     public LocalHand getLocal() {
         Item[] items = new Item[hand.size()];

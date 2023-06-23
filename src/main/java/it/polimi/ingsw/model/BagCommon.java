@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BagCommon {
 
+public class BagCommon {
     private final List<CommonGoalCard> bagCommon;
 
+    /**
+     * Default constructor. Sets the bag of common goal cards ready to be drawn.
+     */
     public BagCommon() {
         bagCommon = new ArrayList<CommonGoalCard>();
         CommonGoalCardFactory cardFactory = new CommonGoalCardFactory();
@@ -15,6 +18,12 @@ public class BagCommon {
             bagCommon.add(cardFactory.getCommonGoalCard(i));
         }
     }
+
+    /**
+     * Draws a CommonGoalCard from the bag.
+     *
+     * @return CommonGoalCard drawn.
+     */
     public CommonGoalCard drawCommonGoalCard() {
         Collections.shuffle(bagCommon);
         if (!bagCommon.isEmpty()) {
@@ -22,6 +31,12 @@ public class BagCommon {
         }
         return null;
     }
+
+    /**
+     * Returns the size of the CommonGoalCards bag.
+     *
+     * @return an int representing the size of the Common bag.
+     */
     public int getBagCommonSize() { return bagCommon.size(); }
 }
 

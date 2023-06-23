@@ -7,6 +7,12 @@ import java.util.Random;
 
 public class BagItem {
     private List<Item> bagItems;
+
+    /**
+     * Default constructor. Fills the bag with all the items to be drawn.
+     * A bag is a container for items and cards.
+     *
+     */
     public BagItem() {
         bagItems = new ArrayList<Item>();
         for (int i = 0; i < 22; i++){
@@ -15,6 +21,12 @@ public class BagItem {
             }
         }
     };
+
+    /**
+     * Draws an Item from the item bag.
+     *
+     * @return the item drawn.
+     */
     public Item drawItem() {
         Collections.shuffle(bagItems);
         if (! bagItems.isEmpty()){
@@ -22,7 +34,20 @@ public class BagItem {
         }
         return null;
     }
+
+    /**
+     * Returns size of bag item.
+     *
+     * @return returns an int representing items left in the bag.
+     */
     public int getBagItemSize() { return bagItems.size();}
+
+    /**
+     * Gets the path to item's image. There are 3 different images for each color
+     *
+     * @param type item's color.
+     * @return String of path randomly selected.
+     */
     public static String getItemPathByType(ItemType type) {
         Random random = new Random();
         int i = random.nextInt(3) + 1;
@@ -37,6 +62,12 @@ public class BagItem {
         };
 
     }
+
+    /**
+     * Puts an item back into the bag item.
+     *
+     * @param item item to put back.
+     */
     public void addBack(Item item){
         bagItems.add(item);
     }

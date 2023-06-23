@@ -5,17 +5,23 @@ import it.polimi.ingsw.client.localModel.LocalPlayerList;
 
 import java.util.ArrayList;
 
-//da sistemare
+/**
+ * The PlayerHandler class manages the players in the game and their turns.
+ */
 public class PlayerHandler extends Listenable {
     private int size;
     private int curr;
     private int turn;
     private boolean lastRound;
-
     private ArrayList<Player> playerList;
-
     private Gameplay gameplay;
 
+
+
+    /**
+     * Constructs a PlayerHandler object.
+     * @param gamePlay the Gameplay object associated with the player handler
+     */
     public PlayerHandler(Gameplay gamePlay){
         playerList = new ArrayList<>();
         this.gameplay=gamePlay;
@@ -24,6 +30,9 @@ public class PlayerHandler extends Listenable {
         //curr = 0; //(int)(Math.random()*(size+1));
     }
 
+    /**
+     * Chooses the first player randomly.
+     */
     public void choseFirstPlayer(){
         size=playerList.size();
         //sort lista con primo player al primo posto
@@ -31,11 +40,20 @@ public class PlayerHandler extends Listenable {
         turn = 0;
     }
 
+    /**
+     * Adds a player to the player list.
+     * @param player the player to add
+     */
     public void addPlayer(Player player){
         playerList.add(player);
         notifyUpdate();
     }
 
+    /**
+     * Checks if a name is available for a new player.
+     * @param name the name to check
+     * @return true if the name is available, false otherwise
+     */
     public boolean checkName(String name){
         for(Player p: playerList)
             if(p.getName().equals(name))
@@ -43,14 +61,27 @@ public class PlayerHandler extends Listenable {
         return true;
     }
 
+    /**
+     * Gets the number of players in the game.
+     * @return the number of players
+     */
     public int getNumPlayer(){
         return playerList.size();
     }
 
+    /**
+     * Gets the list of players.
+     * @return the list of players
+     */
     public ArrayList<Player> getPlayerList(){
         return playerList;
     }
 
+    /**
+     * Gets a player based on their ID.
+     * @param id the ID of the player
+     * @return the player object with the corresponding ID, or null if not found
+     */
     public Player getPlayerByID(String id){
         for(Player p: playerList){
             if(p.getID().equals(id))
@@ -59,6 +90,11 @@ public class PlayerHandler extends Listenable {
         return null;
     }
 
+    /**
+     * Gets the ID of a player based on their name.
+     * @param name the name of the player
+     * @return the ID of the player with the corresponding name, or null if not found
+     */
     public String getPlayerIDByName(String name){
         for(Player p:playerList){
             if(p.getName().equals(name))
@@ -67,6 +103,10 @@ public class PlayerHandler extends Listenable {
         return null;
     }
 
+    /**
+     * Removes a player from the player list.
+     * @param id the ID of the player to remove
+     */
     public void removePlayer(String id){
         for(int i=0;i<playerList.size();i++) {
             if(playerList.get(i).getID().equals(id)) {
@@ -77,6 +117,10 @@ public class PlayerHandler extends Listenable {
         notifyUpdate();
     }
 
+    /**
+     * Calculates the final standings of players based on their points.
+     * @return the name of the player who won the game
+     */
     public String makeFinalClassification(){
         for(Player p: playerList) {
             p.updatePoints(true);
@@ -85,7 +129,6 @@ public class PlayerHandler extends Listenable {
         notifyUpdate();
         return playerList.get(0).getName();
     }
-
     private ArrayList<Player> sort(ArrayList<Player>playerList){
         return playerList.stream().sorted((x,y)->{
             if(x.getPoints()<y.getPoints())
@@ -101,6 +144,11 @@ public class PlayerHandler extends Listenable {
     }
 
     //se la partita non è inviata ritona NULL
+
+    /**
+     * Gets the current player in the turn.
+     * @return the current player object, or null if the game is not in progress
+     */
     public Player current(){
         if(curr>=0 && curr<size)
             return playerList.get(curr);
@@ -108,6 +156,10 @@ public class PlayerHandler extends Listenable {
             return null;
     }
 
+    /**
+     * Gets the number of players available (not inactive) in the game.
+     * @return the number of players available
+     */
     public int numPlayersAvaiable(){
         int numPlayersAvaiable = 0;
         for(Player p:playerList){
@@ -117,6 +169,10 @@ public class PlayerHandler extends Listenable {
         return numPlayersAvaiable;
     }
 
+    /**
+     * Gets the number of players connected to the game.
+     * @return the number of players connected
+     */
     public int numPlayersConnected(){
         int numPlayersConnected = 0;
         for(Player p:playerList){
@@ -146,6 +202,10 @@ public class PlayerHandler extends Listenable {
             gameplay.endGame();*/
     //}
 
+    /**
+     * Advances the turn to the next player.
+     * @return true if the game can continue, false if the game has ended
+     */
     public boolean next() {
 
         turn++;
@@ -172,10 +232,17 @@ public class PlayerHandler extends Listenable {
         return true;
     }
 
+    /**
+     * Notifies that it is the last round of the game.
+     */
     public void notifyLastRound(){
         lastRound = true;
     }
 
+    /**
+     * Gets the local player list representation of all players.
+     * @return the LocalPlayerList object containing the local player representations
+     */
     public LocalPlayerList getLocal(){
         ArrayList<LocalPlayer> list = new ArrayList<>();
         for(Player p: playerList)

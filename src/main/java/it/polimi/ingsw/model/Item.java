@@ -1,21 +1,48 @@
 package it.polimi.ingsw.model;
 
 import java.io.Serializable;
-import java.util.Random;
 
+/**
+ * Represents a game item.
+ */
 public class Item implements Serializable {
-    //OPTION private boolean state;
     private final ItemType type;
     private String imagePath;
 
-    public Item (ItemType type) {
+    /**
+     * Constructs a new game item with the specified type.
+     *
+     * @param type The type of the game item.
+     */
+    public Item(ItemType type) {
         this.type = type;
     }
-    public Item (ItemType type, String imagePath) {
+
+    /**
+     * Constructs a new game item with the specified type and image path.
+     *
+     * @param type      The type of the game item.
+     * @param imagePath The path of the image associated with the game item.
+     */
+    public Item(ItemType type, String imagePath) {
         this.type = type;
         this.imagePath = imagePath;
     }
-    public ItemType getType() { return type; }
+
+    /**
+     * Returns the type of the game item.
+     *
+     * @return The type of the game item.
+     */
+    public ItemType getType() {
+        return type;
+    }
+
+    /**
+     * Returns the image path associated with the game item.
+     *
+     * @return The image path associated with the game item.
+     */
     public String getImagePath() {
         return imagePath;
     }

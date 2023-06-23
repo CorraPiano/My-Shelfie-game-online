@@ -12,18 +12,29 @@ import java.util.Set;
 
 import static it.polimi.ingsw.model.BagItem.getItemPathByType;
 
-/*
-* CLASSE CHE IMPLEMENTA UNA STRUTTURA DATI PER MEMORIZZARE LE COORDINATE
-*
-* Green yellow  blue    pink    cyan    white
-* 0     1       2       3       4       5
-*/
+/**
+ * This class implements a data structure to store card data coordinates.
+ *
+ * Green   Yellow  Blue    Pink    Cyan    White
+ * 0       1       2       3       4       5
+ */
 public class DataCard implements Serializable {
     private final HashMap<Coordinates, Integer> m;
 
+    /**
+     * Constructs a DataCard object with the given data.
+     *
+     * @param m the data map containing coordinates and corresponding colors
+     */
     public DataCard(HashMap<Coordinates, Integer> m){
         this.m=m;
     }
+
+    /**
+     * Constructs a DataCard object based on the provided card number.
+     *
+     * @param n the card number to generate the data for
+     */
     public DataCard(int n) {
 
         this.m = new HashMap<>();
@@ -138,19 +149,43 @@ public class DataCard implements Serializable {
 
     }
 
+    /**
+     * Retrieves the color associated with the given coordinates, if present.
+     *
+     * @param c the coordinates to get the color for
+     * @return an Optional object containing the color, or empty if the coordinates are not found
+     */
     Optional<Integer> getXY(Coordinates c) {
         if(!m.containsKey(c))
             return null;
         Optional<Integer> color = Optional.of(m.get(c));
         return color ;
     }
+
+    /**
+     * Retrieves the set of coordinates stored in the data card.
+     *
+     * @return the set of coordinates
+     */
     Set<Coordinates> getCoordinate(){
         return m.keySet();
     }
+
+    /**
+     * Retrieves the color associated with the given coordinates.
+     *
+     * @param key the coordinates to get the color for
+     * @return the color value
+     */
     int getColor(Coordinates key){
         return m.get(key);
     }
 
+    /**
+     * Retrieves the data map representing the card.
+     *
+     * @return the data map
+     */
     public HashMap<Coordinates, Integer> getCard() {
         return m;
     }
