@@ -113,10 +113,10 @@ public class TCPSender extends Sender {
         putInWait();
         client.leaveGame();
     }
-    public void reconnectGame(String id) {
+    public void reconnectGame(String id, boolean reset) {
         client.setID(id);
         try {
-            connection.send(new ReconnectMessage(id));
+            connection.send(new ReconnectMessage(id,reset));
         } catch(Exception e){
 
         }

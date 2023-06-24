@@ -71,6 +71,11 @@ public class EventKeeper {
             return null;
     }
 
+    public synchronized void nextpos(String id){
+        int n = offsets.get(id);
+        offsets.put(id,n+1);;
+    }
+
     /**
      * Checks if an event with the given index is present in the personal event list for the specified player ID.
      *
@@ -87,10 +92,9 @@ public class EventKeeper {
     }
 
     /**
-     * Sets the offset for the specified player ID in the personal event list.
+     * Resets the offset for the specified player ID in the personal event list.
      *
      * @param id the player ID
-     * @param n  the offset value
      */
     public synchronized void resetOffset(String id){
         offsets.put(id,0);
@@ -111,8 +115,6 @@ public class EventKeeper {
                 Sendable sendable = l.get(n);
                 if(sendable.getHeader().equals(MessageHeader.TIMER))
                     l.remove(n);
-                else
-                    offsets.put(id,n+1);;
                 return sendable;
             }
         }

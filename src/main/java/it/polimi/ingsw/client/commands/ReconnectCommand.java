@@ -28,6 +28,6 @@ public class ReconnectCommand implements Command{
             return;
         }
 
-        sender.reconnectGame(id);
+        sender.reconnectGame(id,true);
     }
 }

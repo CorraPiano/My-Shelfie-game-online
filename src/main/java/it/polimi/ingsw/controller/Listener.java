@@ -52,13 +52,17 @@ public abstract class Listener implements Runnable {
         //active=false;
     }
 
+    public synchronized void reset(){
+        eventKeeper.resetOffset(id);
+    }
+
     /**
      * Runs the listener thread.
      * It listens for incoming messages and handles them accordingly.
      */
     public void run() {
+        //eventKeeper.resetOffset(id);
         System.out.println("thread di " + id + " avviato");
-        eventKeeper.resetOffset(id);
         try {
             while (true) {
                 synchronized (eventKeeper) {
@@ -67,13 +71,13 @@ public abstract class Listener implements Runnable {
                         if(sendable.getHeader().equals(MessageHeader.LEAVE) && ((LeaveMessage)sendable).name.equals(name))
                             break;
                         this.handleSendable(sendable);
+                        eventKeeper.nextpos(id);
                         if(sendable.getHeader().equals(MessageHeader.ENDGAME))
                             break;
                         personalCursor++;
                     } else {
                         ping();
                         eventKeeper.wait(5000);
-
                     }
                 }
             }

@@ -62,7 +62,7 @@ public class TCPReceiver {
             }
             case RECONNECTION -> {
                 ReconnectMessage event = gson.fromJson(TCPmessage.getBody(),ReconnectMessage.class);
-                client.playerReconnect(event.id);
+                client.playerReconnect(event.name);
             }
             case LIST -> {
                 ListMessage list = gson.fromJson(TCPmessage.getBody(), ListMessage.class);
