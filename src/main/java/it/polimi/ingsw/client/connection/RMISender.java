@@ -21,7 +21,6 @@ public class RMISender extends Sender {
     private final Client client;
     private final String IP;
 
-    private String signature;
 
     public RMISender(String IP, Client client) throws Exception {
         this.IP = IP;
@@ -51,7 +50,7 @@ public class RMISender extends Sender {
         try {
             client.setName(name);
             //String ID = controller.addFirstPlayer(name, gameMode, numPlayer, client);
-            String ID = controller.addFirstPlayer(name, gameMode, numPlayer, signature);
+            String ID = controller.addFirstPlayer(name, gameMode, numPlayer, client);
             client.receiveID(ID);
         } catch (Exception e){
             client.receiveException(e.toString());
@@ -61,7 +60,7 @@ public class RMISender extends Sender {
         try {
             client.setName(name);
             //String ID = controller.addPlayer(name,gameID,client);
-            String ID = controller.addPlayer(name, gameID, signature);
+            String ID = controller.addPlayer(name, gameID, client);
             client.receiveID(ID);
         } catch (Exception e){
             client.receiveException(e.toString());
@@ -138,8 +137,6 @@ public class RMISender extends Sender {
 
     public synchronized void connect() throws Exception {
         Registry registry = LocateRegistry.getRegistry(IP, Settings.RMIPORT);
-        signature = UUID.randomUUID().toString();
-        registry.rebind(signature, client);
         this.controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
     }
     public synchronized void ping(int n) throws Exception {

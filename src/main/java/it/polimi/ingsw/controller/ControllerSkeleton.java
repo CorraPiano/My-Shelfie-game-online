@@ -14,10 +14,10 @@ import java.util.ArrayList;
 public interface ControllerSkeleton extends Remote {
     ArrayList<LocalGame> getGameList() throws RemoteException;
 
-    String addFirstPlayer(String name, GameMode gameMode, int numPlayer, String signature) throws RemoteException, GameModeException, GameFullException, NumPlayersException, NameAlreadyExistentException, NotBoundException;
+    String addFirstPlayer(String name, GameMode gameMode, int numPlayer, ClientSkeleton cc) throws RemoteException, GameModeException, GameFullException, NumPlayersException, NameAlreadyExistentException, NotBoundException;
     //String addFirstPlayer(String name, GameMode gameMode, int numPlayer, ClientSkeleton cc) throws RemoteException, GameModeException, GameFullException, NumPlayersException, NameAlreadyExistentException;
 
-    String addPlayer(String name, int gameID, String signature) throws RemoteException, GameFullException, NameAlreadyExistentException, InvalidGameIdException, NotBoundException;
+    String addPlayer(String name, int gameID, ClientSkeleton cc) throws RemoteException, GameFullException, NameAlreadyExistentException, InvalidGameIdException, NotBoundException;
     //String addPlayer(String name, int gameID, ClientSkeleton cc) throws RemoteException, GameFullException, NameAlreadyExistentException, InvalidGameIdException;
     void pickItem(Coordinates coordinates, String id)  throws RemoteException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, NotInGameException, WrongTurnException, OutOfBoardPickException, InvalidIdException;
 

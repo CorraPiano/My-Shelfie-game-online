@@ -59,7 +59,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      * @throws RemoteException               if a remote communication error occurs
      */
     //ClientSkeleton cc
-    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, String signature) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException, NotBoundException {
+    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, ClientSkeleton cc) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException, NotBoundException {
         int gameID = gameplaysHandler.nextID();
         Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID);
         System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
@@ -67,7 +67,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         //gameplaysHandler.bind(id,gameID);
-        ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
+        //ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
         ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         gameplaysHandler.bind(id,gameID);
         new Thread(listener).start();
@@ -117,13 +117,13 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      * @throws RemoteException               if a remote communication error occurs
      */
     //ClientSkeleton cc
-    public synchronized String addPlayer(String name, int gameID, String signature) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException, NotBoundException {
+    public synchronized String addPlayer(String name, int gameID, ClientSkeleton cc) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException, NotBoundException {
         Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
         if(!gameplay.getGameState().equals(GameState.WAIT))
             throw new GameFullException();
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
-        ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
+        //ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
         ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         Thread t = new Thread(listener);
         gameplaysHandler.bind(id,gameID);
