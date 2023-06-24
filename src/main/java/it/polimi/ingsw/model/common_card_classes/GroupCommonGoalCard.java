@@ -24,7 +24,8 @@ public class GroupCommonGoalCard extends CommonGoalCard {
         int color, colorGroup=0;
 
 
-        if(type == 2){
+        if(type == 3){
+             // Square
             Item item1, item2, item3;
             Item pre1, pre2;
             for(int i = 0 ; i < 5; i++){
@@ -83,12 +84,14 @@ public class GroupCommonGoalCard extends CommonGoalCard {
                     }
                     if(allWithSameColor) {
                         colorGroup++;
+                        allWithSameColor = false;
                     }
                 }
             }
             return colorGroup >= 2;
         }
-        else if(type == 3 || type == 4){
+        else if(type == 1 || type == 0){
+            // Adiacency
             int nGroup = 0;
             int counter = 0;
             Item[][] mat = new Item[nRows][nColumns];
@@ -114,12 +117,12 @@ public class GroupCommonGoalCard extends CommonGoalCard {
                         mask[i][j] = true;
                         counter = countNearbyItems(i, j, counter, mat[i][j].getType(), mat);
 
-                        nGroup += counter / ((type == 3)? 4: 2);
+                        nGroup += counter / ((type == 1)? 4: 2);
                     }
 
                 }
             }
-            return nGroup >= ((type == 3) ? 4 : 6);
+            return nGroup >= ((type == 1) ? 4 : 6);
         }
         return false;
     }

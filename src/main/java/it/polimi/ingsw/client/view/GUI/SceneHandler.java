@@ -42,7 +42,7 @@ public class SceneHandler {
         // COMMON CARD
         file = "/Images/common/";
         for(int i = 0; i<12; i++){
-            img = file + String.valueOf(i+1) + ".jpg";
+            img = file + String.valueOf(i) + ".jpg";
             url = getClass().getResource(img);
             this.images_common.add(new Image(url.toString()));
         }

@@ -19,7 +19,8 @@ import java.util.ArrayList;
  * It provides methods for adding players, handling player actions, managing chat messages,
  * and maintaining the overall game flow.
  */
-public class Controller extends UnicastRemoteObject implements ControllerSkeleton {
+//extends UnicastRemoteObject
+public class Controller implements ControllerSkeleton {
 
     private final GameplaysHandler gameplaysHandler;
 
@@ -28,10 +29,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      *
      * @throws RemoteException if a remote communication error occurs
      */
-    private final Registry registry;
-    public Controller(Registry registry) throws RemoteException{
+    public Controller() throws RemoteException{
         gameplaysHandler = new GameplaysHandler();
-        this.registry = registry;
     }
 
     /**
@@ -395,7 +394,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      * @throws RemoteException if a remote communication error occurs
      */
     public synchronized void ping(int n) throws RemoteException{
-
+        System.out.println("Test -------");
     }
 
 }

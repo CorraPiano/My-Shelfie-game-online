@@ -21,7 +21,7 @@ public class DifferentCommonGoalCard extends CommonGoalCard {
         Set<Integer> colorSet = new HashSet<>();
         int colorGroupCounter = 0;
 
-        if(type == 7){
+        if(type == 8){
             Item item;
             for (int i = 0; i<5;i++){
                 for(int j=0;j<6;j++){
@@ -36,7 +36,7 @@ public class DifferentCommonGoalCard extends CommonGoalCard {
             }
             return false;
         }
-        else if(type == 8){
+        else if(type == 9){
             Item item;
             for (int i = 0; i<6;i++){
                 for(int j=0;j<5;j++){

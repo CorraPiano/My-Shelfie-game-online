@@ -14,19 +14,19 @@ public class CommonGoalCardFactory {
      * @return A common goal card of the specified type, or {@code null} if the type is invalid.
      */
     public CommonGoalCard getCommonGoalCard(int type) {
-        if (type == 0 || type == 1)
+        if (type == 6 || type == 11)
             return new DiagonalCommonGoalCard(type);
-        else if (type == 2 || type == 3 || type == 4)
+        else if (type == 3 || type == 1 || type == 0)
             return new GroupCommonGoalCard(type);
-        else if (type == 5)
+        else if (type == 2)
             return new CornerCommonGoalCard(type);
-        else if (type == 6)
+        else if (type == 10)
             return new XCommonGoalCard(type);
-        else if (type == 7 || type == 8)
+        else if (type == 8 || type == 9)
             return new DifferentCommonGoalCard(type);
-        else if (type == 9 || type == 10)
+        else if (type == 4 || type == 7)
             return new MaxDifferentCommonGoalCard(type);
-        else if (type == 11)
+        else if (type == 5)
             return new SameEightCommonGoalCard(type);
         return null;
     }

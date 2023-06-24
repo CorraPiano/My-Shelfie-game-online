@@ -706,7 +706,7 @@ public class GameController implements GUIController {
         return imageView.getImage() == null;
     }
     public String getCommonPathByType(int type) {
-        return "/Images/common/" + (type + 1) + ".jpg";
+        return "/Images/common/" + (type) + ".jpg";
     }
     public String getPersonalByType(int n) {
         return "/Images/personal/" + n + ".png";

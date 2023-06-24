@@ -17,7 +17,7 @@ public class CommonGoalCardTest {
         int i = 0;
 
         // Diagonal -> matrix
-        card = cardFactory.getCommonGoalCard(0);
+        card = cardFactory.getCommonGoalCard(11);
         int numTest = 5;
         boolean result;
         while (i<numTest){
@@ -26,7 +26,7 @@ public class CommonGoalCardTest {
             i++;
         }
         // Diagonal -> diagonal
-        card = cardFactory.getCommonGoalCard(1);
+        card = cardFactory.getCommonGoalCard(6);
         numTest += 5;
         while (i<numTest){
             result = card.checkFullFil(input.getInputLibrary(i));
@@ -34,14 +34,6 @@ public class CommonGoalCardTest {
             i++;
         }
         //Group -> x4 group
-        card = cardFactory.getCommonGoalCard(2);
-        numTest += 3;
-        while (i<numTest){
-            result = card.checkFullFil(input.getInputLibrary(i));
-            Assertions.assertEquals(input.getResult(i), (result) ? 1 : 0, "Matrice numero: "+ i);
-            i++;
-        }
-        //Group -> x4 line
         card = cardFactory.getCommonGoalCard(3);
         numTest += 3;
         while (i<numTest){
@@ -49,8 +41,16 @@ public class CommonGoalCardTest {
             Assertions.assertEquals(input.getResult(i), (result) ? 1 : 0, "Matrice numero: "+ i);
             i++;
         }
+        //Group -> x4 line
+        card = cardFactory.getCommonGoalCard(1);
+        numTest += 3;
+        while (i<numTest){
+            result = card.checkFullFil(input.getInputLibrary(i));
+            Assertions.assertEquals(input.getResult(i), (result) ? 1 : 0, "Matrice numero: "+ i);
+            i++;
+        }
         //Group -> x2
-        card = cardFactory.getCommonGoalCard(4);
+        card = cardFactory.getCommonGoalCard(0);
         numTest += 2;
         while (i<numTest){
             result = card.checkFullFil(input.getInputLibrary(i));
@@ -58,7 +58,7 @@ public class CommonGoalCardTest {
             i++;
         }
         // Corner
-        card = cardFactory.getCommonGoalCard(5);
+        card = cardFactory.getCommonGoalCard(2);
         numTest += 2;
         while (i<numTest){
             result = card.checkFullFil(input.getInputLibrary(i));
@@ -66,7 +66,7 @@ public class CommonGoalCardTest {
             i++;
         }
         // X
-        card = cardFactory.getCommonGoalCard(6);
+        card = cardFactory.getCommonGoalCard(10);
         numTest +=2;
         while (i<numTest){
             result = card.checkFullFil(input.getInputLibrary(i));
@@ -74,14 +74,6 @@ public class CommonGoalCardTest {
             i++;
         }
         // Different -> columns
-        card = cardFactory.getCommonGoalCard(7);
-        numTest +=2;
-        while (i<numTest){
-            result = card.checkFullFil(input.getInputLibrary(i));
-            Assertions.assertEquals(input.getResult(i), (result) ? 1 : 0, "Matrice numero: "+ i);
-            i++;
-        }
-        // Different -> rows
         card = cardFactory.getCommonGoalCard(8);
         numTest +=2;
         while (i<numTest){
@@ -89,8 +81,16 @@ public class CommonGoalCardTest {
             Assertions.assertEquals(input.getResult(i), (result) ? 1 : 0, "Matrice numero: "+ i);
             i++;
         }
-        // MaxDifferent -> columns
+        // Different -> rows
         card = cardFactory.getCommonGoalCard(9);
+        numTest +=2;
+        while (i<numTest){
+            result = card.checkFullFil(input.getInputLibrary(i));
+            Assertions.assertEquals(input.getResult(i), (result) ? 1 : 0, "Matrice numero: "+ i);
+            i++;
+        }
+        // MaxDifferent -> columns
+        card = cardFactory.getCommonGoalCard(4);
         numTest += 3;
         while (i<numTest){
             result = card.checkFullFil(input.getInputLibrary(i));
@@ -98,7 +98,7 @@ public class CommonGoalCardTest {
             i++;
         }
         // MaxDifferent -> rows
-        card = cardFactory.getCommonGoalCard(10);
+        card = cardFactory.getCommonGoalCard(7);
         numTest += 3;
         while (i<numTest){
             result = card.checkFullFil(input.getInputLibrary(i));
@@ -106,7 +106,7 @@ public class CommonGoalCardTest {
             i++;
         }
         // SameEight
-        card = cardFactory.getCommonGoalCard(11);
+        card = cardFactory.getCommonGoalCard(5);
         numTest += 2;
         while (i<numTest){
             result = card.checkFullFil(input.getInputLibrary(i));

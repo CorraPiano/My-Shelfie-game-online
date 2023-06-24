@@ -15,7 +15,7 @@ public class DiagonalCommonGoalCard extends CommonGoalCard {
     @Override
     public boolean checkFullFil(Bookshelf library) {
 
-        if (type == 1) {
+        if (type == 6) {
 
             // Diagonale con colore uguale
 

@@ -20,7 +20,7 @@ public class MaxDifferentCommonGoalCard extends CommonGoalCard {
         Set<Integer> colorSet = new HashSet<>();
         int colorGroupCounter = 0;
         Item item = null;
-        if(type == 9){
+        if(type == 4){
 
             for (int i = 0; i<5;i++){
                 for(int j=0;j<6;j++){
@@ -34,7 +34,7 @@ public class MaxDifferentCommonGoalCard extends CommonGoalCard {
             }
             return false;
         }
-        else if(type == 10){
+        else if(type == 7){
             for (int i = 0; i<6; i++){
                 for(int j = 0; j<5; j++){
 
