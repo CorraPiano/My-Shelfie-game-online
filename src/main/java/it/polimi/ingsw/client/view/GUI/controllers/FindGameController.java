@@ -1,4 +1,5 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
+import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.model.GameMode;
@@ -7,10 +8,12 @@ import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FindGameController implements GUIController {
     private GUI gui;
+    private List<LocalGame> games;
     @FXML
     private ListView<String> gameList;
     @FXML
@@ -23,12 +26,10 @@ public class FindGameController implements GUIController {
     private TextField playerNameJoin;
     @FXML
     private TextField numberOfPlayer;
-
     @FXML
     protected void onSearchGameButton() {
         this.gui.getGamesList();
     }
-
     @FXML
     protected void onCreateGame() {
         String name = playerName.getText();
@@ -43,15 +44,14 @@ public class FindGameController implements GUIController {
             int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "The parameters are wrong, please control the game rules below", "Input error");
         }
     }
-
     @FXML
     protected void onJoinGame() {
         String name = playerNameJoin.getText();
-        String game = gameList.getSelectionModel().getSelectedItem();
-        if(checkJoinData(name, game)) {
-            int gameId = getGameId(game);
-            gui.joinGame(name, gameId);
-            // switch to lobby
+        LocalGame game = games.get(gameList.getSelectionModel().getSelectedIndex());
+        String game_line = gameList.getSelectionModel().getSelectedItem();
+        if(checkJoinData(name, game_line)) {
+            int gameId = getGameId(game_line);
+            gui.joinGame(name, gameId, (game.currPerson + 1 < game.maxPerson));
         }
         else{
             int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "The parameters are wrong, please control the game rules below", "Input error");
@@ -71,7 +71,12 @@ public class FindGameController implements GUIController {
         return gui;
     }
 
-    public void updateList(List<String> games) {
+    public void updateList(List<LocalGame> games) {
+        this.games = games;
+        ArrayList<String> games_str= new ArrayList<>();
+        for ( LocalGame g: games) {
+            games_str.add(g.toString());
+        }
         if(games.size() == 0){
             Label label = new Label("I can't find any game");
             label.setFont(Font.font("Arial", FontWeight.BLACK, 12));
@@ -80,7 +85,7 @@ public class FindGameController implements GUIController {
         else {
             gameList.setPlaceholder(null);
             gameList.getItems().clear();
-            gameList.getItems().addAll(games);
+            gameList.getItems().addAll(games_str);
         }
 
     }
@@ -122,6 +127,27 @@ public class FindGameController implements GUIController {
         }
         return Integer.parseInt(num);
     }
+    private int getCurrentPlayers(String game){
+        int commaCounter = 0;
+        for (int i=0; i<game.length(); i++){
+            if(game.charAt(i) == ',' )
+                commaCounter++;
+            if (commaCounter == 3)
+                return game.charAt(i) - '0';
+        }
+        return 0;
+    }
+    private int getNumPlayers(String game){
+        int commaCounter = 0;
+        for (int i=0; i<game.length(); i++){
+            if(game.charAt(i) == ',' )
+                commaCounter++;
+            if (commaCounter == 2)
+                return game.charAt(i) - '0';
+        }
+        return 0;
+    }
+
 }
 
 

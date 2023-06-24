@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,12 +27,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class GUI extends Application implements View {
     private Stage primaryStage;
     private Stage secondaryStage;
     private SceneName currentSceneName;
+    private final int timerSleep_img = 3;
+    private final int timerSleep_common = 4;
+
+    private ScheduledExecutorService executorService_images;
+    private ScheduledExecutorService executorService_common;
+
     private Scene currentScene;
     // Connection
     private Sender sender;
@@ -68,9 +78,29 @@ public class GUI extends Application implements View {
             changeStage(false, false);
         });
         stageLambda.put(SceneName.FINDGAME, (command)-> {
-            currentSceneName = SceneName.GAME;
-            changeStage(false, false);
-            this.initGame();
+            if(command == Command.START_GAME ){
+                currentSceneName = SceneName.GAME;
+                changeStage(false, false);
+                this.initGame();
+            }
+            else if(command == Command.CREATE_GAME || command == Command.JOIN_GAME){
+                currentSceneName = SceneName.LOBBY;
+                changeStage(false, false);
+                this.initLobby();
+            }
+
+        });
+        stageLambda.put(SceneName.LOBBY, (command)-> {
+            if(command == Command.START_GAME){
+                currentSceneName = SceneName.GAME;
+                changeStage(false, false);
+                this.initGame();
+            }
+            else {
+                currentSceneName = SceneName.FINDGAME;
+                changeStage(false, false);
+            }
+
         });
         stageLambda.put(SceneName.GAME, (command)-> {
             if(command == Command.CHAT) {
@@ -103,7 +133,6 @@ public class GUI extends Application implements View {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public void start(Stage stage) {
         setupConnection();
@@ -117,31 +146,32 @@ public class GUI extends Application implements View {
             windowEvent.consume();
             int exitStatus = AlertBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
             if(exitStatus == 1) {
+                if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
+                    this.leaveGame();
                 System.exit(0);
             }
         });
-
         //stage.setFullScreen(true);
         stage.setTitle("My Shelfie");
         stage.setScene(scene);
         stage.show();
-        // Funzione che simula un listener
-        testMain();
-
     }
     private void testMain(){
         // Change scene test
     }
-
     public SceneName getCurrentScene() {
         return currentSceneName;
     }
-
     public static void main(String[] args) {
         launch();
     }
-
     public void switchStage(Command command){
+        if (executorService_images != null) {
+            executorService_images.shutdown();
+        }
+        if (executorService_common != null) {
+            executorService_common.shutdown();
+        }
         Platform.runLater(() -> {
             stageLambda.get(currentSceneName).accept(command);
         });
@@ -150,19 +180,20 @@ public class GUI extends Application implements View {
     public void setSender(Sender sender) {
         this.sender = sender;
     }
-
     @Override
     public Sender getSender() {
         return null;
     }
-
     @Override
     public void setClient() {
 
     }
-
     public Scene getScene() {
         return sceneHandler.getScene(currentSceneName);
+    }
+
+    public SceneName getCurrentSceneName() {
+        return currentSceneName;
     }
 
     @Override
@@ -184,17 +215,21 @@ public class GUI extends Application implements View {
               ____) | |____   | |      | |__| | |
              |_____/|______|  |_|       \____/|_|
      ******************************************************/
-    public void setRMIConnection() throws RemoteException, NotBoundException{
-        Registry registry = LocateRegistry.getRegistry();
-        ControllerSkeleton controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
-        this.setSender(new RMISender(controller, this.getClient()));
+    public void setRMIConnection(String ip) throws Exception {
+//        Registry registry = LocateRegistry.getRegistry();
+//        ControllerSkeleton controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
+//        this.setSender(new RMISender(controller, this.getClient()));
+//        this.switchStage(Command.SET_CONNECTION);
+        this.setSender(new RMISender(ip, client));
         this.switchStage(Command.SET_CONNECTION);
+
     }
-    public void setTCPConnection() throws IOException {
-        TCPReceiver tcpreceiver = new TCPReceiver(client);
-        ClientConnection clientConnection = new ClientConnection(new Socket("localhost", 8081), tcpreceiver);
-        new Thread(clientConnection).start();
-        this.setSender(new TCPSender(clientConnection,client));
+    public void setTCPConnection(String ip) throws Exception {
+//        TCPReceiver tcpreceiver = new TCPReceiver(client);
+//        ClientConnection clientConnection = new ClientConnection(new Socket("localhost", 8081), tcpreceiver);
+//        new Thread(clientConnection).start();
+//
+        this.setSender(new TCPSender(ip, client));
         this.switchStage(Command.SET_CONNECTION);
     }
 
@@ -214,27 +249,72 @@ public class GUI extends Application implements View {
         |  _|  | || |\  | |_| | | |_| |/ ___ \| |  | | |___
         |_|   |___|_| \_|____/   \____/_/   \_\_|  |_|_____|
      *******************************************************/
-
     public void getGamesList() {
         this.sender.getGameList();
     }
-
     public void refreshGameList(List<LocalGame> games){
         FindGameController controllerTmp = (FindGameController) controller;
-        ArrayList<String> gameList = new ArrayList<>();
-        for ( LocalGame g: games) {
-            gameList.add(g.toString());
-        }
-        controllerTmp.updateList(gameList);
+        Platform.runLater(()->controllerTmp.updateList(games));
     }
     public void addFirstPlayer(String name, GameMode gameMode, int numPlayer){
         sender.addFirstPlayer(name, gameMode, numPlayer);
+        this.switchStage(Command.CREATE_GAME);
     }
-    public void joinGame(String name,int gameId){
+    public void joinGame(String name,int gameId, boolean switchScene){
         sender.addPlayer(name, gameId);
+        if (switchScene) this.switchStage(Command.JOIN_GAME);
+    }
+    /* *******************************************************
+              _      ____  ____  ______     __
+             | |    / __ \|  _ \|  _ \ \   / /
+             | |   | |  | | |_) | |_) \ \_/ /
+             | |   | |  | |  _ <|  _ < \   /
+             | |___| |__| | |_) | |_) | | |
+             |______\____/|____/|____/  |_|
+     ***************************************************** */
+    public void initLobby(){
+        LobbyController tmp = (LobbyController) this.controller;
+        tmp.init();
+        timerRoutine();
     }
 
+    public void updatePlayerList(ArrayList<LocalPlayer> list,Command command, String playerName){
+        if (currentSceneName != SceneName.LOBBY) return;
+        List<String> players = new ArrayList<>();
+        for (LocalPlayer p : list) {
+            players.add(p.name);
+        }
+        String message = (command == Command.QUIT) ?
+                "Player " + playerName + " leave the game" : "Player " + playerName + " join the game";
+        LobbyController tmp = (LobbyController) this.controller;
+        Platform.runLater(()->{
+            tmp.newNotification(message);
+            tmp.updatePlayerList(players);
+        });
+    }
+    private void timerRoutine(){
+        executorService_images = Executors.newSingleThreadScheduledExecutor();
+        executorService_images.scheduleAtFixedRate(() ->{
+            if(controller instanceof LobbyController){
+                LobbyController tmp = (LobbyController) controller;
+                Platform.runLater(()-> tmp.changeImage());
+            }
+        }, 0, timerSleep_img, TimeUnit.SECONDS);
+        executorService_common = Executors.newSingleThreadScheduledExecutor();
+        executorService_common.scheduleAtFixedRate(() ->{
+            if(controller instanceof LobbyController){
+                LobbyController tmp = (LobbyController) controller;
+                Platform.runLater(()-> tmp.changeCommon());
+            }
+        }, 0, timerSleep_common, TimeUnit.SECONDS);
 
+    }
+    public Image getAsset(int ID){ return sceneHandler.getAsset(ID);}
+    public Image getCommon(int ID){ return sceneHandler.getCommon(ID);}
+    public  void quitGame(){
+        sender.leaveGame();
+        switchStage(Command.QUIT);
+    }
     /* *****************************************************
       ____    _    __  __ _____
      / ___|  / \  |  \/  | ____|
@@ -242,7 +322,6 @@ public class GUI extends Application implements View {
     | |_| |/ ___ \| |  | | |___
      \____/_/   \_\_|  |_|_____|
      ******************************************************/
-
     public void initGame(){
         GameController c = (GameController) sceneHandler.getController(currentSceneName);
         c.init();
@@ -279,7 +358,6 @@ public class GUI extends Application implements View {
             controllertmp.showTableView();
         });
     }
-
     // Client to server
     public void pickItem(Coordinates coordinates){
         sender.pickItem(coordinates);

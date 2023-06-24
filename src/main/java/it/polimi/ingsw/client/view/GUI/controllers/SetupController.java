@@ -14,6 +14,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 
 public class SetupController implements GUIController {
     private GUI gui;
+    @FXML
+    private TextField ipAddress;
 
     @Override
     public void setGui(GUI gui) {
@@ -37,23 +40,35 @@ public class SetupController implements GUIController {
 
     @FXML
     public void onTCPButton(){
+        String ip = getIpAddress();
         try {
-            gui.setTCPConnection();
+            gui.setTCPConnection(ip);
         } catch (IOException e) {
+            // Alert box
+        } catch (Exception e) {
             // Alert box
         }
     }
     @FXML
     public void onRMIButton(){
+        String ip = getIpAddress();
         try {
-            gui.setRMIConnection();
+            gui.setRMIConnection(ip);
         } catch (RemoteException e) {
             // Alert box
         } catch (NotBoundException e) {
             // Alert box
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Alert box
         }
+    }
+    private String getIpAddress(){
+        String ip = ipAddress.getText();
+        if(ip == "")
+            return  "localhost";
+        else
+            return ip;
+
     }
 
 }

@@ -75,9 +75,11 @@ public class ClientGUI extends Client{
     }
 
     public void playerJoin(String name) throws RemoteException {
+        this.gui.updatePlayerList(this.modelView.getLocalPlayerList(), Command.JOIN_GAME, name);
     }
 
     public void playerLeave(String name) throws RemoteException {
+        this.gui.updatePlayerList(this.modelView.getLocalPlayerList(), Command.QUIT, name);
     }
 
     public void playerDisconnect(String name) throws RemoteException {
