@@ -104,6 +104,7 @@ public class ClientGUI extends Client{
         gui.setTurn(name);
         gui.updateBoard();
         gui.updateTableView();
+        gui.updateTokens();
     }
 
     public void lastRound(String name) throws RemoteException {

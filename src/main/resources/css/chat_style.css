@@ -1,0 +1,66 @@
+/* Stili per la ListView */
+.list-view {
+    -fx-background-color: #1d1d1d;
+    -fx-padding: 10;
+    -fx-font-family: "Arial";
+}
+
+/* Stili per le celle della ListView */
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+/* Stili per l'elemento testuale all'interno delle celle */
+.list-cell .text {
+    -fx-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* Stili per l'elemento immagine all'interno delle celle */
+.list-cell .icon {
+    -fx-padding: 0 5 0 0;
+}
+
+/* Stili per l'elemento di selezione delle celle */
+.list-cell:selected {
+    -fx-background-color: #2e2e2e;
+}
+
+/* Stili per l'elemento di evidenziazione delle celle quando passa sopra di esse */
+.list-cell:hover {
+    -fx-background-color: #2e2e2e;
+}
+
+/* Stili per il separatore tra le celle */
+.list-view .list-cell:empty {
+    -fx-border-color: transparent;
+}
+
+/* Stili per l'elemento di scorrimento della ListView */
+.list-view .scroll-bar {
+    -fx-background-color: #2e2e2e;
+}
+
+/* Stili per l'elemento di scorrimento del cursore */
+.list-view .scroll-bar .thumb {
+    -fx-background-color: #797979;
+}
+
+/* Stili per l'elemento di scorrimento del cursore quando passa sopra di esso */
+.list-view .scroll-bar .thumb:hover {
+    -fx-background-color: #a0a0a0;
+}
+
+/* Stili per l'elemento di scorrimento delle frecce */
+.list-view .scroll-bar .increment-button,
+.list-view .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+
+/* Stili per l'elemento di scorrimento delle frecce quando passa sopra di esse */
+.list-view .scroll-bar .increment-button:hover,
+.list-view .scroll-bar .decrement-button:hover {
+    -fx-background-color: #2e2e2e;
+}
+

@@ -358,6 +358,14 @@ public class GUI extends Application implements View {
             controllertmp.showTableView();
         });
     }
+
+    public void updateTokens() {
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.showTokens();
+        });
+    }
+
     // Client to server
     public void pickItem(Coordinates coordinates){
         sender.pickItem(coordinates);
