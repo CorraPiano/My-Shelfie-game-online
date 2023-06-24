@@ -22,7 +22,7 @@ public abstract class Sender {
     public abstract void addChatMessage(String message, String receiver);
     public abstract void addChatMessage(String message);
     public abstract void leaveGame();
-    public abstract void reconnectGame(String id);
+    public abstract void reconnectGame(String id, boolean reset);
     public abstract void ping (int n) throws Exception;
     public abstract void connect() throws Exception;
 

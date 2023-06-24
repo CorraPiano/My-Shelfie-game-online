@@ -64,7 +64,7 @@ public class ListenerRMI extends Listener{
                                 }
                                 case RECONNECTION -> {
                                         ReconnectMessage message = (ReconnectMessage) sendable;
-                                        client.playerReconnect(message.id);
+                                        client.playerReconnect(message.name);
                                 }
                                 case PICK -> {
                                         PickMessage message = (PickMessage) sendable;

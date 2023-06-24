@@ -42,7 +42,7 @@ public class ConnectionChecker implements Runnable{
                 if(client.getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
                     client.setState(ClientState.WAIT);
                     client.gameReconnection();
-                    sender.reconnectGame(client.getID());
+                    sender.reconnectGame(client.getID(),false);
                 }
                 else
                     client.homeReconnection();

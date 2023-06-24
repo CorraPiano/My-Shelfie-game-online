@@ -356,6 +356,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         String name = gameplay.getPlayerNameByID(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
         ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
+        if(reset)
+            listener.reset();
         Thread t = new Thread(listener);
         //gameplaysHandler.rebind(id,listener);
         t.start();
@@ -381,6 +383,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         String name = gameplay.getPlayerNameByID(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
         ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
+        if(reset)
+            listener.reset();
         Thread t = new Thread(listener);
         //gameplaysHandler.rebind(id,listener);
         t.start();

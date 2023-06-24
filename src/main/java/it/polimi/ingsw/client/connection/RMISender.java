@@ -124,11 +124,11 @@ public class RMISender extends Sender {
         client.leaveGame();
     }
 
-    public synchronized void reconnectGame(String id) {
+    public synchronized void reconnectGame(String id, boolean reset) {
         try {
             client.setID(id);
             //far ritornare il name dal controller
-            String name = controller.reconnect(id,client,true);
+            String name = controller.reconnect(id,client,reset);
             client.receiveName(name);
         }catch (Exception e){
             client.receiveException(e.toString());
