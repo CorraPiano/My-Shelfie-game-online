@@ -9,20 +9,18 @@ import java.net.ServerSocket;
 import java.rmi.registry.Registry;
 import java.rmi.*;
 import java.rmi.registry.*;
+import java.rmi.server.UnicastRemoteObject;
 
 public class Main {
     public static void main(String[] args) throws IOException, AlreadyBoundException, RemoteException{
-        LocateRegistry.createRegistry(Settings.RMIPORT);
-        Registry registry = LocateRegistry.getRegistry();
+
         SocketMap socketMap = new SocketMap();
         //SenderTCP senderTCP = new SenderTCP(socketMap);
-        Controller controller = new Controller(registry);
+        Controller controller = new Controller();
         MessageHandler messageHandler = new MessageHandler(controller,socketMap);
 
         startTCP(controller,messageHandler);
-        startRMI(controller,registry);
-
-
+        startRMI(controller);
     }
 
     /**
@@ -31,11 +29,15 @@ public class Main {
      * @param controller the Controller object managing the game
      * @throws RemoteException if a remote communication error occurs
      */
-    private static void startRMI(Controller controller, Registry registry) throws RemoteException {
+    private static void startRMI(Controller controller) throws RemoteException {
         //String ipAddress = new String();
         //System.setProperty("java.rmi.server.hostname", ipAddress);
         try{
-            registry.bind(Settings.remoteObjectName, controller);
+            System.setProperty("java.rmi.server.hostname", "192.168.1.160");
+            LocateRegistry.createRegistry(Settings.RMIPORT);
+            Registry registry = LocateRegistry.getRegistry();
+
+            registry.bind(Settings.remoteObjectName, UnicastRemoteObject.exportObject(controller, Settings.RMIPORT));
             System.out.println("RMI attivo");
         }
         catch(Exception e) {

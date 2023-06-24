@@ -7,13 +7,14 @@ import it.polimi.ingsw.model.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 /**
  * The ClientSkeleton interface represents the remote interface for the client in the game controller.
  * It defines the methods that can be called by the server to communicate with the client.
  */
-public interface ClientSkeleton extends Remote {
+public interface ClientSkeleton extends Remote{
 
     /**
      * Updates the chat with a new message.
