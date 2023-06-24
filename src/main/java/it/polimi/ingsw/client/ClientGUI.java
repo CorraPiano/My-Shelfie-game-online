@@ -184,7 +184,6 @@ public class ClientGUI extends Client{
 
     public void updateChat(ChatMessage chatMessage) throws RemoteException {
         gui.updateChat(chatMessage, name);
-        System.out.println("--> personalCard received");
     }
 
     public void timer(int seconds) throws RemoteException{

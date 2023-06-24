@@ -227,12 +227,12 @@
                         </Pane>
                         <ImageView fx:id="bookshelf1token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="bookshelf1token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf1endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="bookshelf1endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="bookshelf2token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="411.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf2token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf2endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf3token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="642.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf3token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="591.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="bookshelf2token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="bookshelf2endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="bookshelf3token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="641.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="bookshelf3token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="592.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="bookshelf3endgameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="543.0" pickOnBounds="true" preserveRatio="true" />
                      </children></AnchorPane>
                </content>
@@ -270,7 +270,7 @@
       </Pane>
       <ImageView fx:id="common2token" fitHeight="56.0" fitWidth="56.0" layoutX="120.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
       <ImageView fx:id="common1token" fitHeight="56.0" fitWidth="56.0" layoutX="120.0" layoutY="676.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
-      <ImageView fx:id="token1" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="690.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="token1" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="689.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="token2" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="626.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="endGameToken" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="563.0" pickOnBounds="true" preserveRatio="true" />
    </children>
