@@ -109,6 +109,7 @@ public class ClientGUI extends Client{
 
     public void lastRound(String name) throws RemoteException {
         gui.updateGlobalNotifications(NotificationsType.LASTROUND, name, new Coordinates(), new ArrayList<>(), 0);
+        gui.updateEndGameToken();
     }
 
     public void endGame(String name, EndCause cause) throws RemoteException {

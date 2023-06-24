@@ -84,6 +84,21 @@ public class GameController implements GUIController {
     private ImageView bookshelf3token1;
     @FXML
     private ImageView bookshelf3token2;
+    @FXML
+    private ImageView common1token;
+    @FXML
+    private ImageView common2token;
+    @FXML
+    private ImageView boardtoken1;
+    @FXML
+    private ImageView bookshelf1endGameToken;
+    @FXML
+    private ImageView bookshelf2endGameToken;
+    @FXML
+    private ImageView bookshelf3endGameToken;
+    @FXML
+    private ImageView endGameToken;
+
 
 
     //OTHER
@@ -239,7 +254,9 @@ public class GameController implements GUIController {
 
     private void initTokens() {
         URL url_empty = getClass().getResource("/Images/scoring_tokens/scoring_back_EMPTY.jpg");
+        URL url_end = getClass().getResource("/Images/scoring_tokens/end_game.jpg");
         int numPlayer = modelView.getLocalPlayerList().size();
+        boardtoken1.setImage(new Image(url_end.toString()));
         if(numPlayer>=2){
             token1.setImage(new Image(url_empty.toString()));
             token2.setImage(new Image(url_empty.toString()));
@@ -254,7 +271,6 @@ public class GameController implements GUIController {
                 }
             }
         }
-
     }
 
     // URL url_empty = getClass().getResource("/Images/scoring_tokens/scoring_back_EMPTY.jpg");
@@ -494,6 +510,20 @@ public class GameController implements GUIController {
         URL url_4 = getClass().getResource("/Images/scoring_tokens/scoring_4.jpg");
         URL url_6 = getClass().getResource("/Images/scoring_tokens/scoring_6.jpg");
         URL url_8 = getClass().getResource("/Images/scoring_tokens/scoring_8.jpg");
+
+        switch (modelView.getCommonCards().get(0).tokenList.get(0).getValue()){
+            case 2 -> common1token.setImage(new Image(url_2.toString()));
+            case 4 -> common1token.setImage(new Image(url_4.toString()));
+            case 6 -> common1token.setImage(new Image(url_6.toString()));
+            case 8 -> common1token.setImage(new Image(url_8.toString()));
+        }
+        switch (modelView.getCommonCards().get(1).tokenList.get(0).getValue()){
+            case 2 -> common2token.setImage(new Image(url_2.toString()));
+            case 4 -> common2token.setImage(new Image(url_4.toString()));
+            case 6 -> common2token.setImage(new Image(url_6.toString()));
+            case 8 -> common2token.setImage(new Image(url_8.toString()));
+        }
+
         int numPlayer = modelView.getLocalPlayerList().size();
         for(LocalPlayer p : modelView.getLocalPlayerList()){
             if(p.token1 != null){
@@ -567,6 +597,25 @@ public class GameController implements GUIController {
         }
     }
 
+    public void showEndGameToken() {
+        URL url_end = getClass().getResource("/Images/scoring_tokens/end_game.jpg");
+        boardtoken1.setImage(null);
+        int numPlayer = modelView.getLocalPlayerList().size();
+        for(LocalPlayer p : modelView.getLocalPlayerList()){
+            if(Objects.equals(p.name, gui.getClient().getName()) && p.endGameToke != null){
+                endGameToken.setImage(new Image(url_end.toString()));
+            }
+            else if(numPlayer>=2 && Objects.equals(p.name, bookshelf1name.getText()) && p.endGameToke != null){
+                bookshelf1endGameToken.setImage(new Image(url_end.toString()));
+            }
+            else if(numPlayer>=3 && Objects.equals(p.name, bookshelf2name.getText()) && p.endGameToke != null){
+                bookshelf2endGameToken.setImage(new Image(url_end.toString()));
+            }
+            else if(numPlayer==4 && Objects.equals(p.name, bookshelf3name.getText()) && p.endGameToke != null){
+                bookshelf3endGameToken.setImage(new Image(url_end.toString()));
+            }
+        }
+    }
 
     /* Coordinates getters */
     public Coordinates getGridCellsIndexes(MouseEvent event) {

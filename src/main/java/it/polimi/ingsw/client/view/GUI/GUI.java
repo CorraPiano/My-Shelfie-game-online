@@ -366,6 +366,13 @@ public class GUI extends Application implements View {
         });
     }
 
+    public void updateEndGameToken() {
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.showEndGameToken();
+        });
+    }
+
     // Client to server
     public void pickItem(Coordinates coordinates){
         sender.pickItem(coordinates);
