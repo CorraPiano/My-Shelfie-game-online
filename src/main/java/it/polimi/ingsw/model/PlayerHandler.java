@@ -17,7 +17,6 @@ public class PlayerHandler extends Listenable {
     private Gameplay gameplay;
 
 
-
     /**
      * Constructs a PlayerHandler object.
      * @param gamePlay the Gameplay object associated with the player handler

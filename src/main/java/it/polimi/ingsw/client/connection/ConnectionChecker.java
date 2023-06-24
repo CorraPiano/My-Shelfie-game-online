@@ -4,28 +4,43 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientPhase;
 import it.polimi.ingsw.client.ClientState;
 
-public class ConnectionChecker implements Runnable{
+/**
+ * The `ConnectionChecker` class is responsible for periodically checking the connection status between the client and the server.
+ * It runs in a separate thread and uses the `Sender` object to send ping requests to the server and handle reconnection attempts.
+ */
+public class ConnectionChecker implements Runnable {
 
     private final Sender sender;
     private final Client client;
     private Boolean state;
 
-    public ConnectionChecker (Sender sender, Client client){
+    /**
+     * Constructs a `ConnectionChecker` object with the specified `Sender` and `Client` objects.
+     *
+     * @param sender The `Sender` object used for sending ping requests and reconnection attempts.
+     * @param client The `Client` object associated with this connection checker.
+     */
+    public ConnectionChecker(Sender sender, Client client) {
         this.sender = sender;
         this.client = client;
     }
 
-    public void run(){
-        while(!client.getPhase().equals(ClientPhase.CLOSE)){
+    /**
+     * Runs the connection checker in a separate thread.
+     * Periodically sends ping requests to the server and handles reconnection attempts in case of lost connection.
+     */
+    @Override
+    public void run() {
+        while (!client.getPhase().equals(ClientPhase.CLOSE)) {
             synchronized (sender) {
-                //ping
+                // Ping
                 try {
                     sender.ping(0);
-                } catch(Exception e){
+                } catch (Exception e) {
                     client.lostConnection();
                     tryReconnection();
                 }
-                //metti in wait
+                // Wait
                 try {
                     sender.wait(5000);
                 } catch (InterruptedException e) {
@@ -35,23 +50,27 @@ public class ConnectionChecker implements Runnable{
         }
     }
 
-    public synchronized void tryReconnection(){
-        while(true){
-            try{
+    /**
+     * Tries to reconnect to the server in case of a lost connection.
+     * Keeps attempting reconnection until successful or until the client is closed.
+     */
+    public synchronized void tryReconnection() {
+        while (true) {
+            try {
                 sender.connect();
-                if(client.getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
+                if (client.getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
                     client.setState(ClientState.WAIT);
                     client.gameReconnection();
-                    sender.reconnectGame(client.getID(),false);
-                }
-                else
+                    sender.reconnectGame(client.getID(), false);
+                } else {
                     client.homeReconnection();
+                }
                 break;
-            }
-            catch(Exception e) {
-                try{
+            } catch (Exception e) {
+                try {
                     this.wait(1000);
-                } catch(Exception ee){}
+                } catch (Exception ignored) {
+                }
             }
         }
     }

@@ -22,13 +22,6 @@ public class Main {
         startTCP(controller,messageHandler);
         startRMI(controller);
     }
-
-    /**
-     * Starts the RMI server and binds the Controller object to the registry.
-     *
-     * @param controller the Controller object managing the game
-     * @throws RemoteException if a remote communication error occurs
-     */
     private static void startRMI(Controller controller) throws RemoteException {
         //String ipAddress = new String();
         //System.setProperty("java.rmi.server.hostname", ipAddress);
@@ -44,13 +37,6 @@ public class Main {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Starts the TCP server and listens for client connections.
-     *
-     * @param controller     the Controller object managing the game
-     * @param messageHandler the MessageHandler object for handling incoming messages
-     */
     private static void startTCP(Controller controller, MessageHandler messageHandler){
         try{
             // interfacce di scambio

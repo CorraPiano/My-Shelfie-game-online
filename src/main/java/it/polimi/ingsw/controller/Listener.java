@@ -20,9 +20,7 @@ public abstract class Listener implements Runnable {
     private int personalCursor;
     protected final Gson gson;
     private final String id;
-    //private final Gameplay gameplay;
     private final Controller controller;
-
     private final String name;
 
     /**

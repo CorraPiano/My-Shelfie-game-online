@@ -16,9 +16,7 @@ public class Connection implements Runnable{
     private final int num;
     private final Scanner in;
     private final PrintWriter out;
-
     private Gson gson;
-
     private boolean active;
 
     /**

@@ -2,8 +2,15 @@ package it.polimi.ingsw.util;
 
 import java.io.IOException;
 
+/**
+ * The Constants class holds various constants used in the application.
+ */
 public class Constants {
 
+
+    /**
+     * The number of rows on the game board.
+     */
     public static final int nRowBoard = 9;
     public static final int nColumnBoard = 9;
     public static final int nRowBookshelf = 6;
