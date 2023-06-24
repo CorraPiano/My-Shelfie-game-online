@@ -3,21 +3,51 @@ package it.polimi.ingsw.client.view.GUI;
 import it.polimi.ingsw.client.view.GUI.controllers.GUIController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.function.Consumer;
+import java.util.List;
 
 public class SceneHandler {
 
     private final HashMap<SceneName, Scene> sceneToFxml;
     private final HashMap<SceneName, GUIController> sceneToController;
+    private final List<Image> images_asset;
+    private final List<Image> images_common;
 
 
     /*
         - Set all the fxml and the HashMap relative to the scene
         - Set the gui for all controllers
      */
+    private void loadImages(){
+        // ASSET
+        List<String> image_file = Arrays.asList(
+                "Display_1.jpg",
+                "Display_2.jpg",
+                "Display_3.jpg",
+                "Display_4.jpg"
+        );
+        URL url;
+        String file = "/Images/PublisherMaterial/";
+        String img;
+        for(int i = 0; i<image_file.size(); i++){
+            url = getClass().getResource(file + image_file.get(i));
+            this.images_asset.add(new Image(url.toString()));
+        }
+        // COMMON CARD
+        file = "/Images/common/";
+        for(int i = 0; i<12; i++){
+            img = file + String.valueOf(i+1) + ".jpg";
+            url = getClass().getResource(img);
+            this.images_common.add(new Image(url.toString()));
+        }
+
+    }
     private void setupMap(GUI gui){
         try {
             String path = "/fxml/";
@@ -111,8 +141,11 @@ public class SceneHandler {
 
     private void setUpStageMap(){}
     public SceneHandler(GUI gui) {
+        this.images_asset = new ArrayList<>();
+        this.images_common = new ArrayList<>();
         this.sceneToFxml = new HashMap<>();
         this.sceneToController = new HashMap<>();
+        loadImages();
         setupMap(gui);
         setUpStageMap();
     }
@@ -121,6 +154,19 @@ public class SceneHandler {
     }
     public GUIController getController(SceneName scene){
         return sceneToController.get(scene);
+    }
+
+    public Image getAsset(int ID){
+        /*
+        ID = 1 : Display 1
+        ID = 2 : Display 2
+        ID = 3 : Display 3
+        ID = 4 : Display 4
+         */
+        return images_asset.get(ID - 1);
+    }
+    public Image getCommon(int ID){
+        return images_common.get(ID - 1);
     }
 
 }
