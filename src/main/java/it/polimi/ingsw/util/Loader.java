@@ -5,8 +5,16 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.net.URL;
 
-
+/**
+ * The Loader class is responsible for loading game resources.
+ */
 public class Loader {
+
+    /**
+     * Loads the game board from a JSON file.
+     *
+     * @return a two-dimensional array representing the game board
+     */
     public int[][] LoadBoard() {
         Gson gson=new Gson();
         try {

@@ -8,6 +8,10 @@ import it.polimi.ingsw.model.Gameplay;
 
 import java.rmi.RemoteException;
 
+/**
+ * The abstract Listener class represents a thread that listens for incoming messages from the clients.
+ * It handles the communication between the clients and the server, processing the received messages.
+ */
 public abstract class Listener implements Runnable {
 
     private Boolean active;
@@ -21,6 +25,14 @@ public abstract class Listener implements Runnable {
 
     private final String name;
 
+    /**
+     * Constructs a new Listener instance.
+     *
+     * @param controller   the Controller object managing the game
+     * @param eventKeeper  the EventKeeper object storing the events
+     * @param id           the unique identifier of the player
+     * @param name         the name of the player
+     */
     public Listener(Controller controller, EventKeeper eventKeeper, String id, String name) {
         //this.eventKeeper = gameplay.getEventKeeper();
         //this.gameplay = gameplay;
@@ -33,11 +45,17 @@ public abstract class Listener implements Runnable {
         gson = new Gson();
     }
 
+    /**
+     * Disconnects the listener from the server.
+     */
     public synchronized void disconnect(){
         //active=false;
     }
 
-
+    /**
+     * Runs the listener thread.
+     * It listens for incoming messages and handles them accordingly.
+     */
     public void run() {
         System.out.println("thread di " + id + " avviato");
         eventKeeper.setOffset(id,0);
@@ -70,9 +88,18 @@ public abstract class Listener implements Runnable {
         System.out.println("thread di "+ id +" terminato");
     }
 
+    /**
+     * Handles the received sendable object.
+     *
+     * @param sendable the Sendable object representing the received message
+     */
     abstract void handleSendable(Sendable sendable);
 
+    /**
+     * Sends a ping message to the client to check the connection.
+     *
+     * @throws Exception if an error occurs while sending the ping message
+     */
     abstract void ping() throws Exception;
-
 
 }
