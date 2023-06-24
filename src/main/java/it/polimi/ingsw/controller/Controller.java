@@ -6,7 +6,9 @@ import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.*;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
@@ -26,8 +28,10 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      *
      * @throws RemoteException if a remote communication error occurs
      */
-    public Controller() throws RemoteException{
+    private final Registry registry;
+    public Controller(Registry registry) throws RemoteException{
         gameplaysHandler = new GameplaysHandler();
+        this.registry = registry;
     }
 
     /**
@@ -54,7 +58,8 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      * @throws NameAlreadyExistentException  if the player name already exists in the game
      * @throws RemoteException               if a remote communication error occurs
      */
-    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, ClientSkeleton cc) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException {
+    //ClientSkeleton cc
+    public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, String signature) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException, NotBoundException {
         int gameID = gameplaysHandler.nextID();
         Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID);
         System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
@@ -62,6 +67,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         //gameplaysHandler.bind(id,gameID);
+        ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
         ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         gameplaysHandler.bind(id,gameID);
         new Thread(listener).start();
@@ -110,12 +116,14 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      * @throws InvalidGameIdException        if the game ID is invalid
      * @throws RemoteException               if a remote communication error occurs
      */
-    public synchronized String addPlayer(String name, int gameID, ClientSkeleton cc) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException {
+    //ClientSkeleton cc
+    public synchronized String addPlayer(String name, int gameID, String signature) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException, NotBoundException {
         Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
         if(!gameplay.getGameState().equals(GameState.WAIT))
             throw new GameFullException();
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
+        ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
         ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         Thread t = new Thread(listener);
         gameplaysHandler.bind(id,gameID);
@@ -342,7 +350,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      * @throws AlreadyConnectedException if the player is already connected
      * @throws GameLeftException        if the player has left the game
      */
-    public synchronized String reconnect(String id, ClientSkeleton cc) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException {
+    public synchronized String reconnect(String id, ClientSkeleton cc,boolean reset) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.reconnect(id);
         String name = gameplay.getPlayerNameByID(id);
@@ -367,7 +375,7 @@ public class Controller extends UnicastRemoteObject implements ControllerSkeleto
      * @throws AlreadyConnectedException if the player is already connected
      * @throws GameLeftException        if the player has left the game
      */
-    public synchronized String reconnect(String id,Connection conn) throws InvalidIdException, GameFinishedException, AlreadyConnectedException, GameLeftException {
+    public synchronized String reconnect(String id,Connection conn,boolean reset) throws InvalidIdException, GameFinishedException, AlreadyConnectedException, GameLeftException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.reconnect(id);
         String name = gameplay.getPlayerNameByID(id);

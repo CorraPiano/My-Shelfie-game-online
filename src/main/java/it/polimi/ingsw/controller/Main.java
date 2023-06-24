@@ -12,13 +12,15 @@ import java.rmi.registry.*;
 
 public class Main {
     public static void main(String[] args) throws IOException, AlreadyBoundException, RemoteException{
+        LocateRegistry.createRegistry(Settings.RMIPORT);
+        Registry registry = LocateRegistry.getRegistry();
         SocketMap socketMap = new SocketMap();
         //SenderTCP senderTCP = new SenderTCP(socketMap);
-        Controller controller = new Controller();
+        Controller controller = new Controller(registry);
         MessageHandler messageHandler = new MessageHandler(controller,socketMap);
 
         startTCP(controller,messageHandler);
-        startRMI(controller);
+        startRMI(controller,registry);
 
 
     }
@@ -29,12 +31,10 @@ public class Main {
      * @param controller the Controller object managing the game
      * @throws RemoteException if a remote communication error occurs
      */
-    private static void startRMI(Controller controller) throws RemoteException {
+    private static void startRMI(Controller controller, Registry registry) throws RemoteException {
         //String ipAddress = new String();
         //System.setProperty("java.rmi.server.hostname", ipAddress);
         try{
-            LocateRegistry.createRegistry(Settings.RMIPORT);
-            Registry registry = LocateRegistry.getRegistry();
             registry.bind(Settings.remoteObjectName, controller);
             System.out.println("RMI attivo");
         }

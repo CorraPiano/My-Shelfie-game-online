@@ -58,7 +58,7 @@ public abstract class Listener implements Runnable {
      */
     public void run() {
         System.out.println("thread di " + id + " avviato");
-        eventKeeper.setOffset(id,0);
+        eventKeeper.resetOffset(id);
         try {
             while (true) {
                 synchronized (eventKeeper) {

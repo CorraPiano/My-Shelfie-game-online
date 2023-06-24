@@ -14,11 +14,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class RMISender extends Sender {
     private ControllerSkeleton controller;
     private final Client client;
     private final String IP;
+
+    private String signature;
 
     public RMISender(String IP, Client client) throws Exception {
         this.IP = IP;
@@ -27,6 +30,7 @@ public class RMISender extends Sender {
         ConnectionChecker connectionChecker = new ConnectionChecker(this,client);
         new Thread(connectionChecker).start();
     }
+
     //da eliminare
     public RMISender(ControllerSkeleton controller, Client client) {
         this.controller = controller;
@@ -46,7 +50,8 @@ public class RMISender extends Sender {
     public synchronized void addFirstPlayer(String name, GameMode gameMode, int numPlayer) {
         try {
             client.setName(name);
-            String ID = controller.addFirstPlayer(name, gameMode, numPlayer, client);
+            //String ID = controller.addFirstPlayer(name, gameMode, numPlayer, client);
+            String ID = controller.addFirstPlayer(name, gameMode, numPlayer, signature);
             client.receiveID(ID);
         } catch (Exception e){
             client.receiveException(e.toString());
@@ -55,7 +60,8 @@ public class RMISender extends Sender {
     public synchronized void addPlayer(String name, int gameID) {
         try {
             client.setName(name);
-            String ID = controller.addPlayer(name,gameID,client);
+            //String ID = controller.addPlayer(name,gameID,client);
+            String ID = controller.addPlayer(name, gameID, signature);
             client.receiveID(ID);
         } catch (Exception e){
             client.receiveException(e.toString());
@@ -123,7 +129,7 @@ public class RMISender extends Sender {
         try {
             client.setID(id);
             //far ritornare il name dal controller
-            String name = controller.reconnect(id,client);
+            String name = controller.reconnect(id,client,true);
             client.receiveName(name);
         }catch (Exception e){
             client.receiveException(e.toString());
@@ -132,6 +138,8 @@ public class RMISender extends Sender {
 
     public synchronized void connect() throws Exception {
         Registry registry = LocateRegistry.getRegistry(IP, Settings.RMIPORT);
+        signature = UUID.randomUUID().toString();
+        registry.rebind(signature, client);
         this.controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
     }
     public synchronized void ping(int n) throws Exception {

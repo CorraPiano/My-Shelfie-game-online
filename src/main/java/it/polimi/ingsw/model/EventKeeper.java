@@ -92,8 +92,8 @@ public class EventKeeper {
      * @param id the player ID
      * @param n  the offset value
      */
-    public synchronized void setOffset(String id, int n){
-        offsets.put(id,n);
+    public synchronized void resetOffset(String id){
+        offsets.put(id,0);
     }
 
     /**
