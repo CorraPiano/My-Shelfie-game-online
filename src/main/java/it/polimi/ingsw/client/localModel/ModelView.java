@@ -7,18 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The `ModelView` class represents the model view for the game.
+ * It stores the game data required for the CLI and GUI to display the game state.
+ */
 public class ModelView {
-    /*
-    =================================================================================
-    IDEA: avere tutte le cose che servono a CLI e GUI per stampare la roba
-    Verranno passati tramite file JSON i dati (per esempio una matrice di Item per
-    la board) e qua ci saranno tutti i vari get e set.
-    =================================================================================
-     */
-
-    //ATTRIBUTES
-
-    //private LocalGame localGame;
 
     private GameMode gameMode;
     private int numPlayers;
@@ -32,110 +25,235 @@ public class ModelView {
     private LocalPersonalCard localPersonalCard;
     private String localName;
 
-
-    //CONSTRUCTOR
+    // CONSTRUCTOR
     public ModelView() {
-
     }
 
-    public void init(int gameID ,GameMode gameMode, int numPlayers, String localName){
-        this.gameID=gameID;
-        this.gameMode=gameMode;
-        this.numPlayers=numPlayers;
+    /**
+     * Initializes the model view with the game ID, game mode, number of players, and local player's name.
+     *
+     * @param gameID     The game ID.
+     * @param gameMode   The game mode.
+     * @param numPlayers The number of players.
+     * @param localName  The local player's name.
+     */
+    public void init(int gameID, GameMode gameMode, int numPlayers, String localName) {
+        this.gameID = gameID;
+        this.gameMode = gameMode;
+        this.numPlayers = numPlayers;
         this.localBookshelfMap = new HashMap<>();
         this.localPlayerList = new ArrayList<>();
         this.localHand = new LocalHand();
         this.localCommonCardList = new ArrayList<>();
-        this.currentPlayer= "";
+        this.currentPlayer = "";
         this.localName = localName;
     }
 
-    public void loadPlayers(){
-        for (LocalPlayer p: localPlayerList) {
+    /**
+     * Loads the players and initializes the local bookshelf map.
+     */
+    public void loadPlayers() {
+        for (LocalPlayer p : localPlayerList) {
             this.localBookshelfMap.put(p.name, new LocalBookshelf(p.name));
         }
     }
 
+    // SETTERS
 
-    //SETTERS
-    //public void setLocalGame(LocalGame localGame){
-    //this.localGame = localGame;
-    //}
-    public void setCurrentPlayer(String name){
-        currentPlayer=name;
+    /**
+     * Sets the current player's name.
+     *
+     * @param name The current player's name.
+     */
+    public void setCurrentPlayer(String name) {
+        currentPlayer = name;
     }
+
+    /**
+     * Sets the local board.
+     *
+     * @param localBoard The local board.
+     */
     public void setLocalBoard(LocalBoard localBoard) {
         this.localBoard = localBoard;
     }
-    public void setLocalPlayerList(LocalPlayerList localPlayerList){
+
+    /**
+     * Sets the local player list.
+     *
+     * @param localPlayerList The local player list.
+     */
+    public void setLocalPlayerList(LocalPlayerList localPlayerList) {
         this.localPlayerList = localPlayerList.playerList;
     }
+
+    /**
+     * Sets the local bookshelf for a player.
+     *
+     * @param localBookshelf The local bookshelf.
+     */
     public void setLocalBookshelf(LocalBookshelf localBookshelf) {
         this.localBookshelfMap.put(localBookshelf.name, localBookshelf);
     }
+
+    /**
+     * Sets the local hand.
+     *
+     * @param localHand The local hand.
+     */
     public void setLocalHand(LocalHand localHand) {
         this.localHand = localHand;
-        //this.localHand = new LocalHand(localHand.hand, localHand.size);
     }
 
+    /**
+     * Sets the local common card.
+     *
+     * @param localCommonCard The local common card.
+     */
     public void setLocalCommonCard(LocalCommonCard localCommonCard) {
-        //this.localCommonCardList.add(this.localPlayerList.size(), localCommonCard);
-        if(this.localCommonCardList.size()<2)
+        if (this.localCommonCardList.size() < 2)
             this.localCommonCardList.add(localCommonCard);
-        else if(this.localCommonCardList.get(0).type==localCommonCard.type)
+        else if (this.localCommonCardList.get(0).type == localCommonCard.type)
             this.localCommonCardList.set(0, localCommonCard);
         else
             this.localCommonCardList.set(1, localCommonCard);
     }
 
-    public void setLocalPersonalCard (LocalPersonalCard localPersonalCard){
-        this.localPersonalCard = new LocalPersonalCard(localPersonalCard.num,new DataCard(localPersonalCard.num));
+    /**
+     * Sets the local personal card.
+     *
+     * @param localPersonalCard The local personal card.
+     */
+    public void setLocalPersonalCard(LocalPersonalCard localPersonalCard) {
+        this.localPersonalCard = new LocalPersonalCard(localPersonalCard.num, new DataCard(localPersonalCard.num));
     }
 
+    // GETTERS
 
-    //GETTERS
-
-    public String getLocalName(){
+    /**
+     * Returns the local player's name.
+     *
+     * @return The local player's name.
+     */
+    public String getLocalName() {
         return localName;
     }
-    public LocalCommonCard getCommonCard(int n){
+
+    /**
+     * Returns the common card at the specified index.
+     *
+     * @param n The index of the common card.
+     * @return The common card at the specified index.
+     */
+    public LocalCommonCard getCommonCard(int n) {
         return localCommonCardList.get(n);
     }
-    public String getCurrentPlayer(){
+
+    /**
+     * Returns the current player's name.
+     *
+     * @return The current player's name.
+     */
+    public String getCurrentPlayer() {
         return currentPlayer;
     }
+
+    /**
+     * Returns the local board.
+     *
+     * @return The local board.
+     */
     public LocalBoard getLocalBoard() {
         return localBoard;
     }
+
+    /**
+     * Returns the local bookshelf map.
+     *
+     * @return The local bookshelf map.
+     */
     public Map<String, LocalBookshelf> getLocalBookshelfs() {
         return localBookshelfMap;
     }
+
+    /**
+     * Returns the local hand.
+     *
+     * @return The local hand.
+     */
     public LocalHand getLocalHand() {
         return localHand;
     }
+
+    /**
+     * Returns the local player list.
+     *
+     * @return The local player list.
+     */
     public ArrayList<LocalPlayer> getLocalPlayerList() {
         return localPlayerList;
     }
+
+    /**
+     * Returns the list of common cards.
+     *
+     * @return The list of common cards.
+     */
     public ArrayList<LocalCommonCard> getCommonCards() {
         return localCommonCardList;
     }
+
+    /**
+     * Returns the data card associated with the local personal card.
+     *
+     * @return The data card.
+     */
     public DataCard getDataCard() {
         return localPersonalCard.dataCard;
     }
+
+    /**
+     * Returns the game mode.
+     *
+     * @return The game mode.
+     */
     public GameMode getGameMode() {
         return gameMode;
     }
+
+    /**
+     * Returns the number of players.
+     *
+     * @return The number of players.
+     */
     public int getNumPlayers() {
         return numPlayers;
     }
+
+    /**
+     * Returns the game ID.
+     *
+     * @return The game ID.
+     */
     public int getGameID() {
         return gameID;
     }
 
-    public int getNumOfPlayer(){
+    /**
+     * Returns the number of players in the local player list.
+     *
+     * @return The number of players.
+     */
+    public int getNumOfPlayer() {
         return localPlayerList.size();
     }
-    public LocalPersonalCard getLocalPersonalCard(){
+
+    /**
+     * Returns the local personal card.
+     *
+     * @return The local personal card.
+     */
+    public LocalPersonalCard getLocalPersonalCard() {
         return localPersonalCard;
     }
 }

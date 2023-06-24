@@ -9,25 +9,50 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The `LocalCommonCard` class represents a common goal card used to send messages over the network.
+ * It stores the type of the card and the list of tokens associated with it.
+ */
 public class LocalCommonCard implements Serializable, Sendable {
+
     public final ArrayList<Token> tokenList;
     public final int type;
 
+    /**
+     * Constructs a `LocalCommonCard` object with the specified type and token list.
+     *
+     * @param type       The type of the common goal card.
+     * @param tokenList  The list of tokens associated with the common goal card.
+     */
     public LocalCommonCard(int type, ArrayList<Token> tokenList) {
         this.type = type;
         this.tokenList = tokenList;
     }
 
-    public int getType(){
+    /**
+     * Returns the type of the common goal card.
+     *
+     * @return The type of the common goal card.
+     */
+    public int getType() {
         return type;
     }
 
-    public ArrayList<Token> showToken(){
+    /**
+     * Returns the list of tokens associated with the common goal card.
+     *
+     * @return The list of tokens.
+     */
+    public ArrayList<Token> showToken() {
         return tokenList;
     }
 
-    public MessageHeader getHeader(){
+    /**
+     * Returns the message header associated with the `LocalCommonCard` object.
+     *
+     * @return The message header.
+     */
+    public MessageHeader getHeader() {
         return MessageHeader.COMMONGOALCARD;
     }
-
 }
