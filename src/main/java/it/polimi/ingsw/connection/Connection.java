@@ -8,6 +8,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Represents a connection between a client and a server.
+ */
 public class Connection implements Runnable{
     private final MessageHandler messageHandler;
     private final int num;
@@ -18,6 +21,14 @@ public class Connection implements Runnable{
 
     private boolean active;
 
+    /**
+     * Constructs a new Connection object.
+     *
+     * @param socket          The socket representing the connection.
+     * @param num             The identifier for this connection.
+     * @param messageHandler  The message handler responsible for processing received messages.
+     * @throws IOException    If an I/O error occurs when creating the connection.
+     */
     public Connection(Socket socket, int num, MessageHandler messageHandler) throws IOException {
         this.num = num;
         this.messageHandler = messageHandler;
@@ -27,6 +38,10 @@ public class Connection implements Runnable{
         active = true;
     }
 
+    /**
+     * Runs the connection, continuously listening for incoming messages.
+     * When a message is received, it is passed to the message handler for processing.
+     */
     public void run() {
 
         System.out.println("nuova connessione");
@@ -55,6 +70,12 @@ public class Connection implements Runnable{
         System.out.println("connessione terminata");
     }
 
+    /**
+     * Sends a TCP message through the connection.
+     *
+     * @param TCPmessage The TCP message to be sent.
+     * @throws Exception If the connection is not active or an error occurs during the send operation.
+     */
     public synchronized void send(TCPMessage TCPmessage) throws Exception {
         if(!TCPmessage.getHeader().equals(MessageHeader.PING))
             System.out.println("-> "+TCPmessage.getHeader() + " : " + TCPmessage.getBody());
