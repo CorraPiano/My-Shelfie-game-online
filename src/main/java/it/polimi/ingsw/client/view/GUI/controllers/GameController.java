@@ -129,6 +129,7 @@ public class GameController implements GUIController {
     private ArrayList<Integer> handOrder = new ArrayList<>();
     private ArrayList<Image> handImages = new ArrayList<>();
     private int handClickCount;
+    private int imagesHighlighted;
     private boolean HandVisible;
 
     //METHODS
@@ -223,7 +224,8 @@ public class GameController implements GUIController {
             gui.pickItem(clickBoardCoordinates);
         }
     }
-   /* public void onBookshelfClick(MouseEvent event) {
+
+    /* public void onBookshelfClick(MouseEvent event) {
         int column = getBookshelfCellsColumn(event);
             gui.putItemList(column);
             setEffectNull();
@@ -248,6 +250,28 @@ public class GameController implements GUIController {
         dropShadow.setColor(Color.YELLOW);
         dropShadow.setWidth(20);
         dropShadow.setHeight(20);
+        clickedImageView.setEffect(dropShadow);
+        imagesHighlighted++;
+
+        if (clickedImageView.equals(hand1)) {
+            handOrder.add(0);
+            //System.out.println("--> aggiunto l'intero 0 in handOrder");
+        } else if (clickedImageView.equals(hand2)) {
+            handOrder.add(1);
+            //System.out.println("--> aggiunto l'intero 1 in handOrder");
+        } else if (clickedImageView.equals(hand3)){
+            handOrder.add(2);
+            //System.out.println("--> aggiunto l'intero 2 in handOrder");
+        }
+
+    }
+
+/*    public void onHandClick(MouseEvent event) {
+        ImageView clickedImageView = (ImageView) event.getSource();
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.YELLOW);
+        dropShadow.setWidth(20);
+        dropShadow.setHeight(20);
 
         if (clickedImageView.getEffect() == null ) {
             clickedImageView.setEffect(dropShadow);
@@ -264,7 +288,7 @@ public class GameController implements GUIController {
         }
 
         else {
-            clickedImageView.setEffect(null);
+            setEffectNull();
             if (clickedImageView.equals(hand1)) {
                 handOrder.remove(Integer.valueOf(0));
                 //System.out.println("--> aggiunto l'intero 0 in handOrder");
@@ -279,12 +303,20 @@ public class GameController implements GUIController {
                 //System.out.println("--> aggiunto l'intero 2 in handOrder");
             }
         }
-    }
+    }*/
     public void onTickClick() {
         int handSize = modelView.getLocalHand().coordinatesList.size();
-        gui.selectInsertOrder(handOrder);
+
+        if (imagesHighlighted == handOrder.size() && (handOrder.size() == handSize) && handOrder.size() != 0) {
+            gui.selectInsertOrder(handOrder);
+            handOrder.clear();
+            showArrows(handSize);
+        }
+    }
+    public void onOrderUndo(){
+        setEffectNull();
         handOrder.clear();
-        showArrows(handSize);
+        imagesHighlighted = 0;
     }
 
     /* Show methods */
@@ -475,6 +507,7 @@ public class GameController implements GUIController {
             bookshelfGrid.setDisable(false);
             boardGrid.setDisable(false);
             HandVisible = true;
+            imagesHighlighted = 0;
         }
 
     }

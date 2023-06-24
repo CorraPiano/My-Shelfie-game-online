@@ -85,4 +85,8 @@
     -fx-graphic: url('../Images/assets/tick.png');
 }
 
+#orderUndo{
+    -fx-graphic: url('../Images/assets/cross.png');
+}
+
 
