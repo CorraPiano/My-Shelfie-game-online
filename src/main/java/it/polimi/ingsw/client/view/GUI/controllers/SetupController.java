@@ -25,50 +25,82 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
+/**
+ * Controller class for the setup functionality in the GUI.
+ */
 public class SetupController implements GUIController {
     private GUI gui;
     @FXML
     private TextField ipAddress;
 
+    /**
+     * Sets the GUI object in the controller.
+     *
+     * @param gui The GUI object to be set.
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
     }
 
+    /**
+     * Retrieves the GUI object associated with the controller.
+     *
+     * @return The GUI object associated with the controller.
+     */
     @Override
-    public GUI getGui() { return this.gui; }
+    public GUI getGui() {
+        return this.gui;
+    }
 
+    /**
+     * Event handler for the TCP connection button.
+     * Retrieves the IP address entered by the user and attempts to establish a TCP connection.
+     * Displays an alert box if an error occurs during the connection.
+     */
     @FXML
-    public void onTCPButton(){
+    public void onTCPButton() {
         String ip = getIpAddress();
         try {
             gui.setTCPConnection(ip);
         } catch (IOException e) {
-            // Alert box
+            // Display alert box for I/O error
         } catch (Exception e) {
-            // Alert box
+            // Display alert box for other exceptions
         }
     }
+
+    /**
+     * Event handler for the RMI connection button.
+     * Retrieves the IP address entered by the user and attempts to establish an RMI connection.
+     * Displays an alert box if an error occurs during the connection.
+     */
     @FXML
-    public void onRMIButton(){
+    public void onRMIButton() {
         String ip = getIpAddress();
         try {
             gui.setRMIConnection(ip);
         } catch (RemoteException e) {
-            // Alert box
+            // Display alert box for RemoteException
         } catch (NotBoundException e) {
-            // Alert box
+            // Display alert box for NotBoundException
         } catch (Exception e) {
-            // Alert box
+            // Display alert box for other exceptions
         }
     }
-    private String getIpAddress(){
+
+    /**
+     * Retrieves the IP address entered by the user in the text field.
+     * If no IP address is entered, it defaults to "localhost".
+     *
+     * @return The IP address entered by the user.
+     */
+    private String getIpAddress() {
         String ip = ipAddress.getText();
-        if(ip == "")
-            return  "localhost";
-        else
+        if (ip.equals("")) {
+            return "localhost";
+        } else {
             return ip;
-
+        }
     }
-
 }

@@ -7,8 +7,20 @@ import javafx.stage.WindowEvent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The `AlertBox` class provides utility methods for displaying alert dialogs in a JavaFX application.
+ */
 public class AlertBox {
-    public static int exitRequest(Stage mainStage, WindowEvent windowEvent, String message){
+
+    /**
+     * Displays an exit confirmation dialog.
+     *
+     * @param mainStage    The main stage of the application.
+     * @param windowEvent  The window event representing the close request.
+     * @param message      The message to display in the dialog.
+     * @return The status code indicating the user's choice: 1 for "Yes", 2 for "No".
+     */
+    public static int exitRequest(Stage mainStage, WindowEvent windowEvent, String message) {
         AtomicInteger status = new AtomicInteger(0);
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Warning");
@@ -23,7 +35,6 @@ public class AlertBox {
                 alert.close();
                 mainStage.close();
                 status.set(1);
-
             } else {
                 status.set(2);
                 alert.close();
@@ -32,7 +43,15 @@ public class AlertBox {
         return status.get();
     }
 
-    public static int errorData(Stage mainStage, String message, String title){
+    /**
+     * Displays an error dialog with custom title.
+     *
+     * @param mainStage  The main stage of the application.
+     * @param message    The message to display in the dialog.
+     * @param title      The title of the dialog.
+     * @return The status code indicating the user's choice: 1 for "Ok".
+     */
+    public static int errorData(Stage mainStage, String message, String title) {
         double WIDTH = 400;
         double HEIGHT = 100;
 
@@ -46,21 +65,19 @@ public class AlertBox {
 
         // calculate position
         double x = mainStage.getX();
-        double y =  mainStage.getY();
-        double center_x = x +  mainStage.getScene().getWidth()/2;
-        double center_y = y + mainStage.getScene().getHeight()/2;
+        double y = mainStage.getY();
+        double center_x = x + mainStage.getScene().getWidth() / 2;
+        double center_y = y + mainStage.getScene().getHeight() / 2;
 
-        alert.setX(center_x - WIDTH/2);
-        alert.setY(center_y - HEIGHT/2);
+        alert.setX(center_x - WIDTH / 2);
+        alert.setY(center_y - HEIGHT / 2);
 
         alert.showAndWait().ifPresent(response -> {
             if (response == buttonTypeYes) {
                 alert.close();
                 status.set(1);
-
             }
         });
         return status.get();
     }
-
 }

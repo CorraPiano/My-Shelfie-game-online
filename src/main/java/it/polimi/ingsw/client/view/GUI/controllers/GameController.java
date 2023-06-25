@@ -251,7 +251,6 @@ public class GameController implements GUIController {
 
         tableView.setItems(data);
     }
-
     private void initTokens() {
         URL url_empty = getClass().getResource("/Images/scoring_tokens/scoring_back_EMPTY.jpg");
         URL url_end = getClass().getResource("/Images/scoring_tokens/end_game.jpg");

@@ -12,6 +12,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The `SceneHandler` class manages the scenes and controllers in a JavaFX application.
+ * It provides methods to load scenes from FXML files, set up mappings between scenes and controllers,
+ * and retrieve scenes and controllers by their corresponding names.
+ */
 public class SceneHandler {
 
     private final HashMap<SceneName, Scene> sceneToFxml;
@@ -20,13 +25,9 @@ public class SceneHandler {
     private final List<Image> images_common;
 
 
-    /*
-        - Set all the fxml and the HashMap relative to the scene
-        - Set the gui for all controllers
-     */
-    private void loadImages(){
+    private void loadImages() {
         // ASSET
-        List<String> image_file = Arrays.asList(
+        List<String> image_file = List.of(
                 "Display_1.jpg",
                 "Display_2.jpg",
                 "Display_3.jpg",
@@ -35,20 +36,20 @@ public class SceneHandler {
         URL url;
         String file = "/Images/PublisherMaterial/";
         String img;
-        for(int i = 0; i<image_file.size(); i++){
-            url = getClass().getResource(file + image_file.get(i));
+        for (String filename : image_file) {
+            url = getClass().getResource(file + filename);
             this.images_asset.add(new Image(url.toString()));
         }
         // COMMON CARD
         file = "/Images/common/";
-        for(int i = 0; i<12; i++){
-            img = file + String.valueOf(i) + ".jpg";
+        for (int i = 0; i < 12; i++) {
+            img = file + i + ".jpg";
             url = getClass().getResource(img);
             this.images_common.add(new Image(url.toString()));
         }
-
     }
-    private void setupMap(GUI gui){
+
+    private void setupMap(GUI gui) {
         try {
             String path = "/fxml/";
             SceneName name;
@@ -107,7 +108,7 @@ public class SceneHandler {
             controller.setGui(gui);
             sceneToController.put(name, controller);
 
-            // Bookshelfs
+            // Bookshelves
             fxmlLoader = new FXMLLoader(GUI.class.getResource(path + "bookshelfs.fxml"));
             scene = new Scene(fxmlLoader.load());
             name = SceneName.BOOKSHELFS;
@@ -139,7 +140,15 @@ public class SceneHandler {
         }
     }
 
-    private void setUpStageMap(){}
+    private void setUpStageMap() {
+        // TODO: Implement this method
+    }
+
+    /**
+     * Constructs a `SceneHandler` object with the given GUI instance.
+     *
+     * @param gui The GUI instance.
+     */
     public SceneHandler(GUI gui) {
         this.images_asset = new ArrayList<>();
         this.images_common = new ArrayList<>();
@@ -149,14 +158,34 @@ public class SceneHandler {
         setupMap(gui);
         setUpStageMap();
     }
-    public Scene getScene(SceneName scene){
+
+    /**
+     * Returns the scene associated with the given scene name.
+     *
+     * @param scene The scene name.
+     * @return The corresponding scene.
+     */
+    public Scene getScene(SceneName scene) {
         return sceneToFxml.get(scene);
     }
-    public GUIController getController(SceneName scene){
+
+    /**
+     * Returns the controller associated with the given scene name.
+     *
+     * @param scene The scene name.
+     * @return The corresponding controller.
+     */
+    public GUIController getController(SceneName scene) {
         return sceneToController.get(scene);
     }
 
-    public Image getAsset(int ID){
+    /**
+     * Returns the asset image with the specified ID.
+     *
+     * @param ID The ID of the asset image (1-4).
+     * @return The corresponding image.
+     */
+    public Image getAsset(int ID) {
         /*
         ID = 1 : Display 1
         ID = 2 : Display 2
@@ -165,7 +194,14 @@ public class SceneHandler {
          */
         return images_asset.get(ID - 1);
     }
-    public Image getCommon(int ID){
+
+    /**
+     * Returns the common image with the specified ID.
+     *
+     * @param ID The ID of the common image.
+     * @return The corresponding image.
+     */
+    public Image getCommon(int ID) {
         return images_common.get(ID - 1);
     }
 

@@ -7,8 +7,22 @@ import it.polimi.ingsw.client.view.GUI.GUI;
 
 import java.util.ArrayList;
 
+/**
+ * The interface for GUI controllers that handle interactions between the GUI and the game logic.
+ */
 public interface GUIController {
-    void setGui(GUI gui);
-    GUI getGui();
 
+    /**
+     * Sets the GUI object in the controller.
+     *
+     * @param gui The GUI object to be set.
+     */
+    void setGui(GUI gui);
+
+    /**
+     * Retrieves the GUI object associated with the controller.
+     *
+     * @return The GUI object associated with the controller.
+     */
+    GUI getGui();
 }
