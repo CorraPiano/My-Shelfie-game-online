@@ -510,6 +510,8 @@ public class GameController implements GUIController {
         URL url_6 = getClass().getResource("/Images/scoring_tokens/scoring_6.jpg");
         URL url_8 = getClass().getResource("/Images/scoring_tokens/scoring_8.jpg");
 
+        //c'è un problema, quando viene preso il secondo token dalla common da "Index 0 out of bounds for length 0"
+
         switch (modelView.getCommonCards().get(0).tokenList.get(0).getValue()){
             case 2 -> common1token.setImage(new Image(url_2.toString()));
             case 4 -> common1token.setImage(new Image(url_4.toString()));

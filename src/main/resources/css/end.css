@@ -2,20 +2,15 @@
     -fx-background-image: url(../Images/misc/sfondo_parquet.jpg);
     -fx-background-size: cover;
 }
-.pane-lobby{
+
+.imageView {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0, 0, 0);
+}
+
+.pane{
     -fx-background-color: rgb(60, 40, 14, 0.3) ;
     -fx-border-width: 2px;
     -fx-border-radius: 15px;
     -fx-background-radius: 15px;
     -fx-border-color:rgb(60, 40, 14);
-}
-.list-view-lobby{
-    -fx-background-color: rgb(200,200,200, 0.4);
-}
-.list-view .list-cell {
-    -fx-background-color: transparent;
-}
-
-.textarea {
-    -fx-background-color: red;
 }

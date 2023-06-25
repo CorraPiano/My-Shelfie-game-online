@@ -4,13 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="755.0" prefWidth="1014.0" styleClass="root" stylesheets="@../css/find-game-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.LobbyController">
+<AnchorPane prefHeight="755.0" prefWidth="1014.0" stylesheets="@../css/lobby-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.LobbyController">
    <children>
       <ImageView fx:id="images_pane" fitHeight="366.0" fitWidth="592.0" layoutX="402.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="287.0" layoutY="29.0" text="Waiting other players ... ">
@@ -32,12 +31,12 @@
       <Pane layoutX="400.0" layoutY="495.0" prefHeight="227.0" prefWidth="592.0" styleClass="pane-lobby" stylesheets="@../css/lobby-style.css">
          <children>
             <ImageView fx:id="commonCard" fitHeight="137.0" fitWidth="170.0" layoutX="24.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-            <TextArea layoutX="274.0" layoutY="64.0" prefHeight="137.0" prefWidth="286.0" styleClass="list-view" stylesheets="@../css/find-game-style.css" />
             <Label layoutX="24.0" layoutY="20.0" text="Help on common goal cards">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </Label>
+            <TextArea layoutX="228.0" layoutY="85.0" prefHeight="108.0" prefWidth="292.0" styleClass="textarea" stylesheets="@../css/lobby-style.css" />
          </children>
       </Pane>
       <Pane layoutX="15.0" layoutY="123.0" prefHeight="43.0" prefWidth="371.0" styleClass="pane-lobby" stylesheets="@../css/lobby-style.css">
@@ -47,10 +46,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="14.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" styleClass="notification-pane">
-               <image>
-                  <Image url="@../Images/assets/notification.png" />
-               </image></ImageView>
+            <ImageView fitHeight="25.0" fitWidth="22.0" layoutX="14.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" styleClass="notification-pane" />
          </children>
       </Pane>
    </children>

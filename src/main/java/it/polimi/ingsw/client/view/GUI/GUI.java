@@ -114,6 +114,7 @@ public class GUI extends Application implements View {
             else if(command == Command.END) {
                 currentSceneName = SceneName.END;
                 changeStage(false, false);
+                this.updateEnd();
             }
         });
         stageLambda.put(SceneName.END, (command)-> {
@@ -457,9 +458,11 @@ public class GUI extends Application implements View {
      |______|_| \_|_____/
      **********************/
 
-    public void updateEnd(String name, ArrayList<LocalPlayer> localPlayers){
+    public void updateEnd(){
         EndController end = (EndController) this.controller;
-        end.updateLabel(name, localPlayers);
+        Platform.runLater(()->{
+            end.updateLabel();
+        });
     }
 
     /* *******************************************************************
