@@ -18,7 +18,7 @@
       </ImageView>
       <ImageView fitHeight="236.0" fitWidth="623.0" layoutX="133.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
          <image>
-            <Image url="@../Images/misc/frame-removebg-preview.png" />
+            <Image url="@../Images/misc/frame.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="106.0" fitWidth="358.0" layoutX="271.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">

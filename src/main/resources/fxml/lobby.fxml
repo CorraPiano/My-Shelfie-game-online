@@ -59,7 +59,7 @@
       </Pane>
       <ImageView fitHeight="173.0" fitWidth="348.0" layoutX="333.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
          <image>
-            <Image url="@../Images/misc/frame-removebg-preview.png" />
+            <Image url="@../Images/misc/frame.png" />
          </image>
       </ImageView>
       <Text fill="#e1a569" layoutX="439.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lobby">
