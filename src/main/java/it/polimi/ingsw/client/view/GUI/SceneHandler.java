@@ -40,7 +40,22 @@ public class SceneHandler {
      */
     private void loadImages(){
         // ASSET
-        List<String> image_file = Arrays.asList(
+//        List<String> image_file = Arrays.asList(
+//                "Display_1.jpg",
+//                "Display_2.jpg",
+//                "Display_3.jpg",
+//                "Display_4.jpg"
+//        );
+//        URL url;
+//        String file = "src/main/resources/Images/PublisherMaterial/";
+//        String img;
+//        for(int i = 0; i<image_file.size(); i++){
+//            img = file + image_file.get(i);
+//            url = getClass().getResource(img);
+//            this.images_asset.add(new Image(url.toString()));
+//        }
+        // ASSET
+        List<String> image_file = List.of(
                 "Display_1.jpg",
                 "Display_2.jpg",
                 "Display_3.jpg",
@@ -49,8 +64,8 @@ public class SceneHandler {
         URL url;
         String file = "/Images/PublisherMaterial/";
         String img;
-        for(int i = 0; i<image_file.size(); i++){
-            url = getClass().getResource(file + image_file.get(i));
+        for (String filename : image_file) {
+            url = getClass().getResource(file + filename);
             this.images_asset.add(new Image(url.toString()));
         }
         // COMMON CARD
@@ -295,8 +310,6 @@ public class SceneHandler {
      * @return The corresponding image.
      */
     public Image getCommon(int ID) {
-        return images_common.get(ID - 1);
-    public Image getCommon(int ID){
         return images_common.get(ID);
     }
     public String getCommonDescription(int num_card) {

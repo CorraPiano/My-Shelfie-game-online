@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,19 +10,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="755.0" prefWidth="1014.0" stylesheets="@../css/lobby-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.LobbyController">
+<AnchorPane prefHeight="755.0" prefWidth="1014.0" styleClass="root" stylesheets="@../css/lobby-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.LobbyController">
    <children>
-      <ImageView fx:id="images_pane" fitHeight="366.0" fitWidth="592.0" layoutX="402.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="287.0" layoutY="29.0" text="Waiting other players ... ">
+      <ImageView fx:id="images_pane" fitHeight="366.0" fitWidth="552.0" layoutX="420.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+      <Label layoutX="287.0" layoutY="29.0" text="Waiting other players ... " textFill="#250f0f">
          <font>
             <Font name="System Bold Italic" size="29.0" />
          </font>
       </Label>
       <Pane layoutX="15.0" layoutY="205.0" prefHeight="284.0" prefWidth="371.0" styleClass="pane-lobby" stylesheets="@../css/lobby-style.css">
          <children>
-            <Label layoutX="31.0" layoutY="22.0" text="Players:">
+            <Label layoutX="31.0" layoutY="22.0" text="Players" textFill="#322020">
                <font>
-                  <Font name="System Italic" size="16.0" />
+                  <Font name="System Bold Italic" size="16.0" />
                </font>
             </Label>
             <ListView fx:id="playerLists" layoutX="31.0" layoutY="47.0" prefHeight="200.0" prefWidth="300.0" styleClass="list-view-lobby" stylesheets="@../css/lobby-style.css" />
@@ -33,17 +32,21 @@
       <Pane layoutX="400.0" layoutY="495.0" prefHeight="227.0" prefWidth="592.0" styleClass="pane-lobby" stylesheets="@../css/lobby-style.css">
          <children>
             <ImageView fx:id="commonCard" fitHeight="137.0" fitWidth="170.0" layoutX="24.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-            <TextArea layoutX="274.0" layoutY="64.0" prefHeight="137.0" prefWidth="286.0" styleClass="list-view" stylesheets="@../css/find-game-style.css" />
-            <Label layoutX="24.0" layoutY="20.0" text="Help on common goal cards">
+            <Label layoutX="24.0" layoutY="20.0" text="Help on common goal cards" textFill="#322020">
                <font>
-                  <Font name="System Italic" size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <Text fx:id="commonDescription" fill="#301f1f" layoutX="273.0" layoutY="62.0" opacity="0.82" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="JUSTIFY" wrappingWidth="290.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
       <Pane layoutX="15.0" layoutY="123.0" prefHeight="43.0" prefWidth="371.0" styleClass="pane-lobby" stylesheets="@../css/lobby-style.css">
          <children>
-            <Label fx:id="notification" layoutX="77.0" layoutY="9.0" text="No notifications">
+            <Label fx:id="notification" layoutX="77.0" layoutY="9.0" text="No notifications" textFill="#322020">
                <font>
                   <Font size="16.0" />
                </font>

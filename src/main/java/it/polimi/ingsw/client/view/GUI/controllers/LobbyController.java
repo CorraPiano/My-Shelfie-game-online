@@ -22,7 +22,6 @@ public class LobbyController implements GUIController {
     private GUI gui;
     private int currentImage_asset;
     private int currentImage_common;
-    private ArrayList<Image> images;
     @FXML
     Label notification;
     @FXML
@@ -78,22 +77,17 @@ public class LobbyController implements GUIController {
         else
             currentImage_asset++;
     }
-    public void changeCommon(){
-        commonCard.setImage(this.gui.getSceneHandler().getCommon(currentImage_common));
-        commonDescription.setText(this.gui.getSceneHandler().getCommonDescription(currentImage_common));
-        if(currentImage_common == 11 )
-            currentImage_common = 0;
-        else currentImage_common++;
-
     /**
-     * Changes the displayed common card image in the lobby.
+     * Changes the displayed common card image and the description in the lobby.
      */
     public void changeCommon() {
-            images_pane.setImage(this.gui.getSceneHandler().getAsset(currentImage_asset));
-            if(currentImage_asset == 4 )
-                currentImage_asset = 1;
-            else currentImage_asset++;
+        commonCard.setImage(this.gui.getSceneHandler().getCommon(currentImage_common));
+        commonDescription.setText(this.gui.getSceneHandler().getCommonDescription(currentImage_common));
+        if (currentImage_common == 11)
+            currentImage_common = 0;
+        else currentImage_common++;
     }
+
 
     /**
      * Quits the game and exits the lobby.
