@@ -11,10 +11,95 @@ public class PersonalGoalCardTest {
 
         InputTest input = TestFactory.createTest("src/test/java/it/polimi/ingsw/model/util/PersonalTestFile.txt");
         PersonalGoalCard g;
-        for(int i=0; i< input.numberOfTests(); i++){
+        int curr_test = 0, num_test = 0;
+        // Personal 0
+        num_test = 3;
+        curr_test = 0;
+        for(int i=0; i< num_test; i++){
             g = new PersonalGoalCard(0);
-            g.setBookshelf(input.getInputLibrary(i));
-            Assertions.assertEquals(input.getResult(i), g.calculatePoints(), "Matrice numero: " + i);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+
+        // Personal 2
+        curr_test += num_test;
+        num_test = 2;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(2);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 3
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(3);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 4
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(4);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 5
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(5);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 6
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(6);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 7
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(7);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 8
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(8);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 9
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(9);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 10
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(10);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
+        }
+        // Personal 11
+        curr_test += num_test;
+        num_test = 1;
+        for(int i=0; i< num_test; i++){
+            g = new PersonalGoalCard(11);
+            g.setBookshelf(input.getInputLibrary(i + curr_test));
+            Assertions.assertEquals(input.getResult(i + curr_test), g.calculatePoints(), "Matrice numero: " + (i + curr_test));
         }
 
     }

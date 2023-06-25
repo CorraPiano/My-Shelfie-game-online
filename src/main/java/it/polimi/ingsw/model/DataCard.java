@@ -58,7 +58,7 @@ public class DataCard implements Serializable {
             return;
         }
         if(n == 2) {
-            m.put(new Coordinates(1, 1), 2);
+            m.put(new Coordinates(1, 0), 2);
             m.put(new Coordinates(1, 3), 1);
             m.put(new Coordinates(2, 2), 3);
             m.put(new Coordinates(3, 1), 0);
@@ -79,8 +79,8 @@ public class DataCard implements Serializable {
             m.put(new Coordinates(1, 1), 4);
             m.put(new Coordinates(3, 1), 2);
             m.put(new Coordinates(3, 2), 5);
-            m.put(new Coordinates(4, 2), 3);
-            m.put(new Coordinates(5, 4), 1);
+            m.put(new Coordinates(4, 4), 3);
+            m.put(new Coordinates(5, 0), 1);
             m.put(new Coordinates(5, 3), 0);
             return;
         }
@@ -112,7 +112,7 @@ public class DataCard implements Serializable {
             return;
         }
         if(n == 8) {
-            m.put(new Coordinates(0, 1), 1);
+            m.put(new Coordinates(0, 2), 1);
             m.put(new Coordinates(2, 2), 0);
             m.put(new Coordinates(3, 4), 5);
             m.put(new Coordinates(4, 1), 4);
