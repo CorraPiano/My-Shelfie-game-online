@@ -4,8 +4,7 @@ import it.polimi.ingsw.model.util.TestFactory;
 import it.polimi.ingsw.model.util.InputTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-public class CommonGoalCardTest {
+ public class CommonGoalCardTest {
     @Test
     void checkFullFilTest(){
 

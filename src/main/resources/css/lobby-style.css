@@ -10,5 +10,8 @@
     -fx-border-color:rgb(60, 40, 14);
 }
 .list-view-lobby{
-    -fx-background-color: rgb(200,200,200, 0.4);
+    -fx-background-color: transparent;
+}
+.imageView {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0, 0, 0);
 }

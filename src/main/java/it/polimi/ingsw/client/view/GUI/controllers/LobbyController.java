@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class LobbyController implements GUIController{
     private ListView<String> playerLists;
     @FXML
     private ImageView images_pane;
+    @FXML
+    private Text commonDescription;
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
@@ -58,8 +61,9 @@ public class LobbyController implements GUIController{
     }
     public void changeCommon(){
         commonCard.setImage(this.gui.getCommon(currentImage_common));
-        if(currentImage_common == 12 )
-            currentImage_common = 1;
+        commonDescription.setText(this.gui.getSceneHandler().getCommonDescription(currentImage_common));
+        if(currentImage_common == 11 )
+            currentImage_common = 0;
         else currentImage_common++;
     }
     @FXML

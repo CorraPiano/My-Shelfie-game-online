@@ -36,8 +36,8 @@ public class GUI extends Application implements View {
     private Stage primaryStage;
     private Stage secondaryStage;
     private SceneName currentSceneName;
-    private final int timerSleep_img = 3;
-    private final int timerSleep_common = 4;
+    private final int timerSleep_img = 5;
+    private final int timerSleep_common = 10;
 
     private ScheduledExecutorService executorService_images;
     private ScheduledExecutorService executorService_common;
@@ -203,6 +203,10 @@ public class GUI extends Application implements View {
 
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public SceneHandler getSceneHandler() {
+        return sceneHandler;
     }
 
     // link: http://patorjk.com/software/taag/#p=testall&f=Calvin%20S&t=SET-UP%20

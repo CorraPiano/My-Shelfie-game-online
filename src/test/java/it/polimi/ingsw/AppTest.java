@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.CommonGoalCardTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -33,6 +34,7 @@ public class AppTest
      */
     public void testApp()
     {
+        CommonGoalCardTest commonGoalCardTest = new CommonGoalCardTest();
         assertTrue( true );
     }
 }

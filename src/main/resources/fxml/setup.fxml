@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="755.0" prefWidth="1014.0" style="-fx-background-image: url(images/misc/sfondo_parquet.jpg); -fx-background-size: cover" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.SetupController">
+<AnchorPane prefHeight="755.0" prefWidth="1014.0" styleClass="root" stylesheets="@../css/setup-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.SetupController">
    <children>
       <ImageView fitHeight="476.0" fitWidth="583.0" layoutX="216.0" mouseTransparent="true">
          <image>
-            <Image url="@../Images/PublisherMaterial/Title%202000x2000px.png" />
+            <Image url="@../Images/PublisherMaterial/Title 2000x2000px.png" />
          </image>
       </ImageView>
       <Button layoutX="416.0" layoutY="377.0" mnemonicParsing="false" onAction="#onRMIButton" prefHeight="31.0" prefWidth="68.0" text="RMI" />
