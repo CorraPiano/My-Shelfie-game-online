@@ -20,11 +20,17 @@ public class SceneHandler {
     private final List<Image> images_common;
     private final List<String> commonDescription;
 
+    // Immagini di tutti gli item caricate in partenza
+    private final List<Image> itemBlue;
+    private final List<Image> itemCyan;
+    private final List<Image> itemGreen;
+    private final List<Image> itemPink;
+    private final List<Image> itemWhite;
+    private final List<Image> itemYellow;
 
-    /*
-        - Set all the fxml and the HashMap relative to the scene
-        - Set the gui for all controllers
-     */
+
+
+
     private void loadImages(){
         // ASSET
         List<String> image_file = Arrays.asList(
@@ -47,8 +53,36 @@ public class SceneHandler {
             url = getClass().getResource(img);
             this.images_common.add(new Image(url.toString()));
         }
+        // ITEM
+        file = "/Images/items/";
+        String imgBlue, imgCyan, imgGreen, imgWhite, imgPink, imgYellow;
+        for(int i = 0; i<3; i++){
+            imgBlue = file + "Blue" + String.valueOf(i+1)  + ".png";
+            imgCyan = file + "Cyan" + String.valueOf(i+1)  + ".png";
+            imgGreen = file + "Green" + String.valueOf(i+1)  + ".png";
+            imgPink = file + "Pink" + String.valueOf(i+1)  + ".png";
+            imgWhite = file + "White" + String.valueOf(i+1)  + ".png";
+            imgYellow = file + "Yellow" + String.valueOf(i+1)  + ".png";
+
+            url = getClass().getResource(imgBlue);
+            this.itemBlue.add(new Image(url.toString()));
+            url = getClass().getResource(imgCyan);
+            this.itemCyan.add(new Image(url.toString()));
+            url = getClass().getResource(imgGreen);
+            this.itemGreen.add(new Image(url.toString()));
+            url = getClass().getResource(imgPink);
+            this.itemPink.add(new Image(url.toString()));
+            url = getClass().getResource(imgWhite);
+            this.itemWhite.add(new Image(url.toString()));
+            url = getClass().getResource(imgYellow);
+            this.itemYellow.add(new Image(url.toString()));
+        }
 
     }
+    /*
+        - Set all the fxml and the HashMap relative to the scene
+        - Set the gui for all controllers
+    */
     private void setupMap(GUI gui){
         try {
             String path = "/fxml/";
@@ -139,17 +173,75 @@ public class SceneHandler {
             throw new RuntimeException(e);
         }
     }
+    private void setupCommonDescription(){
+        commonDescription.add(0,
+                "Six groups each containing at least" +
+                        " 2 tiles of the same type (not necessarily" +
+                        " in the depicted shape).\n" +
+                        " The tiles of one group can be different" +
+                        " from those of another group");
+        commonDescription.add(1,
+                "Four groups each containing at least" +
+                        " 4 tiles of the same type (not necessarily" +
+                        " in the depicted shape).\n" +
+                        " The tiles of one group can be different" +
+                        " from those of another group");
+        commonDescription.add(2,
+                "Four tiles of the same type in the four" +
+                        " corners of the bookshelf");
+        commonDescription.add(3,
+                "Two groups each containing 4 tiles of" +
+                        " the same type in a 2x2 square. The tiles" +
+                        " of one square can be different from" +
+                        " those of the other square");
+        commonDescription.add(4,
+                "Three columns each formed by 6 tiles" +
+                        " of maximum three different types. One" +
+                        " column can show the same or a different" +
+                        " combination of another column");
+        commonDescription.add(5,
+                "Eight tiles of the same type. There’s no" +
+                        " restriction about the position of these" +
+                        " tiles");
+        commonDescription.add(6,
+                "Five tiles of the same type forming a" +
+                        " diagonal");
+        commonDescription.add(7,
+                "Four lines each formed by 5 tiles of" +
+                        " maximum three different types. One" +
+                        " line can show the same or a different" +
+                        " combination of another line");
+        commonDescription.add(8,
+                "Two columns each formed by 6" +
+                        " different types of tiles");
+        commonDescription.add(9,
+                "Two lines each formed by 5 different" +
+                        " types of tiles. One line can show the" +
+                        " same or a different combination of the" +
+                        " other line");
+        commonDescription.add(10, "Five tiles of the same type forming an X");
+        commonDescription.add(11,
+                "Five columns of increasing or decreasing" +
+                        " height. Starting from the first column on" +
+                        " the left or on the right, each next column" +
+                        " must be made of exactly one more tile.\n" +
+                        " Tiles can be of any type");
 
-    private void setUpStageMap(){}
+    }
     public SceneHandler(GUI gui) {
         this.images_asset = new ArrayList<>();
         this.images_common = new ArrayList<>();
         this.sceneToFxml = new HashMap<>();
         this.sceneToController = new HashMap<>();
         this.commonDescription =new ArrayList<>();
+        this.itemBlue = new ArrayList<>();
+        this.itemCyan = new ArrayList<>();
+        this.itemGreen = new ArrayList<>();
+        this.itemPink = new ArrayList<>();
+        this.itemWhite = new ArrayList<>();
+        this.itemYellow = new ArrayList<>();
         loadImages();
         setupMap(gui);
-        setUpStageMap();
         setupCommonDescription();
     }
     public Scene getScene(SceneName scene){
@@ -171,64 +263,30 @@ public class SceneHandler {
     public Image getCommon(int ID){
         return images_common.get(ID);
     }
-
-    private void setupCommonDescription(){
-        commonDescription.add(0,
-                "Six groups each containing at least" +
-                " 2 tiles of the same type (not necessarily" +
-                " in the depicted shape).\n" +
-                " The tiles of one group can be different" +
-                " from those of another group");
-        commonDescription.add(1,
-                "Four groups each containing at least" +
-                " 4 tiles of the same type (not necessarily" +
-                " in the depicted shape).\n" +
-                " The tiles of one group can be different" +
-                " from those of another group");
-        commonDescription.add(2,
-                "Four tiles of the same type in the four" +
-                " corners of the bookshelf");
-        commonDescription.add(3,
-                "Two groups each containing 4 tiles of" +
-                " the same type in a 2x2 square. The tiles" +
-                " of one square can be different from" +
-                " those of the other square");
-        commonDescription.add(4,
-                "Three columns each formed by 6 tiles" +
-                " of maximum three different types. One" +
-                " column can show the same or a different" +
-                " combination of another column");
-        commonDescription.add(5,
-                "Eight tiles of the same type. There’s no" +
-                " restriction about the position of these" +
-                " tiles");
-        commonDescription.add(6,
-                "Five tiles of the same type forming a" +
-                " diagonal");
-        commonDescription.add(7,
-                "Four lines each formed by 5 tiles of" +
-                " maximum three different types. One" +
-                " line can show the same or a different" +
-                " combination of another line");
-        commonDescription.add(8,
-                "Two columns each formed by 6" +
-                " different types of tiles");
-        commonDescription.add(9,
-                "Two lines each formed by 5 different" +
-                " types of tiles. One line can show the" +
-                " same or a different combination of the" +
-                " other line");
-        commonDescription.add(10, "Five tiles of the same type forming an X");
-        commonDescription.add(11,
-                "Five columns of increasing or decreasing" +
-                " height. Starting from the first column on" +
-                " the left or on the right, each next column" +
-                " must be made of exactly one more tile.\n" +
-                " Tiles can be of any type");
-
-    }
-
     public String getCommonDescription(int num_card) {
         return commonDescription.get(num_card);
+    }
+
+    public List<Image> getItemBlue() {
+        return itemBlue;
+    }
+    public List<Image> getItemCyan() {
+        return itemCyan;
+    }
+
+    public List<Image> getItemPink() {
+        return itemPink;
+    }
+
+    public List<Image> getItemGreen() {
+        return itemGreen;
+    }
+
+    public List<Image> getItemWhite() {
+        return itemWhite;
+    }
+
+    public List<Image> getItemYellow() {
+        return itemYellow;
     }
 }

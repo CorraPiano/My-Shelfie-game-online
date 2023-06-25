@@ -54,13 +54,13 @@ public class LobbyController implements GUIController{
 
     }
     public void changeImage(){
-        images_pane.setImage(this.gui.getAsset(currentImage_asset));
+        images_pane.setImage(this.gui.getSceneHandler().getAsset(currentImage_asset));
         if(currentImage_asset == 4 )
             currentImage_asset = 1;
         else currentImage_asset++;
     }
     public void changeCommon(){
-        commonCard.setImage(this.gui.getCommon(currentImage_common));
+        commonCard.setImage(this.gui.getSceneHandler().getCommon(currentImage_common));
         commonDescription.setText(this.gui.getSceneHandler().getCommonDescription(currentImage_common));
         if(currentImage_common == 11 )
             currentImage_common = 0;

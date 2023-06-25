@@ -281,7 +281,6 @@ public class GUI extends Application implements View {
         tmp.init();
         timerRoutine();
     }
-
     public void updatePlayerList(ArrayList<LocalPlayer> list,Command command, String playerName){
         if (currentSceneName != SceneName.LOBBY) return;
         List<String> players = new ArrayList<>();
@@ -313,8 +312,6 @@ public class GUI extends Application implements View {
         }, 0, timerSleep_common, TimeUnit.SECONDS);
 
     }
-    public Image getAsset(int ID){ return sceneHandler.getAsset(ID);}
-    public Image getCommon(int ID){ return sceneHandler.getCommon(ID);}
     public  void quitGame(){
         sender.leaveGame();
         switchStage(Command.QUIT);
