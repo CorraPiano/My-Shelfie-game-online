@@ -3,6 +3,9 @@ package it.polimi.ingsw.client.connection;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientPhase;
 import it.polimi.ingsw.client.ClientState;
+import it.polimi.ingsw.controller.Settings;
+
+import static java.lang.Thread.sleep;
 
 /**
  * The `ConnectionChecker` class is responsible for periodically checking the connection status between the client and the server.
@@ -12,7 +15,9 @@ public class ConnectionChecker implements Runnable {
 
     private final Sender sender;
     private final Client client;
-    private Boolean state;
+    private Boolean connectionState;
+    private final PingSender pingSender;
+    private long lastPing;
 
     /**
      * Constructs a `ConnectionChecker` object with the specified `Sender` and `Client` objects.
@@ -20,34 +25,37 @@ public class ConnectionChecker implements Runnable {
      * @param sender The `Sender` object used for sending ping requests and reconnection attempts.
      * @param client The `Client` object associated with this connection checker.
      */
-    public ConnectionChecker(Sender sender, Client client) {
-        this.sender = sender;
+    public ConnectionChecker (Sender sender, Client client){
         this.client = client;
+        this.sender = sender;
+        pingSender = new PingSender(sender,this);
     }
 
-    /**
-     * Runs the connection checker in a separate thread.
-     * Periodically sends ping requests to the server and handles reconnection attempts in case of lost connection.
-     */
-    @Override
-    public void run() {
-        while (!client.getPhase().equals(ClientPhase.CLOSE)) {
-            synchronized (sender) {
-                // Ping
-                try {
-                    sender.ping(0);
-                } catch (Exception e) {
-                    client.lostConnection();
-                    tryReconnection();
-                }
-                // Wait
-                try {
-                    sender.wait(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+    public synchronized void setLastPing(){
+        lastPing=System.currentTimeMillis();
+    }
+    public synchronized long getLastPing(){
+        return lastPing;
+    }
+
+    public void run(){
+        setLastPing();
+        pingSender.startNewThread();
+        while(!client.getPhase().equals(ClientPhase.CLOSE)){
+            //System.out.println(System.currentTimeMillis()-getLastPing());
+            if(System.currentTimeMillis()-getLastPing()> 11000) {
+                pingSender.stopCurrentThread();
+                client.lostConnection();
+                tryReconnection();
+                setLastPing();
             }
+            try {
+                synchronized (this) {
+                    this.wait(5000);
+                }
+            } catch (InterruptedException ignored) {}
         }
+        pingSender.stopCurrentThread();
     }
 
     /**
@@ -58,18 +66,21 @@ public class ConnectionChecker implements Runnable {
         while (true) {
             try {
                 sender.connect();
-                if (client.getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
+                if(client.getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
                     client.setState(ClientState.WAIT);
                     client.gameReconnection();
-                    sender.reconnectGame(client.getID(), false);
-                } else {
-                    client.homeReconnection();
+                    sender.reconnectGame(client.getID(),false);
                 }
+                else
+                    client.homeReconnection();
+                pingSender.startNewThread();
                 break;
-            } catch (Exception e) {
-                try {
-                    this.wait(1000);
-                } catch (Exception ignored) {
+            }
+            catch(Exception ignored1) {
+                synchronized (this) {
+                    try {
+                        this.wait(1000);
+                    } catch (Exception ignored2) {}
                 }
             }
         }

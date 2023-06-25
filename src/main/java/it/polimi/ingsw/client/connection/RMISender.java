@@ -23,6 +23,7 @@ import java.util.UUID;
 public class RMISender extends Sender {
 
     private ControllerSkeleton controller;
+    ConnectionChecker connectionChecker;
     private final Client client;
     private final String IP;
 
@@ -36,8 +37,8 @@ public class RMISender extends Sender {
     public RMISender(String IP, Client client) throws Exception {
         this.IP = IP;
         this.client = client;
+        connectionChecker = new ConnectionChecker(this,client);
         connect();
-        ConnectionChecker connectionChecker = new ConnectionChecker(this, client);
         new Thread(connectionChecker).start();
     }
 
@@ -228,6 +229,7 @@ public class RMISender extends Sender {
      */
     @Override
     public synchronized void ping(int n) throws Exception {
-        controller.ping(n);
+        int  nn = controller.ping(n,client.getID());
+        connectionChecker.setLastPing();
     }
 }

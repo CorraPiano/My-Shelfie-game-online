@@ -45,7 +45,6 @@ public class EventKeeper {
         this.idList.add(id);
         this.personalList.put(id,l);
         this.offsets.put(id,0);
-        this.lastPing.put(id,System.currentTimeMillis());
     }
 
     /**
@@ -157,5 +156,12 @@ public class EventKeeper {
      */
     public synchronized boolean checkConnection(String id){
         return System.currentTimeMillis() - lastPing.get(id) <= Settings.timeout;
+    }
+    public synchronized void ping(String id){
+        lastPing.put(id,System.currentTimeMillis());
+    }
+
+    public synchronized void resetPingKeeper(String id){
+        this.lastPing.put(id,System.currentTimeMillis());
     }
 }

@@ -432,6 +432,10 @@ public class Gameplay extends Listenable{
         return null;
     }
 
+    public void ping(String id){
+        eventKeeper.ping(id);
+    }
+
     /**
      * Returns a LocalGame object representing the current state of the game.
      *

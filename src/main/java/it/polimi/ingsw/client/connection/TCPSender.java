@@ -18,6 +18,10 @@ import java.util.ArrayList;
 public class TCPSender extends Sender {
     private ClientConnection connection;
     private final Client client;
+
+    ConnectionChecker connectionChecker;
+    TCPReceiver TCPreceiver;
+
     private final String IP;
 
     /**
@@ -30,8 +34,9 @@ public class TCPSender extends Sender {
     public TCPSender(String IP, Client client) throws Exception {
         this.IP = IP;
         this.client = client;
+        connectionChecker = new ConnectionChecker(this,client);
+        TCPreceiver = new TCPReceiver(client,connectionChecker);
         connect();
-        ConnectionChecker connectionChecker = new ConnectionChecker(this,client);
         new Thread(connectionChecker).start();
     }
 
@@ -228,7 +233,6 @@ public class TCPSender extends Sender {
      * @throws IOException if an error occurs during the connection setup.
      */
     public void connect() throws IOException {
-        TCPReceiver TCPreceiver = new TCPReceiver(client);
         Socket socket = new Socket(IP, Settings.TCPPORT);
         this.connection = new ClientConnection(socket,TCPreceiver);
         new Thread(connection).start();

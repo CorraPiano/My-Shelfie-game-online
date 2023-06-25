@@ -18,17 +18,18 @@ public class TCPReceiver {
     private final Gson gson;
     private final Client client;
     private String name;
+    private final ConnectionChecker connectionChecker;
     private final boolean DEBUG_MESSAGE = false;
-
 
     /**
      * Constructs a new TCPReceiver instance with the specified client.
      *
      * @param client The client instance.
      */
-    public TCPReceiver(Client client) {
+    public TCPReceiver(Client client,ConnectionChecker connectionChecker) {
         this.gson = new Gson();
         this.client = client;
+        this.connectionChecker = connectionChecker;
     }
 
     /**
@@ -145,7 +146,7 @@ public class TCPReceiver {
                 client.updateChat(message);
             }
             case PING -> {
-                //System.out.println("...ricevuto un ping");
+                connectionChecker.setLastPing();
             }
             case TIMER -> {
                 TimerMessage message = gson.fromJson(TCPmessage.getBody(), TimerMessage.class);

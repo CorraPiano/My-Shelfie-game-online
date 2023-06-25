@@ -156,5 +156,5 @@ public interface ControllerSkeleton extends Remote {
      * @param n the ping number.
      * @throws RemoteException if a remote communication error occurs.
      */
-    void ping(int n) throws RemoteException;
+   int ping(int n, String id) throws RemoteException, InvalidIdException;
 }

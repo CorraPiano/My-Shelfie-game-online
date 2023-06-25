@@ -397,8 +397,15 @@ public class Controller implements ControllerSkeleton {
      * @param n the number of pings
      * @throws RemoteException if a remote communication error occurs
      */
-    public synchronized void ping(int n) throws RemoteException{
-        System.out.println("Test -------");
+    public synchronized int ping(int n, String id) throws RemoteException{
+        try {
+            Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+            gameplay.ping(id);
+        }catch(Exception e){
+
+        }
+        //System.out.println("ricevuto un ping");
+        return n;
     }
 
 }

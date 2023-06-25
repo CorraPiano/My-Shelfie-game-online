@@ -115,12 +115,24 @@ public class MessageHandler {
                 sendNothing(connection);
             }
             case PING -> {
+                PingMessage pingMessage = gson.fromJson(TCPmessage.getBody(), PingMessage.class);
+                try {
+                    controller.ping(pingMessage.n, socketMap.getIdByConnection(connection));
+                } catch(Exception e){};
+                sendPing(pingMessage.n,connection);
             }
             default -> {
                 throw new UnavaiableCommandException();
             }
         }
     }
+
+    private void sendPing(int n, Connection conn){
+        try {
+            conn.send(new TCPMessage(MessageHeader.PING, gson.toJson(new PingMessage(n))));
+        } catch(Exception ignored){};
+    }
+
 
     /**
      * Sends a TCP message to the specified connection containing the serialized Sendable object.

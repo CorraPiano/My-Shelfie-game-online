@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.connection.message.*;
+import it.polimi.ingsw.exception.InvalidIdException;
 import it.polimi.ingsw.model.EventKeeper;
 import it.polimi.ingsw.model.Gameplay;
 
@@ -60,10 +61,15 @@ public abstract class Listener implements Runnable {
      */
     public void run() {
         //eventKeeper.resetOffset(id);
+        eventKeeper.resetPingKeeper(id);
         System.out.println("thread di " + id + " avviato");
         try {
             while (true) {
                 synchronized (eventKeeper) {
+                    if(!eventKeeper.checkConnection(id))
+                    {
+                        break;
+                    }
                     if (eventKeeper.isPresentPersonal(id, personalCursor)) {
                         Sendable sendable = eventKeeper.getListenablePersonal(id, personalCursor);
                         if(sendable.getHeader().equals(MessageHeader.LEAVE) && ((LeaveMessage)sendable).name.equals(name))
@@ -74,7 +80,9 @@ public abstract class Listener implements Runnable {
                             break;
                         personalCursor++;
                     } else {
-                        ping();
+                        //ping();
+                        //
+                        //    throw new Exception();
                         eventKeeper.wait(5000);
                     }
                 }
@@ -82,10 +90,14 @@ public abstract class Listener implements Runnable {
         } catch (Exception e){
             e.printStackTrace();
             try {
-                controller.disconnect(id);
+                //controller.disconnect(id);
             } catch (Exception ee){
 
             }
+        }
+        try {
+            controller.disconnect(id);
+        } catch (InvalidIdException e) {
         }
         System.out.println("thread di "+ id +" terminato");
     }
