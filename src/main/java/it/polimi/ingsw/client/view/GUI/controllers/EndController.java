@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -33,8 +34,6 @@ public class EndController implements GUIController {
     @FXML
     private GridPane bookshelfGrid1;
     @FXML
-    private ImageView line2;
-    @FXML
     private ImageView place2;
     @FXML
     private Text text2;
@@ -46,8 +45,6 @@ public class EndController implements GUIController {
     private ImageView personal2;
     @FXML
     private GridPane bookshelfGrid2;
-    @FXML
-    private ImageView line3;
     @FXML
     private ImageView place3;
     @FXML
@@ -61,7 +58,7 @@ public class EndController implements GUIController {
     @FXML
     private GridPane bookshelfGrid3;
     @FXML
-    private ImageView line4;
+    private Pane pane3;
     @FXML
     private ImageView place4;
     @FXML
@@ -74,6 +71,8 @@ public class EndController implements GUIController {
     private ImageView personal4;
     @FXML
     private GridPane bookshelfGrid4;
+    @FXML
+    private Pane pane4;
 
     //ATTRIBUTES
     private GUI gui;
@@ -94,19 +93,23 @@ public class EndController implements GUIController {
 
     private void setPlaces(int numPlayers){
         URL url_place1 = getClass().getResource("/Images/misc/1-removebg-preview.png");
-        URL url_line = getClass().getResource("/Images/misc/Line-removebg-preview.png");
         URL url_place2 = getClass().getResource("/Images/misc/2-removebg-preview.png");
+        String style =
+                "-fx-background-color: #B77C52;" +
+                "-fx-border-color: rgb(60, 40, 14);" +
+                "-fx-border-width: 3px;" +
+                "-fx-border-radius: 20px;" +
+                "-fx-background-radius: 20px;";
         place1.setImage(new Image(url_place1.toString()));
-        line2.setImage(new Image(url_line.toString()));
         place2.setImage(new Image(url_place2.toString()));
         if(numPlayers>=3){
             URL url_place3 = getClass().getResource("/Images/misc/3-removebg-preview.png");
+            pane3.setStyle(style);
             place3.setImage(new Image(url_place3.toString()));
-            line3.setImage(new Image(url_line.toString()));
             if(numPlayers==4){
                 URL url_place4 = getClass().getResource("/Images/misc/4-removebg-preview.png");
+                pane4.setStyle(style);
                 place4.setImage(new Image(url_place4.toString()));
-                line4.setImage(new Image(url_line.toString()));
             }
         }
     }

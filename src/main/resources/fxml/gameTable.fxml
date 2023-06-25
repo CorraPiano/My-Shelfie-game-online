@@ -23,12 +23,12 @@
    <children>
       <Pane layoutX="-1.0" layoutY="1.0" prefHeight="495.0" prefWidth="494.0">
          <children>
-            <ImageView fitHeight="474.0" fitWidth="488.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
+            <ImageView fitHeight="474.0" fitWidth="488.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
                <image>
                   <Image url="@../Images/boards/livingroom.png" />
                </image>
             </ImageView>
-            <GridPane fx:id="boardGrid" layoutX="29.0" layoutY="32.0" onMouseClicked="#onBoardClicked" prefHeight="431.0" prefWidth="431.0">
+            <GridPane fx:id="boardGrid" layoutX="34.0" layoutY="36.0" onMouseClicked="#onBoardClicked" prefHeight="431.0" prefWidth="431.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -52,7 +52,7 @@
                   <RowConstraints maxHeight="51.5" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <ImageView fx:id="boardtoken1" fitHeight="50.0" fitWidth="50.0" layoutX="393.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true" rotate="9.0" />
+            <ImageView fx:id="boardtoken1" fitHeight="50.0" fitWidth="50.0" layoutX="398.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" rotate="9.0" />
          </children>
       </Pane>
       <Pane layoutX="541.0" layoutY="448.0" prefHeight="344.0" prefWidth="334.0">
@@ -81,26 +81,21 @@
             </GridPane>
          </children>
       </Pane>
-      <ImageView fx:id="common1" fitHeight="140.0" fitWidth="190.0" layoutX="9.0" layoutY="646.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
+      <ImageView fx:id="common1" fitHeight="140.0" fitWidth="190.0" layoutX="14.0" layoutY="660.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
          <image>
             <Image url="@../Images/common/2.jpg" />
          </image></ImageView>
-      <ImageView fx:id="common2" fitHeight="140.0" fitWidth="190.0" layoutX="9.0" layoutY="501.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
+      <ImageView fx:id="common2" fitHeight="140.0" fitWidth="190.0" layoutX="14.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
          <image>
             <Image url="@../Images/common/1.jpg" />
          </image></ImageView>
-      <Pane layoutX="509.0" layoutY="11.0" prefHeight="278.0" prefWidth="113.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+      <Pane layoutX="509.0" layoutY="60.0" prefHeight="232.0" prefWidth="103.0" styleClass="pane">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-4.0" prefHeight="42.0" prefWidth="120.0" text="Hand" textAlignment="CENTER" textFill="#250f0fd6">
-               <font>
-                  <Font name="System Bold Italic" size="17.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="hand3" fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="42.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="hand2" fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="104.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="hand1" fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="166.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="orderConfirm" layoutX="14.0" layoutY="231.0" mnemonicParsing="false" onAction="#onTickClick" prefHeight="18.0" prefWidth="26.0" />
-            <Button fx:id="orderUndo" layoutX="64.0" layoutY="231.0" mnemonicParsing="false" onMouseClicked="#onOrderUndo" prefHeight="34.0" prefWidth="26.0" />
+            <ImageView fx:id="hand3" fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="15.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="hand2" fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="67.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="hand1" fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="124.0" onMouseClicked="#onHandClick" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="orderConfirm" layoutX="5.0" layoutY="187.0" mnemonicParsing="false" onAction="#onTickClick" prefHeight="32.0" prefWidth="0.0" />
+            <Button fx:id="orderUndo" layoutX="55.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#onOrderUndo" prefHeight="32.0" prefWidth="17.0" />
          </children>
       </Pane>
       <TabPane layoutX="950.0" layoutY="4.0" prefHeight="781.0" prefWidth="316.0" tabClosingPolicy="UNAVAILABLE">
@@ -121,17 +116,18 @@
                         <VBox alignment="BOTTOM_CENTER" layoutX="-8.0" layoutY="-12.0" prefHeight="743.0" prefWidth="314.0">
                            <children>
                               <ListView fx:id="chatField" prefHeight="663.0" prefWidth="314.0" />
-                              <HBox alignment="CENTER" prefHeight="39.0" prefWidth="301.0">
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="314.0">
                                  <children>
-                                    <TextField fx:id="chatMessage" alignment="TOP_LEFT" prefHeight="38.0" prefWidth="243.0" />
+                                    <TextField fx:id="chatMessage" alignment="TOP_LEFT" prefHeight="41.0" prefWidth="243.0" />
                                     <Pane prefHeight="39.0" prefWidth="6.0" />
-                                    <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendMessage" prefHeight="38.0" prefWidth="53.0" text="&gt;" />
+                                    <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendMessage" prefHeight="30.0" prefWidth="32.0" text="&gt;" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="40.0" prefWidth="257.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Receiver:" />
-                                    <TextField fx:id="receiver" prefHeight="30.0" prefWidth="227.0" />
+                                    <Pane prefHeight="37.0" prefWidth="10.0" />
+                                    <TextField fx:id="receiver" prefHeight="32.0" prefWidth="198.0" />
                                  </children>
                               </HBox>
                            </children>
@@ -198,7 +194,7 @@
                               <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
-                        <Pane layoutX="149.0" layoutY="228.0" opacity="0.89" prefHeight="10.0" prefWidth="41.0" styleClass="pane" stylesheets="@../css/game_style.css">
+                        <Pane layoutX="149.0" layoutY="228.0" opacity="0.89" prefHeight="10.0" prefWidth="41.0" styleClass="pane-bookshelfs" stylesheets="@../css/game_style.css">
                            <children>
                               <Text fx:id="bookshelf1name" layoutX="3.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="35.109375">
                                  <font>
@@ -207,7 +203,7 @@
                               </Text>
                            </children>
                         </Pane>
-                        <Pane layoutX="148.0" layoutY="458.0" opacity="0.89" prefHeight="10.0" prefWidth="41.0" styleClass="pane" stylesheets="@../css/game_style.css">
+                        <Pane layoutX="148.0" layoutY="458.0" opacity="0.89" prefHeight="10.0" prefWidth="41.0" styleClass="pane-bookshelfs" stylesheets="@../css/game_style.css">
                            <children>
                               <Text fx:id="bookshelf2name" layoutX="3.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="35.109375">
                                  <font>
@@ -216,7 +212,7 @@
                               </Text>
                            </children>
                         </Pane>
-                        <Pane layoutX="146.0" layoutY="689.0" opacity="0.89" prefHeight="10.0" prefWidth="41.0" styleClass="pane" stylesheets="@../css/game_style.css">
+                        <Pane layoutX="146.0" layoutY="689.0" opacity="0.89" prefHeight="10.0" prefWidth="41.0" styleClass="pane-bookshelfs" stylesheets="@../css/game_style.css">
                            <children>
                               <Text fx:id="bookshelf3name" layoutX="3.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="35.109375">
                                  <font>
@@ -225,31 +221,32 @@
                               </Text>
                            </children>
                         </Pane>
-                        <ImageView fx:id="bookshelf1token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf1token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf1endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf2token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="411.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf2token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf2endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf3token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="641.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf3token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="592.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fx:id="bookshelf3endgameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="543.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="bookshelf1token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf1token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf1endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf2token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="411.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf2token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf2endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf3token1" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="641.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf3token2" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="592.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+                        <ImageView fx:id="bookshelf3endGameToken" fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="543.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
                      </children></AnchorPane>
                </content>
             </Tab>
         </tabs>
       </TabPane>
       <ImageView fx:id="personalGoalCard" fitHeight="193.0" fitWidth="147.0" layoutX="404.0" layoutY="530.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
-      <Pane layoutX="638.0" layoutY="11.0" prefHeight="278.0" prefWidth="294.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+      <Pane layoutX="628.0" layoutY="11.0" prefHeight="278.0" prefWidth="304.0" styleClass="pane-currentInformations">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="6.0" prefHeight="267.0" prefWidth="267.0">
+            <VBox alignment="TOP_CENTER" layoutY="6.0" prefHeight="274.0" prefWidth="304.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="51.0" prefWidth="267.0" text="Current game informations" textAlignment="CENTER" textFill="#250f0fd6">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="267.0" text="Current game informations" textAlignment="CENTER" textFill="#241010db">
                      <font>
                         <Font name="System Bold Italic" size="17.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="tableView" prefHeight="173.0" prefWidth="267.0">
+                  <Pane prefHeight="8.0" prefWidth="267.0" />
+                  <TableView fx:id="tableView" prefHeight="232.0" prefWidth="304.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
@@ -258,7 +255,7 @@
             </VBox>
          </children>
       </Pane>
-      <Button layoutX="826.0" layoutY="300.0" mnemonicParsing="false" text="Leave game" />
+      <Button layoutX="821.0" layoutY="302.0" mnemonicParsing="false" text="Leave game" />
       <Pane layoutX="564.0" layoutY="408.0" prefHeight="51.0" prefWidth="285.0">
          <children>
             <ImageView fx:id="arrow1" fitHeight="34.0" fitWidth="42.0" layoutX="16.0" layoutY="9.0" onMouseClicked="#onArrowClicked" pickOnBounds="true" preserveRatio="true" />
@@ -268,10 +265,15 @@
             <ImageView fx:id="arrow5" fitHeight="34.0" fitWidth="42.0" layoutX="227.0" layoutY="10.0" onMouseClicked="#onArrowClicked" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <ImageView fx:id="common2token" fitHeight="56.0" fitWidth="56.0" layoutX="120.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
-      <ImageView fx:id="common1token" fitHeight="56.0" fitWidth="56.0" layoutX="120.0" layoutY="676.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
-      <ImageView fx:id="token1" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="689.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="token2" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="626.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="endGameToken" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="563.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="common2token" fitHeight="56.0" fitWidth="56.0" layoutX="125.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+      <ImageView fx:id="common1token" fitHeight="56.0" fitWidth="56.0" layoutX="125.0" layoutY="689.0" pickOnBounds="true" preserveRatio="true" rotate="-8.0" />
+      <ImageView fx:id="token1" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="689.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+      <ImageView fx:id="token2" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="626.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+      <ImageView fx:id="endGameToken" fitHeight="55.0" fitWidth="55.0" layoutX="874.0" layoutY="563.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="514.0" layoutY="13.0" prefHeight="42.0" prefWidth="95.0" text="Hand" textAlignment="CENTER" textFill="#250f0fd6">
+         <font>
+            <Font name="System Bold Italic" size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

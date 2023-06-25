@@ -7,8 +7,21 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0, 0, 0);
 }
 
-.pane{
-    -fx-background-color: #A48165;
+.pane {
+    -fx-background-color: #B77C52;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.pane-currentInformations {
+    -fx-background-color: transparent;
+}
+
+.pane-bookshelfs{
+    -fx-background-color: #9E6A42;
+    -fx-background-radius: 10px;
 }
 
 .tab-pane {
@@ -17,6 +30,9 @@
     -fx-background-color: transparent;
     -fx-text-fill: transparent;
     -fx-font-size: 16px;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
 }
 .tab-pane .tab-header-background {
     -fx-background-color: transparent;
@@ -26,11 +42,11 @@
     /* colore per le celle non selezionate */
 }
 .tab-pane .tab-header-area .tab:selected {
-    -fx-background-color: #A48165;
+    -fx-background-color: #9E6A42;
     /* colore per la casella selezionata */
 }
 .tab-pane .tab-content-area {
-    -fx-background-color: #A48165;
+    -fx-background-color: #9E6A42;
     -fx-padding: 10;
     /* colore per lo sfondo */
 }
@@ -54,12 +70,27 @@
     -fx-background-color: #B88551;
 }
 
-.text-field{
+.text-field {
     -fx-background-color: #B88551;
+    -fx-text-fill: black;
+    -fx-prompt-text-fill: black;
+    -fx-font-family: Arial;
+    -fx-font-size: 14px;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-pref-height: 30px;
 }
-
-.button{
-    -fx-background-color: #B88551;
+.button {
+    -fx-background-color: #90603C;
+    -fx-text-fill: black;
+    -fx-font-family: Arial;
+    -fx-font-size: 14px;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
 .text-area{
@@ -67,17 +98,17 @@
 }
 
 .table-view {
-    -fx-background-color: #A48165;
-    -fx-table-cell-border-color: #A48165;
+    -fx-background-color: #9E6A42;
+    -fx-table-cell-border-color: #9E6A42;
 }
 .column-header {
-    -fx-background-color: #A48165;
+    -fx-background-color: #9E6A42;
 }
 .highlighted-row1 {
     -fx-background-color: #B88551;
 }
 .highlighted-row2 {
-    -fx-background-color: #A48165;
+    -fx-background-color: #9E6A42;
 }
 
 

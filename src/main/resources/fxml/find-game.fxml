@@ -10,58 +10,69 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="755.0" prefWidth="1014.0" styleClass="root" stylesheets="@../css/find-game-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.FindGameController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="111.0" layoutY="124.0" prefHeight="47.0" prefWidth="792.0" text="Choose an existing game or create a new one" textAlignment="CENTER" textFill="#250f0fd6">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="146.0" prefHeight="47.0" prefWidth="906.0" text="Choose an existing game or create a new one" textAlignment="CENTER" textFill="#250f0fd6">
          <font>
             <Font name="System Bold Italic" size="32.0" />
          </font>
       </Label>
-      <Pane fx:id="createPane" layoutX="55.0" layoutY="224.0" prefHeight="286.0" prefWidth="348.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+      <Pane fx:id="createPane" layoutX="55.0" layoutY="224.0" prefHeight="492.0" prefWidth="348.0" styleClass="pane" stylesheets="@../css/find-game-style.css">
          <children>
-            <Button layoutX="141.0" layoutY="228.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="27.0" prefWidth="61.0" text="Create">
+            <Button layoutX="119.0" layoutY="223.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="27.0" prefWidth="105.0" text="Create">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Label layoutX="89.0" layoutY="14.0" prefHeight="27.0" prefWidth="171.0" text="Create a new game" textFill="#322020">
+            <Label alignment="CENTER" layoutX="27.0" layoutY="14.0" prefHeight="27.0" prefWidth="296.0" text="Create a new game" textFill="#322020">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="gameMode" layoutX="88.0" layoutY="160.0" prefHeight="25.0" prefWidth="171.0" promptText="Game mode" />
-            <TextField fx:id="numberOfPlayer" layoutX="88.0" layoutY="121.0" prefHeight="25.0" prefWidth="171.0" promptText="Number of player" />
-            <TextField fx:id="playerName" layoutX="89.0" layoutY="82.0" prefHeight="25.0" prefWidth="171.0" promptText="Your game name" />
+            <TextField fx:id="gameMode" layoutX="88.0" layoutY="162.0" prefHeight="25.0" prefWidth="171.0" promptText="Game mode" />
+            <TextField fx:id="numberOfPlayer" layoutX="88.0" layoutY="116.0" prefHeight="25.0" prefWidth="171.0" promptText="Number of player" />
+            <TextField fx:id="playerName" layoutX="89.0" layoutY="72.0" prefHeight="25.0" prefWidth="171.0" promptText="Your game name" />
+            <ImageView fitHeight="114.0" fitWidth="105.0" layoutX="112.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/PublisherMaterial/Publisher.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
-      <Pane layoutX="429.0" layoutY="224.0" prefHeight="286.0" prefWidth="529.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+      <Pane layoutX="429.0" layoutY="224.0" prefHeight="492.0" prefWidth="529.0" styleClass="pane" stylesheets="@../css/find-game-style.css">
          <children>
-            <ListView fx:id="gameList" layoutX="33.0" layoutY="112.0" opacity="0.78" prefHeight="103.0" prefWidth="463.0" stylesheets="@../css/find-game-style.css" />
-            <TextField fx:id="playerNameJoin" layoutX="33.0" layoutY="54.0" prefHeight="25.0" prefWidth="171.0" promptText="Your game name" />
-            <Label layoutX="171.0" layoutY="12.0" prefHeight="27.0" prefWidth="216.0" text="Join an existing game" textFill="#322020">
+            <ListView fx:id="gameList" layoutX="33.0" layoutY="150.0" opacity="0.78" prefHeight="259.0" prefWidth="463.0" stylesheets="@../css/find-game-style.css" />
+            <TextField fx:id="playerNameJoin" layoutX="33.0" layoutY="71.0" prefHeight="25.0" prefWidth="171.0" promptText="Your game name" />
+            <Label alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="27.0" prefWidth="480.0" text="Join an existing game" textFill="#322020">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button layoutX="273.0" layoutY="229.0" mnemonicParsing="false" onAction="#onJoinGame" prefHeight="25.0" prefWidth="55.0" text="Join">
+            <Button layoutX="232.0" layoutY="433.0" mnemonicParsing="false" onAction="#onJoinGame" prefHeight="32.0" prefWidth="65.0" text="Join">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button layoutX="208.0" layoutY="229.0" mnemonicParsing="false" onAction="#onSearchGameButton" prefHeight="27.0" prefWidth="55.0" text="Games" textAlignment="CENTER" />
-            <Label layoutX="33.0" layoutY="87.0" prefHeight="25.0" prefWidth="463.0" text="Click 'Games' and choose one of the follwing games" textFill="#322020">
+            <Button layoutX="218.0" layoutY="70.0" mnemonicParsing="false" onAction="#onSearchGameButton" prefHeight="27.0" prefWidth="88.0" text="Games" textAlignment="CENTER" />
+            <Label layoutX="33.0" layoutY="117.0" prefHeight="25.0" prefWidth="463.0" text="Click 'Games' and choose one of the follwing games" textFill="#322020">
                <font>
                   <Font name="System Italic" size="16.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <ImageView fitHeight="114.0" fitWidth="105.0" layoutX="455.0" layoutY="618.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="173.0" fitWidth="348.0" layoutX="334.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
          <image>
-            <Image url="@../Images/PublisherMaterial/Publisher.png" />
+            <Image url="@../Images/misc/frame-removebg-preview.png" />
          </image>
       </ImageView>
+      <Text fill="#e1a569" layoutX="437.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lobby">
+         <font>
+            <Font name="System Bold Italic" size="40.0" />
+         </font>
+      </Text>
    </children>
    <effect>
       <Blend />
