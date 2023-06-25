@@ -8,12 +8,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LobbyController implements GUIController{
+/**
+ * Controller class for managing the lobby in the GUI.
+ */
+public class LobbyController implements GUIController {
+
     @FXML
     public ImageView commonCard;
     private GUI gui;
@@ -32,9 +35,15 @@ public class LobbyController implements GUIController{
     public void setGui(GUI gui) {
         this.gui = gui;
     }
+
+    /**
+     * Retrieves the GUI object associated with the controller.
+     *
+     * @return The GUI object associated with the controller.
+     */
     @Override
     public GUI getGui() {
-        return null;
+        return null;  // TODO: Implement the method logic
     }
     public void updatePlayerList(List<String> players){
         if (gui.getCurrentSceneName() == SceneName.LOBBY){
@@ -43,21 +52,31 @@ public class LobbyController implements GUIController{
             playerLists.getItems().addAll(players);
         }
     }
-    public void newNotification(String message){
+
+    /**
+     * Displays a new notification in the lobby.
+     *
+     * @param message The notification message to be displayed.
+     */
+    public void newNotification(String message) {
         notification.setText(message);
     }
-    public void init(){
+
+    /**
+     * Initializes the lobby controller.
+     */
+    public void init() {
         currentImage_asset = 1;
         currentImage_common = 1;
-        Platform.runLater(()->changeImage());
-        Platform.runLater(()->changeCommon());
-
+        Platform.runLater(this::changeImage);
+        Platform.runLater(this::changeCommon);
     }
     public void changeImage(){
         images_pane.setImage(this.gui.getSceneHandler().getAsset(currentImage_asset));
         if(currentImage_asset == 4 )
             currentImage_asset = 1;
-        else currentImage_asset++;
+        else
+            currentImage_asset++;
     }
     public void changeCommon(){
         commonCard.setImage(this.gui.getSceneHandler().getCommon(currentImage_common));
@@ -65,7 +84,22 @@ public class LobbyController implements GUIController{
         if(currentImage_common == 11 )
             currentImage_common = 0;
         else currentImage_common++;
+
+    /**
+     * Changes the displayed common card image in the lobby.
+     */
+    public void changeCommon() {
+            images_pane.setImage(this.gui.getSceneHandler().getAsset(currentImage_asset));
+            if(currentImage_asset == 4 )
+                currentImage_asset = 1;
+            else currentImage_asset++;
     }
+
+    /**
+     * Quits the game and exits the lobby.
+     */
     @FXML
-    public void quitgame(){this.gui.quitGame();}
+    public void quitgame() {
+        this.gui.quitGame();
+    }
 }

@@ -26,7 +26,7 @@ public class Main {
         //String ipAddress = new String();
         //System.setProperty("java.rmi.server.hostname", ipAddress);
         try{
-            System.setProperty("java.rmi.server.hostname", "192.168.1.200");
+            System.setProperty("java.rmi.server.hostname", "192.168.1.6");
             LocateRegistry.createRegistry(Settings.RMIPORT);
             Registry registry = LocateRegistry.getRegistry();
 

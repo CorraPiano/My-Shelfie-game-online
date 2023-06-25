@@ -114,8 +114,10 @@ public class ClientGUI extends Client{
 
     public void endGame(String name, EndCause cause) throws RemoteException {
         setPhase(ClientPhase.HOME);
-        gui.updateEnd(name, modelView.getLocalPlayerList());
-        gui.updateStatistics(name, modelView.getLocalBookshelfs(), modelView.getLocalPlayerList());
+        gui.switchStage(Command.END);
+        //gui.updateEnd();
+        System.out.println("--> updateEnd() viene fatta e finisce");
+        //gui.updateStatistics(name, modelView.getLocalBookshelfs(), modelView.getLocalPlayerList());
     }
 
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{

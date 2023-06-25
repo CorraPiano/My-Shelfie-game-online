@@ -403,5 +403,4 @@ public class OutputHandler {
         return " ".repeat(len);
     }
 
-
 }

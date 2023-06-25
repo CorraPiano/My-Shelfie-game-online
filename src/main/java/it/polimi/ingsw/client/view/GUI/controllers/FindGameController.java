@@ -11,9 +11,14 @@ import javafx.scene.text.FontWeight;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The controller class for managing the find game view in the GUI.
+ */
 public class FindGameController implements GUIController {
+
     private GUI gui;
     private List<LocalGame> games;
+
     @FXML
     private ListView<String> gameList;
     @FXML
@@ -26,10 +31,18 @@ public class FindGameController implements GUIController {
     private TextField playerNameJoin;
     @FXML
     private TextField numberOfPlayer;
+
+    /**
+     * Handles the event when the search game button is clicked.
+     */
     @FXML
     protected void onSearchGameButton() {
         this.gui.getGamesList();
     }
+
+    /**
+     * Handles the event when the create game button is clicked.
+     */
     @FXML
     protected void onCreateGame() {
         String name = playerName.getText();
@@ -44,69 +57,91 @@ public class FindGameController implements GUIController {
             int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "The parameters are wrong, please control the game rules below", "Input error");
         }
     }
+
+    /**
+     * Handles the event when the join game button is clicked.
+     */
     @FXML
     protected void onJoinGame() {
         String name = playerNameJoin.getText();
         LocalGame game = games.get(gameList.getSelectionModel().getSelectedIndex());
         String game_line = gameList.getSelectionModel().getSelectedItem();
-        if(checkJoinData(name, game_line)) {
+        if (checkJoinData(name, game_line)) {
             int gameId = getGameId(game_line);
             gui.joinGame(name, gameId, (game.currPerson + 1 < game.maxPerson));
-        }
-        else{
+        } else {
             int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "The parameters are wrong, please control the game rules below", "Input error");
         }
     }
 
+    /**
+     * Sets the GUI object in the controller.
+     *
+     * @param gui The GUI object to be set.
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
     }
 
     /**
-     * @return the GUI.
+     * Retrieves the GUI object associated with the controller.
+     *
+     * @return The GUI object associated with the controller.
      */
     @Override
     public GUI getGui() {
         return gui;
     }
 
+    /**
+     * Updates the game list in the view.
+     *
+     * @param games The list of local games to be displayed.
+     */
     public void updateList(List<LocalGame> games) {
         this.games = games;
-        ArrayList<String> games_str= new ArrayList<>();
-        for ( LocalGame g: games) {
+        ArrayList<String> games_str = new ArrayList<>();
+        for (LocalGame g : games) {
             games_str.add(g.toString());
         }
-        if(games.size() == 0){
+        if (games.size() == 0) {
             Label label = new Label("I can't find any game");
             label.setFont(Font.font("Arial", FontWeight.BLACK, 12));
             gameList.setPlaceholder(label);
-        }
-        else {
+        } else {
             gameList.setPlaceholder(null);
             gameList.getItems().clear();
             gameList.getItems().addAll(games_str);
         }
-
     }
 
-
+    /**
+     * Waits for the start of the game.
+     */
     public void waitStartGame() {
+        // Implementation not required
     }
 
-    /* ****************************************************************************
-        UTIL
-     ********************************************************************************/
-    // Check if the argument are correct
+    // Utility methods
+
+    /**
+     * Checks if the provided data for creating a game is valid.
+     *
+     * @param name      The player name.
+     * @param mode      The game mode.
+     * @param nPlayers  The number of players.
+     * @return True if the data is valid, false otherwise.
+     */
     private boolean checkDataCreate(String name, String mode, String nPlayers) {
-        if (mode.length()==0 || nPlayers.length()==0 || name.length()==0)
+        if (mode.length() == 0 || nPlayers.length() == 0 || name.length() == 0)
             return false;
-        for (int i = 0; i < nPlayers.length(); i++){
-            if(!Character.isDigit(nPlayers.charAt(i)))
+        for (int i = 0; i < nPlayers.length(); i++) {
+            if (!Character.isDigit(nPlayers.charAt(i)))
                 return false;
         }
-        for (int i = 0; i < mode.length(); i++){
-            if(!Character.isDigit(mode.charAt(i)))
+        for (int i = 0; i < mode.length(); i++) {
+            if (!Character.isDigit(mode.charAt(i)))
                 return false;
         }
         int m = Integer.parseInt(mode);
@@ -115,39 +150,68 @@ public class FindGameController implements GUIController {
         return (m == 0 || m == 1) && (numPlayers > 1 && numPlayers < 5);
     }
 
-    private boolean checkJoinData(String name, String game){
-        return name.length() !=0 && game != null;
+    /**
+     * Checks if the provided data for joining a game is valid.
+     *
+     * @param name The player name.
+     * @param game The selected game.
+     * @return True if the data is valid, false otherwise.
+     */
+    private boolean checkJoinData(String name, String game) {
+        return name.length() != 0 && game != null;
     }
-    private int getGameId(String game){
+
+    /**
+     * Retrieves the game ID from the game line string.
+     *
+     * @param game The game line string.
+     * @return The game ID.
+     */
+    private int getGameId(String game) {
         String num = new String();
-        for(int i = 4; i < game.length(); i++){
-            if(Character.isDigit(game.charAt(i))){
+        for (int i = 4; i < game.length(); i++) {
+            if (Character.isDigit(game.charAt(i))) {
                 num += game.charAt(i);
-            }else{break;}
+            } else {
+                break;
+            }
         }
         return Integer.parseInt(num);
     }
-    private int getCurrentPlayers(String game){
+
+    /**
+     * Retrieves the current number of players from the game line string.
+     *
+     * @param game The game line string.
+     * @return The current number of players.
+     */
+    private int getCurrentPlayers(String game) {
         int commaCounter = 0;
-        for (int i=0; i<game.length(); i++){
-            if(game.charAt(i) == ',' )
+        for (int i = 0; i < game.length(); i++) {
+            if (game.charAt(i) == ',')
                 commaCounter++;
             if (commaCounter == 3)
                 return game.charAt(i) - '0';
         }
         return 0;
     }
-    private int getNumPlayers(String game){
+
+    /**
+     * Retrieves the total number of players from the game line string.
+     *
+     * @param game The game line string.
+     * @return The total number of players.
+     */
+    private int getNumPlayers(String game) {
         int commaCounter = 0;
-        for (int i=0; i<game.length(); i++){
-            if(game.charAt(i) == ',' )
+        for (int i = 0; i < game.length(); i++) {
+            if (game.charAt(i) == ',')
                 commaCounter++;
             if (commaCounter == 2)
                 return game.charAt(i) - '0';
         }
         return 0;
     }
-
 }
 
 

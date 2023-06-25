@@ -12,6 +12,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The `SceneHandler` class manages the scenes and controllers in a JavaFX application.
+ * It provides methods to load scenes from FXML files, set up mappings between scenes and controllers,
+ * and retrieve scenes and controllers by their corresponding names.
+ */
 public class SceneHandler {
 
     private final HashMap<SceneName, Scene> sceneToFxml;
@@ -29,8 +34,10 @@ public class SceneHandler {
     private final List<Image> itemYellow;
 
 
-
-
+    /*
+        - Set all the fxml and the HashMap relative to the scene
+        - Set the gui for all controllers
+     */
     private void loadImages(){
         // ASSET
         List<String> image_file = Arrays.asList(
@@ -173,7 +180,7 @@ public class SceneHandler {
             throw new RuntimeException(e);
         }
     }
-    private void setupCommonDescription(){
+    private void setupCommonDescription() {
         commonDescription.add(0,
                 "Six groups each containing at least" +
                         " 2 tiles of the same type (not necessarily" +
@@ -226,8 +233,8 @@ public class SceneHandler {
                         " the left or on the right, each next column" +
                         " must be made of exactly one more tile.\n" +
                         " Tiles can be of any type");
-
     }
+    private void setUpStageMap(){}
     public SceneHandler(GUI gui) {
         this.images_asset = new ArrayList<>();
         this.images_common = new ArrayList<>();
@@ -244,14 +251,34 @@ public class SceneHandler {
         setupMap(gui);
         setupCommonDescription();
     }
-    public Scene getScene(SceneName scene){
+
+    /**
+     * Returns the scene associated with the given scene name.
+     *
+     * @param scene The scene name.
+     * @return The corresponding scene.
+     */
+    public Scene getScene(SceneName scene) {
         return sceneToFxml.get(scene);
     }
-    public GUIController getController(SceneName scene){
+
+    /**
+     * Returns the controller associated with the given scene name.
+     *
+     * @param scene The scene name.
+     * @return The corresponding controller.
+     */
+    public GUIController getController(SceneName scene) {
         return sceneToController.get(scene);
     }
 
-    public Image getAsset(int ID){
+    /**
+     * Returns the asset image with the specified ID.
+     *
+     * @param ID The ID of the asset image (1-4).
+     * @return The corresponding image.
+     */
+    public Image getAsset(int ID) {
         /*
         ID = 1 : Display 1
         ID = 2 : Display 2
@@ -260,6 +287,15 @@ public class SceneHandler {
          */
         return images_asset.get(ID - 1);
     }
+
+    /**
+     * Returns the common image with the specified ID.
+     *
+     * @param ID The ID of the common image.
+     * @return The corresponding image.
+     */
+    public Image getCommon(int ID) {
+        return images_common.get(ID - 1);
     public Image getCommon(int ID){
         return images_common.get(ID);
     }
