@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 import static it.polimi.ingsw.util.Constants.*;
 
+/**
+ * The Client class represents a client connected to the server.
+ */
 public class Client extends UnicastRemoteObject implements ClientSkeleton {
     protected ModelView modelView;
     //private View view;
@@ -23,35 +26,99 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     protected  Chat chat;
     private final boolean DEBUG = false;
 
+
+    /**
+     * Constructs a new Client object.
+     *
+     * @throws RemoteException if a remote error occurs.
+     */
     public Client() throws RemoteException {
         phase = ClientPhase.HOME;
         state = ClientState.READY;
     }
 
+    // GETTERS
+    public synchronized String getName() { return name; }
+
+    /**
+     * Retrieves the hand size of the client.
+     *
+     * @return The size of the hand.
+     */
     public synchronized int getHandSize(){
         return modelView.getLocalHand().size;
     }
 
+    /**
+     * Retrieves the model view associated with the client.
+     *
+     * @return The model view.
+     */
     public synchronized ModelView getModelView() { return modelView; }
+
+    /**
+     * Retrieves the chat instance associated with the client.
+     *
+     * @return The chat instance.
+     */
     public synchronized Chat getChat() { return chat; }
 
-    // getter
-    public synchronized String getName() { return name; }
+    /**
+     * Retrieves the ID of the client.
+     *
+     * @return The client ID.
+     */
     public synchronized String getID() { return ID; }
+
+    /**
+     * Retrieves the current phase of the client.
+     *
+     * @return The client phase.
+     */
     public synchronized ClientPhase getPhase() { return phase; }
+
+    /**
+     * Retrieves the current state of the client.
+     *
+     * @return The client state.
+     */
     public synchronized ClientState getState() { return state; }
 
-    // setter
+    // SETTERS
+
+    /**
+     * Sets the name of the client.
+     *
+     * @param name The name to set.
+     */
     public synchronized void setName(String name){
         this.name=name;
     }
+
+    /**
+     * Sets the ID of the client.
+     *
+     * @param id The ID to set.
+     */
     public synchronized void setID(String id){
         this.ID=id;
         LocalSave.storeID(ID);
     }
+
+    /**
+     * Sets the phase of the client.
+     *
+     * @param phase The phase to set.
+     */
     public synchronized void setPhase(ClientPhase phase){
         this.phase = phase;
     }
+
+    /**
+     * Sets the state of the client.
+     *
+     * @param state The state to set.
+     */
     public synchronized void setState(ClientState state){
         this.state = state;
         this.notifyAll();
@@ -83,8 +150,6 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         setState(ClientState.READY);
     }
 
-    //gestione della chat
-    //per ora solo in clientTUI
 
     // RMI: aggiornamenti
     public void ping(int ping) throws RemoteException{}
@@ -120,11 +185,13 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     public void updateHand(LocalHand hand) throws RemoteException {
         modelView.setLocalHand(hand);
     }
+
     /*public void updateGame(LocalGame localGame) throws RemoteException {
         modelView.setLocalGame(localGame);
         //modelView.setLocalPlayer(localGame.playerList);
         //modelView.setGameMode(localGame.gameMode);
     }*/
+
     public void updatePlayerList(LocalPlayerList localPlayerList) throws RemoteException {
         modelView.setLocalPlayerList(localPlayerList);
     }
@@ -141,7 +208,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         chat.addChatMessage(chatMessage);
     }
 
-    // reconnection
+    // RECONNECTION
     public void lostConnection(){
         if(getPhase().equals(ClientPhase.HOME))
             setPhase(ClientPhase.HOME_RECONNECTION);

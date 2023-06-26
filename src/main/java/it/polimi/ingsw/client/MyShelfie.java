@@ -15,10 +15,22 @@ import java.util.Scanner;
 import static it.polimi.ingsw.util.Constants.ANSI_RESET;
 import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
 
+/**
+ * The MyShelfie class serves as the entry point for launching different components of the application,
+ * such as the server, TUI (Text-based User Interface), and GUI (Graphical User Interface).
+ */
 public class MyShelfie {
     // 0 server
     // 1 cli
     // 2 gui
+
+    /**
+     * The main method of the application.
+     *
+     * @param args Command-line arguments.
+     * @throws AlreadyBoundException If the server is already bound.
+     * @throws IOException           If an I/O error occurs.
+     */
     public static void main( String[] args ) throws AlreadyBoundException, IOException {
         MyShelfie app = new MyShelfie();
         if (args.length > 0) {
@@ -38,11 +50,27 @@ public class MyShelfie {
         }
     }
 
+    /**
+     * Starts the server component of the application.
+     *
+     * @throws AlreadyBoundException If the server is already bound.
+     * @throws IOException           If an I/O error occurs.
+     */
     public void startServer() throws AlreadyBoundException, IOException {
         Main.main(null);
     }
+
+    /**
+     * Starts the TUI (Text-based User Interface) component of the application.
+     *
+     * @throws RemoteException If a remote communication error occurs.
+     */
     public void startTui() throws RemoteException { TUI.main(null);
     }
+
+    /**
+     * Starts the GUI (Graphical User Interface) component of the application.
+     */
     public void startGui(){
         GUIMain.main(null);
     }
