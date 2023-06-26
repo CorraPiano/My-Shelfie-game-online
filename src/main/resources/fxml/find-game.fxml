@@ -19,7 +19,7 @@
             <Font name="System Bold Italic" size="32.0" />
          </font>
       </Label>
-      <Pane fx:id="createPane" layoutX="55.0" layoutY="224.0" prefHeight="492.0" prefWidth="348.0" styleClass="pane" stylesheets="@../css/find-game-style.css">
+      <Pane fx:id="createPane" layoutX="55.0" layoutY="224.0" prefHeight="300.0" prefWidth="350.0" styleClass="pane" stylesheets="@../css/find-game-style.css">
          <children>
             <Button layoutX="119.0" layoutY="223.0" mnemonicParsing="false" onAction="#onCreateGame" prefHeight="27.0" prefWidth="105.0" text="Create">
                <font>
@@ -34,11 +34,6 @@
             <TextField fx:id="gameMode" layoutX="88.0" layoutY="162.0" prefHeight="25.0" prefWidth="171.0" promptText="Game mode" />
             <TextField fx:id="numberOfPlayer" layoutX="88.0" layoutY="116.0" prefHeight="25.0" prefWidth="171.0" promptText="Number of player" />
             <TextField fx:id="playerName" layoutX="89.0" layoutY="72.0" prefHeight="25.0" prefWidth="171.0" promptText="Your game name" />
-            <ImageView fitHeight="114.0" fitWidth="105.0" layoutX="112.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/PublisherMaterial/Publisher.png" />
-               </image>
-            </ImageView>
          </children>
       </Pane>
       <Pane layoutX="429.0" layoutY="224.0" prefHeight="492.0" prefWidth="529.0" styleClass="pane" stylesheets="@../css/find-game-style.css">
@@ -73,6 +68,18 @@
             <Font name="System Bold Italic" size="40.0" />
          </font>
       </Text>
+      <Pane layoutX="54.0" layoutY="541.0" prefHeight="175.0" prefWidth="350.0" styleClass="pane">
+         <children>
+            <Button layoutX="27.0" layoutY="117.0" mnemonicParsing="false" onAction="#onQuitButton" text="Quit" />
+            <Button layoutX="27.0" layoutY="62.0" mnemonicParsing="false" onAction="#onReconnectButton" text="Reconnect" />
+            <Label alignment="CENTER" layoutX="27.0" layoutY="14.0" prefHeight="27.0" prefWidth="296.0" text="Game actions" textFill="#322020">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ID" layoutX="143.0" layoutY="62.0" prefHeight="32.0" prefWidth="171.0" promptText="[name]_[GameID]" />
+         </children>
+      </Pane>
    </children>
    <effect>
       <Blend />

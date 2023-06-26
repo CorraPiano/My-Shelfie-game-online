@@ -87,11 +87,14 @@ public class ClientGUI extends Client{
      */
     public void receiveException(String e){
         if(getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
-            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to game failed!");
+            //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to game failed!");
+            gui.updateExceptionNotification("reconnection to game failed");
             setPhase(ClientPhase.HOME);
         }
-        else
+        else{
             System.out.println(e);
+            gui.updateExceptionNotification(e);
+        }
         setState(ClientState.READY);
     }
 
@@ -123,6 +126,7 @@ public class ClientGUI extends Client{
     public void createGame(int gameID, GameMode gameMode, int numPlayers) throws RemoteException {
         setPhase(ClientPhase.LOBBY);
         modelView.init(gameID,gameMode,numPlayers,getName());
+        gui.joinLobby();
     }
 
     /**

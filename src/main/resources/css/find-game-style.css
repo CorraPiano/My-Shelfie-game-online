@@ -29,7 +29,7 @@
 .text-field {
     -fx-background-color: #B88551;
     -fx-text-fill: black;
-    -fx-prompt-text-fill: black;
+    -fx-prompt-text-fill: #90603C;
     -fx-font-family: Arial;
     -fx-font-size: 14px;
     -fx-border-color: rgb(60, 40, 14);

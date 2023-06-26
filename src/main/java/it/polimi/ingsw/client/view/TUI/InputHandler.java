@@ -55,7 +55,7 @@ public class InputHandler {
                             case "UNDO" -> sender.undoPick();
                             case "ORDER" -> new OrderCommand().execute(sender, stdin, client);
                             case "PUT" -> new PutCommand().execute(sender, stdin, client);
-                            case "SHOW_COMMON" -> client.getOutputHandler().showCommonCards();
+                            case "COMMON" -> client.getOutputHandler().showCommonCards();
                             case "CHAT" -> client.openChat();
                             default -> client.getOutputHandler().showError("Unknown command");
                         }

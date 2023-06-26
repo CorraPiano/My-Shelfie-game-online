@@ -106,23 +106,38 @@ public class GUI extends Application implements View {
 
         });
         stageLambda.put(SceneName.GAME, (command)-> {
+            /*
             if(command == Command.CHAT) {
                 currentSceneName = SceneName.CHAT;
                 changeStage(false, true);
             }
-            else if(command == Command.SHOW_BOOKSHELFS) {
+            if(command == Command.SHOW_BOOKSHELFS) {
                 currentSceneName = SceneName.BOOKSHELFS;
                 changeStage(false, true);
             }
-            else if(command == Command.END) {
+             */
+            if(command == Command.END) {
                 currentSceneName = SceneName.END;
                 changeStage(false, false);
                 this.updateEnd();
             }
+            else if(command == Command.QUIT){
+                currentSceneName = SceneName.FINDGAME;
+                changeStage(false, false);
+            }
         });
         stageLambda.put(SceneName.END, (command)-> {
+            /*
             if(command == Command.SHOW_STATISTICS) {
                 currentSceneName = SceneName.STATISTICS;
+            }
+             */
+            if(command == Command.START_GAME){
+                currentSceneName = SceneName.FINDGAME;
+                changeStage(false, false);
+            }
+            else {
+                //esce definitivamente dal gioco
             }
             changeStage(false, false);
         });
@@ -152,12 +167,13 @@ public class GUI extends Application implements View {
         currentSceneName = SceneName.SETUP;
         controller = sceneHandler.getController(currentSceneName);
         Scene scene = sceneHandler.getScene(currentSceneName);
+
         this.primaryStage.setOnCloseRequest(windowEvent -> {
             windowEvent.consume();
             int exitStatus = AlertBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
             if(exitStatus == 1) {
-                if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
-                    this.leaveGame();
+                //if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
+                    //this.leaveGame();
                 System.exit(0);
             }
         });
@@ -372,7 +388,7 @@ public class GUI extends Application implements View {
      */
     public void addFirstPlayer(String name, GameMode gameMode, int numPlayer){
         sender.addFirstPlayer(name, gameMode, numPlayer);
-        this.switchStage(Command.CREATE_GAME);
+        //this.switchStage(Command.CREATE_GAME);
     }
 
     /**
@@ -386,7 +402,15 @@ public class GUI extends Application implements View {
      */
     public void joinGame(String name,int gameId, boolean switchScene){
         sender.addPlayer(name, gameId);
-        if (switchScene) this.switchStage(Command.JOIN_GAME);
+        //if (switchScene) this.switchStage(Command.JOIN_GAME);
+    }
+
+    public void joinLobby(){
+        this.switchStage(Command.JOIN_GAME);
+    }
+
+    public void reconnect(String ID){
+        sender.reconnectGame(ID, true);
     }
 
     /* *******************************************************
@@ -425,7 +449,7 @@ public class GUI extends Application implements View {
             players.add(p.name);
         }
         String message = (command == Command.QUIT) ?
-                "Player " + playerName + " leave the game" : "Player " + playerName + " join the game";
+                "Player " + playerName + " left the game" : "Player " + playerName + " has joined the game";
         LobbyController tmp = (LobbyController) this.controller;
         Platform.runLater(()->{
             tmp.newNotification(message);
@@ -528,6 +552,13 @@ public class GUI extends Application implements View {
         });
     }
 
+    public void updateExceptionNotification(String e) {
+        GameController controllertmp = (GameController) this.controller;
+        Platform.runLater(()->{
+            controllertmp.showExceptionNotification(e);
+        });
+    }
+
     /**
      * Updates the table view in the UI by invoking the showTableView() method of the GameController.
      * This method is used to update the display of the table view in the game.
@@ -614,8 +645,8 @@ public class GUI extends Application implements View {
      */
     public void leaveGame(){
         sender.leaveGame();
+        switchStage(Command.QUIT);
     }
-
     /* ********************************************************
       ____   ____   ____  _  __ _____ _    _ ______ _      ______ _____
      |  _ \ / __ \ / __ \| |/ // ____| |  | |  ____| |    |  ____/ ____|

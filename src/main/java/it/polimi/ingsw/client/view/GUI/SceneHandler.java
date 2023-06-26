@@ -24,6 +24,7 @@ public class SceneHandler {
     private final List<Image> images_asset;
     private final List<Image> images_common;
     private final List<String> commonDescription;
+    private final List<Image> token;
 
     // Immagini di tutti gli item caricate in partenza
     private final List<Image> itemBlue;
@@ -99,7 +100,13 @@ public class SceneHandler {
             url = getClass().getResource(imgYellow);
             this.itemYellow.add(new Image(url.toString()));
         }
-
+        // TOKEN
+        file = "/Images/scoring_tokens/";
+        for(int i = 2; i<=8; i=i+2) {
+            img = file + "scoring_" + String.valueOf(i) + ".jpg";
+            url = getClass().getResource(img);
+            this.token.add(new Image(url.toString()));
+        }
     }
     /*
         - Set all the fxml and the HashMap relative to the scene
@@ -271,6 +278,7 @@ public class SceneHandler {
         this.itemPink = new ArrayList<>();
         this.itemWhite = new ArrayList<>();
         this.itemYellow = new ArrayList<>();
+        this.token = new ArrayList<>();
         loadImages();
         setupMap(gui);
         setupCommonDescription();
@@ -310,6 +318,16 @@ public class SceneHandler {
         ID = 4 : Display 4
          */
         return images_asset.get(ID - 1);
+    }
+
+    /**
+     * Returns the token image with the specified ID.
+     *
+     * @param ID The ID of the token image.
+     * @return The corresponding image.
+     */
+    public Image getToken(int ID) {
+        return token.get(ID);
     }
 
     /**

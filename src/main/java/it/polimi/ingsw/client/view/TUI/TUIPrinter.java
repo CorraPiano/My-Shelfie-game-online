@@ -192,7 +192,7 @@ public class TUIPrinter {
                 case 0 -> card.append("  0");
             }
             for (int j = 0; j < nColumnBookshelf; j++) {
-                coordinates.setRow(i);
+                coordinates.setRow(5-i);
                 coordinates.setColumn(j);
                 if (i >= 0 && i != nRowBookshelf) {
                     if (j == 0) {

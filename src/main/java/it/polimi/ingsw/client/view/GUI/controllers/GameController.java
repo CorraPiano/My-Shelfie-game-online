@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -63,7 +64,15 @@ public class GameController implements GUIController {
     @FXML
     private ImageView common1;
     @FXML
+    private Text commonDescription1;
+    @FXML
+    private Pane commonPane1;
+    @FXML
     private ImageView common2;
+    @FXML
+    private Text commonDescription2;
+    @FXML
+    private Pane commonPane2;
     @FXML
     private ImageView personalGoalCard;
 
@@ -173,9 +182,13 @@ public class GameController implements GUIController {
      *
      * @param gui The GUI object to be associated with the controller.
      */
-    @Override
-    public void setGui(GUI gui) {
-        this.gui = gui;
+    /**
+     * Quits the game and exits the lobby.
+     */
+    @FXML
+    public void onLeaveButton() {
+        resetGame();
+        this.gui.leaveGame();
     }
 
     /**
@@ -183,18 +196,50 @@ public class GameController implements GUIController {
      *
      * @return The GUI object associated with the controller.
      */
-    @Override
-    public GUI getGui() {
-        return gui;
+
+    public void resetGame(){
+        //reset bookshelfs
+        resetPlayersBookshelfs(bookshelfGrid);
+        resetPlayersBookshelfs(bookshelf1Grid);
+        resetPlayersBookshelfs(bookshelf2Grid);
+        bookshelf2.setImage(null);
+        resetPlayersBookshelfs(bookshelf3Grid);
+        bookshelf3.setImage(null);
+        bookshelf1name.setText("");
+        bookshelf2name.setText("");
+        bookshelf3name.setText("");
+        //reset tabView, notifications anche chat
+        tableView.getColumns().clear();
+        gameNotifications.getItems().clear();
+        chatField.getItems().clear();
+        receiver.clear();
+        //reset common
+        common1.setImage(null);
+        common1token.setImage(null);
+        commonDescription1.setText("");
+        commonPane1.setStyle(null);
+        common2.setImage(null);
+        common2token.setImage(null);
+        commonDescription2.setText("");
+        commonPane2.setStyle(null);
+        //reset tokens
+        endGameToken.setImage(null);
+        bookshelf1endGameToken.setImage(null);
+        bookshelf2token1.setImage(null);
+        bookshelf2token2.setImage(null);
+        bookshelf2endGameToken.setImage(null);
+        bookshelf3token1.setImage(null);
+        bookshelf3token2.setImage(null);
+        bookshelf3endGameToken.setImage(null);
     }
 
     /* SCENE INITIALIZERS */
-
     /**
      * Initializes the game scene.
      */
     public void init() {
         this.modelView = gui.getClient().getModelView();
+        resetGame();
         showBoard();
         initPersonal(modelView.getLocalPersonalCard().num);
         initCommon(modelView.getCommonCards());
@@ -209,16 +254,27 @@ public class GameController implements GUIController {
         int type1 = commonCards.get(0).getType();
         int type2 = commonCards.get(1).getType();
 
+        String style =
+                "-fx-background-color: #B77C52;" +
+                "-fx-border-color: rgb(60, 40, 14);" +
+                "-fx-border-width: 3px;" +
+                "-fx-border-radius: 20px;" +
+                "-fx-background-radius: 20px;";
+
         URL url1 = getClass().getResource(getCommonPathByType(type1));
         if (url1 != null) {
             common1.setImage(new Image(url1.toString()));
             common1.getStyleClass().add("imageView");
+            commonPane1.setStyle(style);
+            commonDescription1.setText(this.gui.getSceneHandler().getCommonDescription(type1));
         }
 
         URL url2 = getClass().getResource(getCommonPathByType(type2));
         if (url2 != null) {
             common2.setImage(new Image(url2.toString()));
             common2.getStyleClass().add("imageView");
+            commonPane2.setStyle(style);
+            commonDescription2.setText(this.gui.getSceneHandler().getCommonDescription(type2));
         }
     }
     private void initPersonal(int num) {
@@ -229,7 +285,7 @@ public class GameController implements GUIController {
         }
     }
     private void initBookshelfs(Map<String, LocalBookshelf> mappa){
-        System.out.println("----");
+
         URL url = getClass().getResource("/Images/boards/bookshelf_orth.png");
         if (url != null) {
             if(mappa.size() >= 2){
@@ -263,8 +319,9 @@ public class GameController implements GUIController {
 
         ObservableList<LocalPlayer> data = FXCollections.observableArrayList();
         data.addAll(modelView.getLocalPlayerList());
-
         tableView.setItems(data);
+
+        updateCurrentPlayer(gui.getClient().getName());
     }
     private void initTokens() {
         URL url_empty = getClass().getResource("/Images/scoring_tokens/scoring_back_EMPTY.jpg");
@@ -492,7 +549,6 @@ public class GameController implements GUIController {
                             imageView.setFitWidth(45);
                             imageView.setFitHeight(45);
                             boardGrid.add(imageView, j, nRowBoard-1-i); //inserisci colonna, riga
-                            //bisogna prima leggere correttamente la matrice, poi stamparla al contrario
                         }
                     }
                 }
@@ -553,24 +609,24 @@ public class GameController implements GUIController {
      * Sets the images of the common scoring tokens and each player's scoring tokens based on the game model data.
      */
     public void showTokens() {
-        URL url_2 = getClass().getResource("/Images/scoring_tokens/scoring_2.jpg");
-        URL url_4 = getClass().getResource("/Images/scoring_tokens/scoring_4.jpg");
-        URL url_6 = getClass().getResource("/Images/scoring_tokens/scoring_6.jpg");
-        URL url_8 = getClass().getResource("/Images/scoring_tokens/scoring_8.jpg");
+        //URL url_2 = getClass().getResource("/Images/scoring_tokens/scoring_2.jpg");
+        //URL url_4 = getClass().getResource("/Images/scoring_tokens/scoring_4.jpg");
+        //URL url_6 = getClass().getResource("/Images/scoring_tokens/scoring_6.jpg");
+        //URL url_8 = getClass().getResource("/Images/scoring_tokens/scoring_8.jpg");
 
         //c'è un problema, quando viene preso il secondo token dalla common da "Index 0 out of bounds for length 0"
 
         switch (modelView.getCommonCards().get(0).tokenList.get(0).getValue()){
-            case 2 -> common1token.setImage(new Image(url_2.toString()));
-            case 4 -> common1token.setImage(new Image(url_4.toString()));
-            case 6 -> common1token.setImage(new Image(url_6.toString()));
-            case 8 -> common1token.setImage(new Image(url_8.toString()));
+            case 2 -> common1token.setImage(this.gui.getSceneHandler().getToken(0));
+            case 4 -> common1token.setImage(this.gui.getSceneHandler().getToken(1));
+            case 6 -> common1token.setImage(this.gui.getSceneHandler().getToken(2));
+            case 8 -> common1token.setImage(this.gui.getSceneHandler().getToken(3));
         }
         switch (modelView.getCommonCards().get(1).tokenList.get(0).getValue()){
-            case 2 -> common2token.setImage(new Image(url_2.toString()));
-            case 4 -> common2token.setImage(new Image(url_4.toString()));
-            case 6 -> common2token.setImage(new Image(url_6.toString()));
-            case 8 -> common2token.setImage(new Image(url_8.toString()));
+            case 2 -> common2token.setImage(this.gui.getSceneHandler().getToken(0));
+            case 4 -> common2token.setImage(this.gui.getSceneHandler().getToken(1));
+            case 6 -> common2token.setImage(this.gui.getSceneHandler().getToken(2));
+            case 8 -> common2token.setImage(this.gui.getSceneHandler().getToken(3));
         }
 
         int numPlayer = modelView.getLocalPlayerList().size();
@@ -578,68 +634,68 @@ public class GameController implements GUIController {
             if(p.token1 != null){
                 if(Objects.equals(p.name, gui.getClient().getName())){
                     switch (p.token1.getValue()){
-                        case 2 -> token1.setImage(new Image(url_2.toString()));
-                        case 4 -> token1.setImage(new Image(url_4.toString()));
-                        case 6 -> token1.setImage(new Image(url_6.toString()));
-                        case 8 -> token1.setImage(new Image(url_8.toString()));
+                        case 2 -> token1.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> token1.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> token1.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> token1.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
                 else if(numPlayer>=2 && Objects.equals(p.name, bookshelf1name.getText())){
                     switch (p.token1.getValue()){
-                        case 2 -> bookshelf1token1.setImage(new Image(url_2.toString()));
-                        case 4 -> bookshelf1token1.setImage(new Image(url_4.toString()));
-                        case 6 -> bookshelf1token1.setImage(new Image(url_6.toString()));
-                        case 8 -> bookshelf1token1.setImage(new Image(url_8.toString()));
+                        case 2 -> bookshelf1token1.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> bookshelf1token1.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> bookshelf1token1.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> bookshelf1token1.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
                 else if(numPlayer>=3 && Objects.equals(p.name, bookshelf2name.getText())){
                     switch (p.token1.getValue()){
-                        case 2 -> bookshelf2token1.setImage(new Image(url_2.toString()));
-                        case 4 -> bookshelf2token1.setImage(new Image(url_4.toString()));
-                        case 6 -> bookshelf2token1.setImage(new Image(url_6.toString()));
-                        case 8 -> bookshelf2token1.setImage(new Image(url_8.toString()));
+                        case 2 -> bookshelf2token1.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> bookshelf2token1.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> bookshelf2token1.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> bookshelf2token1.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
                 else if(numPlayer==4 && Objects.equals(p.name, bookshelf3name.getText())){
                     switch (p.token1.getValue()){
-                        case 2 -> bookshelf3token1.setImage(new Image(url_2.toString()));
-                        case 4 -> bookshelf3token1.setImage(new Image(url_4.toString()));
-                        case 6 -> bookshelf3token1.setImage(new Image(url_6.toString()));
-                        case 8 -> bookshelf3token1.setImage(new Image(url_8.toString()));
+                        case 2 -> bookshelf3token1.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> bookshelf3token1.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> bookshelf3token1.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> bookshelf3token1.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
             }
             if(p.token2 != null){
                 if(Objects.equals(p.name, gui.getClient().getName())){
                     switch (p.token2.getValue()){
-                        case 2 -> token2.setImage(new Image(url_2.toString()));
-                        case 4 -> token2.setImage(new Image(url_4.toString()));
-                        case 6 -> token2.setImage(new Image(url_6.toString()));
-                        case 8 -> token2.setImage(new Image(url_8.toString()));
+                        case 2 -> token2.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> token2.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> token2.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> token2.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
                 else if(numPlayer>=2 && Objects.equals(p.name, bookshelf1name.getText())){
                     switch (p.token2.getValue()){
-                        case 2 -> bookshelf1token2.setImage(new Image(url_2.toString()));
-                        case 4 -> bookshelf1token2.setImage(new Image(url_4.toString()));
-                        case 6 -> bookshelf1token2.setImage(new Image(url_6.toString()));
-                        case 8 -> bookshelf1token2.setImage(new Image(url_8.toString()));
+                        case 2 -> bookshelf1token2.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> bookshelf1token2.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> bookshelf1token2.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> bookshelf1token2.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
                 else if(numPlayer>=3 && Objects.equals(p.name, bookshelf2name.getText())){
                     switch (p.token2.getValue()){
-                        case 2 -> bookshelf2token2.setImage(new Image(url_2.toString()));
-                        case 4 -> bookshelf2token2.setImage(new Image(url_4.toString()));
-                        case 6 -> bookshelf2token2.setImage(new Image(url_6.toString()));
-                        case 8 -> bookshelf2token2.setImage(new Image(url_8.toString()));
+                        case 2 -> bookshelf2token2.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> bookshelf2token2.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> bookshelf2token2.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> bookshelf2token2.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
                 else if(numPlayer==4 && Objects.equals(p.name, bookshelf3name.getText())){
                     switch (p.token2.getValue()){
-                        case 2 -> bookshelf3token2.setImage(new Image(url_2.toString()));
-                        case 4 -> bookshelf3token2.setImage(new Image(url_4.toString()));
-                        case 6 -> bookshelf3token2.setImage(new Image(url_6.toString()));
-                        case 8 -> bookshelf3token2.setImage(new Image(url_8.toString()));
+                        case 2 -> bookshelf3token2.setImage(this.gui.getSceneHandler().getToken(0));
+                        case 4 -> bookshelf3token2.setImage(this.gui.getSceneHandler().getToken(1));
+                        case 6 -> bookshelf3token2.setImage(this.gui.getSceneHandler().getToken(2));
+                        case 8 -> bookshelf3token2.setImage(this.gui.getSceneHandler().getToken(3));
                     }
                 }
             }
@@ -910,6 +966,13 @@ public class GameController implements GUIController {
     }
 
     /**
+     * Shows a global notification message based on the specified exception.
+     */
+    public void showExceptionNotification(String e) {
+        gameNotifications.getItems().add("❮ERROR❯ " + e);
+    }
+
+    /**
      * Updates the TableView with the current local player information.
      */
     public void showTableView() {
@@ -1025,7 +1088,15 @@ public class GameController implements GUIController {
 
         return imageView;
     }
-}
 
+    @Override
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
+    @Override
+    public GUI getGui() {
+        return gui;
+    }
+}
 
 

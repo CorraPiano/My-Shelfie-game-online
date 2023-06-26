@@ -28,7 +28,7 @@
             <ListView fx:id="playerLists" layoutX="23.0" layoutY="41.0" prefHeight="139.0" prefWidth="326.0" stylesheets="@../css/lobby-style.css" />
          </children>
       </Pane>
-      <Button layoutX="174.0" layoutY="494.0" mnemonicParsing="false" onAction="#quitgame" text=" Quit Game" />
+      <Button layoutX="163.0" layoutY="494.0" mnemonicParsing="false" onAction="#quitgame" text=" Leave Game" />
       <Pane layoutX="403.0" layoutY="494.0" prefHeight="227.0" prefWidth="559.0" styleClass="pane" stylesheets="@../css/lobby-style.css">
          <children>
             <ImageView fx:id="commonCard" fitHeight="153.0" fitWidth="237.0" layoutX="24.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />

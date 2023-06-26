@@ -22,7 +22,7 @@ public class FindGameController implements GUIController {
     @FXML
     private ListView<String> gameList;
     @FXML
-    private Button searchGame;
+    private Button quit;
     @FXML
     private TextField gameMode;
     @FXML
@@ -31,6 +31,8 @@ public class FindGameController implements GUIController {
     private TextField playerNameJoin;
     @FXML
     private TextField numberOfPlayer;
+    @FXML
+    private TextField ID;
 
     /**
      * Handles the event when the search game button is clicked.
@@ -39,6 +41,26 @@ public class FindGameController implements GUIController {
     protected void onSearchGameButton() {
         this.gui.getGamesList();
     }
+
+    /**
+     * Handles the event when the quit game button is clicked.
+     */
+    @FXML
+    protected void onQuitButton() {
+        gui.leaveGame();
+        //gui.getClient().leaveGame();
+        System.out.println("--> onQuitButton");
+        System.exit(0);
+    };
+
+    /**
+     * Handles the event when the quit game button is clicked.
+     */
+    @FXML
+    protected void onReconnectButton() {
+        gui.reconnect(ID.getText());
+        System.out.println("--> reconnection");
+    };
 
     /**
      * Handles the event when the create game button is clicked.

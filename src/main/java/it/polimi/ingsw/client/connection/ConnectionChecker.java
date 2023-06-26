@@ -42,7 +42,9 @@ public class ConnectionChecker implements Runnable {
         setLastPing();
         pingSender.startNewThread();
         while(!client.getPhase().equals(ClientPhase.CLOSE)){
-            //System.out.println(System.currentTimeMillis()-getLastPing());
+
+            //System.out.println("--> " + (System.currentTimeMillis()-getLastPing()));
+
             if(System.currentTimeMillis()-getLastPing()> 11000) {
                 pingSender.stopCurrentThread();
                 client.lostConnection();
@@ -63,6 +65,7 @@ public class ConnectionChecker implements Runnable {
      * Keeps attempting reconnection until successful or until the client is closed.
      */
     public synchronized void tryReconnection() {
+        int i=0;
         while (true) {
             try {
                 sender.reconnect();
@@ -77,12 +80,15 @@ public class ConnectionChecker implements Runnable {
                 break;
             }
             catch(Exception ignored1) {
+                ignored1.printStackTrace();
                 synchronized (this) {
                     try {
                         this.wait(1000);
                     } catch (Exception ignored2) {}
                 }
             }
+            //System.out.println("--> " + i);
+            i++;
         }
     }
 }

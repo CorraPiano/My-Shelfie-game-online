@@ -351,6 +351,7 @@ public class Controller implements ControllerSkeleton {
      * @throws GameLeftException        if the player has left the game
      */
     public synchronized String reconnect(String id, ClientSkeleton cc,boolean reset) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException {
+        //System.out.println("------->>>> "+ id);
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplay.reconnect(id);
         String name = gameplay.getPlayerNameByID(id);

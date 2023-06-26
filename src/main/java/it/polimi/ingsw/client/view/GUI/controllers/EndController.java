@@ -3,9 +3,11 @@ package it.polimi.ingsw.client.view.GUI.controllers;
 import it.polimi.ingsw.client.localModel.LocalBookshelf;
 import it.polimi.ingsw.client.localModel.LocalPlayer;
 import it.polimi.ingsw.client.localModel.ModelView;
+import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.model.Item;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -89,7 +91,8 @@ public class EndController implements GUIController {
     public void updateLabel() {
         this.modelView = gui.getClient().getModelView();
         int numPlayers = modelView.getLocalPlayerList().size();
-        System.out.println("--> Entrato in updateLabel");
+        //System.out.println("--> Entrato in updateLabel");
+        resetLabel();
         setPlaces(numPlayers);
         setNames(numPlayers);
         setScore(numPlayers);
@@ -185,6 +188,13 @@ public class EndController implements GUIController {
         }
     }
 
+    private void resetPlayersBookshelfs(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
+            if(node instanceof ImageView)
+                ((ImageView) node).setImage(null);
+        }
+    }
+
     private void setPersonalCards(int numPlayers) {
         int num = 0;
         for(int i=0; i<numPlayers; i++){
@@ -213,6 +223,34 @@ public class EndController implements GUIController {
         }
     }
 
+    @FXML
+    protected void onPlayAgainButton() {
+        gui.switchStage(Command.START_GAME);
+    }
+
+    @FXML
+    protected void onLeaveButton() {
+        //qui deve uscire dal gioco
+    }
+
+    public void resetLabel(){
+        pane3.setStyle(null);
+        pane4.setStyle(null);
+        place3.setImage(null);
+        place4.setImage(null);
+        text3.setText("");
+        text4.setText("");
+        score3.setText("");
+        score4.setText("");
+        bookshelf3.setImage(null);
+        bookshelf4.setImage(null);
+        resetPlayersBookshelfs(bookshelfGrid1);
+        resetPlayersBookshelfs(bookshelfGrid2);
+        resetPlayersBookshelfs(bookshelfGrid3);
+        resetPlayersBookshelfs(bookshelfGrid4);
+        personal3.setImage(null);
+        personal4.setImage(null);
+    }
 
     //METHODS
     @Override
