@@ -13,12 +13,17 @@ import static it.polimi.ingsw.util.Constants.*;
 /** <p> This class require a ModelView and can be used to print the various scene of the game according to the ModelView</p>
  **/
 public class OutputHandler {
-    private final ModelView modelView;
+
+    private ModelView modelView;
     private final TUIPrinter TUIprinter;
 
-    public OutputHandler(ModelView modelView){
-        this.modelView = modelView;
+    public OutputHandler(){
+        this.modelView = null;
         this.TUIprinter = new TUIPrinter();
+    }
+
+    public void bindModelView(ModelView modelView){
+        this.modelView = modelView;
     }
 
     /** <p> print nicely the list of avaible gameplay received in input</p>
@@ -26,20 +31,24 @@ public class OutputHandler {
     public void showList(ArrayList<LocalGame> gameslist){
         System.out.println();
         if(gameslist.isEmpty()) {
-            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "there are not avaiable gameplay!"+ANSI_RESET);
-            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "You can create a new gameplay with the CREATE command :"+ANSI_RESET);
+            showInformation("there are not avaiable gameplay!");
+            //System.out.println(ANSI_YELLOW + "<<INFOMATION>> " + ANSI_RESET + "there are not avaiable gameplay!"+ANSI_RESET);
+            showInformation("You can create a new gameplay with the CREATE command :");
+            //System.out.println(ANSI_YELLOW + "<<INFOMATION>> " + ANSI_RESET + "You can create a new gameplay with the CREATE command :"+ANSI_RESET);
         }
         else {
-            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "Here is the list of the avaiable gameplays:" + ANSI_RESET);
+            showInformation("Here is the list of the avaiable gameplays:");
+            //System.out.println(ANSI_YELLOW + "<<INFOMATION>> " + ANSI_RESET + "Here is the list of the avaiable gameplays:" + ANSI_RESET);
             for (LocalGame lg : gameslist) {
-                System.out.print("\t\t\t"+" ➤ ");
+                System.out.print("\t\t\t"+" >> ");
                 System.out.print("\t"+ANSI_CYAN + "GameID: " + ANSI_RESET + lg.gameID + ", ");
-                System.out.print("\t"+ANSI_CYAN  + "gamemode: " + ANSI_RESET + lg.gameMode + ", ");
-                System.out.print("\t"+ANSI_CYAN + "N° players: " + ANSI_RESET + lg.maxPerson + ", ");
-                System.out.print("\t"+ANSI_CYAN  + "N° actual players: " + ANSI_RESET + lg.currPerson + " ");
-                System.out.print("\t"+ANSI_RESET + "\n");
+                System.out.print("  "+ANSI_CYAN  + "gamemode: " + ANSI_RESET + lg.gameMode + ", ");
+                System.out.print("  "+ANSI_CYAN + "N° players: " + ANSI_RESET + lg.maxPerson + ", ");
+                System.out.print("  "+ANSI_CYAN  + "N° actual players: " + ANSI_RESET + lg.currPerson + " ");
+                System.out.print("  "+ANSI_RESET + "\n");
             }
-            System.out.println("\n"+ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "You can join one of this game with the JOIN command" + ANSI_RESET);
+            showInformation("You can join one of this game with the JOIN command");
+            //System.out.println("\n"+ANSI_YELLOW + "<<INFOMATION>>" + ANSI_RESET + "You can join one of this game with the JOIN command" + ANSI_RESET);
         }
         System.out.println();
     }
@@ -47,20 +56,25 @@ public class OutputHandler {
     /** <p> print the intro of home page </p>
      **/
     public void showHomeIntro() {
-        System.out.println(BROWN_FOREGROUND + "\n───────────────────────────────── ❮❰♦❱❯ ─────────────────────────────────" + ANSI_RESET);
+        //➤
+        //System.out.println(BROWN_FOREGROUND + "\n───────────────────────────────── ❮❰♦❱❯ ─────────────────────────────────" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "\n───────────────────────────────── << >> ─────────────────────────────────" + ANSI_RESET);
+
         System.out.println(BROWN_FOREGROUND + MYSHELFIE_LOBBY + ANSI_RESET + "\n");
         System.out.println(
-                ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Here you can the use the following commands with their format:\n" +
-                        "              ➤ CREATE <username> <gamemode> <number_of_players>: to create a new game\n" +
+                ANSI_YELLOW + "<<INSTRUCTION❯>> " + ANSI_RESET + "Here you can the use the following commands with their format:\n" +
+                        "              >> CREATE <username> <gamemode> <number_of_players>: to create a new game\n" +
                         "                       (EASY -> gamemode = 0, EXPERT -> gamemode = 1)\n" +
-                        "              ➤ JOIN <username> <gameID>: to join an existing game\n" +
-                        "              ➤ LIST: to have the list of the current free games");
+                        "              >> JOIN <username> <gameID>: to join an existing game\n" +
+                        "              >> LIST: to have the list of the current free games");
     }
 
     /** <p> print the intro of the game page </p>
      **/
     public void showGameIntro(){
-        System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── ❮❰♦❱❯ ───────────────────────────────────────────────────\n" + ANSI_RESET);
+        //System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── ❮❰♦❱❯ ───────────────────────────────────────────────────\n" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── << >> ───────────────────────────────────────────────────\n" + ANSI_RESET);
+
         System.out.println(BROWN_FOREGROUND + LOGO6);
         System.out.println("Player, it’s time to reorganize your library and put your favorite objects back in place!\n" +
                 "Will you be able to do it faster than other players, satisfying the required patterns?\n" +
@@ -100,8 +114,10 @@ public class OutputHandler {
     }
 
     public void showByeBye(){
-        System.out.println(ANSI_YELLOW + "❮GOODBYE❯ " + ANSI_RESET + "Thank You for playing!");
-        System.out.println(ANSI_YELLOW + "❮GOODBYE❯ " + ANSI_RESET + "See you soon!");
+        showInformation("Thank You for playing!");
+        showInformation("See you soon!");
+        //System.out.println(ANSI_YELLOW + "<<GOODBYE>> " + ANSI_RESET + "Thank You for playing!");
+        //System.out.println(ANSI_YELLOW + "<<GOODBYE>> " + ANSI_RESET + "See you soon!");
     }
 
 
@@ -124,7 +140,9 @@ public class OutputHandler {
         GameMode gameMode = modelView.getGameMode();
 
         //decoration
-        System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── ❮❰♦❱❯ ───────────────────────────────────────────────────" + ANSI_RESET);
+        //System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── ❮❰♦❱❯ ───────────────────────────────────────────────────" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "\n\n─────────────────────────────────────────────────── << >> ───────────────────────────────────────────────────" + ANSI_RESET);
+
         //player list
         showPlayerTable(localPlayerList);
         //board anc cards
@@ -231,7 +249,9 @@ public class OutputHandler {
         ArrayList<LocalPlayer> localPlayerList = modelView.getLocalPlayerList();
 
         //decoration
-        System.out.println(BROWN_FOREGROUND + "\n\n────────────────────────────────────────── ❮❰STATISTICS & PODIUM❱❯ ──────────────────────────────────────────" + ANSI_RESET);
+        //System.out.println(BROWN_FOREGROUND + "\n\n────────────────────────────────────────── ❮❰STATISTICS & PODIUM❱❯ ──────────────────────────────────────────" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "\n\n────────────────────────────────────────── << STATISTICS & PODIUM >> ──────────────────────────────────────────" + ANSI_RESET);
+
         //classification
         showPodium();
         //players list
@@ -291,16 +311,17 @@ public class OutputHandler {
 
         //devo fare una classifica con gli altri giocatori (secondo terzo quarto posto)
 
-        str = " ➤ The second position goes to " + ANSI_CYAN + localPlayers.get(1).name + ANSI_RESET + " with " + localPlayers.get(1).points + " points\n";
+        //" ➤"
+        str = " >> The second position goes to " + ANSI_CYAN + localPlayers.get(1).name + ANSI_RESET + " with " + localPlayers.get(1).points + " points\n";
         output.append(str);
         //output.append(" ➤ The second position goes to " + ANSI_CYAN + localPlayers.get(1).name + ANSI_RESET + " with " + localPlayers.get(1).points + " points\n");
         if(localPlayers.size()>2){
-            str = " ➤ The third position goes to " + ANSI_CYAN + localPlayers.get(2).name + ANSI_RESET + " with " + localPlayers.get(2).points + " points\n";
+            str = " >> The third position goes to " + ANSI_CYAN + localPlayers.get(2).name + ANSI_RESET + " with " + localPlayers.get(2).points + " points\n";
             output.append(str);
             //output.append(" ➤ The third position goes to " + ANSI_CYAN + localPlayers.get(2).name + ANSI_RESET + " with " + localPlayers.get(2).points + " points\n");
         }
         if(localPlayers.size() == 4){
-            str = " ➤ The fourth position goes to " + ANSI_CYAN + localPlayers.get(3).name + ANSI_RESET + " with " + localPlayers.get(3).points + " points\n";
+            str = " >> The fourth position goes to " + ANSI_CYAN + localPlayers.get(3).name + ANSI_RESET + " with " + localPlayers.get(3).points + " points\n";
             output.append(str);
             //output.append(" ➤ The fourth position goes to " + ANSI_CYAN + localPlayers.get(3).name + ANSI_RESET + " with " + localPlayers.get(3).points + " points\n");
         }
@@ -345,60 +366,111 @@ public class OutputHandler {
     public void showHelp(ClientPhase clientPhase){
         switch (clientPhase) {
             case HOME -> {
+                // " ➤ "
                 System.out.println(BROWN_FOREGROUND + "\nYou can start a new game or join an existing one" + ANSI_RESET);
                 System.out.println(BROWN_FOREGROUND + "Here is the list of the commands:\n" +
-                        " ➤ " + ANSI_GREEN + "LIST" + BROWN_FOREGROUND + ": use this command to receive the list of the avaiable matches \n" +
-                        " ➤ " + ANSI_GREEN + "CREATE [name] [gamemode] [number players]" + BROWN_FOREGROUND + ": use this command to create a match.\n"+
+                        " >> " + ANSI_GREEN + "LIST" + BROWN_FOREGROUND + ": use this command to receive the list of the avaiable matches \n" +
+                        " >> " + ANSI_GREEN + "CREATE [name] [gamemode] [number players]" + BROWN_FOREGROUND + ": use this command to create a match.\n"+
                                 " \t\t The number of players should be between 2 and 4. The possible gamemodes are: \n" +
                                 " \t\t - 'O' or 'EASY' for playing without common goal card \n"+
                                 " \t\t - '1' or 'EXPERT' for playing with common goal card \n"+
-                        " ➤ " + ANSI_GREEN + "JOIN [name] [game ID]" + BROWN_FOREGROUND + ": use this command to join an existing game. You can get the game ID with LIST command \n" +
-                        " ➤ " + ANSI_GREEN + "RECONNECT [name] [game ID]" + BROWN_FOREGROUND + ": use this command to reconnect to the game in which you were playing \n" +
-                        " ➤ " + ANSI_GREEN + "EXIT" + BROWN_FOREGROUND + ": use this command to close the app \n" +
-                        " ➤ " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
+                        " >> " + ANSI_GREEN + "JOIN [name] [game ID]" + BROWN_FOREGROUND + ": use this command to join an existing game. You can get the game ID with LIST command \n" +
+                        " >> " + ANSI_GREEN + "RECONNECT [name] [game ID]" + BROWN_FOREGROUND + ": use this command to reconnect to the game in which you were playing \n" +
+                        " >> " + ANSI_GREEN + "EXIT" + BROWN_FOREGROUND + ": use this command to close the app \n" +
+                        " >> " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
             }
             case LOBBY -> {
                 System.out.println(BROWN_FOREGROUND + "\nYou are waiting for the other players" + ANSI_RESET);
                 System.out.println(BROWN_FOREGROUND + "Here is the list of the commands:\n" +
-                        " ➤ " + ANSI_GREEN + "LEAVE" + BROWN_FOREGROUND + ": with this command you will end the game FOR ALL THE PLAYERS \n" +
-                        " ➤ " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
+                        " >> " + ANSI_GREEN + "LEAVE" + BROWN_FOREGROUND + ": with this command you will end the game FOR ALL THE PLAYERS \n" +
+                        " >> " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
             }
             case GAME -> {
                 System.out.println(BROWN_FOREGROUND + "\nYou are playing the game" + ANSI_RESET);
                 System.out.println(BROWN_FOREGROUND + "Here is the list of the commands:\n" +
-                        " ➤ " + ANSI_GREEN + "PICK [row] [column]" + BROWN_FOREGROUND + ": use this command in order to take an Item from the board\n" +
-                        " ➤ " + ANSI_GREEN + "PUT [column]" + BROWN_FOREGROUND + ": if you have some Items in your hand you can put them in the bookshelf\n" +
-                        " ➤ " + ANSI_GREEN + "ORDER [int] {int} {int} " + BROWN_FOREGROUND + ": the items in the hand will be put according with their position in the list\n" +
-                        " ➤ " + ANSI_GREEN + "UNDO" + BROWN_FOREGROUND + ": if you realized that you made a mistake in taking the item you can redo the action\n" +
-                        " ➤ " + ANSI_GREEN + "SHOW" + BROWN_FOREGROUND + ": use this command tu see the description of the current common cards\n" +
-                        " ➤ " + ANSI_GREEN + "CHAT" + BROWN_FOREGROUND + ": with this command you can open the chat\n" +
-                        " ➤ " + ANSI_GREEN + "LEAVE" + BROWN_FOREGROUND + ": with this command you will leave the game \n" +
-                        " ➤ " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
+                        " >> " + ANSI_GREEN + "PICK [row] [column]" + BROWN_FOREGROUND + ": use this command in order to take an Item from the board\n" +
+                        " >> " + ANSI_GREEN + "PUT [column]" + BROWN_FOREGROUND + ": if you have some Items in your hand you can put them in the bookshelf\n" +
+                        " >> " + ANSI_GREEN + "ORDER [int] {int} {int} " + BROWN_FOREGROUND + ": the items in the hand will be put according with their position in the list\n" +
+                        " >> " + ANSI_GREEN + "UNDO" + BROWN_FOREGROUND + ": if you realized that you made a mistake in taking the item you can redo the action\n" +
+                        " >> " + ANSI_GREEN + "SHOW" + BROWN_FOREGROUND + ": use this command tu see the description of the current common cards\n" +
+                        " >> " + ANSI_GREEN + "CHAT" + BROWN_FOREGROUND + ": with this command you can open the chat\n" +
+                        " >> " + ANSI_GREEN + "LEAVE" + BROWN_FOREGROUND + ": with this command you will leave the game \n" +
+                        " >> " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
             }
             case MATCH_RECONNECTION -> {
                 System.out.println(BROWN_FOREGROUND + "\nYou have lost the connection! We are trying to reconnect you to the game" + ANSI_RESET);
                 System.out.println(BROWN_FOREGROUND + "Here is the list of the commands:\n" +
-                        " ➤ " + ANSI_GREEN + "EXIT" + BROWN_FOREGROUND + ": with this command you will stop the attempt to reconnect and close the app\n" +
-                        " ➤ " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
+                        " >> " + ANSI_GREEN + "EXIT" + BROWN_FOREGROUND + ": with this command you will stop the attempt to reconnect and close the app\n" +
+                        " >> " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
             }
             case HOME_RECONNECTION -> {
                 System.out.println(BROWN_FOREGROUND + "\nYou have lost the connection! We are trying to reconnect you to the server" + ANSI_RESET);
                 System.out.println(BROWN_FOREGROUND + "Here is the list of the commands:\n" +
-                        " ➤ " + ANSI_GREEN + "EXIT" + BROWN_FOREGROUND + ": with this command you will stop the attempt to reconnect and close the app \n" +
-                        " ➤ " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
+                        " >> " + ANSI_GREEN + "EXIT" + BROWN_FOREGROUND + ": with this command you will stop the attempt to reconnect and close the app \n" +
+                        " >> " + ANSI_GREEN + "HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
             }
             case CHAT -> {
                 System.out.println(BROWN_FOREGROUND + "\nHere you can write to the other players" + ANSI_RESET);
                 System.out.println(BROWN_FOREGROUND + "Everything you write will be sent to all the player after pushing ENTER\n" +
                         "Here is the list of the commands, which have to begin with '/':\n" +
-                        " ➤ " + ANSI_GREEN + "/SEND [player name] [message]" + BROWN_FOREGROUND + ": send a message to a specific player\n" +
-                        " ➤ " + ANSI_GREEN + "/BROADCAST  [message]" + BROWN_FOREGROUND + ": send a message to everyone \n" +
-                        " ➤ " + ANSI_GREEN + "/CLOSE " + BROWN_FOREGROUND + ": use this command to close the chat \n" +
-                        " ➤ " + ANSI_GREEN + "/HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
+                        " >> " + ANSI_GREEN + "/SEND [player name] [message]" + BROWN_FOREGROUND + ": send a message to a specific player\n" +
+                        " >> " + ANSI_GREEN + "/BROADCAST  [message]" + BROWN_FOREGROUND + ": send a message to everyone \n" +
+                        " >> " + ANSI_GREEN + "/CLOSE " + BROWN_FOREGROUND + ": use this command to close the chat \n" +
+                        " >> " + ANSI_GREEN + "/HELP" + BROWN_FOREGROUND + ": use this command for a description of the avaiable commands \n" + ANSI_RESET);
             }
         }
     }
 
+    public void showInformation(String content){
+        //System.out.println(ANSI_YELLOW + "❮"+header+"❯ " + ANSI_RESET + content);
+        System.out.println(ANSI_YELLOW + "<<INFORMATION>> " + ANSI_RESET + content);
+    }
+    public void showError(String content){
+        //System.out.println(ANSI_YELLOW + "❮"+header+"❯ " + ANSI_RESET + content);
+        System.out.println(ANSI_PINK + "<<ERROR>> " + ANSI_RESET + content);
+    }
+    public void showInstruction(String content){
+        //System.out.println(ANSI_YELLOW + "❮"+header+"❯ " + ANSI_RESET + content);
+        System.out.println(ANSI_YELLOW + "<<INSTRUCTION>> " + ANSI_RESET + content);
+    }
+    public void showInformation(String name, String content){
+        //System.out.println(ANSI_YELLOW + "❮"+header+"❯ " + ANSI_CYAN + name + ANSI_RESET + ": " + content);
+        if(modelView.getLocalName().equals(name))
+            System.out.println(ANSI_YELLOW + "<<INFORMATION>> " + ANSI_CYAN + "you " + ANSI_RESET + content);
+        else
+            System.out.println(ANSI_YELLOW + "<<INFORMATION>> " + ANSI_CYAN + name+" " + ANSI_RESET + content);
+    }
+
+    public void printChatIntro(){
+        //System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── << CHAT >> ─────────────────────────────────────────────────\n" + ANSI_RESET);
+        System.out.println(BROWN_FOREGROUND + "Here you can chat with the other players:\n" + ANSI_RESET  +
+                " >> " + ANSI_GREEN + "for a public message simply write in the console \n" + ANSI_RESET +
+                " >> " + ANSI_GREEN + "for a private message use /send [player name] [message] \n" + ANSI_RESET +
+                " >> " + ANSI_GREEN + "for closing the chat type /CLOSE \n" + ANSI_RESET +
+                " >> " + ANSI_GREEN + "for the list of command type /HELP \n" + ANSI_RESET);
+    }
+
+    public void showPrivateChatMessage(String sender, String receiver, String message){
+        if(modelView.getLocalName().equals(sender))
+            System.out.println(ANSI_YELLOW + "❮TO "+  receiver +"❯ " + ANSI_RESET + ": " + ANSI_GREEN + message + ANSI_RESET);
+        else
+            System.out.println(ANSI_YELLOW + "❮FROM "+  sender +"❯ " + ANSI_RESET + ": " + ANSI_GREEN + message + ANSI_RESET);
+    }
+
+    public void showPublicChatMessage(String sender, String message){
+        if(modelView.getLocalName().equals(sender))
+            System.out.println(ANSI_YELLOW + "❮TO ALL❯ " + ANSI_CYAN + "you" + ANSI_RESET + ": " + ANSI_GREEN + message + ANSI_RESET);
+        else
+            System.out.println(ANSI_YELLOW + "❮TO ALL❯ " + ANSI_CYAN + sender + ANSI_RESET + ": " + ANSI_GREEN + message + ANSI_RESET);
+    }
+
+    public void showSetupInstruction(){
+        System.out.println(ANSI_YELLOW + "<<INSTRUCTION>> " + ANSI_RESET + "Select the communication protocol you are going to use:");
+        System.out.println("               0 - RMI (Remote Method Invocation)");
+        System.out.println("               1 - TCP (Transmission Control Protocol)");
+        System.out.println("              Type the number of the desired option");
+    }
     private String putSpace(int len){
         return " ".repeat(len);
     }

@@ -14,7 +14,7 @@ public class TUIPrinter {
         table.append("\n");
         for (int i = nRowBoard - 1; i > -2; i--) {
             switch (i) {
-                case 8 -> table.append(" ₈ ");
+               /*case 8 -> table.append(" ₈ ");
                 case 7 -> table.append(" ₇ ");
                 case 6 -> table.append(" ₆ ");
                 case 5 -> table.append(" ₅ ");
@@ -22,7 +22,16 @@ public class TUIPrinter {
                 case 3 -> table.append(" ₃ ");
                 case 2 -> table.append(" ₂ ");
                 case 1 -> table.append(" ₁ ");
-                case 0 -> table.append(" ₀ ");
+                case 0 -> table.append(" ₀ ");*/
+                case 8 -> table.append(" 8 ");
+                case 7 -> table.append(" 7 ");
+                case 6 -> table.append(" 6 ");
+                case 5 -> table.append(" 5 ");
+                case 4 -> table.append(" 4 ");
+                case 3 -> table.append(" 3 ");
+                case 2 -> table.append(" 2 ");
+                case 1 -> table.append(" 1 ");
+                case 0 -> table.append(" 0 ");
             }
             for (int j = 0; j < nColumnBoard; j++) {
                 if (i >= 0) {
@@ -40,7 +49,7 @@ public class TUIPrinter {
                     }
                 } else {
                     switch (j) {
-                        case 0 -> table.append("    ₀ ");
+                        /*case 0 -> table.append("    ₀ ");
                         case 1 -> table.append(" ₁ ");
                         case 2 -> table.append(" ₂ ");
                         case 3 -> table.append(" ₃ ");
@@ -48,7 +57,16 @@ public class TUIPrinter {
                         case 5 -> table.append(" ₅ ");
                         case 6 -> table.append(" ₆ ");
                         case 7 -> table.append(" ₇ ");
-                        case 8 -> table.append(" ₈ ");
+                        case 8 -> table.append(" ₈ ");*/
+                        case 0 -> table.append("    0 ");
+                        case 1 -> table.append(" 1 ");
+                        case 2 -> table.append(" 2 ");
+                        case 3 -> table.append(" 3 ");
+                        case 4 -> table.append(" 4 ");
+                        case 5 -> table.append(" 5 ");
+                        case 6 -> table.append(" 6 ");
+                        case 7 -> table.append(" 7 ");
+                        case 8 -> table.append(" 8 ");
                     }
                 }
             }
@@ -66,12 +84,18 @@ public class TUIPrinter {
         library.append("\n");
         for (int i = nRowBookshelf - 1; i > -3; i--) {
             switch (i) {
-                case 5 -> library.append("   ₅");
+                /*case 5 -> library.append("   ₅");
                 case 4 -> library.append("   ₄");
                 case 3 -> library.append("   ₃");
                 case 2 -> library.append("   ₂");
                 case 1 -> library.append("   ₁");
-                case 0 -> library.append("   ₀");
+                case 0 -> library.append("   ₀");*/
+                case 5 -> library.append("   5");
+                case 4 -> library.append("   4");
+                case 3 -> library.append("   3");
+                case 2 -> library.append("   2");
+                case 1 -> library.append("   1");
+                case 0 -> library.append("   0");
             }
             for (int j = 0; j < nColumnBookshelf; j++) {
                 if (i >= 0) {
@@ -102,11 +126,16 @@ public class TUIPrinter {
                     }
                 } else {
                     switch (j) {
-                        case 0 -> library.append("       ⁰ ");
+                        /*case 0 -> library.append("       ⁰ ");
                         case 1 -> library.append("  ¹ ");
                         case 2 -> library.append("  ² ");
                         case 3 -> library.append("  ³ ");
-                        case 4 -> library.append("  ⁴  ");
+                        case 4 -> library.append("  ⁴  ");*/
+                        case 0 -> library.append("       0 ");
+                        case 1 -> library.append("  1 ");
+                        case 2 -> library.append("  2 ");
+                        case 3 -> library.append("  3 ");
+                        case 4 -> library.append("  4  ");
                     }
                 }
             }
@@ -149,12 +178,18 @@ public class TUIPrinter {
         card.append("\n\n");
         for (int i = nRowBookshelf; i > -3; i--) {
             switch (i) {
-                case 5 -> card.append("  ₅");
+               /* case 5 -> card.append("  ₅");
                 case 4 -> card.append("  ₄");
                 case 3 -> card.append("  ₃");
                 case 2 -> card.append("  ₂");
                 case 1 -> card.append("  ₁");
-                case 0 -> card.append("  ₀");
+                case 0 -> card.append("  ₀");*/
+                case 5 -> card.append("  5");
+                case 4 -> card.append("  4");
+                case 3 -> card.append("  3");
+                case 2 -> card.append("  2");
+                case 1 -> card.append("  1");
+                case 0 -> card.append("  0");
             }
             for (int j = 0; j < nColumnBookshelf; j++) {
                 coordinates.setRow(i);
@@ -198,11 +233,16 @@ public class TUIPrinter {
                     }
                 } else {
                     switch (j) {
-                        case 0 -> card.append("      ⁰ ");
+                        /*case 0 -> card.append("      ⁰ ");
                         case 1 -> card.append("  ¹ ");
                         case 2 -> card.append("  ² ");
                         case 3 -> card.append("  ³ ");
-                        case 4 -> card.append("  ⁴  ");
+                        case 4 -> card.append("  ⁴  ");*/
+                        case 0 -> card.append("      0 ");
+                        case 1 -> card.append("  1 ");
+                        case 2 -> card.append("  2 ");
+                        case 3 -> card.append("  3 ");
+                        case 4 -> card.append("  4  ");
                     }
                 }
             }

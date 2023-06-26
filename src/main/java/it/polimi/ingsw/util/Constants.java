@@ -133,12 +133,13 @@ public class Constants {
             " ┌─────────────────┐ \n" +
             " │ " + BLACK_BACKGROUND + "   " + ANSI_RESET + "             │ \n" +
             " │ " + BLACK_BACKGROUND + "   " + ANSI_RESET + "             │ \n" +
-            " │ " + BLACK_BACKGROUND + "   " + ANSI_RESET + "   max 3 " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + " │ \n" +
+            " │ " + BLACK_BACKGROUND + "   " + ANSI_RESET + "   max 3 " + BLACK_BACKGROUND + " ! " + ANSI_RESET + " │ \n" +
             " │ " + BLACK_BACKGROUND + "   " + ANSI_RESET + "             │ \n" +
             " │ " + BLACK_BACKGROUND + "   " + ANSI_RESET + "   x3        │ \n" +
             " │ " + BLACK_BACKGROUND + "   " + ANSI_RESET + "             │ \n" +
             " └─────────────────┘ \n";
 
+    //≠
     public static final String commonCard6 =
             " ┌─────────────────┐ \n" +
             " │                 │ \n" +
@@ -165,25 +166,25 @@ public class Constants {
             " │ " + BLACK_BACKGROUND + "               " + ANSI_RESET + " │ \n" +
             " │        x4       │ \n" +
             " │                 │ \n" +
-            " │    max 3 " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + "    │ \n" +
+            " │    max 3 " + BLACK_BACKGROUND + " ! " + ANSI_RESET + "    │ \n" +
             " │                 │ \n" +
             " └─────────────────┘ \n";
 
     public static final String commonCard9 =
             " ┌─────────────────┐ \n" +
-            " │    " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + "          │ \n" +
-            " │    " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + "          │ \n" +
-            " │    " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + "          │ \n" +
-            " │    " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + "  x2      │ \n" +
-            " │    " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + "          │ \n" +
-            " │    " + BLACK_BACKGROUND + " ≠ " + ANSI_RESET + "          │ \n" +
+            " │    " + BLACK_BACKGROUND + " ! " + ANSI_RESET + "          │ \n" +
+            " │    " + BLACK_BACKGROUND + " ! " + ANSI_RESET + "          │ \n" +
+            " │    " + BLACK_BACKGROUND + " ! " + ANSI_RESET + "          │ \n" +
+            " │    " + BLACK_BACKGROUND + " ! " + ANSI_RESET + "  x2      │ \n" +
+            " │    " + BLACK_BACKGROUND + " ! " + ANSI_RESET + "          │ \n" +
+            " │    " + BLACK_BACKGROUND + " ! " + ANSI_RESET + "          │ \n" +
             " └─────────────────┘ \n";
 
     public static final String commonCard10 =
             " ┌─────────────────┐ \n" +
             " │                 │ \n" +
             " │                 │ \n" +
-            " │ " + BLACK_BACKGROUND + " ≠  ≠  ≠  ≠  ≠ " + ANSI_RESET + " │ \n" +
+            " │ " + BLACK_BACKGROUND + " !  !  !  !  ! " + ANSI_RESET + " │ \n" +
             " │        x2       │ \n" +
             " │                 │ \n" +
             " │                 │ \n" +

@@ -36,6 +36,7 @@ public class TCPServer implements Runnable{
             try{
                 Socket socket = serverSocket.accept();
                 Connection connection = new Connection(socket,num,messageHandler);
+                System.out.println(socket.getLocalAddress());
                 // vedere se serve connectionList
                 // connectionList.add(connection);
                 new Thread(connection).start();

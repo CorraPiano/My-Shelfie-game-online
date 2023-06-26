@@ -65,7 +65,7 @@ public class ConnectionChecker implements Runnable {
     public synchronized void tryReconnection() {
         while (true) {
             try {
-                sender.connect();
+                sender.reconnect();
                 if(client.getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
                     client.setState(ClientState.WAIT);
                     client.gameReconnection();

@@ -102,7 +102,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
      */
     public synchronized void setID(String id){
         this.ID=id;
-        LocalSave.storeID(ID);
+        //LocalSave.storeID(ID);
     }
 
     /**
@@ -234,4 +234,6 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + seconds  +" seconds "+ ANSI_RESET + "left before the end of the game!");
         System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "the timer will stop if someone joins the game!");
     }
+
+    public void closeApp(){}
 }

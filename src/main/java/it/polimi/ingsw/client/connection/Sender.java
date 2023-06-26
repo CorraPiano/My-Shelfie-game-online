@@ -106,4 +106,5 @@ public abstract class Sender {
      * @throws Exception If an error occurs while establishing the connection.
      */
     public abstract void connect() throws Exception;
+    public abstract void reconnect() throws Exception;
 }

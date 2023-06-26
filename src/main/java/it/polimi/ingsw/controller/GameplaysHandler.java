@@ -78,8 +78,11 @@ public class GameplaysHandler {
 
     public void removeGame(int gameID){
         gameplayList.set(gameID,null);
+        ArrayList<String> list = new ArrayList<>();
         for(String s: mapID.keySet())
             if(mapID.get(s)==gameID)
+                list.add(s);
+        for(String s: list)
                 mapID.remove(s);
         System.out.println("gameplay "+gameID+" rimosso dalla mappa");
     }

@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.util.Constants.ANSI_RESET;
+import static it.polimi.ingsw.util.Constants.ANSI_YELLOW;
+
 /**
  * The TCPSender class is responsible for sending messages to the server using TCP connection.
  */
@@ -233,6 +236,12 @@ public class TCPSender extends Sender {
      * @throws IOException if an error occurs during the connection setup.
      */
     public void connect() throws IOException {
+        Socket socket = new Socket(IP, Settings.TCPPORT);
+        this.connection = new ClientConnection(socket,TCPreceiver);
+        new Thread(connection).start();
+    }
+
+    public synchronized void reconnect() throws IOException {
         Socket socket = new Socket(IP, Settings.TCPPORT);
         this.connection = new ClientConnection(socket,TCPreceiver);
         new Thread(connection).start();

@@ -14,13 +14,16 @@ import static it.polimi.ingsw.util.Constants.*;
 public class TUI implements View {
 
     public static int port;
+    private static OutputHandler outputHandler;
 
     public static void main(String[] args) throws RemoteException {
         System.out.println(BROWN_FOREGROUND + MYSHELFIE_LOGIN + ANSI_RESET + "\n");
-        ClientTUI client = new ClientTUI();
+        outputHandler = new OutputHandler();
+        ClientTUI client = new ClientTUI(outputHandler);
         Sender sender = setupSender(client);
         InputHandler inputHandler = new InputHandler(sender, client);
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "Client started");
+        outputHandler.showInformation("Client started");
+        //System.out.println(ANSI_YELLOW + "<<INFORMATION>> " + ANSI_RESET + "Client started");
         inputHandler.readInput();
     }
 
@@ -32,7 +35,8 @@ public class TUI implements View {
         while(true) {
             try {
                 String IP = setupIP();
-                System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The client is trying to connect to " + ANSI_CYAN + IP + ANSI_RESET  +"\n");
+                outputHandler.showInformation(ANSI_RESET + "The client is trying to connect to " + ANSI_CYAN + IP + ANSI_RESET  +"\n");
+                //System.out.println(ANSI_YELLOW + "<<INFORMATION❯>> " + ANSI_RESET + "The client is trying to connect to " + ANSI_CYAN + IP + ANSI_RESET  +"\n");
                 connectionType = setupConnectionType();
                 if (connectionType.equals(ConnectionType.RMI))
                     sender = new RMISender(IP, client);
@@ -41,7 +45,8 @@ public class TUI implements View {
                 break;
             } catch(Exception e){
                 sender = null;
-                System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "impossible to connect");
+                outputHandler.showError("impossible to connect");
+                //System.out.println(ANSI_PINK+ "<<ERROR>> " + ANSI_RESET + "impossible to connect");
             }
         }
         return sender;
@@ -50,34 +55,36 @@ public class TUI implements View {
     private static String setupIP() {
         Scanner in = new Scanner(System.in);
         String IP;
-        System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Please insert the IP address of the server (format: x.y.z.w)");
-        System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Insted press ENTER for default address");
+        outputHandler.showInstruction("Please insert the IP address of the server (format: x.y.z.w)");
+        outputHandler.showInstruction("Insted press ENTER for default address");
+        //System.out.println(ANSI_YELLOW + "<<INSTRUCTION>> " + ANSI_RESET + "Please insert the IP address of the server (format: x.y.z.w)");
+        //System.out.println(ANSI_YELLOW + "<<INSTRUCTION>> " + ANSI_RESET + "Insted press ENTER for default address");
         try {
             String input = in.nextLine();
             if(input.isEmpty()){
                 IP = Settings.IP;
-                System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The IP address will be set to the default: " + Settings.IP + "\n");
+                outputHandler.showInformation("The IP address will be set to the default: " + Settings.IP + "\n");
+                //System.out.println(ANSI_YELLOW + "<<INFORMATION>> " + ANSI_RESET + "The IP address will be set to the default: " + Settings.IP + "\n");
                 return IP ;
             }
             if (input.matches(Constants.IPV4_PATTERN)) {
                 IP = input;
                 return IP ;
             }
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid IP address!");
+            outputHandler.showError("Invalid IP address!");
+            //System.out.println(ANSI_PINK+ "<<ERROR>> " + ANSI_RESET + "Invalid IP address!");
         } catch(Exception e) {
-            System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Incorrect input!");
+            outputHandler.showError("Incorrect input!");
+            //System.out.println(ANSI_PINK + "<<ERROR>> " + ANSI_RESET + "Incorrect input!");
         }
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "The IP address will be set to the default: " + Settings.IP + "\n");
+        outputHandler.showInformation("The IP address will be set to the default: " + Settings.IP + "\n");
+        //System.out.println(ANSI_YELLOW + "<<INFORMATION>> " + ANSI_RESET + "The IP address will be set to the default: " + Settings.IP + "\n");
         IP = Settings.IP;
         return IP ;
     }
 
     private static ConnectionType setupConnectionType() {
-        System.out.println(ANSI_YELLOW + "❮INSTRUCTION❯ " + ANSI_RESET + "Select the communication protocol you are going to use:");
-        System.out.println("               0 - RMI (Remote Method Invocation)");
-        System.out.println("               1 - TCP (Transmission Control Protocol)");
-        System.out.println("              Type the number of the desired option");
-
+        outputHandler.showSetupInstruction();
         while(true) {
             Scanner in = new Scanner(System.in);
             String line = in.next();
@@ -88,9 +95,11 @@ public class TUI implements View {
                 if (line.equalsIgnoreCase("TCP") || line.equals("1")) {
                     return ConnectionType.TCP;
                 }
-                System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid input");
+                outputHandler.showError("Invalid input");
+                //System.out.println(ANSI_PINK + "<<ERROR>> " + ANSI_RESET + "Invalid input");
             } catch (Exception e) {
-                System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid input");
+                outputHandler.showError("Invalid input");
+                //System.out.println(ANSI_PINK + "<<ERROR>> " + ANSI_RESET + "Invalid input");
             }
         }
     }

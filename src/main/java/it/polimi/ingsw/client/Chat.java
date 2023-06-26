@@ -1,5 +1,5 @@
 package it.polimi.ingsw.client;
-
+import it.polimi.ingsw.client.view.TUI.OutputHandler;
 import it.polimi.ingsw.connection.message.ChatMessage;
 
 import java.io.*;
@@ -10,11 +10,12 @@ import static it.polimi.ingsw.util.Constants.*;
 /**
  * The Chat class handles the chat functionality for the client.
  */
-public class Chat implements Runnable{
+public class Chat implements Runnable {
 
     private final ArrayList<ChatMessage> chatList;
     private boolean active;
     private Client client;
+    OutputHandler outputHandler=null;
 
     /**
      * Constructs a new Chat object.
@@ -24,6 +25,13 @@ public class Chat implements Runnable{
     public Chat(Client client){
         chatList = new ArrayList<>();
         this.client = client;
+    }
+
+    /**
+     * set the OutputHandler, required from printing the TUI.
+     */
+    public void bindOutputHandler(OutputHandler outputHandler){
+        this.outputHandler = outputHandler;
     }
 
     /**
@@ -67,17 +75,6 @@ public class Chat implements Runnable{
         return n < chatList.size();
     }
 
-    /**
-     * Prints the introduction message for the chat.
-     */
-    private void printIntro(){
-        System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
-        System.out.println(BROWN_FOREGROUND + "Here you can chat with the other players:\n" + ANSI_RESET  +
-                    " ➤ " + ANSI_GREEN + "for a public message simply write in the console \n" +
-                    " ➤ " + ANSI_GREEN + "for a private message use /send [player name] [message] \n" +
-                    " ➤ " + ANSI_GREEN + "for closing the chat type /CLOSE \n" +
-                    " ➤ " + ANSI_GREEN + "for the list of command type /HELP \n" + ANSI_RESET);
-    }
 
     /**
      * Runs the chat thread and handles incoming chat messages.
@@ -86,12 +83,16 @@ public class Chat implements Runnable{
         int cursor = 0;
         active = true;
         try {
-            printIntro();
+            outputHandler.printChatIntro();
             while (client.getPhase().equals(ClientPhase.CHAT)) {
                 synchronized (this) {
                     if (isPresent(cursor)) {
                         ChatMessage message = getChatMessage(cursor);
-                        if(message.sender.equals(client.getName())) {
+                        if (message.all)
+                            outputHandler.showPublicChatMessage(message.sender, message.message);
+                        else
+                            outputHandler.showPrivateChatMessage(message.sender, message.receiver, message.message);
+                        /*if(message.sender.equals(client.getName())) {
                             //System.out.printf("\t\t\t\t\t");
                             if (message.all) {
                                 System.out.println(ANSI_YELLOW + "❮TO ALL❯ " + ANSI_CYAN + "you" + ANSI_RESET + ": " + ANSI_GREEN + message.message + ANSI_RESET);
@@ -106,7 +107,7 @@ public class Chat implements Runnable{
                                 String receiver = message.receiver;
                                 System.out.println(ANSI_YELLOW + "❮FROM "+  message.sender +"❯ " + ANSI_RESET + ": " + ANSI_GREEN + message.message + ANSI_RESET);
                             }
-                        }
+                        }*/
                         cursor++;
                     } else {
                         this.wait();

@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.Item;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Queue;
+
 import static it.polimi.ingsw.util.Constants.*;
 
 /**
@@ -21,11 +23,11 @@ public class ClientTUI extends Client {
      *
      * @throws RemoteException if there is a communication-related issue.
      */
-    public ClientTUI() throws RemoteException {
+    public ClientTUI(OutputHandler outputHandler) throws RemoteException {
         super();
         modelView = new ModelView();
-        outputHandler = new OutputHandler(modelView);
-
+        this.outputHandler = outputHandler;
+        this.outputHandler.bindModelView(modelView);
     }
 
     /**
@@ -102,12 +104,14 @@ public class ClientTUI extends Client {
      */
     public void receiveException(String e){
         if(getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
-            System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to game failed!");
+            outputHandler.showInformation("reconnection to game failed!");
+            //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to game failed!");
             setPhase(ClientPhase.HOME);
             outputHandler.showHomeIntro();
         }
         else
-            System.out.println(e);
+            //System.out.println(e);
+            outputHandler.showError(e);
         setState(ClientState.READY);
     }
 
@@ -162,7 +166,8 @@ public class ClientTUI extends Client {
         setPhase(ClientPhase.LOBBY);
         modelView.init(gameID,gameMode,numPlayers,getName());
         //modelView.init();
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "A game is created with gameID " + gameID );
+        outputHandler.showInformation("A game is created with gameID " + gameID );
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "A game is created with gameID " + gameID );
     }
 
     /**
@@ -172,10 +177,12 @@ public class ClientTUI extends Client {
      * @throws RemoteException if there is a communication-related issue.
      */
     public void playerJoin(String name) throws RemoteException {
-        if(name.equals(getName()))
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " joined the game");
-        else
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " joined the game");
+        //if(name.equals(getName()))
+            //outputHandler.showInformation("you","joined the game");
+            //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " joined the game");
+        //else
+            outputHandler.showInformation(name,"joined the game");
+            //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " joined the game");
     }
 
     /**
@@ -185,10 +192,12 @@ public class ClientTUI extends Client {
      * @throws RemoteException if there is a communication-related issue.
      */
     public void playerLeave(String name) throws RemoteException {
-        if(name.equals(getName()))
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " left the game");
-        else
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " left the game");
+        //if(name.equals(getName()))
+           // outputHandler.showInformation("you","left the game");
+            //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " left the game");
+        //else
+            outputHandler.showInformation(name,"left the game");
+            //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " left the game");
     }
 
     /**
@@ -198,10 +207,12 @@ public class ClientTUI extends Client {
      * @throws RemoteException if there is a communication-related issue.
      */
     public void playerDisconnect(String name) throws RemoteException {
-        if(name.equals(getName()))
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " has lost the connection");
-        else
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has lost the connectionn");
+        //if(name.equals(getName()))
+          //  outputHandler.showInformation(you,"has lost the connection");
+            //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " has lost the connection");
+        //else
+            outputHandler.showInformation(name,"lost the connection");
+          //  System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has lost the connectionn");
     }
 
     /**
@@ -213,10 +224,12 @@ public class ClientTUI extends Client {
     public void playerReconnect(String name) throws RemoteException {
         // se arriva prima il name, la fase sara gia a GAME
         setPhase(ClientPhase.GAME);
-        if(name.equals(getName()))
+        outputHandler.showInformation(name," reconnected");
+        /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " have reconnected");
         else
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has reconnected");
+        */
     }
 
     /**
@@ -228,9 +241,11 @@ public class ClientTUI extends Client {
         setPhase(ClientPhase.GAME);
         modelView.loadPlayers();
         chat = new Chat(this);
+        chat.bindOutputHandler(outputHandler);
         outputHandler.showGameIntro();
         //outputHandler.showGame(modelView.getLocalBoard(), modelView.getLocalBookshelfs(), modelView.getCommonCards(), modelView.getDataCard(), modelView.getLocalPlayerList(), modelView.getGameMode());
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET +  "The game has begun!");
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET +  "The game has begun!");
+        outputHandler.showInformation("The game has begun!");
         /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "your" + ANSI_RESET + "'s turn!");
         else
@@ -247,10 +262,11 @@ public class ClientTUI extends Client {
         modelView.setCurrentPlayer(name);
         if(getPhase().equals(ClientPhase.GAME))
             outputHandler.showGame();
-        if(name.equals(getName()))
+        outputHandler.showInformation(name,"'s turn!");
+        /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "your" + ANSI_RESET + "'s turn!");
         else
-            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");
+            System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + "'s turn");*/
     }
 
     /**
@@ -260,11 +276,13 @@ public class ClientTUI extends Client {
      * @throws RemoteException if there is a communication-related issue.
      */
     public void lastRound(String name) throws RemoteException {
-        if(name.equals(getName()))
+        /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + "you" + ANSI_RESET + " have finished his bookshelf!");
         else
             System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_CYAN + name + ANSI_RESET + " has finished his bookshelf!");
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + " one round left!");
+        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + " one round left!");*/
+        outputHandler.showInformation(name,"finished his bookshelf!!");
+        outputHandler.showInformation(" one round left!");
     }
 
     /**
@@ -278,7 +296,8 @@ public class ClientTUI extends Client {
         if(getPhase().equals(ClientPhase.CHAT))
             chat.stopThread();
         setPhase(ClientPhase.HOME);
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET +  "The game is finished!");
+        outputHandler.showInformation("The game is finished!");
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET +  "The game is finished!");
         outputHandler.showEndGame();
         //outputHandler.showStatistics();
         //outputHandler.showPodium();
@@ -298,10 +317,12 @@ public class ClientTUI extends Client {
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
         if(getPhase().equals(ClientPhase.GAME))
             outputHandler.showCurrentAction(name);
-        if(name.equals(getName()))
+        outputHandler.showInformation(name,": PICK, coordinates " + coordinates.toString());
+        /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + "you" + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
         else
             System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PICK, coordinates " + coordinates.toString());
+        */
     }
 
     /**
@@ -313,10 +334,11 @@ public class ClientTUI extends Client {
     public void notifyUndo(String name) throws RemoteException{
         if(getPhase().equals(ClientPhase.GAME))
             outputHandler.showCurrentAction(name);
-        if(name.equals(getName()))
+        outputHandler.showInformation(name,": UNDO");
+        /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + "you" + ANSI_RESET + ": UNDO ");
         else
-            System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": UNDO ");
+            System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": UNDO ");*/
     }
 
     /**
@@ -329,10 +351,12 @@ public class ClientTUI extends Client {
     public void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException{
         if(getPhase().equals(ClientPhase.GAME))
             outputHandler.showCurrentAction(name);
-        if(name.equals(getName()))
+        outputHandler.showInformation(name,": ORDER with " + list.toString());
+        /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + "you" + ANSI_RESET + ": ORDER with " + list.toString());
         else
             System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": ORDER with " + list.toString());
+        */
     }
 
     /**
@@ -345,10 +369,11 @@ public class ClientTUI extends Client {
     public void notifyPut(String name, int column) throws RemoteException{
         if(getPhase().equals(ClientPhase.GAME))
             outputHandler.showBookshelf(name);
-        if(name.equals(getName()))
+        outputHandler.showInformation(name,": PUT, column " + column);
+        /*if(name.equals(getName()))
             System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + "you" + ANSI_RESET + ": PUT, column " + column);
         else
-            System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);
+            System.out.println(ANSI_YELLOW + "❮ACTION❯ " + ANSI_CYAN + name + ANSI_RESET + ": PUT, column " + column);*/
     }
 
     // RMI: aggiornamenti al local model
@@ -364,20 +389,25 @@ public class ClientTUI extends Client {
         if(getPhase().equals(ClientPhase.CHAT))
             chat.stopThread();
         System.out.println();
-        System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "connection lost!");
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "you can close the application with EXIT command");
+        outputHandler.showError("connection lost!");
+        outputHandler.showInformation("you can close the application with EXIT command");
+        //System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "connection lost!");
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "you can close the application with EXIT command");
         if(getPhase().equals(ClientPhase.HOME))
             setPhase(ClientPhase.HOME_RECONNECTION);
         else
             setPhase(ClientPhase.MATCH_RECONNECTION);
-        System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "attempting to reconnect...");
+        //  da stampare solo con TCP
+        //System.out.println(ANSI_YELLOW + "❮INFORMATION❯ " + ANSI_RESET + "attempting to reconnect...");
+        outputHandler.showInformation("attempting to reconnect...");
     }
 
     /**
      * Handles the reconnection process for the client in the home phase.
      */
     public void homeReconnection(){
-        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to server done!");
+        outputHandler.showInformation("reconnection to server done!");
+        //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to server done!");
         setPhase(ClientPhase.HOME);
         outputHandler.showHomeIntro();
     }
@@ -386,8 +416,10 @@ public class ClientTUI extends Client {
      * Handles the reconnection process for the client in the game phase.
      */
     public void gameReconnection(){
-        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to server done!");
-        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "attempting to reconnect...");
+        outputHandler.showInformation("reconnection to server done!");
+        outputHandler.showInformation("attempting to reconnect to the game...");
+        //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to server done!");
+        //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "attempting to reconnect to the game...");
     }
 
     /**
@@ -395,7 +427,8 @@ public class ClientTUI extends Client {
      */
     public void leaveGame() {
         setPhase(ClientPhase.HOME);
-        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + "you "+ ANSI_RESET + "left the game!");
+        outputHandler.showInformation(name,"left the game!");
+        //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + "you "+ ANSI_RESET + "left the game!");
         outputHandler.showHomeIntro();
     }
 
@@ -407,8 +440,15 @@ public class ClientTUI extends Client {
      */
     public void timer(int seconds) throws RemoteException{
         seconds = seconds/1000;
-        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + seconds  +" seconds "+ ANSI_RESET + "left before the end of the game!");
-        System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "the timer will stop if someone joins the game!");
+        outputHandler.showInformation(name,seconds  +" seconds left before the end of the game!");
+        outputHandler.showInformation(name,"the timer will stop if someone joins the game!");
+        //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_CYAN + seconds  +" seconds "+ ANSI_RESET + "left before the end of the game!");
+        //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "the timer will stop if someone joins the game!");
+    }
+
+    public void closeApp(){
+        outputHandler.showByeBye();
+        System.exit(0);
     }
 
 }

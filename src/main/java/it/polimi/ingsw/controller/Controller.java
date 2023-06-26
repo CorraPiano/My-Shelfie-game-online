@@ -123,7 +123,8 @@ public class Controller implements ControllerSkeleton {
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
         //ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
-        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
+        ClientSkeleton c = (ClientSkeleton)UnicastRemoteObject.toStub(cc);
+        ListenerRMI listener = new ListenerRMI(c,this,gameplay.getEventKeeper(),id,name);
         Thread t = new Thread(listener);
         gameplaysHandler.bind(id,gameID);
         t.start();

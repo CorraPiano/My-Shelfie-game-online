@@ -220,6 +220,9 @@ public class RMISender extends Sender {
         Registry registry = LocateRegistry.getRegistry(IP, Settings.RMIPORT);
         this.controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
     }
+     public synchronized void reconnect() {
+         client.closeApp();
+     }
 
     /**
      * Sends a ping request to the server with the specified number.

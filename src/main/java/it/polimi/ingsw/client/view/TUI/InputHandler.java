@@ -38,7 +38,7 @@ public class InputHandler {
                             case "LIST" -> sender.getGameList();
                             case "HELP" -> help();
                             case "EXIT" -> closeApp();
-                            default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
+                            default -> client.getOutputHandler().showError("Unknown command");
                         }
                     }
                     case LOBBY -> {
@@ -57,7 +57,7 @@ public class InputHandler {
                             case "PUT" -> new PutCommand().execute(sender, stdin, client);
                             case "SHOW_COMMON" -> client.getOutputHandler().showCommonCards();
                             case "CHAT" -> client.openChat();
-                            default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
+                            default -> client.getOutputHandler().showError("Unknown command");
                         }
                     }
                     case CHAT -> {
@@ -66,19 +66,20 @@ public class InputHandler {
                             case "/BROADCAST" -> new BroadcastCommand().execute(sender, stdin, client);
                             case "/HELP" -> help();
                             case "/CLOSE" -> client.closeChat();
-                            default -> new BroadcastCommand().execute(sender, stdin, line);
+                            default -> new BroadcastCommand().execute(sender, stdin, line,client);
                         }
                     }
                     case HOME_RECONNECTION, MATCH_RECONNECTION -> {
                         switch (line.toUpperCase()) {
                             case "HELP" -> help();
                             case "EXIT" -> closeApp();
-                            default -> System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Unknown command");
+                            default -> client.getOutputHandler().showError("Unknown command");
                         }
                     }
                 }
             } catch (Exception e){
-                System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid input");
+                client.getOutputHandler().showError("Invalid input");
+                //System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "Invalid input");
             }
             while (client.getState().equals(ClientState.WAIT)) {
                 try {
@@ -93,8 +94,7 @@ public class InputHandler {
     }
 
     private void closeApp(){
-        client.getOutputHandler().showByeBye();
-        System.exit(0);
+        client.closeApp();
     }
 
     private void help(){
