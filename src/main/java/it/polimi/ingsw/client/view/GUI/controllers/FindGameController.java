@@ -125,14 +125,6 @@ public class FindGameController implements GUIController {
 
     // Utility methods
 
-    /**
-     * Checks if the provided data for creating a game is valid.
-     *
-     * @param name      The player name.
-     * @param mode      The game mode.
-     * @param nPlayers  The number of players.
-     * @return True if the data is valid, false otherwise.
-     */
     private boolean checkDataCreate(String name, String mode, String nPlayers) {
         if (mode.length() == 0 || nPlayers.length() == 0 || name.length() == 0)
             return false;
@@ -150,23 +142,10 @@ public class FindGameController implements GUIController {
         return (m == 0 || m == 1) && (numPlayers > 1 && numPlayers < 5);
     }
 
-    /**
-     * Checks if the provided data for joining a game is valid.
-     *
-     * @param name The player name.
-     * @param game The selected game.
-     * @return True if the data is valid, false otherwise.
-     */
     private boolean checkJoinData(String name, String game) {
         return name.length() != 0 && game != null;
     }
 
-    /**
-     * Retrieves the game ID from the game line string.
-     *
-     * @param game The game line string.
-     * @return The game ID.
-     */
     private int getGameId(String game) {
         String num = new String();
         for (int i = 4; i < game.length(); i++) {
@@ -179,12 +158,6 @@ public class FindGameController implements GUIController {
         return Integer.parseInt(num);
     }
 
-    /**
-     * Retrieves the current number of players from the game line string.
-     *
-     * @param game The game line string.
-     * @return The current number of players.
-     */
     private int getCurrentPlayers(String game) {
         int commaCounter = 0;
         for (int i = 0; i < game.length(); i++) {
@@ -196,12 +169,6 @@ public class FindGameController implements GUIController {
         return 0;
     }
 
-    /**
-     * Retrieves the total number of players from the game line string.
-     *
-     * @param game The game line string.
-     * @return The total number of players.
-     */
     private int getNumPlayers(String game) {
         int commaCounter = 0;
         for (int i = 0; i < game.length(); i++) {

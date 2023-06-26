@@ -250,6 +250,15 @@ public class SceneHandler {
                         " Tiles can be of any type");
     }
     private void setUpStageMap(){}
+
+    /**
+     * Constructs a new SceneHandler object.
+     *
+     * This constructor initializes the lists and maps used for managing scenes and controllers.
+     * It also loads the images, sets up the scene map, and sets up the common description.
+     *
+     * @param gui The GUI instance associated with the SceneHandler.
+     */
     public SceneHandler(GUI gui) {
         this.images_asset = new ArrayList<>();
         this.images_common = new ArrayList<>();
@@ -312,6 +321,16 @@ public class SceneHandler {
     public Image getCommon(int ID) {
         return images_common.get(ID);
     }
+
+    /**
+     * Retrieves the CommonGoalCard description.
+     *
+     * This method returns the CommonGoalCard description.
+     *
+     * @param num_card The number of the card for which the common description is requested.
+     * @return The common description of the card.
+     * @throws IndexOutOfBoundsException If the specified card number is out of bounds of the commonDescription list.
+     */
     public String getCommonDescription(int num_card) {
         return commonDescription.get(num_card);
     }

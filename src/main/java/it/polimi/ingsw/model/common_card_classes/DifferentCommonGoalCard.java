@@ -7,15 +7,34 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The DifferentCommonGoalCard class represents a common goal card that requires different color groups on a bookshelf.
+ * Description: this class groups more than one common goal cards:
+ * - card 8 -> Two columns each formed by 6 different types of tiles.
+ * - card 9 -> Two lines each formed by 5 different types of tiles. One line can show the same or a different combination
+ * of the other line.
+ * It extends the CommonGoalCard class and implements the checkFullFil() method to check if the goal is fulfilled.
+ */
 public class DifferentCommonGoalCard extends CommonGoalCard {
     //private final int type;
     private List<Token> token;
 
+    /**
+     * Constructs a DifferentCommonGoalCard object with the specified type.
+     *
+     * @param type the type of the goal card
+     */
     public DifferentCommonGoalCard(int type) {
         super(type);
 
     }
 
+    /**
+     * Checks if the goal card is fulfilled by checking for different color groups on the bookshelf.
+     *
+     * @param library the bookshelf to check for color groups
+     * @return true if the goal is fulfilled, false otherwise
+     */
     @Override
     public boolean checkFullFil(Bookshelf library) {
         Set<Integer> colorSet = new HashSet<>();

@@ -19,6 +19,10 @@ import java.util.Objects;
 
 import static it.polimi.ingsw.util.Constants.*;
 
+/**
+ * The `EndController` class implements the `GUIController` interface and controls the end game screen in the GUI.
+ * It manages the graphical elements such as images, texts, and grids displayed on the screen.
+ */
 public class EndController implements GUIController {
 
     @FXML
@@ -78,7 +82,10 @@ public class EndController implements GUIController {
     private GUI gui;
     private ModelView modelView;
 
-
+    /**
+     * Updates the labels and graphical elements on the end game screen based on the current game state.
+     * It retrieves the necessary information from the `ModelView` and updates the corresponding GUI components.
+     */
     public void updateLabel() {
         this.modelView = gui.getClient().getModelView();
         int numPlayers = modelView.getLocalPlayerList().size();

@@ -21,12 +21,6 @@ public class LoginController implements GUIController {
     @FXML
     private PasswordField password;
 
-    /**
-     * Event handler for the login button.
-     * Retrieves the user ID and password entered by the user and performs the login operation.
-     *
-     * @throws IOException if an I/O error occurs.
-     */
     @FXML
     protected void onLoginButton() throws IOException {
         String user = userID.getText();

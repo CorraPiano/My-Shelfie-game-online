@@ -7,14 +7,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The SameEightCommonGoalCard class represents a common goal card that requires having exactly eight items of specific colors on the bookshelf.
+ * It extends the CommonGoalCard class and implements the checkFullFil() method to check if the goal is fulfilled.
+ */
 public class SameEightCommonGoalCard extends CommonGoalCard {
     //private final int type;
     private List<Token> token;
 
+    /**
+     * Constructs a SameEightCommonGoalCard object with the specified type.
+     *
+     * @param type the type of the goal card
+     */
     public SameEightCommonGoalCard(int type) {
         super(type);
     }
 
+    /**
+     * Checks if the goal card is fulfilled by having exactly eight items of specific colors on the bookshelf.
+     *
+     * @param library the bookshelf to check for the specific colors
+     * @return true if the goal is fulfilled, false otherwise
+     */
     @Override
     public boolean checkFullFil(Bookshelf library) {
 

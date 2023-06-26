@@ -7,14 +7,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The MaxDifferentCommonGoalCard class represents a common goal card that requires maximizing the number of different colors in specific patterns on a bookshelf.
+ * It extends the CommonGoalCard class and implements the checkFullFil() method to check if the goal is fulfilled.
+ */
 public class MaxDifferentCommonGoalCard extends CommonGoalCard {
     //private final int type;
     private List<Token> token;
 
+    /**
+     * Constructs a MaxDifferentCommonGoalCard object with the specified type.
+     *
+     * @param type the type of the goal card
+     */
     public MaxDifferentCommonGoalCard(int type) {
         super(type);
     }
 
+    /**
+     * Checks if the goal card is fulfilled by maximizing the number of different colors in specific patterns on the bookshelf.
+     *
+     * @param library the bookshelf to check for the specific color patterns
+     * @return true if the goal is fulfilled, false otherwise
+     */
     @Override
     public boolean checkFullFil(Bookshelf library) {
         Set<Integer> colorSet = new HashSet<>();

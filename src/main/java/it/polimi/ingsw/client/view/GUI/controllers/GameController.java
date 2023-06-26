@@ -157,26 +157,42 @@ public class GameController implements GUIController {
     @FXML
     private ImageView arrow5;
 
-    //ATTRIBUTES
     private ModelView modelView;
+
     private LocalBookshelf localBookshelf;
     private ArrayList<Integer> handOrder = new ArrayList<>();
+
     private ArrayList<Image> handImages = new ArrayList<>();
-    private int handClickCount;
     private int imagesHighlighted;
     private boolean HandVisible;
 
     //METHODS
+
+    /**
+     * Sets the GUI object associated with the controller.
+     *
+     * @param gui The GUI object to be associated with the controller.
+     */
     @Override
     public void setGui(GUI gui) {
         this.gui = gui;
     }
+
+    /**
+     * Returns the GUI object associated with the controller.
+     *
+     * @return The GUI object associated with the controller.
+     */
     @Override
     public GUI getGui() {
         return gui;
     }
 
-    /* Scene initializers */
+    /* SCENE INITIALIZERS */
+
+    /**
+     * Initializes the game scene.
+     */
     public void init() {
         this.modelView = gui.getClient().getModelView();
         showBoard();
@@ -187,8 +203,7 @@ public class GameController implements GUIController {
         initTokens();
         setArrows();
     }
-
-    public void initCommon(ArrayList<LocalCommonCard> commonCards) {
+    private void initCommon(ArrayList<LocalCommonCard> commonCards) {
         if (gui.getClient().getModelView().getGameMode().equals(GameMode.EASY))
             return;
         int type1 = commonCards.get(0).getType();
@@ -206,14 +221,14 @@ public class GameController implements GUIController {
             common2.getStyleClass().add("imageView");
         }
     }
-    public void initPersonal(int num) {
+    private void initPersonal(int num) {
         URL url = getClass().getResource(getPersonalByType(num));
         if (url != null) {
             personalGoalCard.setImage(new Image(url.toString()));
             personalGoalCard.getStyleClass().add("imageView");
         }
     }
-    public void initBookshelfs(Map<String, LocalBookshelf> mappa){
+    private void initBookshelfs(Map<String, LocalBookshelf> mappa){
         System.out.println("----");
         URL url = getClass().getResource("/Images/boards/bookshelf_orth.png");
         if (url != null) {
@@ -228,7 +243,7 @@ public class GameController implements GUIController {
             }
         }
     }
-    public void initTableView(){
+    private void initTableView(){
 
         //da aggiungere un numero che identifichi la sequenza di gioco?!
 
@@ -272,9 +287,31 @@ public class GameController implements GUIController {
         }
     }
 
+
     // URL url_empty = getClass().getResource("/Images/scoring_tokens/scoring_back_EMPTY.jpg");
 
-    /* On click methods */
+    /* ON CLICK METHODS */
+
+    /**
+     * Retrieves the row and column indices of the board cells based on the provided mouse event.
+     *
+     * @param event The mouse event that triggered the method.
+     * @return The coordinates of the clicked board cell (row, column).
+     */
+    public Coordinates getBoardCellsIndexes(MouseEvent event) {
+        double cellWidth = boardGrid.getWidth() / nColumnBoard;
+        double cellHeight = boardGrid.getHeight() / nRowBoard;
+        int clickedRow = (int) (event.getY() / cellHeight);
+        int clickedCol = (int) (event.getX() / cellWidth);
+        //System.out.println("getBoardCellsIndex ritorna:\n riga --> " + (8-clickedRow) + "\n colonna --> " + clickedCol + "\n");
+        return new Coordinates(8 - clickedRow, clickedCol);
+    }
+
+    /**
+     * Handles the click event on the game board.
+     *
+     * @param event The mouse event.
+     */
     public void onBoardClicked(MouseEvent event) {
         //Coordinates clickGridCoordinates = getGridCellsIndexes(event);
         Coordinates clickBoardCoordinates = getBoardCellsIndexes(event); //actual model coordinates
@@ -283,12 +320,11 @@ public class GameController implements GUIController {
         }
     }
 
-    /* public void onBookshelfClick(MouseEvent event) {
-        int column = getBookshelfCellsColumn(event);
-            gui.putItemList(column);
-            setEffectNull();
-            //removeArrows();
-    }*/
+    /**
+     * Handles the click event on the arrow images.
+     *
+     * @param event The mouse event.
+     */
     public void onArrowClicked(MouseEvent event){
         ImageView clickedArrow = (ImageView) event.getSource();
         int column = 0;
@@ -302,6 +338,12 @@ public class GameController implements GUIController {
         setArrowsInvisible();
         setEffectNull();
     }
+
+    /**
+     * Handles the click event on the hand items.
+     *
+     * @param event The mouse event.
+     */
     public void onHandClick(MouseEvent event) {
         ImageView clickedImageView = (ImageView) event.getSource();
         DropShadow dropShadow = new DropShadow();
@@ -324,44 +366,9 @@ public class GameController implements GUIController {
 
     }
 
-/*    public void onHandClick(MouseEvent event) {
-        ImageView clickedImageView = (ImageView) event.getSource();
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setColor(Color.YELLOW);
-        dropShadow.setWidth(20);
-        dropShadow.setHeight(20);
-
-        if (clickedImageView.getEffect() == null ) {
-            clickedImageView.setEffect(dropShadow);
-            if (clickedImageView.equals(hand1)) {
-                handOrder.add(0);
-                //System.out.println("--> aggiunto l'intero 0 in handOrder");
-            } else if (clickedImageView.equals(hand2)) {
-                handOrder.add(1);
-                //System.out.println("--> aggiunto l'intero 1 in handOrder");
-            } else if (clickedImageView.equals(hand3)){
-                handOrder.add(2);
-                //System.out.println("--> aggiunto l'intero 2 in handOrder");
-            }
-        }
-
-        else {
-            setEffectNull();
-            if (clickedImageView.equals(hand1)) {
-                handOrder.remove(Integer.valueOf(0));
-                //System.out.println("--> aggiunto l'intero 0 in handOrder");
-            }
-
-            else if (clickedImageView.equals(hand2)) {
-                handOrder.remove(Integer.valueOf(1));
-                //System.out.println("--> aggiunto l'intero 1 in handOrder");
-            }
-            else if (clickedImageView.equals(hand3)) {
-                handOrder.remove(Integer.valueOf(2));
-                //System.out.println("--> aggiunto l'intero 2 in handOrder");
-            }
-        }
-    }*/
+    /**
+     * Handles the click event on the "tick" button to confirm the card order.
+     */
     public void onTickClick() {
         int handSize = modelView.getLocalHand().coordinatesList.size();
 
@@ -371,13 +378,23 @@ public class GameController implements GUIController {
             showArrows(handSize);
         }
     }
+
+    /**
+     * Handles the click event on the "Undo" button to undo the card order.
+     */
     public void onOrderUndo(){
         setEffectNull();
         handOrder.clear();
         imagesHighlighted = 0;
     }
 
-    /* Show methods */
+    /* DISPLAY METHODS */
+
+    /**
+     * Shows the bookshelf of the local player on the game screen.
+     * Resets the bookshelf grid and populates it with the items from the player's bookshelf.
+     * Each item is represented by an image on the grid.
+     */
     public void showBookshelf() {
         resetBookshelf();
         String name = gui.getClient().getName();
@@ -400,6 +417,15 @@ public class GameController implements GUIController {
             }
         }
     }
+
+    /**
+     * Shows the bookshelves of other players on the game screen.
+     * Resets the specified player's bookshelf grid and populates it with the items from their bookshelf.
+     * Each item is represented by an image on the grid.
+     *
+     * @param localBookshelfs      The map of local bookshelves, where the key is the player name and the value is their bookshelf.
+     * @param nameBookshelfPlayer  The name of the player whose bookshelf should be displayed.
+     */
     public void showPlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer) {
         int index = 1;
         GridPane gridPane = new GridPane();
@@ -444,6 +470,12 @@ public class GameController implements GUIController {
             }
         }
     }
+
+    /**
+     * Shows the game board on the game screen.
+     * Resets the board grid and populates it with the items from the game board.
+     * Each item is represented by an image on the grid.
+     */
     public void showBoard() {
         LocalBoard localBoard = modelView.getLocalBoard();
         resetBoard();
@@ -466,6 +498,12 @@ public class GameController implements GUIController {
                 }
         }
     }
+
+    /**
+     * Shows the hand of the player on the game screen.
+     * Removes any existing hand images and populates the hand slots with the items from the local player's hand.
+     * Each item is represented by an image in the corresponding hand slot.
+     */
     public void showHand() {
         removeHandImages();
         //handClickCount = 0;
@@ -496,6 +534,12 @@ public class GameController implements GUIController {
         }
     }
 
+    /**
+     * Shows the arrow buttons on the game screen based on the current hand size.
+     * Determines whether there is space left in each hand slot and sets the visibility of the arrow buttons accordingly.
+     *
+     * @param handSize The current size of the hand.
+     */
     public void showArrows(int handSize){
         if (noSpaceLeft(0,handSize)){ arrow1.setVisible(true); }
         if (noSpaceLeft(1,handSize)){ arrow2.setVisible(true); }
@@ -504,6 +548,10 @@ public class GameController implements GUIController {
         if (noSpaceLeft(4,handSize)){ arrow5.setVisible(true); }
     }
 
+    /**
+     * Shows the scoring tokens on the game screen.
+     * Sets the images of the common scoring tokens and each player's scoring tokens based on the game model data.
+     */
     public void showTokens() {
         URL url_2 = getClass().getResource("/Images/scoring_tokens/scoring_2.jpg");
         URL url_4 = getClass().getResource("/Images/scoring_tokens/scoring_4.jpg");
@@ -598,6 +646,10 @@ public class GameController implements GUIController {
         }
     }
 
+    /**
+     * Shows the end game token on the game screen.
+     * Sets the image of the end game token for the local player and each player's bookshelf based on the game model data.
+     */
     public void showEndGameToken() {
         URL url_end = getClass().getResource("/Images/scoring_tokens/end_game.jpg");
         boardtoken1.setImage(null);
@@ -618,31 +670,11 @@ public class GameController implements GUIController {
         }
     }
 
-    /* Coordinates getters */
-    public Coordinates getGridCellsIndexes(MouseEvent event) {
-        double cellWidth = boardGrid.getWidth() / nColumnBoard;
-        double cellHeight = boardGrid.getHeight() / nRowBoard;
-        int clickedRow = (int) (event.getY() / cellHeight);
-        int clickedCol = (int) (event.getX() / cellWidth);
-        //System.out.println("getGridCellsIndex ritorna:\n riga --> " + clickedRow + "\n colonna --> " + clickedCol + "\n");
-        return new Coordinates(clickedRow, clickedCol);
-    }
-    public Coordinates getBoardCellsIndexes(MouseEvent event) {
-        double cellWidth = boardGrid.getWidth() / nColumnBoard;
-        double cellHeight = boardGrid.getHeight() / nRowBoard;
-        int clickedRow = (int) (event.getY() / cellHeight);
-        int clickedCol = (int) (event.getX() / cellWidth);
-        //System.out.println("getBoardCellsIndex ritorna:\n riga --> " + (8-clickedRow) + "\n colonna --> " + clickedCol + "\n");
-        return new Coordinates(8 - clickedRow, clickedCol);
-    }
-    public int getBookshelfCellsColumn(MouseEvent event) {
-        double cellWidth = bookshelfGrid.getWidth() / nColumnBookshelf;
-        int clickedCol = (int) (event.getX() / cellWidth);
+    /* UPDATING  */
 
-        return clickedCol;
-    }
-
-    /* Updating  */
+    /**
+     * Resets the images of the board grid by setting them to null.
+     */
     public void resetBoard(){
         for (Node node : boardGrid.getChildren()) {
             ((ImageView) node).setImage(null);
@@ -660,11 +692,21 @@ public class GameController implements GUIController {
                 ((ImageView) node).setImage(null);
         }
     }
+
+    /**
+     * Removes the images from the hand.
+     */
     public void removeHandImages(){
         hand1.setImage(null);
         hand2.setImage(null);
         hand3.setImage(null);
     }
+
+    /**
+     * Sets the turn for the specified player by enabling/disabling grids and updating visibility.
+     *
+     * @param name The name of the player whose turn it is.
+     */
     public void setTurn(String name){
 
         updateCurrentPlayer(name);
@@ -702,18 +744,46 @@ public class GameController implements GUIController {
         });
     }
 
-    /* Images */
+    /* IMAGES HANDLING */
+
+    /**
+     * Checks if the specified ImageView is empty.
+     *
+     * @param imageView The ImageView to check.
+     * @return {@code true} if the ImageView is empty (contains no image), {@code false} otherwise.
+     */
     public boolean isImageViewEmpty(ImageView imageView) {
         return imageView.getImage() == null;
     }
+
+    /**
+     * Retrieves the common goal card file path based on the specified type.
+     *
+     * @param type The type of the common image.
+     * @return The file path for the common image.
+     */
     public String getCommonPathByType(int type) {
         return "/Images/common/" + (type) + ".jpg";
     }
+
+    /**
+     * Retrieves the personal file path based on the specified number.
+     *
+     * @param n The number of the personal image.
+     * @return The file path for the personal image.
+     */
     public String getPersonalByType(int n) {
         return "/Images/personal/" + n + ".png";
     }
 
-    /* Checking */
+    /* CHECKING */
+
+    /**
+     * Checks if the specified coordinates can be caught.
+     *
+     * @param coordinates The coordinates to check.
+     * @return {@code true} if the coordinates are catchable, {@code false} otherwise.
+     */
     public boolean isCatchable(Coordinates coordinates)  {
         int row = coordinates.getRow();
         int column = coordinates.getColumn();
@@ -753,7 +823,8 @@ public class GameController implements GUIController {
             return false;
         }
     }
-    public boolean checkNewCoordinates (Coordinates coordinates) {
+
+    private boolean checkNewCoordinates (Coordinates coordinates) {
         LocalHand localHand = modelView.getLocalHand();
         if (localHand.coordinatesList.isEmpty())
             return true;
@@ -778,6 +849,14 @@ public class GameController implements GUIController {
         }
         return checkNear && (checkSameRow || checkSameColumn);
     }
+
+    /**
+     * Checks if there is no space left in the specified column of the bookshelf.
+     *
+     * @param column    The column index to check.
+     * @param handSize  The size of the hand.
+     * @return {@code true} if there is no space left in the column, {@code false} otherwise.
+     */
     public boolean noSpaceLeft(int column, int handSize) {
         String name = gui.getClient().getName();
         LocalBookshelf localBookshelf = modelView.getLocalBookshelfs().get(name);
@@ -791,7 +870,13 @@ public class GameController implements GUIController {
         return (counterSpace >= handSize);
     }
 
-    /* Notifications methods */
+    /* NOTIFICATION METHODS */
+
+    /**
+     * Shows a local notification message based on the specified notification type.
+     *
+     * @param notificationsType The type of the notification.
+     */
     public void showLocalNotification(NotificationsType notificationsType) {
         switch (notificationsType){
             case TOOMANYITEMS -> gameNotifications.getItems().add("❮ERROR❯ too many items selected!");
@@ -802,6 +887,16 @@ public class GameController implements GUIController {
         notificationsLenght = notificationsLenght + 1;
         gameNotifications.scrollTo(notificationsLenght);
     }
+
+    /**
+     * Shows a global notification message based on the specified notification type, name, coordinates, list, and column.
+     *
+     * @param notificationsType The type of the notification.
+     * @param name              The name associated with the notification.
+     * @param coordinates       The coordinates associated with the notification.
+     * @param list              The list associated with the notification.
+     * @param column            The column associated with the notification.
+     */
     public void showGlobalNotification(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column) {
         switch (notificationsType){
             case PICK -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": PICK, coord. " + coordinates.toString());
@@ -813,13 +908,23 @@ public class GameController implements GUIController {
         notificationsLenght = notificationsLenght + 1;
         gameNotifications.scrollTo(notificationsLenght);
     }
+
+    /**
+     * Updates the TableView with the current local player information.
+     */
     public void showTableView() {
         ObservableList<LocalPlayer> data = tableView.getItems();
         data.setAll(modelView.getLocalPlayerList());
         tableView.refresh();
     }
 
-    /* Chat methods */
+    /* CHAT METHODS */
+
+    /**
+     * Sends a chat message based on the entered message and receiver.
+     *
+     * @param event The action event associated with sending the message.
+     */
     public void sendMessage(ActionEvent event) {
         String message = chatMessage.getText();
         chatMessage.clear();
@@ -830,6 +935,13 @@ public class GameController implements GUIController {
             gui.sendMessage(message, receiverName);
         }
     }
+
+    /**
+     * Displays a chat message in the chat field based on the provided ChatMessage and name.
+     *
+     * @param chatMessage The chat message to display.
+     * @param name        The name associated with the message.
+     */
     public void displayMessage(ChatMessage chatMessage, String name) {
         if (chatMessage.receiver == null && !Objects.equals(chatMessage.sender, name)){
             chatField.getItems().add("❮TO ALL❯ " + chatMessage.sender + ": " + chatMessage.message);
@@ -844,6 +956,7 @@ public class GameController implements GUIController {
         chatLenght = chatLenght + 1;
         chatField.scrollTo(chatLenght);
     }
+
     /* Switch Buttons
     public void onChat(javafx.event.ActionEvent actionEvent){
         this.gui.switchStage(Command.CHAT);
@@ -853,13 +966,14 @@ public class GameController implements GUIController {
     }
     */
 
-    /* Other features */
-    public void setEffectNull(){
+    /* OTHER FEATURES */
+
+    private void setEffectNull(){
         hand1.setEffect(null);
         hand2.setEffect(null);
         hand3.setEffect(null);
     }
-    public void setArrows(){
+    private void setArrows(){
         URL url = getClass().getResource("/Images/misc/arrow.png");
         Image arrow = new Image(url.toString());
         arrow1.setImage(arrow);
@@ -875,21 +989,21 @@ public class GameController implements GUIController {
         setTransition(arrow5);
 
     }
-    public void setArrowsInvisible(){
+    private void setArrowsInvisible(){
         arrow1.setVisible(false);
         arrow2.setVisible(false);
         arrow3.setVisible(false);
         arrow4.setVisible(false);
         arrow5.setVisible(false);
     }
-    public void setTransition(ImageView arrowImageView){
+    private void setTransition(ImageView arrowImageView){
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), arrowImageView);
         translateTransition.setByY(15); // Sposta di 15 unità verticalmente
         translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
         translateTransition.setAutoReverse(true); // Imposta l'animazione al contrario
         translateTransition.play(); // Avvia l'animazione
     }
-    public void showSelectedItem(ImageView imageview){
+    private void showSelectedItem(ImageView imageview){
         if (isImageViewEmpty(hand1)){
             hand1.setImage(imageview.getImage());
         }
@@ -898,7 +1012,7 @@ public class GameController implements GUIController {
         }
         else hand3.setImage(imageview.getImage());
     }
-    public ImageView getImageViewFromGridPane(GridPane gridPane, int rowIndex, int columnIndex) {
+    private ImageView getImageViewFromGridPane(GridPane gridPane, int rowIndex, int columnIndex) {
         ImageView imageView = null;
 
         for (Node node : gridPane.getChildren()) {

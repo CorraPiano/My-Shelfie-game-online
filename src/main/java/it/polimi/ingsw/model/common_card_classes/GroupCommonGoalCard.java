@@ -5,12 +5,22 @@ import it.polimi.ingsw.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The GroupCommonGoalCard class represents a common goal card that requires specific grouping conditions on a bookshelf.
+ * It extends the CommonGoalCard class and implements the checkFullFil() method to check if the goal is fulfilled.
+ */
 public class GroupCommonGoalCard extends CommonGoalCard {
     //private final int type;
     private List<Token> token;
     private boolean[][] mask;
     private final int nRows;
     private final int nColumns;
+
+    /**
+     * Constructs a GroupCommonGoalCard object with the specified type.
+     *
+     * @param type the type of the goal card
+     */
     public GroupCommonGoalCard(int type) {
         super(type);
         this.nRows = 6;
@@ -18,6 +28,12 @@ public class GroupCommonGoalCard extends CommonGoalCard {
         this.mask = new boolean[6][5];
     }
 
+    /**
+     * Checks if the goal card is fulfilled by checking for specific grouping conditions on the bookshelf.
+     *
+     * @param library the bookshelf to check for grouping conditions
+     * @return true if the goal is fulfilled, false otherwise
+     */
     @Override
     public boolean checkFullFil(Bookshelf library) {
         boolean someIsEmpty = false, allWithSameColor = false;
@@ -126,7 +142,6 @@ public class GroupCommonGoalCard extends CommonGoalCard {
         }
         return false;
     }
-
 
     private int countNearbyItems(int i, int j, int counter, ItemType type, Item[][] library) {
         if((j+1) < nColumns && library[i][j+1] != null) {

@@ -89,12 +89,6 @@ public class SetupController implements GUIController {
         }
     }
 
-    /**
-     * Retrieves the IP address entered by the user in the text field.
-     * If no IP address is entered, it defaults to "localhost".
-     *
-     * @return The IP address entered by the user.
-     */
     private String getIpAddress() {
         String ip = ipAddress.getText();
         if (ip.equals("")) {

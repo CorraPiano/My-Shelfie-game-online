@@ -5,15 +5,30 @@ import it.polimi.ingsw.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The XCommonGoalCard class represents a common goal card that requires having four items of the same color arranged in an "X" shape on the bookshelf.
+ * It extends the CommonGoalCard class and implements the checkFullFil() method to check if the goal is fulfilled.
+ */
 public class XCommonGoalCard extends CommonGoalCard {
 
     //private final int type;
     private List<Token> token;
 
+    /**
+     * Constructs an XCommonGoalCard object with the specified type.
+     *
+     * @param type the type of the goal card
+     */
     public XCommonGoalCard(int type) {
         super(type);
     }
 
+    /**
+     * Checks if the goal card is fulfilled by having four items of the same color arranged in an "X" shape on the bookshelf.
+     *
+     * @param library the bookshelf to check for the "X" shape arrangement
+     * @return true if the goal is fulfilled, false otherwise
+     */
     @Override
     public boolean checkFullFil(Bookshelf library) {
 

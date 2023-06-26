@@ -44,6 +44,13 @@ public class LobbyController implements GUIController {
     public GUI getGui() {
         return null;  // TODO: Implement the method logic
     }
+
+    /**
+     * Updates the player list displayed on the lobby screen.
+     * It clears the existing player list and populates it with the provided list of players.
+     *
+     * @param players The list of players to update the player list with.
+     */
     public void updatePlayerList(List<String> players){
         if (gui.getCurrentSceneName() == SceneName.LOBBY){
             playerLists.setPlaceholder(null);
@@ -77,6 +84,7 @@ public class LobbyController implements GUIController {
         else
             currentImage_asset++;
     }
+
     /**
      * Changes the displayed common card image and the description in the lobby.
      */

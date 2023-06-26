@@ -5,13 +5,31 @@ import it.polimi.ingsw.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The DiagonalCommonGoalCard class represents a common goal card that requires specific item placement patterns on the bookshelf.
+ * Description: Five tiles of the same type forming a diagonal.
+ * It extends the CommonGoalCard class and implements the checkFullFil() method to check if the goal is fulfilled.
+ */
+
 public class DiagonalCommonGoalCard extends CommonGoalCard {
     //private final int type;
     private List<Token> token;
+
+    /**
+     * Constructs a DiagonalCommonGoalCard object with the specified type.
+     *
+     * @param type the type of the goal card
+     */
     public DiagonalCommonGoalCard(int type) {
         super(type);
     }
 
+    /**
+     * Checks if the goal card is fulfilled by checking the item placement patterns on the bookshelf.
+     *
+     * @param library the bookshelf to check for item placement
+     * @return true if the goal is fulfilled, false otherwise
+     */
     @Override
     public boolean checkFullFil(Bookshelf library) {
 

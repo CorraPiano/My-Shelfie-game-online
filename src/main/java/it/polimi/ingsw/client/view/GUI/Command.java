@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.view.GUI;
 
+/**
+ * Represents the different commands available in the game.
+ */
 public enum Command {
     LOGIN,
     SIGNIN,
