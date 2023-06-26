@@ -48,6 +48,7 @@ public class Connection implements Runnable{
             //sistemare il thread con wait;
             try {
                 //System.out.println("------------------------------------------");
+                //the method blocks the thread
                 String line = in.nextLine();
                 try {
                     TCPMessage message = gson.fromJson(line, TCPMessage.class);

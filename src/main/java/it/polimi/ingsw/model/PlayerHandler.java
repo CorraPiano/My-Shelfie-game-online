@@ -14,6 +14,7 @@ public class PlayerHandler extends Listenable {
     private int turn;
     private boolean lastRound;
     private ArrayList<Player> playerList;
+    private ArrayList<String> nameList;
     private Gameplay gameplay;
 
 
@@ -24,6 +25,7 @@ public class PlayerHandler extends Listenable {
     public PlayerHandler(Gameplay gamePlay){
         playerList = new ArrayList<>();
         this.gameplay=gamePlay;
+        nameList = new ArrayList<>();
         //this.playerList = playerList;
         //size=playerList.size();
         //curr = 0; //(int)(Math.random()*(size+1));
@@ -46,6 +48,7 @@ public class PlayerHandler extends Listenable {
     public void addPlayer(Player player){
         playerList.add(player);
         notifyUpdate();
+        nameList.add(player.getName());
     }
 
     /**
@@ -54,8 +57,8 @@ public class PlayerHandler extends Listenable {
      * @return true if the name is available, false otherwise
      */
     public boolean checkName(String name){
-        for(Player p: playerList)
-            if(p.getName().equals(name))
+        for(String s: nameList)
+            if(s.equals(name))
                 return false;
         return true;
     }
@@ -105,15 +108,32 @@ public class PlayerHandler extends Listenable {
     /**
      * Removes a player from the player list.
      * @param id the ID of the player to remove
+     * @param gameState the state of gameplay
      */
-    public void removePlayer(String id){
+    public void playerLeave(String id, GameState gameState) {
         for(int i=0;i<playerList.size();i++) {
-            if(playerList.get(i).getID().equals(id)) {
-                playerList.remove(i);
+            Player p = playerList.get(i);
+            if(p.getID().equals(id)) {
+                p.leave();
+                if(gameState.equals(GameState.WAIT))
+                    playerList.remove(i);
                 break;
             }
         }
-        notifyUpdate();
+    }
+
+    public void playerDisconnect(String id, GameState gameState) {
+        for(int i=0;i<playerList.size();i++) {
+            Player p = playerList.get(i);
+            if(p.getID().equals(id)) {
+                p.disconnect();
+                if(gameState.equals(GameState.WAIT))
+                    playerList.remove(i);
+                break;
+            }
+        }
+        if(gameState.equals(GameState.GAME) && numPlayersConnected()<2)
+            notifyUpdate();
     }
 
     /**
@@ -181,31 +201,13 @@ public class PlayerHandler extends Listenable {
         return numPlayersConnected ;
     }
 
-    //ritorna false se la partitia è finita
-    //public void futureCheck(){
-        /*int check = turn;
-        Long time = System.currentTimeMillis();
-        while(check==turn && numPlayersConnected()<2 && System.currentTimeMillis()-time<60000) {
-            try {
-                synchronized (this) {
-                    this.wait(5000);
-                }
-            } catch(Exception e){}
-        }
-        if(current().isConnected() || check!=turn)
-            return;
-        if(numPlayersConnected()>=2) {
-            gameplay.endTurn();
-        }
-        else
-            gameplay.endGame();*/
-    //}
-
     /**
      * Advances the turn to the next player.
      * @return true if the game can continue, false if the game has ended
      */
     public boolean next() {
+        if(numPlayersAvaiable()<2)
+            return false;
 
         turn++;
         if (curr < size - 1) {
@@ -213,8 +215,6 @@ public class PlayerHandler extends Listenable {
         }
         else {
             if(lastRound)
-                return false;
-            if(numPlayersAvaiable()<2)
                 return false;
             curr = 0;
         }
@@ -224,8 +224,6 @@ public class PlayerHandler extends Listenable {
         if(!current().isConnected()){
             if(numPlayersConnected()>=2)
                 return next();
-            //else
-              //  new Thread(this::futureCheck).start();
         }
         notifyUpdate();
         return true;
@@ -247,6 +245,10 @@ public class PlayerHandler extends Listenable {
         for(Player p: playerList)
             list.add(p.getLocal());
         return new LocalPlayerList(list);
+    }
+
+    public void forceNotify(){
+        this.notifyUpdate();
     }
 
 }

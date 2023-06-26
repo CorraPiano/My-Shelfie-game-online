@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.connection;
 
+import it.polimi.ingsw.controller.Settings;
+
 public class PingSender implements Runnable{
 
     private final Sender sender;
@@ -31,7 +33,7 @@ public class PingSender implements Runnable{
                 sender.ping(0);
                 //System.out.println("ricevuto un ping");
                 synchronized (this) {
-                    this.wait(3000);
+                    this.wait(Settings.clock_pingSender);
                 }
             } catch (Exception ignored) {};
         }

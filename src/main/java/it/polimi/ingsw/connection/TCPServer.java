@@ -34,6 +34,7 @@ public class TCPServer implements Runnable{
         int num=0;
         while(true){
             try{
+                //the method blocks the thread
                 Socket socket = serverSocket.accept();
                 Connection connection = new Connection(socket,num,messageHandler);
                 System.out.println(socket.getLocalAddress());

@@ -5,6 +5,9 @@ import it.polimi.ingsw.client.connection.Sender;
 
 import java.util.Scanner;
 
+
+//inutile da cancellare
+
 /**
  * The `Command` interface represents a command that can be executed by the client application.
  * Classes implementing this interface should provide the `execute` method to perform the command's functionality.

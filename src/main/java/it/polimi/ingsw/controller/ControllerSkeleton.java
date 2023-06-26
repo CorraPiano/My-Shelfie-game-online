@@ -133,7 +133,7 @@ public interface ControllerSkeleton extends Remote {
      * @throws RemoteException  if a remote communication error occurs.
      * @throws InvalidIdException if the specified player identifier is invalid.
      */
-    void leaveGame(String id) throws RemoteException, InvalidIdException;
+    void leaveGame(String id) throws RemoteException, InvalidIdException, GameFinishedException;
 
     /**
      * Reconnects a player to a game.

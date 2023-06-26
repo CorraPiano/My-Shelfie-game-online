@@ -47,29 +47,6 @@ public class EventKeeper {
         this.offsets.put(id,0);
     }
 
-    /**
-     * Checks if an event with the given index is present in the global event list.
-     *
-     * @param n the index of the event
-     * @return true if the event is present, false otherwise
-     */
-    public synchronized boolean isPresent(int n) {
-        return n<listenableList.size();
-    }
-
-    /**
-     * Retrieves the event at the specified index from the global event list.
-     *
-     * @param n the index of the event
-     * @return the Sendable event object, or null if the index is out of bounds
-     */
-    public synchronized  Sendable getListenable(int n) {
-        if(n < listenableList.size() && n>=0)
-            return listenableList.get(n);
-        else
-            return null;
-    }
-
     public synchronized void nextpos(String id){
         int n = offsets.get(id);
         offsets.put(id,n+1);;
@@ -79,10 +56,9 @@ public class EventKeeper {
      * Checks if an event with the given index is present in the personal event list for the specified player ID.
      *
      * @param id the player ID
-     * @param s  the index of the event
      * @return true if the event is present, false otherwise
      */
-    public synchronized boolean isPresentPersonal(String id,int s) {
+    public synchronized boolean isPresentPersonal(String id) {
         int n =  offsets.get(id);
         if(personalList.containsKey(id)) {
             return n < personalList.get(id).size();
@@ -103,10 +79,9 @@ public class EventKeeper {
      * Retrieves the event at the specified index from the personal event list for the specified player ID.
      *
      * @param id the player ID
-     * @param s  the index of the event
      * @return the Sendable event object, or null if the index is out of bounds or the player ID is invalid
      */
-    public synchronized Sendable getListenablePersonal(String id,int s) {
+    public synchronized Sendable getListenablePersonal(String id) {
         int n =  offsets.get(id);
         if(personalList.containsKey(id)) {
             ArrayList<Sendable> l = personalList.get(id);
@@ -118,6 +93,10 @@ public class EventKeeper {
             }
         }
         return null;
+    }
+
+    public void removeID(String id){
+        idList.remove(id);
     }
 
     /**
@@ -155,13 +134,10 @@ public class EventKeeper {
      * @return true if the player is still connected, false if the player has timed out
      */
     public synchronized boolean checkConnection(String id){
-        return System.currentTimeMillis() - lastPing.get(id) <= Settings.timeout;
+        return System.currentTimeMillis() - lastPing.get(id) <= Settings.timeout_server ;
     }
     public synchronized void ping(String id){
         lastPing.put(id,System.currentTimeMillis());
     }
 
-    public synchronized void resetPingKeeper(String id){
-        this.lastPing.put(id,System.currentTimeMillis());
-    }
 }

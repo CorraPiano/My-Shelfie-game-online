@@ -23,7 +23,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     protected String name;
     protected  ClientPhase phase;
     protected  ClientState state;
-    protected  Chat chat;
+    //protected  Chat chat;
     private final boolean DEBUG = false;
 
 
@@ -61,7 +61,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
      *
      * @return The chat instance.
      */
-    public synchronized Chat getChat() { return chat; }
+    //public synchronized Chat getChat() { return chat; }
 
     /**
      * Retrieves the ID of the client.
@@ -205,7 +205,8 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     }
     public void updateChat(ChatMessage chatMessage) throws RemoteException {
         //System.out.println("--> chat message received");
-        chat.addChatMessage(chatMessage);
+        modelView.updateChat(chatMessage);
+        //chat.addChatMessage(chatMessage);
     }
 
     // RECONNECTION

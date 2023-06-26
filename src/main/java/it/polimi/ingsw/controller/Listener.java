@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.connection.MessageHeader;
 import it.polimi.ingsw.connection.message.*;
+import it.polimi.ingsw.exception.GameFinishedException;
 import it.polimi.ingsw.exception.InvalidIdException;
 import it.polimi.ingsw.model.EventKeeper;
 import it.polimi.ingsw.model.Gameplay;
@@ -39,8 +40,8 @@ public abstract class Listener implements Runnable {
         this.eventKeeper = eventKeeper;
         this.name=name;
         this.id=id;
-        cursor=0;
-        personalCursor=0;
+        //cursor=0;
+        //personalCursor=0;
         gson = new Gson();
     }
 
@@ -61,44 +62,35 @@ public abstract class Listener implements Runnable {
      */
     public void run() {
         //eventKeeper.resetOffset(id);
-        eventKeeper.resetPingKeeper(id);
+        eventKeeper.ping(id);
         System.out.println("thread di " + id + " avviato");
         try {
             while (true) {
                 synchronized (eventKeeper) {
                     if(!eventKeeper.checkConnection(id))
-                    {
                         break;
-                    }
-                    if (eventKeeper.isPresentPersonal(id, personalCursor)) {
-                        Sendable sendable = eventKeeper.getListenablePersonal(id, personalCursor);
+                    if (eventKeeper.isPresentPersonal(id)) {
+                        Sendable sendable = eventKeeper.getListenablePersonal(id);
                         if(sendable.getHeader().equals(MessageHeader.LEAVE) && ((LeaveMessage)sendable).name.equals(name))
                             break;
                         this.handleSendable(sendable);
                         eventKeeper.nextpos(id);
                         if(sendable.getHeader().equals(MessageHeader.ENDGAME))
                             break;
-                        personalCursor++;
+                        //personalCursor++;
                     } else {
                         //ping();
-                        //
-                        //    throw new Exception();
-                        eventKeeper.wait(5000);
+                        eventKeeper.wait(Settings.clock_listener);
                     }
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
-            try {
-                //controller.disconnect(id);
-            } catch (Exception ee){
-
-            }
+            //controller.disconnect(id);
         }
         try {
             controller.disconnect(id);
-        } catch (InvalidIdException e) {
-        }
+        } catch (Exception e) {}
         System.out.println("thread di "+ id +" terminato");
     }
 

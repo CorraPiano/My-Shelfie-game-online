@@ -75,6 +75,7 @@ public class Chat implements Runnable {
         return n < chatList.size();
     }
 
+/// da cancellare
 
     /**
      * Runs the chat thread and handles incoming chat messages.
@@ -83,7 +84,7 @@ public class Chat implements Runnable {
         int cursor = 0;
         active = true;
         try {
-            outputHandler.printChatIntro();
+            outputHandler.showChat();
             while (client.getPhase().equals(ClientPhase.CHAT)) {
                 synchronized (this) {
                     if (isPresent(cursor)) {

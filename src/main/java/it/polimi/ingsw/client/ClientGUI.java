@@ -179,7 +179,7 @@ public class ClientGUI extends Client{
     public void startGame() throws RemoteException {
         setPhase(ClientPhase.GAME);
         modelView.loadPlayers();
-        chat = new Chat(this);
+        //chat = new Chat(this);
         gui.switchStage(Command.START_GAME);
     }
 

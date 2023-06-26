@@ -288,19 +288,17 @@ public class Controller implements ControllerSkeleton {
      * @throws InvalidIdException if the player ID is invalid
      * @throws RemoteException   if a remote communication error occurs
      */
-    public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException {
+    public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException, GameFinishedException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         gameplaysHandler.remove(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
         gameplay.leave(id);
-        if(!gameplay.isReady())
-            return;
         if(gameplay.isFinished())
         {
             gameplay.endGame();
             gameplaysHandler.removeGame(gameplay.getGameID());
         }
-        else if(gameplay.getNumPlayersConnected()<2 && !gameplay.currentPlayerIsConnected())
+        else if(gameplay.isReady() && gameplay.getNumPlayersConnected()<2)
         {
             new Thread(new Timer(this,gameplay)).start();
         }
@@ -312,7 +310,7 @@ public class Controller implements ControllerSkeleton {
      * @param id the ID of the player
      * @throws InvalidIdException if the player ID is invalid
      */
-    public synchronized void disconnect(String id) throws InvalidIdException {
+    public synchronized void disconnect(String id) throws InvalidIdException, GameFinishedException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         System.out.println(gameplay.getPlayerNameByID(id)+" si è disconnesso");
         gameplay.disconnect(id);
@@ -322,7 +320,7 @@ public class Controller implements ControllerSkeleton {
             gameplay.endGame();
             gameplaysHandler.removeGame(gameplay.getGameID());
         }
-        else if(gameplay.getNumPlayersConnected()<2 && !gameplay.currentPlayerIsConnected())
+        else if(gameplay.isReady() && gameplay.getNumPlayersConnected()<2)
         {
             new Thread(new Timer(this,gameplay)).start();
         }
@@ -362,7 +360,12 @@ public class Controller implements ControllerSkeleton {
         Thread t = new Thread(listener);
         //gameplaysHandler.rebind(id,listener);
         t.start();
-        this.notifyAll();
+
+        //!!!!
+        //c'è un piccolo problema, ogni tanto la notifica di reconnect non scatta e la causa sembra questa
+        //this.notifyAll();
+        //!!!
+
         return name;
         //gameplay.leave(id);
     }

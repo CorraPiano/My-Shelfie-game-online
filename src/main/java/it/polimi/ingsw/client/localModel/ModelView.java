@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.localModel;
 
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.GameMode;
 
@@ -12,18 +13,20 @@ import java.util.Map;
  * It stores the game data required for the CLI and GUI to display the game state.
  */
 public class ModelView {
-
-    private GameMode gameMode;
+    //deve essere sincronizzato?
     private int numPlayers;
     private int gameID;
+    private String localName;
     private String currentPlayer;
+    private GameMode gameMode;
+
     private LocalBoard localBoard;
     private ArrayList<LocalPlayer> localPlayerList;
     private Map<String, LocalBookshelf> localBookshelfMap;
     private LocalHand localHand;
     private ArrayList<LocalCommonCard> localCommonCardList;
     private LocalPersonalCard localPersonalCard;
-    private String localName;
+    private ArrayList<ChatMessage> localChat;
 
     // CONSTRUCTOR
     public ModelView() {
@@ -47,6 +50,7 @@ public class ModelView {
         this.localCommonCardList = new ArrayList<>();
         this.currentPlayer = "";
         this.localName = localName;
+        this.localChat = new ArrayList<>();
     }
 
     /**
@@ -126,6 +130,10 @@ public class ModelView {
      */
     public void setLocalPersonalCard(LocalPersonalCard localPersonalCard) {
         this.localPersonalCard = new LocalPersonalCard(localPersonalCard.num, new DataCard(localPersonalCard.num));
+    }
+
+    public void updateChat(ChatMessage message){
+        localChat.add(message);
     }
 
     // GETTERS
@@ -255,5 +263,9 @@ public class ModelView {
      */
     public LocalPersonalCard getLocalPersonalCard() {
         return localPersonalCard;
+    }
+
+    public ArrayList<ChatMessage> getChatMessageList() {
+        return localChat;
     }
 }

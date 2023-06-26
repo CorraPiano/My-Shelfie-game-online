@@ -31,18 +31,18 @@ public class Timer implements Runnable{
         System.out.println("timer "+numDisconnection+" partito");
         Long time = System.currentTimeMillis();
         synchronized (controller) {
-            while (gameplay.checkTimer(time)) {
+            while (gameplay.checkTimer(time,numDisconnection)) {
                 try {
-                    controller.wait(5000);
-                } catch (Exception e) {
-                }
+                    controller.wait(Settings.clock_timer);
+                } catch (Exception ignored) {}
             }
-            if (gameplay.isFinished() || gameplay.currentPlayerIsConnected() || gameplay.getNumDisconnection() != numDisconnection) {
+            if (gameplay.isFinished() || gameplay.getNumDisconnection() != numDisconnection) {
                 System.out.println("timer " + numDisconnection + " terminato");
                 return;
             }
             if (gameplay.getNumPlayersConnected() >= 2) {
-                gameplay.endTurn();
+                if(!gameplay.currentPlayerIsConnected())
+                    gameplay.endTurn();
                 System.out.println("timer "+numDisconnection+" terminato");
                 return;
             }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.controller.Settings;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.connection.message.*;
 
@@ -310,10 +311,23 @@ public class Gameplay extends Listenable{
      *
      * @param id The ID of the player to be removed.
      */
-    public void leave(String id){
-        getPlayerByID(id).leave();
-        notifyEvent(new LeaveMessage(getPlayerNameByID(id)));
-        playerMiss(id);
+    public void leave(String id) throws GameFinishedException {
+        if(gameState.equals(GameState.END))
+            throw new GameFinishedException();
+
+        String name = getPlayerNameByID(id);
+        playerHandler.playerLeave(id,gameState);
+        notifyEvent(new LeaveMessage(name));
+        eventKeeper.removeID(id);
+
+        if(gameState.equals(GameState.GAME) && playerHandler.numPlayersAvaiable()>=2 ) {
+            if (playerHandler.current().getID().equals(id)) {
+                board.releaseHand();
+                endTurn();
+            }
+        } else
+            gameState = GameState.END;
+
     }
 
     /**
@@ -321,12 +335,19 @@ public class Gameplay extends Listenable{
      *
      * @param id The ID of the player to be disconnected.
      */
-    public void disconnect(String id){
+    public void disconnect(String id) throws GameFinishedException {
+        if(gameState.equals(GameState.END))
+            throw new GameFinishedException();
+
         numDisconnection++;
-        getPlayerByID(id).disconnect();
+        playerHandler.playerDisconnect(id,gameState);
         notifyEvent(new DisconnectMessage(getPlayerNameByID(id)));
         //System.out.println(getPlayerNameByID(id)+" si è disconnesso");
-        playerMiss(id);
+        if(gameState.equals(GameState.GAME) && playerHandler.current().getID().equals(id) && playerHandler.numPlayersConnected()>=2)
+        {
+            board.releaseHand();
+            endTurn();
+        }
     }
 
     /**
@@ -336,22 +357,6 @@ public class Gameplay extends Listenable{
      */
     public int getNumDisconnection(){
         return numDisconnection;
-    }
-
-    /**
-     * Handles the case when a player is missing (disconnected or left the game) during the game.
-     *
-     * @param id The ID of the missing player.
-     */
-    private void playerMiss(String id){
-        if(gameState.equals(GameState.WAIT)){
-            playerHandler.removePlayer(id);
-        }
-        else if(gameState.equals(GameState.GAME) && playerHandler.current().getID().equals(id))
-        {
-            board.releaseHand();
-            endTurn();
-        }
     }
 
     /**
@@ -510,7 +515,10 @@ public class Gameplay extends Listenable{
      * @return true if the player is connected, false otherwise.
      */
     public boolean isConnected(String id){
-        return playerHandler.getPlayerByID(id).isConnected();
+        Player p = playerHandler.getPlayerByID(id);
+        if(p==null)
+            return false;
+        return p.isConnected();
     }
 
     /**
@@ -520,9 +528,9 @@ public class Gameplay extends Listenable{
      * @param time The time at which the timer started.
      * @return true if the timer has expired and the conditions are met, false otherwise.
      */
-    public boolean checkTimer(Long time){
-        long n = time + 60000 - System.currentTimeMillis();
-        boolean b = (!isFinished() && getNumDisconnection() == numDisconnection && getNumPlayersConnected() < 2 && n>0 && !currentPlayerIsConnected());
+    public boolean checkTimer(Long time, int numDisconnection){
+        long n = time + Settings.timeout_timer - System.currentTimeMillis();
+        boolean b = (!isFinished() && getNumDisconnection() == numDisconnection && getNumPlayersConnected() < 2 && n>0);
         if(b)
             notifyEvent(new TimerMessage((int)n));
         return b;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.TUI;
 
 import it.polimi.ingsw.client.ClientPhase;
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.model.DataCard;
 import it.polimi.ingsw.model.GameMode;
 import java.util.ArrayList;
@@ -441,7 +442,7 @@ public class OutputHandler {
             System.out.println(ANSI_YELLOW + "<INFORMATION> " + ANSI_CYAN + name+" " + ANSI_RESET + content);
     }
 
-    public void printChatIntro(){
+    public void showChat(){
         //System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── ❮❰ CHAT ❱❯ ─────────────────────────────────────────────────\n" + ANSI_RESET);
         System.out.println(BROWN_FOREGROUND + "\n\n───────────────────────────────────────────────── << CHAT >> ─────────────────────────────────────────────────\n" + ANSI_RESET);
         System.out.println(BROWN_FOREGROUND + "Here you can chat with the other players:\n" +
@@ -449,6 +450,16 @@ public class OutputHandler {
                 " -> " + ANSI_GREEN + "/SEND [player name] [message]" + BROWN_FOREGROUND + " for a private message use\n" +
                 " -> " + ANSI_GREEN + "/CLOSE" + BROWN_FOREGROUND + " to close the chat\n" +
                 " -> " + ANSI_GREEN + "/HELP" + BROWN_FOREGROUND + " to show the command list\n" + ANSI_RESET);
+        for(ChatMessage message: modelView.getChatMessageList()) {
+            showChatMessage(message);
+        }
+    }
+
+    public void showChatMessage(ChatMessage message){
+        if (message.all)
+            showPublicChatMessage(message.sender, message.message);
+        else
+            showPrivateChatMessage(message.sender, message.receiver, message.message);
     }
 
     public void showPrivateChatMessage(String sender, String receiver, String message){
