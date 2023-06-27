@@ -74,6 +74,7 @@ public class LobbyController implements GUIController {
     public void init() {
         currentImage_asset = 1;
         currentImage_common = 1;
+        updatePlayerList(gui.getPlayers());
         Platform.runLater(this::changeImage);
         Platform.runLater(this::changeCommon);
     }

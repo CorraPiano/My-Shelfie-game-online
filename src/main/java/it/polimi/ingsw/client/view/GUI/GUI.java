@@ -456,6 +456,13 @@ public class GUI extends Application implements View {
             tmp.updatePlayerList(players);
         });
     }
+    public ArrayList<String> getPlayers(){
+        ArrayList<String> players = new ArrayList<>();
+        for (LocalPlayer p : client.getModelView().getLocalPlayerList()) {
+            players.add(p.name);
+        }
+        return players;
+    }
     private void timerRoutine(){
         executorService_images = Executors.newSingleThreadScheduledExecutor();
         executorService_images.scheduleAtFixedRate(() ->{
