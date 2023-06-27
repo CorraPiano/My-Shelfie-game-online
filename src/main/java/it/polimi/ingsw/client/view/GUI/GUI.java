@@ -49,6 +49,7 @@ public class GUI extends Application implements View {
     // Connection
     private Sender sender;
     private ClientGUI client;
+    private boolean imLast;
     private GUIController controller;
     private SceneHandler sceneHandler;
     private HashMap<SceneName, Consumer<Command>> stageLambda;
@@ -279,6 +280,9 @@ public class GUI extends Application implements View {
     public Client getClient() {
         return this.client;
     }
+    public boolean isLast(){
+        return imLast;
+    }
 
     /**
      * Returns the primary stage of the GUI.
@@ -401,6 +405,7 @@ public class GUI extends Application implements View {
      * @param switchScene Indicates whether to switch the stage to the JOIN_GAME scene after joining.
      */
     public void joinGame(String name,int gameId, boolean switchScene){
+        this.imLast = switchScene;
         sender.addPlayer(name, gameId);
         //if (switchScene) this.switchStage(Command.JOIN_GAME);
     }

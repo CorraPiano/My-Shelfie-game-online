@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
+import it.polimi.ingsw.client.view.GUI.SceneName;
 import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.connection.message.EndCause;
@@ -126,7 +127,6 @@ public class ClientGUI extends Client{
     public void createGame(int gameID, GameMode gameMode, int numPlayers) throws RemoteException {
         setPhase(ClientPhase.LOBBY);
         modelView.init(gameID,gameMode,numPlayers,getName());
-        gui.joinLobby();
     }
 
     /**
@@ -137,6 +137,10 @@ public class ClientGUI extends Client{
      */
     public void playerJoin(String name) throws RemoteException {
         this.gui.updatePlayerList(this.modelView.getLocalPlayerList(), Command.JOIN_GAME, name);
+        if(gui.isLast()){
+            return;
+        }
+        gui.joinLobby();
     }
 
     /**
