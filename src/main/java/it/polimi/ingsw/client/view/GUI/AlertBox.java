@@ -21,6 +21,9 @@ public class AlertBox {
      * @return The status code indicating the user's choice: 1 for "Yes", 2 for "No".
      */
     public static int exitRequest(Stage mainStage, WindowEvent windowEvent, String message) {
+        double WIDTH = 400;
+        double HEIGHT = 100;
+
         AtomicInteger status = new AtomicInteger(0);
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Warning");
@@ -28,6 +31,16 @@ public class AlertBox {
 
         ButtonType buttonTypeYes = new ButtonType("Yes");
         ButtonType buttonTypeNo = new ButtonType("No");
+
+        // calculate position
+        double x = mainStage.getX();
+        double y = mainStage.getY();
+        double center_x = x + mainStage.getScene().getWidth() / 2;
+        double center_y = y + mainStage.getScene().getHeight() / 2;
+
+        alert.setX(center_x - WIDTH / 2);
+        alert.setY(center_y - HEIGHT / 2);
+
 
         alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
         alert.showAndWait().ifPresent(response -> {
