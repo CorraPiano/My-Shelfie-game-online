@@ -68,4 +68,8 @@ public class ChatMessage implements Sendable, Serializable {
     public MessageHeader getHeader() {
         return MessageHeader.CHAT;
     }
+
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

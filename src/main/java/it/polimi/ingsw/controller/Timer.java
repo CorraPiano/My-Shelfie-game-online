@@ -27,7 +27,10 @@ public class Timer implements Runnable{
      * Monitors the elapsed time of the current turn and performs actions based on it.
      */
     public void run(){
-        int numDisconnection = gameplay.getNumDisconnection();
+        int numDisconnection;
+        synchronized (controller) {
+            numDisconnection = gameplay.getNumDisconnection();
+        }
         System.out.println("timer "+numDisconnection+" partito");
         Long time = System.currentTimeMillis();
         synchronized (controller) {

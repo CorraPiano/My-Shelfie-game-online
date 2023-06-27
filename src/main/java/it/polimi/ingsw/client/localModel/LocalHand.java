@@ -49,4 +49,7 @@ public class LocalHand implements Serializable, Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.HAND;
     }
+    public Boolean isRecurrentUpdate(){
+        return true;
+    }
 }

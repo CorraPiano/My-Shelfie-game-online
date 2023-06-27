@@ -31,5 +31,8 @@ public class LastRoundMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.LASTROUND;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }
 

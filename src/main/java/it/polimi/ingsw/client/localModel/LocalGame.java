@@ -57,5 +57,8 @@ public class LocalGame implements Serializable, Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.GAME;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }
 

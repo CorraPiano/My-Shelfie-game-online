@@ -58,4 +58,7 @@ public class PickMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.PICK;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

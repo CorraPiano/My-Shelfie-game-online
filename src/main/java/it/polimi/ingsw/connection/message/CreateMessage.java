@@ -66,4 +66,7 @@ public class CreateMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.CREATE;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

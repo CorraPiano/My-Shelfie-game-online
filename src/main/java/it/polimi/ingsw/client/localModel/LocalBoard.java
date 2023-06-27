@@ -31,4 +31,7 @@ public class LocalBoard implements Serializable, Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.BOARD;
     }
+    public Boolean isRecurrentUpdate(){
+        return true;
+    }
 }

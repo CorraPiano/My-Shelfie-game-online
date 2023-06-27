@@ -50,4 +50,7 @@ public class OrderMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.ORDER;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

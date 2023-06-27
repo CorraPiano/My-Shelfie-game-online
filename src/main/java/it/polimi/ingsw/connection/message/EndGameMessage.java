@@ -38,4 +38,7 @@ public class EndGameMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.ENDGAME;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

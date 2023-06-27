@@ -14,4 +14,6 @@ public interface Sendable {
      * @return the message header
      */
     MessageHeader getHeader();
+
+    Boolean isRecurrentUpdate();
 }

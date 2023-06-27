@@ -42,4 +42,7 @@ public class ListMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.LIST;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

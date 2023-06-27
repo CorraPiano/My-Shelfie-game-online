@@ -34,26 +34,19 @@ public abstract class Listener implements Runnable {
      * @param name         the name of the player
      */
     public Listener(Controller controller, EventKeeper eventKeeper, String id, String name) {
-        //this.eventKeeper = gameplay.getEventKeeper();
-        //this.gameplay = gameplay;
         this.controller = controller;
         this.eventKeeper = eventKeeper;
         this.name=name;
         this.id=id;
-        //cursor=0;
-        //personalCursor=0;
         gson = new Gson();
     }
 
-    /**
-     * Disconnects the listener from the server.
-     */
-    public synchronized void disconnect(){
-        //active=false;
-    }
 
     public synchronized void reset(){
-        eventKeeper.resetOffset(id);
+        synchronized (eventKeeper) {
+            //eventKeeper.fixOffset(id,true,true);
+            eventKeeper.fixOffset(id,true,true);
+        }
     }
 
     /**
@@ -61,36 +54,31 @@ public abstract class Listener implements Runnable {
      * It listens for incoming messages and handles them accordingly.
      */
     public void run() {
-        //eventKeeper.resetOffset(id);
-        eventKeeper.ping(id);
+
+        //eventKeeper.fixOffset(id,true,true);
         System.out.println("thread di " + id + " avviato");
         try {
-            while (true) {
+            while (eventKeeper.checkActivity(id)) {
                 synchronized (eventKeeper) {
-                    if(!eventKeeper.checkConnection(id))
-                        break;
                     if (eventKeeper.isPresentPersonal(id)) {
                         Sendable sendable = eventKeeper.getListenablePersonal(id);
-                        if(sendable.getHeader().equals(MessageHeader.LEAVE) && ((LeaveMessage)sendable).name.equals(name))
-                            break;
                         this.handleSendable(sendable);
-                        eventKeeper.nextpos(id);
                         if(sendable.getHeader().equals(MessageHeader.ENDGAME))
                             break;
-                        //personalCursor++;
                     } else {
-                        //ping();
                         eventKeeper.wait(Settings.clock_listener);
                     }
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
-            //controller.disconnect(id);
         }
-        try {
+
+        /*try {
             controller.disconnect(id);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
         System.out.println("thread di "+ id +" terminato");
     }
 

@@ -148,4 +148,7 @@ public class LocalPlayer implements Serializable, Sendable {
     public PlayerState getPlayerState() {
         return playerState;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

@@ -31,4 +31,7 @@ public class TimerMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.TIMER;
     }
+    public Boolean isRecurrentUpdate(){
+        return true;
+    }
 }

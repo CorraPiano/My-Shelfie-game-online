@@ -49,4 +49,7 @@ public class LocalPersonalCard implements Sendable, Serializable {
     public MessageHeader getHeader() {
         return MessageHeader.PERSONALGOALCARD;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

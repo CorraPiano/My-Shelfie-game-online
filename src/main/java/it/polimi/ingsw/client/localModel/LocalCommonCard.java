@@ -55,4 +55,7 @@ public class LocalCommonCard implements Serializable, Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.COMMONGOALCARD;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

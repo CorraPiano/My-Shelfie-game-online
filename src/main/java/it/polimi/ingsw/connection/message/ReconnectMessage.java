@@ -55,4 +55,7 @@ public class ReconnectMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.RECONNECTION;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

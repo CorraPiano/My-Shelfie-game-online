@@ -30,4 +30,7 @@ public class PingMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.PING;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

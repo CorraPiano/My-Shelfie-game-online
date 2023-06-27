@@ -31,4 +31,7 @@ public class NewTurnMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.NEWTURN;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

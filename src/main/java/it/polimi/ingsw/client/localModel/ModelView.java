@@ -21,7 +21,7 @@ public class ModelView {
     private GameMode gameMode;
 
     private LocalBoard localBoard;
-    private ArrayList<LocalPlayer> localPlayerList;
+    private LocalPlayerList localPlayerList;
     private Map<String, LocalBookshelf> localBookshelfMap;
     private LocalHand localHand;
     private ArrayList<LocalCommonCard> localCommonCardList;
@@ -45,7 +45,7 @@ public class ModelView {
         this.gameMode = gameMode;
         this.numPlayers = numPlayers;
         this.localBookshelfMap = new HashMap<>();
-        this.localPlayerList = new ArrayList<>();
+        this.localPlayerList = new LocalPlayerList();
         this.localHand = new LocalHand();
         this.localCommonCardList = new ArrayList<>();
         this.currentPlayer = "";
@@ -57,7 +57,7 @@ public class ModelView {
      * Loads the players and initializes the local bookshelf map.
      */
     public void loadPlayers() {
-        for (LocalPlayer p : localPlayerList) {
+        for (LocalPlayer p : localPlayerList.playerList) {
             this.localBookshelfMap.put(p.name, new LocalBookshelf(p.name));
         }
     }
@@ -88,7 +88,7 @@ public class ModelView {
      * @param localPlayerList The local player list.
      */
     public void setLocalPlayerList(LocalPlayerList localPlayerList) {
-        this.localPlayerList = localPlayerList.playerList;
+        this.localPlayerList = localPlayerList;
     }
 
     /**
@@ -199,7 +199,7 @@ public class ModelView {
      * @return The local player list.
      */
     public ArrayList<LocalPlayer> getLocalPlayerList() {
-        return localPlayerList;
+        return localPlayerList.playerList;
     }
 
     /**
@@ -253,7 +253,7 @@ public class ModelView {
      * @return The number of players.
      */
     public int getNumOfPlayer() {
-        return localPlayerList.size();
+        return localPlayerList.playerList.size();
     }
 
     /**
@@ -268,4 +268,20 @@ public class ModelView {
     public ArrayList<ChatMessage> getChatMessageList() {
         return localChat;
     }
+
+
+    public void update (LocalBoard localBoard){
+        this.localBoard = localBoard;
+    }
+    public void update (LocalPlayerList localPlayerList){
+        this.localPlayerList = localPlayerList;
+    }
+    public void update (LocalHand localHand){
+        this.localHand = localHand;
+    }
+    public void update (LocalBookshelf localBookshelf){
+        this.localBookshelfMap.put(localBookshelf.name, localBookshelf);
+    }
+
+
 }

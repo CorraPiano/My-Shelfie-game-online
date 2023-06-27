@@ -124,7 +124,7 @@ public interface ControllerSkeleton extends Remote {
      * @throws InvalidIdException if the specified player identifier is invalid.
      * @throws InvalidNameException if the name of the chat message is invalid.
      */
-    void addChatMessage(ChatMessage chatMessage, String id) throws RemoteException, InvalidIdException, InvalidNameException;
+    void addChatMessage(ChatMessage chatMessage, String id) throws RemoteException, InvalidIdException, InvalidNameException, NotInGameException;
 
     /**
      * Leaves the game.

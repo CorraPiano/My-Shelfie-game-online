@@ -48,4 +48,7 @@ public class PutMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.PUT;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

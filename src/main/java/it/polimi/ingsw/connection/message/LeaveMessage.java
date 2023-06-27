@@ -38,4 +38,7 @@ public class LeaveMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.LEAVE;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

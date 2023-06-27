@@ -21,7 +21,7 @@ public class Gameplay extends Listenable{
     private CommonGoalCard commonGoalCard2;
     private final BagPersonal bagPersonal;
     private final BagCommon bagCommon;
-    private PlayerHandler playerHandler;
+    private final PlayerHandler playerHandler;
     private final Hand hand;
     //private ArrayList<Player> playerList;
     private EventKeeper eventKeeper;
@@ -55,7 +55,7 @@ public class Gameplay extends Listenable{
         this.board = new Board(numPlayers,hand);
         this.playerHandler =  new PlayerHandler(this);
 
-        eventKeeper = new EventKeeper(this);
+        eventKeeper = new EventKeeper();
         setEventKeeper(eventKeeper);
         hand.setEventKeeper(eventKeeper);
         board.setEventKeeper(eventKeeper);
@@ -112,7 +112,7 @@ public class Gameplay extends Listenable{
      * @return `true` if the game has finished, `false` otherwise.
      */
     public boolean isFinished(){
-        return gameState.equals(GameState.END);
+        return !playerHandler.hasNext() || getNumPlayersAvaiable()<2;
     }
 
     /**
@@ -142,23 +142,12 @@ public class Gameplay extends Listenable{
         board.drawBoardItems();
 
         // notifica l'avvio del gioco
-        eventKeeper.notifyAll(new StartGameMessage());
+        notifyEvent(new StartGameMessage());
 
         //sceglie il primo giocatore
         playerHandler.choseFirstPlayer();
         playerHandler.current().setFirstPlayerSeat(true);
-        eventKeeper.notifyAll(new NewTurnMessage(playerHandler.current().getName()));
-
-
-
-        // crea playerhandler
-        //playerHandler = new PlayerHandler(playerList);
-
-        //eventKeeper.notifyAll(getLocal());
-        //for(Player p:playerList)
-        //    p.getLibrary().sendBookshelf();
-        //far iniziare a caso il primo giocatore
-
+        notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
 
     }
 
@@ -190,7 +179,7 @@ public class Gameplay extends Listenable{
     public void pickItem(Coordinates coordinates) throws NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
             Item item = board.getLivingRoomItem(coordinates);
             board.getItem(coordinates);
-            eventKeeper.notifyAll(new PickMessage(coordinates,playerHandler.current().getName(),item));
+            notifyEvent(new PickMessage(coordinates,playerHandler.current().getName(),item));
     }
 
     /**
@@ -198,7 +187,7 @@ public class Gameplay extends Listenable{
      */
     public void releaseHand() {
         board.releaseHand();
-        eventKeeper.notifyAll(new UndoMessage(playerHandler.current().getName()));
+        notifyEvent(new UndoMessage(playerHandler.current().getName()));
     }
 
     /**
@@ -211,7 +200,7 @@ public class Gameplay extends Listenable{
     public void selectOrderHand(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
         hand.selectOrder(list);
         //broadcasterRMI.notifyOrder(gameID, "", list);
-        eventKeeper.notifyAll(new OrderMessage(list,playerHandler.current().getName()));
+        notifyEvent(new OrderMessage(list,playerHandler.current().getName()));
     }
 
     /**
@@ -230,7 +219,7 @@ public class Gameplay extends Listenable{
         library.putItemList(hand.getHand(),column);
         board.endTurn();
 
-        eventKeeper.notifyAll(new PutMessage(column,playerHandler.current().getName()));
+        notifyEvent(new PutMessage(column,playerHandler.current().getName()));
 
         if(gameMode.equals(GameMode.EXPERT))
             checkFullfillCommonGoalCard(currentPlayer);
@@ -247,11 +236,10 @@ public class Gameplay extends Listenable{
      * Ends the current player's turn and switches to the next player.
      */
     public void endTurn() {
-        if (playerHandler.next()){
+        playerHandler.next();
+        if (playerHandler.hasNext()){
             notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
         }
-        else
-            gameState = GameState.END;
     }
 
     /**
@@ -261,11 +249,11 @@ public class Gameplay extends Listenable{
         gameState = GameState.END;
         String name = playerHandler.makeFinalClassification();
         if(playerHandler.numPlayersAvaiable()<2)
-            eventKeeper.notifyAll(new EndGameMessage(name,EndCause.NOT_ENOUGH_ACTIVE_PLAYER));
+            notifyEvent(new EndGameMessage(name,EndCause.NOT_ENOUGH_ACTIVE_PLAYER));
         else if(playerHandler.numPlayersConnected()<2)
-            eventKeeper.notifyAll(new EndGameMessage(name,EndCause.DISCONNECTED_PLAYERS_NOT_RECONNECT_ON_TIME));
+            notifyEvent(new EndGameMessage(name,EndCause.DISCONNECTED_PLAYERS_NOT_RECONNECT_ON_TIME));
         else
-            eventKeeper.notifyAll(new EndGameMessage(name,EndCause.LAST_ROUND_FINISHED));
+            notifyEvent(new EndGameMessage(name,EndCause.LAST_ROUND_FINISHED));
     }
 
     private void checkFullfillCommonGoalCard(Player currentPlayer ){
@@ -287,7 +275,7 @@ public class Gameplay extends Listenable{
      */
     public void addChatMessage(ChatMessage chatMessage) throws InvalidNameException {
         if(chatMessage.all) {
-            eventKeeper.notifyAll(chatMessage);
+            notifyEvent(chatMessage);
             return;
         }
         ArrayList<Player> playerList = playerHandler.getPlayerList();
@@ -295,9 +283,9 @@ public class Gameplay extends Listenable{
         {
             for(Player p:playerList){
                 if(p.getName().equals(chatMessage.receiver))
-                    eventKeeper.notifyToID(p.getID(),chatMessage);
+                    notifyEventToID(p.getID(),chatMessage);
                 if(p.getName().equals(chatMessage.sender))
-                    eventKeeper.notifyToID(p.getID(),chatMessage);
+                    notifyEventToID(p.getID(),chatMessage);
             }
             return;
         }
@@ -311,22 +299,15 @@ public class Gameplay extends Listenable{
      *
      * @param id The ID of the player to be removed.
      */
-    public void leave(String id) throws GameFinishedException {
-        if(gameState.equals(GameState.END))
-            throw new GameFinishedException();
-
+    public void leave(String id) {
         String name = getPlayerNameByID(id);
         playerHandler.playerLeave(id,gameState);
         notifyEvent(new LeaveMessage(name));
-        eventKeeper.removeID(id);
 
-        if(gameState.equals(GameState.GAME) && playerHandler.numPlayersAvaiable()>=2 ) {
-            if (playerHandler.current().getID().equals(id)) {
-                board.releaseHand();
-                endTurn();
-            }
-        } else
-            gameState = GameState.END;
+        if(gameState.equals(GameState.GAME) && playerHandler.numPlayersAvaiable()>=2 && playerHandler.current().getID().equals(id)) {
+            board.releaseHand();
+            endTurn();
+        }
 
     }
 
@@ -336,13 +317,9 @@ public class Gameplay extends Listenable{
      * @param id The ID of the player to be disconnected.
      */
     public void disconnect(String id) throws GameFinishedException {
-        if(gameState.equals(GameState.END))
-            throw new GameFinishedException();
-
         numDisconnection++;
         playerHandler.playerDisconnect(id,gameState);
         notifyEvent(new DisconnectMessage(getPlayerNameByID(id)));
-        //System.out.println(getPlayerNameByID(id)+" si è disconnesso");
         if(gameState.equals(GameState.GAME) && playerHandler.current().getID().equals(id) && playerHandler.numPlayersConnected()>=2)
         {
             board.releaseHand();
@@ -367,15 +344,24 @@ public class Gameplay extends Listenable{
      * @throws AlreadyConnectedException  If the player is already connected.
      * @throws GameLeftException          If the player has left the game.
      */
-    public void reconnect(String id) throws GameFinishedException, AlreadyConnectedException, GameLeftException {
-        if(gameState.equals(GameState.END) || getPlayerByID(id).isConnected() )
-            throw new GameFinishedException();
+    public String reconnect(String id) throws AlreadyConnectedException, GameLeftException, InvalidIdException {
+        if(getPlayerByID(id)==null)
+            throw new InvalidIdException();
         if(getPlayerByID(id).isConnected())
             throw new AlreadyConnectedException();
         if(getPlayerByID(id).isInactive())
             throw new GameLeftException();
-        getPlayerByID(id).reconnect();
-        eventKeeper.notifyAll(new ReconnectMessage(getPlayerNameByID(id)));
+
+        playerHandler.reconnect(id);
+
+        notifyEvent(new ReconnectMessage(getPlayerNameByID(id)));
+
+        if(playerHandler.numPlayersConnected()>=2 && !playerHandler.current().isConnected()) {
+            board.releaseHand();
+            endTurn();
+        }
+
+        return playerHandler.getPlayerByID(id).getName();
     }
 
     /**
@@ -437,9 +423,6 @@ public class Gameplay extends Listenable{
         return null;
     }
 
-    public void ping(String id){
-        eventKeeper.ping(id);
-    }
 
     /**
      * Returns a LocalGame object representing the current state of the game.
@@ -507,6 +490,9 @@ public class Gameplay extends Listenable{
     public int getNumPlayersConnected(){
         return playerHandler.numPlayersConnected();
     }
+    public int getNumPlayersAvaiable(){
+        return playerHandler.numPlayersAvaiable();
+    }
 
     /**
      * Returns a boolean indicating if the player with the specified ID is connected.
@@ -534,7 +520,6 @@ public class Gameplay extends Listenable{
         if(b)
             notifyEvent(new TimerMessage((int)n));
         return b;
-        //System.currentTimeMillis() - time < 60000
     }
 
 

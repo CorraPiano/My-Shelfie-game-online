@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class Controller implements ControllerSkeleton {
 
     private final GameplaysHandler gameplaysHandler;
-
+    private final ConnectionChecker connectionChecker;
     /**
      * Constructor for the Controller class.
      *
@@ -31,6 +31,7 @@ public class Controller implements ControllerSkeleton {
      */
     public Controller() throws RemoteException{
         gameplaysHandler = new GameplaysHandler();
+        connectionChecker = new ConnectionChecker(this);
     }
 
     /**
@@ -42,6 +43,17 @@ public class Controller implements ControllerSkeleton {
     public synchronized ArrayList<LocalGame> getGameList() throws RemoteException{
         return gameplaysHandler.getGameplayList();
     }
+
+
+    private Gameplay createGameplay(GameMode gameMode, int maxPlayers) throws GameModeException, NumPlayersException {
+        // creating gameplay
+        int gameID = gameplaysHandler.nextID();
+        Gameplay gameplay = new Gameplay(gameMode, maxPlayers,gameID);
+        gameplaysHandler.addGameplay(gameplay,gameID);
+        System.out.println("# game create with id " +gameID+ " for "+maxPlayers+ " people in mode " +gameMode);
+        return gameplay;
+    }
+
 
     /**
      * Adds the first player to a new game.
@@ -59,18 +71,14 @@ public class Controller implements ControllerSkeleton {
      */
     //ClientSkeleton cc
     public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, ClientSkeleton cc) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException, NotBoundException {
-        int gameID = gameplaysHandler.nextID();
-        Gameplay gameplay = new Gameplay(gameMode, maxPlayers, gameID);
-        System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
-        gameplaysHandler.addGameplay(gameplay,gameID);
-        Player player = gameplay.addPlayer(name);
-        String id = player.getID();
-        //gameplaysHandler.bind(id,gameID);
-        //ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
+        // creating gameplay
+        Gameplay gameplay = createGameplay(gameMode,maxPlayers);
+        // add player, start his connection checker, check start game (useless)
+        String id = addPlayer(name, gameplay);
+        // bind RMI listener
         ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
-        gameplaysHandler.bind(id,gameID);
         new Thread(listener).start();
-        System.out.println("SERVER:: giocatore connesso con nome " + name);
+
         return id;
     }
 
@@ -89,17 +97,32 @@ public class Controller implements ControllerSkeleton {
      * @throws RemoteException               if a remote communication error occurs
      */
     public synchronized String addFirstPlayer(String name,GameMode gameMode, int maxPlayers, Connection conn) throws NumPlayersException, GameModeException, GameFullException, NameAlreadyExistentException, RemoteException {
-        int gameID = gameplaysHandler.nextID();
-        Gameplay gameplay = new Gameplay(gameMode, maxPlayers,gameID);
-        System.out.println("SERVER:: model pronto per " + maxPlayers +" giocatori in modalita' "+gameMode);
+        // creating gameplay
+        Gameplay gameplay = createGameplay(gameMode,maxPlayers);
+        // add player, start his connection checker, check start game (useless)
+        String id = addPlayer(name, gameplay);
+        // bind RMI listener
+        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
+        new Thread(listener).start();
+        return id;
+    }
+
+
+    private String addPlayer(String name,Gameplay gameplay) throws GameFullException, NameAlreadyExistentException {
+        // check if game is in wait
+        if(!gameplay.getGameState().equals(GameState.WAIT))
+            throw new GameFullException();
+        // adding player
         Player player = gameplay.addPlayer(name);
         String id = player.getID();
-        gameplaysHandler.addGameplay(gameplay,gameID);
-        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
-        Thread t = new Thread(listener);
-        gameplaysHandler.bind(id,gameID);
-        t.start();
-        System.out.println("SERVER:: giocatore connesso con nome " + name);
+        gameplaysHandler.bind(id,gameplay.getGameID());
+        System.out.println("# " +name+ "join the gane with id " +id);
+        // starting connection checker
+        new Thread(()->connectionChecker.run(id)).start();
+        // checking start game
+        if(gameplay.isReady())
+            gameplay.startGame();
+
         return id;
     }
 
@@ -117,20 +140,13 @@ public class Controller implements ControllerSkeleton {
      */
     //ClientSkeleton cc
     public synchronized String addPlayer(String name, int gameID, ClientSkeleton cc) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException, NotBoundException {
+        // recover gameplay
         Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
-        if(!gameplay.getGameState().equals(GameState.WAIT))
-            throw new GameFullException();
-        Player player = gameplay.addPlayer(name);
-        String id = player.getID();
-        //ClientSkeleton cc = (ClientSkeleton) registry.lookup(signature);
-        ClientSkeleton c = (ClientSkeleton)UnicastRemoteObject.toStub(cc);
-        ListenerRMI listener = new ListenerRMI(c,this,gameplay.getEventKeeper(),id,name);
-        Thread t = new Thread(listener);
-        gameplaysHandler.bind(id,gameID);
-        t.start();
-        System.out.println("SERVER:: giocatore connesso con nome " + name);
-        if(gameplay.isReady())
-            gameplay.startGame();
+        // add player, start his connection checker, check start game
+        String id = addPlayer(name, gameplay);
+        // bind RMI listener
+        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
+        new Thread(listener).start();
         return id;
     }
 
@@ -148,17 +164,14 @@ public class Controller implements ControllerSkeleton {
      * @throws RemoteException               if a remote communication error occurs
      */
     public synchronized String addPlayer(String name, int gameID, Connection conn) throws GameFullException, NameAlreadyExistentException, InvalidGameIdException, RemoteException {
+        // recover gameplay
         Gameplay gameplay = gameplaysHandler.getGameplay(gameID);
-        if(!gameplay.getGameState().equals(GameState.WAIT))
-            throw new GameFullException();
-        Player player = gameplay.addPlayer(name);
-        String id = player.getID();
+        // add player, start his connection checker, check start game
+        String id = addPlayer(name, gameplay);
+        // bind TCP listener
         ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
-        gameplaysHandler.bind(id,gameID);
         new Thread(listener).start();
-        System.out.println("SERVER:: giocatore connesso con nome " + name);
-        if(gameplay.isReady())
-            gameplay.startGame();
+
         return id;
     }
 
@@ -197,7 +210,7 @@ public class Controller implements ControllerSkeleton {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         validateCommand(gameplay,id);
         gameplay.pickItem(coordinates);
-        System.out.println("GAME:: prelevata la pedina <" + coordinates.getRow()+ ", "+coordinates.getColumn()+ ">");
+        System.out.println("# pick: <" + coordinates.getRow()+ ", "+coordinates.getColumn()+ ">");
     }
 
     /**
@@ -213,7 +226,7 @@ public class Controller implements ControllerSkeleton {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         validateCommand(gameplay,id);
         gameplay.releaseHand();
-        System.out.println("GAME:: mano svuotata ");
+        System.out.println("# undo: ");
     }
 
     /**
@@ -229,12 +242,13 @@ public class Controller implements ControllerSkeleton {
      * @throws RemoteException          if a remote communication error occurs
      */
     public synchronized void selectInsertOrder(ArrayList<Integer> order, String id) throws WrongLengthOrderException, WrongContentOrderException, NotInGameException, WrongTurnException, InvalidIdException, RemoteException {
-        //not sortable exception
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         validateCommand(gameplay,id);
         gameplay.selectOrderHand(order);
-        System.out.println("GAME:: mano ordinata con ordine: ");
-        order.forEach(x->System.out.print(x+", ")); System.out.print("\n");
+        //print
+        System.out.print("# order: [");
+        order.forEach(x->System.out.print(x+", "));
+        System.out.println("]");
     }
 
     /**
@@ -254,15 +268,11 @@ public class Controller implements ControllerSkeleton {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         validateCommand(gameplay,id);
         gameplay.putItemList(column);
-        System.out.println("GAME:: mano inserita nel tabellone");
-        if(gameplay.isFinished())
-        {
+        System.out.println("# put: "+column);
+        //check finish game
+        if(gameplay.isFinished()) {
             gameplay.endGame();
             gameplaysHandler.removeGame(gameplay.getGameID());
-        }
-        else if(gameplay.getNumPlayersConnected()<2 && !gameplay.currentPlayerIsConnected())
-        {
-            new Thread(new Timer(this,gameplay)).start();
         }
     }
 
@@ -275,11 +285,27 @@ public class Controller implements ControllerSkeleton {
      * @throws RemoteException      if a remote communication error occurs
      * @throws InvalidNameException if the player name is invalid
      */
-    public synchronized void addChatMessage(ChatMessage chatMessage, String id) throws InvalidIdException, RemoteException, InvalidNameException {
+    public synchronized void addChatMessage(ChatMessage chatMessage, String id) throws InvalidIdException, RemoteException, InvalidNameException, NotInGameException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
+        if(!gameplay.getGameState().equals(GameState.GAME))
+            throw new NotInGameException();
         gameplay.addChatMessage(chatMessage);
-        System.out.println("CHAT:: "+ gameplay.getGameID()+", "+ gameplay.getPlayerNameByID(id));
+        //to not fill the console
+        //System.out.println("# chat");
     }
+
+    private void checkAfterPlayerLost(Gameplay gameplay){
+        if(!gameplay.isReady())
+            return;
+        if(gameplay.isFinished()) {
+            gameplay.endGame();
+            gameplaysHandler.removeGame(gameplay.getGameID());
+        }
+        else if(gameplay.getNumPlayersConnected()<2) {
+            new Thread(new Timer(this,gameplay)).start();
+        }
+    }
+
 
     /**
      * Leaves the game.
@@ -290,18 +316,15 @@ public class Controller implements ControllerSkeleton {
      */
     public synchronized void leaveGame(String id) throws InvalidIdException, RemoteException, GameFinishedException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        gameplaysHandler.remove(id);
-        System.out.println(gameplay.getPlayerNameByID(id)+" ha lasciato il gioco");
+        // check
+        if(gameplay.getGameState().equals(GameState.END))
+            throw new GameFinishedException();
+        // remove player
         gameplay.leave(id);
-        if(gameplay.isFinished())
-        {
-            gameplay.endGame();
-            gameplaysHandler.removeGame(gameplay.getGameID());
-        }
-        else if(gameplay.isReady() && gameplay.getNumPlayersConnected()<2)
-        {
-            new Thread(new Timer(this,gameplay)).start();
-        }
+        gameplaysHandler.remove(id);
+        System.out.println("# "+gameplay.getPlayerNameByID(id)+" leave the game");
+        // check if end the game or start the timer
+        checkAfterPlayerLost(gameplay);
     }
 
     /**
@@ -312,18 +335,14 @@ public class Controller implements ControllerSkeleton {
      */
     public synchronized void disconnect(String id) throws InvalidIdException, GameFinishedException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        System.out.println(gameplay.getPlayerNameByID(id)+" si è disconnesso");
+        // check
+        if(gameplay.getGameState().equals(GameState.END))
+            throw new GameFinishedException();
+        // disconnect player
         gameplay.disconnect(id);
-
-        if(gameplay.isFinished())
-        {
-            gameplay.endGame();
-            gameplaysHandler.removeGame(gameplay.getGameID());
-        }
-        else if(gameplay.isReady() && gameplay.getNumPlayersConnected()<2)
-        {
-            new Thread(new Timer(this,gameplay)).start();
-        }
+        System.out.println("# "+gameplay.getPlayerNameByID(id)+" has lost the connection");
+        // check if end the game or start the timer
+        checkAfterPlayerLost(gameplay);
     }
 
     /**
@@ -334,6 +353,24 @@ public class Controller implements ControllerSkeleton {
     public synchronized void endgame(Gameplay gameplay){
         gameplay.endGame();
         gameplaysHandler.removeGame(gameplay.getGameID());
+    }
+
+    private String reconnect(String id, Gameplay gameplay) throws GameFinishedException, AlreadyConnectedException, GameLeftException, InvalidIdException {
+        //check
+        if(gameplay.getGameState().equals(GameState.END))
+            throw new GameFinishedException();
+        // reconnection
+        String name = gameplay.reconnect(id);
+        System.out.println("# "+gameplay.getPlayerNameByID(id)+" has reconnected");
+        // start connection checker
+        new Thread(()->connectionChecker.run(id)).start();
+        // check end game
+        if(gameplay.isFinished()) {
+            gameplay.endGame();
+            gameplaysHandler.removeGame(gameplay.getGameID());
+        }
+
+        return name;
     }
 
     /**
@@ -349,25 +386,14 @@ public class Controller implements ControllerSkeleton {
      * @throws GameLeftException        if the player has left the game
      */
     public synchronized String reconnect(String id, ClientSkeleton cc,boolean reset) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException {
-        //System.out.println("------->>>> "+ id);
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        gameplay.reconnect(id);
-        String name = gameplay.getPlayerNameByID(id);
-        System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
+        String name = reconnect(id,gameplay);
+        //start listener
         ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
-        if(reset)
-            listener.reset();
-        Thread t = new Thread(listener);
-        //gameplaysHandler.rebind(id,listener);
-        t.start();
-
-        //!!!!
-        //c'è un piccolo problema, ogni tanto la notifica di reconnect non scatta e la causa sembra questa
-        //this.notifyAll();
-        //!!!
-
+        //fix
+        listener.reset();
+        new Thread(listener).start();
         return name;
-        //gameplay.leave(id);
     }
 
     /**
@@ -383,17 +409,13 @@ public class Controller implements ControllerSkeleton {
      */
     public synchronized String reconnect(String id,Connection conn,boolean reset) throws InvalidIdException, GameFinishedException, AlreadyConnectedException, GameLeftException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        gameplay.reconnect(id);
-        String name = gameplay.getPlayerNameByID(id);
-        System.out.println(gameplay.getPlayerNameByID(id)+" si è riconnesso");
+        String name = reconnect(id,gameplay);
         ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
+        //to fix with gui
         if(reset)
             listener.reset();
-        Thread t = new Thread(listener);
-        //gameplaysHandler.rebind(id,listener);
-        t.start();
+        new Thread(listener).start();
         return name;
-        //gameplay.leave(id);
     }
 
     /**
@@ -403,14 +425,11 @@ public class Controller implements ControllerSkeleton {
      * @throws RemoteException if a remote communication error occurs
      */
     public synchronized int ping(int n, String id) throws RemoteException{
-        try {
-            Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-            gameplay.ping(id);
-        }catch(Exception e){
-
-        }
-        System.out.println("--------------------- PING");
-        return n;
+        if (connectionChecker.setPing(id))
+            return 1;
+        return 0;
+        //to not fill the console
+        //System.out.println("# ping");
     }
 
 }

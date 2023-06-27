@@ -117,23 +117,44 @@ public class PlayerHandler extends Listenable {
                 p.leave();
                 if(gameState.equals(GameState.WAIT))
                     playerList.remove(i);
+                try {
+                    eventKeeper.removePersonalList(id);
+                } catch(Exception ignored){}
                 break;
             }
         }
+        //if(gameState.equals(GameState.GAME) && numPlayersConnected()<2)
+        notifyUpdate();
     }
 
     public void playerDisconnect(String id, GameState gameState) {
+        Player p=null;
         for(int i=0;i<playerList.size();i++) {
-            Player p = playerList.get(i);
+            p = playerList.get(i);
             if(p.getID().equals(id)) {
                 p.disconnect();
-                if(gameState.equals(GameState.WAIT))
+                try {
+                    eventKeeper.updateStatus(p.getID(),false);
+                } catch(Exception ignored){}
+                if(gameState.equals(GameState.WAIT)) {
                     playerList.remove(i);
+                    try {
+                        eventKeeper.removePersonalList(id);
+                    } catch(Exception ignored){}
+                }
                 break;
             }
         }
-        if(gameState.equals(GameState.GAME) && numPlayersConnected()<2)
-            notifyUpdate();
+        //if(gameState.equals(GameState.GAME) && numPlayersConnected()<2)
+        notifyUpdate();
+    }
+
+    public void reconnect(String id){
+        getPlayerByID(id).reconnect();
+        try {
+            eventKeeper.updateStatus(id,true);
+        } catch(Exception ignored){}
+        notifyUpdate();
     }
 
     /**
@@ -201,32 +222,34 @@ public class PlayerHandler extends Listenable {
         return numPlayersConnected ;
     }
 
+    public boolean hasNext(){
+        return curr <= size - 1;
+    }
+
     /**
      * Advances the turn to the next player.
      * @return true if the game can continue, false if the game has ended
      */
-    public boolean next() {
-        if(numPlayersAvaiable()<2)
-            return false;
-
+    public void next() {
         turn++;
         if (curr < size - 1) {
             curr = curr + 1;
         }
         else {
-            if(lastRound)
-                return false;
+            if(lastRound) {
+                curr++;
+                return;
+            }
             curr = 0;
         }
 
         if(current().isInactive())
-            return next();
+            next();
         if(!current().isConnected()){
             if(numPlayersConnected()>=2)
-                return next();
+                next();
         }
         notifyUpdate();
-        return true;
     }
 
     /**

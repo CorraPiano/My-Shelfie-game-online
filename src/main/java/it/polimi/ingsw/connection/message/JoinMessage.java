@@ -49,4 +49,7 @@ public class JoinMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.JOIN;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

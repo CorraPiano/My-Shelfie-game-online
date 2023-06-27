@@ -38,4 +38,7 @@ public class UndoMessage implements Sendable {
         public MessageHeader getHeader() {
                 return MessageHeader.UNDO;
         }
+        public Boolean isRecurrentUpdate(){
+                return false;
+        }
 }

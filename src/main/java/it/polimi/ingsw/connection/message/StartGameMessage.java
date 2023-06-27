@@ -23,4 +23,7 @@ public class StartGameMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.STARTGAME;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

@@ -78,7 +78,7 @@ public class ConnectionChecker implements Runnable {
                 break;
             }
             catch(Exception ignored1) {
-                ignored1.printStackTrace();
+                //ignored1.printStackTrace();
                 synchronized (this) {
                     try {
                         this.wait(Settings.clock_reconnector);

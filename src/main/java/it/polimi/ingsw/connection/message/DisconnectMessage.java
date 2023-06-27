@@ -31,4 +31,7 @@ public class DisconnectMessage implements Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.DISCONNECTION;
     }
+    public Boolean isRecurrentUpdate(){
+        return false;
+    }
 }

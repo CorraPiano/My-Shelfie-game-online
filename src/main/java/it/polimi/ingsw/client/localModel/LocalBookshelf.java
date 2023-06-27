@@ -45,4 +45,7 @@ public class LocalBookshelf implements Serializable, Sendable {
     public MessageHeader getHeader() {
         return MessageHeader.BOOKSHELF;
     }
+    public Boolean isRecurrentUpdate(){
+        return true;
+    }
 }

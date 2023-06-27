@@ -21,6 +21,9 @@ public class LocalPlayerList implements Sendable, Serializable {
     public LocalPlayerList(ArrayList<LocalPlayer> playerList) {
         this.playerList = playerList;
     }
+    public LocalPlayerList() {
+        this.playerList = new ArrayList<>();
+    }
 
     /**
      * Returns the message header associated with the `LocalPlayerList` object.
@@ -30,5 +33,8 @@ public class LocalPlayerList implements Sendable, Serializable {
     @Override
     public MessageHeader getHeader() {
         return MessageHeader.PLAYERLIST;
+    }
+    public Boolean isRecurrentUpdate(){
+        return true;
     }
 }

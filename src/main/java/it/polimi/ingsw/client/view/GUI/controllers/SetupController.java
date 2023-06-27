@@ -14,6 +14,7 @@ import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
