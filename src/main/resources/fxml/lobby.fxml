@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="755.0" prefWidth="1014.0" styleClass="root" stylesheets="@../css/lobby-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.LobbyController">
+<AnchorPane fx:id="anchorPane" prefHeight="755.0" prefWidth="1014.0" styleClass="root" stylesheets="@../css/lobby-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.LobbyController">
    <children>
       <ImageView fx:id="images_pane" fitHeight="310.0" fitWidth="513.0" layoutX="457.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" styleClass="image" />
       <Label layoutX="34.0" layoutY="155.0" prefHeight="35.0" prefWidth="405.0" text="Waiting other players ... " textFill="#250f0f">

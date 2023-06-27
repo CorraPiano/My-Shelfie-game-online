@@ -233,6 +233,7 @@ public class RMISender extends Sender {
     @Override
     public synchronized void ping(int n) throws Exception {
         int  nn = controller.ping(n,client.getID());
+        System.out.println("_____>>>>>>>>>>>>");
         connectionChecker.setLastPing();
     }
 }

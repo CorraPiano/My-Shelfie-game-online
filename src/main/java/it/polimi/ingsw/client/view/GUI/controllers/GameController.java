@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
@@ -38,6 +39,8 @@ import static it.polimi.ingsw.util.Constants.*;
 
 public class GameController implements GUIController {
     private GUI gui;
+    @FXML
+    private AnchorPane anchorPane;
 
     //BOARD
     @FXML
@@ -59,6 +62,8 @@ public class GameController implements GUIController {
     private ImageView hand2;
     @FXML
     private ImageView hand3;
+    @FXML
+    private Button undoPick;
 
     //PERSONAL AND COMMON
     @FXML
@@ -111,8 +116,6 @@ public class GameController implements GUIController {
 
 
     //OTHER
-    @FXML
-    private AnchorPane backgroundPane;
     @FXML
     private GridPane arrowGrid;
 
@@ -238,6 +241,7 @@ public class GameController implements GUIController {
      * Initializes the game scene.
      */
     public void init() {
+        anchorPane.setOnMouseClicked((event) -> this.blockPane());
         this.modelView = gui.getClient().getModelView();
         resetGame();
         showBoard();
@@ -248,6 +252,13 @@ public class GameController implements GUIController {
         initTokens();
         setArrows();
     }
+
+    private void blockPane(){
+        if(gui.imDisconnected){
+            int status = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Disconnected");
+        }
+    }
+
     private void initCommon(ArrayList<LocalCommonCard> commonCards) {
         if (gui.getClient().getModelView().getGameMode().equals(GameMode.EASY))
             return;
@@ -444,6 +455,20 @@ public class GameController implements GUIController {
         handOrder.clear();
         imagesHighlighted = 0;
     }
+
+    /**
+     * Handles the click event on the "Undo" button to undo the card pick.
+     */
+    public void onUndoButton(){
+        gui.undoPick();
+        setEffectNull();
+        imagesHighlighted = 0;
+        handOrder.clear();
+        showBoard();
+        showHand();
+    }
+
+
 
     /* DISPLAY METHODS */
 

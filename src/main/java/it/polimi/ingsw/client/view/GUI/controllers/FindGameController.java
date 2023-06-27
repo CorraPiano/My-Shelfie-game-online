@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.model.GameMode;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -19,6 +20,8 @@ public class FindGameController implements GUIController {
     private GUI gui;
     private List<LocalGame> games;
 
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private ListView<String> gameList;
     @FXML
@@ -114,6 +117,15 @@ public class FindGameController implements GUIController {
     @Override
     public GUI getGui() {
         return gui;
+    }
+
+    public void init() {
+        anchorPane.setOnMouseClicked((event) -> this.blockPane());
+    }
+    private void blockPane(){
+        if(gui.imDisconnected){
+            int status = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Disconnected");
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.GUI.controllers;
 
+import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.GUI.SceneName;
 import javafx.application.Platform;
@@ -7,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import java.util.List;
  */
 public class LobbyController implements GUIController {
 
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     public ImageView commonCard;
     private GUI gui;
@@ -72,12 +76,20 @@ public class LobbyController implements GUIController {
      * Initializes the lobby controller.
      */
     public void init() {
+        anchorPane.setOnMouseClicked((event) -> this.blockPane());
         currentImage_asset = 1;
         currentImage_common = 1;
         updatePlayerList(gui.getPlayers());
         Platform.runLater(this::changeImage);
         Platform.runLater(this::changeCommon);
     }
+
+    private void blockPane(){
+        if(gui.imDisconnected){
+            int status = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Disconnected");
+        }
+    }
+
     public void changeImage(){
         images_pane.setImage(this.gui.getSceneHandler().getAsset(currentImage_asset));
         if(currentImage_asset == 4 )

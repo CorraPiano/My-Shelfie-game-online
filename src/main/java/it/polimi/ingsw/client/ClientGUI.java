@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.GUI.SceneName;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static it.polimi.ingsw.util.Constants.*;
 
@@ -68,6 +70,7 @@ public class ClientGUI extends Client{
         if(getPhase().equals(ClientPhase.HOME))
             setPhase(ClientPhase.LOBBY);
         setState(ClientState.READY);
+        gui.switchStage(Command.SET_CONNECTION);
     }
 
     /**
@@ -160,6 +163,8 @@ public class ClientGUI extends Client{
      * @throws RemoteException if there is a communication-related issue.
      */
     public void playerDisconnect(String name) throws RemoteException {
+        System.out.println("--> playerDisconnect");
+        //AlertBox.errorData(gui.getPrimaryStage(), "Disconnected, please check the connection", "Connection error");
         gui.updateTableView();
     }
 
@@ -172,6 +177,7 @@ public class ClientGUI extends Client{
     public void playerReconnect(String name) throws RemoteException {
         // se arriva prima il name, la fase sara gia a GAME
         setPhase(ClientPhase.GAME);
+        System.out.println("--> playerReconnect");
         gui.updateTableView();
     }
 
@@ -383,6 +389,24 @@ public class ClientGUI extends Client{
     public boolean getState() {
         return state;
     } */
+
+    public void lostConnection(){
+        if(getPhase().equals(ClientPhase.HOME))
+            setPhase(ClientPhase.HOME_RECONNECTION);
+        else
+            setPhase(ClientPhase.MATCH_RECONNECTION);
+        System.out.println("--> lostConnection");
+        gui.notifyDisconnection();
+    }
+    public void homeReconnection(){
+        System.out.println("--> homeReconnection");
+        gui.notifyReconnection();
+        setPhase(ClientPhase.HOME);
+    }
+    public void gameReconnection(){
+        gui.notifyReconnection();
+        System.out.println("--> gameReconnection");
+    }
 
     /**
      * Retrieves the ID of the client.

@@ -409,7 +409,7 @@ public class Controller implements ControllerSkeleton {
         }catch(Exception e){
 
         }
-        //System.out.println("ricevuto un ping");
+        System.out.println("--------------------- PING");
         return n;
     }
 

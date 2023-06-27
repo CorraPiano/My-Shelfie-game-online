@@ -50,6 +50,7 @@ public class GUI extends Application implements View {
     private Sender sender;
     private ClientGUI client;
     private boolean imLast;
+    public boolean imDisconnected = false;
     private GUIController controller;
     private SceneHandler sceneHandler;
     private HashMap<SceneName, Consumer<Command>> stageLambda;
@@ -59,6 +60,7 @@ public class GUI extends Application implements View {
             primaryStage.setTitle("My Shelfie");
             currentScene = sceneHandler.getScene(currentSceneName);
             controller = sceneHandler.getController(currentSceneName);
+            this.controller.init();
             primaryStage.setScene(currentScene);
             primaryStage.show();
         } else{
@@ -77,20 +79,14 @@ public class GUI extends Application implements View {
             currentSceneName = SceneName.FINDGAME;
             changeStage(false, false);
         });
-        stageLambda.put(SceneName.LOGIN, (command)-> {
-            currentSceneName = SceneName.FINDGAME;
-            changeStage(false, false);
-        });
         stageLambda.put(SceneName.FINDGAME, (command)-> {
             if(command == Command.START_GAME ){
                 currentSceneName = SceneName.GAME;
                 changeStage(false, false);
-                this.initGame();
             }
             else if(command == Command.CREATE_GAME || command == Command.JOIN_GAME){
                 currentSceneName = SceneName.LOBBY;
                 changeStage(false, false);
-                this.initLobby();
             }
 
         });
@@ -98,7 +94,6 @@ public class GUI extends Application implements View {
             if(command == Command.START_GAME){
                 currentSceneName = SceneName.GAME;
                 changeStage(false, false);
-                this.initGame();
             }
             else {
                 currentSceneName = SceneName.FINDGAME;
@@ -107,16 +102,6 @@ public class GUI extends Application implements View {
 
         });
         stageLambda.put(SceneName.GAME, (command)-> {
-            /*
-            if(command == Command.CHAT) {
-                currentSceneName = SceneName.CHAT;
-                changeStage(false, true);
-            }
-            if(command == Command.SHOW_BOOKSHELFS) {
-                currentSceneName = SceneName.BOOKSHELFS;
-                changeStage(false, true);
-            }
-             */
             if(command == Command.END) {
                 currentSceneName = SceneName.END;
                 changeStage(false, false);
@@ -128,11 +113,6 @@ public class GUI extends Application implements View {
             }
         });
         stageLambda.put(SceneName.END, (command)-> {
-            /*
-            if(command == Command.SHOW_STATISTICS) {
-                currentSceneName = SceneName.STATISTICS;
-            }
-             */
             if(command == Command.START_GAME){
                 currentSceneName = SceneName.FINDGAME;
                 changeStage(false, false);
@@ -173,8 +153,8 @@ public class GUI extends Application implements View {
             windowEvent.consume();
             int exitStatus = AlertBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
             if(exitStatus == 1) {
-                //if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
-                    //this.leaveGame();
+                if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
+                    this.leaveGame();
                 System.exit(0);
             }
         });
@@ -302,6 +282,16 @@ public class GUI extends Application implements View {
         return sceneHandler;
     }
 
+    public void notifyDisconnection() {
+        System.out.println("--> notifyDisconnection");
+        imDisconnected = true;
+    }
+
+    public void notifyReconnection() {
+        System.out.println("--> notifyReconnection");
+        imDisconnected = false;
+    }
+
     // link: http://patorjk.com/software/taag/#p=testall&f=Calvin%20S&t=SET-UP%20
     // font: Big
 
@@ -327,7 +317,6 @@ public class GUI extends Application implements View {
 //        this.switchStage(Command.SET_CONNECTION);
         this.setSender(new RMISender(ip, client));
         this.switchStage(Command.SET_CONNECTION);
-
     }
 
     /**
@@ -340,7 +329,6 @@ public class GUI extends Application implements View {
 //        TCPReceiver tcpreceiver = new TCPReceiver(client);
 //        ClientConnection clientConnection = new ClientConnection(new Socket("localhost", 8081), tcpreceiver);
 //        new Thread(clientConnection).start();
-//
         this.setSender(new TCPSender(ip, client));
         this.switchStage(Command.SET_CONNECTION);
     }
@@ -615,6 +603,15 @@ public class GUI extends Application implements View {
     public void pickItem(Coordinates coordinates){
         sender.pickItem(coordinates);
         System.out.println("pick");
+    }
+
+    /**
+     * Sends a request to undo the pick of an item.
+     * This method is used when a player wants to undo the pick of an item from the game board.
+     */
+    public void undoPick() {
+        sender.undoPick();
+        System.out.println("undo pick");
     }
 
     /**

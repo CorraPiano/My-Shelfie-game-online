@@ -154,5 +154,14 @@ public class CommonGoalCardTest {
          ));
          Assertions.assertNotNull(test.getLocal());
      }
+     @Test
+    void setTokenList(){
+        CommonGoalCard test = new CommonGoalCardFactory().getCommonGoalCard(4);
+        test.setTokenList(Arrays.asList(
+                new Token(8),
+                new Token(6)
+        ));
+        Assertions.assertEquals(2, test.showToken().size());
+     }
 
 }

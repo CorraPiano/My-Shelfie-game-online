@@ -48,4 +48,6 @@ public class LoginController implements GUIController {
     public GUI getGui() {
         return this.gui;
     }
+
+    public void init(){};
 }

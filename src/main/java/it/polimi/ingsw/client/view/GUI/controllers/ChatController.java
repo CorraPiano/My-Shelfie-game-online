@@ -78,4 +78,6 @@ public class ChatController implements GUIController {
     public GUI getGui() {
         return this.gui;
     }
+
+    public void init(){};
 }

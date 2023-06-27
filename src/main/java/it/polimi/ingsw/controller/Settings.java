@@ -47,6 +47,7 @@ public class Settings {
     public static long timeout_client = 6100;
 
 
+
     //clock del thread che tenta la riconnessione con il server se saltata -> CheckConnection.tryReconnection()
     public static long clock_reconnector = 1000;
 

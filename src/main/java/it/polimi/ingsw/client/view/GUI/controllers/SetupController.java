@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.connection.TCPSender;
 import it.polimi.ingsw.client.localModel.LocalBoard;
 import it.polimi.ingsw.client.localModel.LocalCommonCard;
 import it.polimi.ingsw.client.localModel.LocalPersonalCard;
+import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.controller.ClientSkeleton;
 import it.polimi.ingsw.controller.Controller;
@@ -15,6 +16,7 @@ import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -30,6 +32,8 @@ import java.util.ArrayList;
  */
 public class SetupController implements GUIController {
     private GUI gui;
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private TextField ipAddress;
 
@@ -53,6 +57,8 @@ public class SetupController implements GUIController {
         return this.gui;
     }
 
+    public void init(){}
+
     /**
      * Event handler for the TCP connection button.
      * Retrieves the IP address entered by the user and attempts to establish a TCP connection.
@@ -64,9 +70,9 @@ public class SetupController implements GUIController {
         try {
             gui.setTCPConnection(ip);
         } catch (IOException e) {
-            // Display alert box for I/O error
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
         } catch (Exception e) {
-            // Display alert box for other exceptions
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
         }
     }
 
@@ -81,11 +87,11 @@ public class SetupController implements GUIController {
         try {
             gui.setRMIConnection(ip);
         } catch (RemoteException e) {
-            // Display alert box for RemoteException
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
         } catch (NotBoundException e) {
-            // Display alert box for NotBoundException
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
         } catch (Exception e) {
-            // Display alert box for other exceptions
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
         }
     }
 

@@ -26,4 +26,6 @@ public class BookshelfsController implements GUIController {
     public GUI getGui() {
         return null; // Implementation not required
     }
+
+    public void init(){};
 }

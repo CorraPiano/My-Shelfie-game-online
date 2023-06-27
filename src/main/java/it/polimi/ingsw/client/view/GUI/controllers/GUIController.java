@@ -25,4 +25,5 @@ public interface GUIController {
      * @return The GUI object associated with the controller.
      */
     GUI getGui();
+    void init();
 }

@@ -43,4 +43,6 @@ public class StatisticsController implements GUIController {
     public GUI getGui() {
         return null;  // TODO: Implement the method logic
     }
+
+    public void init(){};
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.GUI.controllers;
 import it.polimi.ingsw.client.localModel.LocalBookshelf;
 import it.polimi.ingsw.client.localModel.LocalPlayer;
 import it.polimi.ingsw.client.localModel.ModelView;
+import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.model.Item;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -27,6 +29,8 @@ import static it.polimi.ingsw.util.Constants.*;
  */
 public class EndController implements GUIController {
 
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private ImageView place1;
     @FXML
@@ -83,6 +87,15 @@ public class EndController implements GUIController {
     //ATTRIBUTES
     private GUI gui;
     private ModelView modelView;
+
+    public void init(){
+        anchorPane.setOnMouseClicked((event) -> this.blockPane());
+    }
+    private void blockPane(){
+        if(gui.imDisconnected){
+            int status = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Disconnected");
+        }
+    }
 
     /**
      * Updates the labels and graphical elements on the end game screen based on the current game state.
