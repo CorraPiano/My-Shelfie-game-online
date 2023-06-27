@@ -49,13 +49,14 @@ public class SameEightCommonGoalCard extends CommonGoalCard {
                     c.setRow(i);
                     c.setColumn(j);
                     if(library.getItem(c).isPresent()){
+
                         if(library.getItem(c).get().getType() == t) colorsCounter++;
                     }
                 }
             }
-            if(colorsCounter == 8) return true;
+            if(colorsCounter >= 8) return true;
+            colorsCounter = 0;
         }
-
         return false;
     }
 

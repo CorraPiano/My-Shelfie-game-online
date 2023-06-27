@@ -103,5 +103,25 @@ public class PersonalGoalCardTest {
         }
 
     }
-
+    @Test
+    void getNumTest(){
+        PersonalGoalCard test = new PersonalGoalCard(3);
+        Assertions.assertEquals(3, test.getNum());
+    }
+    @Test
+    void getIDTest(){
+        PersonalGoalCard test = new PersonalGoalCard(6);
+        Assertions.assertEquals(null, test.getID());
+    }
+    @Test
+    void getDataCardTest(){
+        PersonalGoalCard test = new PersonalGoalCard(3);
+        DataCard dataCardTest = test.getCard();
+        Assertions.assertNotEquals(null, dataCardTest);
+    }
+    @Test
+    void getLocalTest(){
+        PersonalGoalCard test = new PersonalGoalCard(3);
+        Assertions.assertNotEquals(null, test.getLocal());
+    }
 }

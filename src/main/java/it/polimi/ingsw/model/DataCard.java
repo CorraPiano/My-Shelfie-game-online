@@ -156,9 +156,10 @@ public class DataCard implements Serializable {
      * @return an Optional object containing the color, or empty if the coordinates are not found
      */
     Optional<Integer> getXY(Coordinates c) {
+        Optional<Integer> color = null;
         if(!m.containsKey(c))
-            return null;
-        Optional<Integer> color = Optional.of(m.get(c));
+            return color;
+        color = Optional.of(m.get(c));
         return color ;
     }
 

@@ -4,7 +4,10 @@ import it.polimi.ingsw.model.util.TestFactory;
 import it.polimi.ingsw.model.util.InputTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
- public class CommonGoalCardTest {
+
+import java.util.Arrays;
+
+public class CommonGoalCardTest {
     @Test
     void checkFullFilTest(){
 
@@ -116,11 +119,10 @@ import org.junit.jupiter.api.Test;
 
 
     }
-    @Test
-    void setTokenListTest(){}
-    @Test
-    void showTokenTest(){}
-    @Test
-    void popTokenTest(){}
+     @Test
+     void getTypeTest(){
+        CommonGoalCard test = new CommonGoalCardFactory().getCommonGoalCard(4);
+        Assertions.assertEquals(4, test.getType());
+     }
 
 }
