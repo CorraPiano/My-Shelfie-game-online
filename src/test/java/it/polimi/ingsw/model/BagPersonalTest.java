@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BagPersonalTest {
 
-
     @Test
     void drawPersonalGoalCard() {
         // Test drawing a personal goal card
