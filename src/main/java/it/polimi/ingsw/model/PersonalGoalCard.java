@@ -59,6 +59,10 @@ public class PersonalGoalCard extends Listenable {
         this.library = library;
     }
 
+    public Bookshelf getLibrary() {
+        return library;
+    }
+
     /**
      * Sets the ID of the personal goal card.
      *

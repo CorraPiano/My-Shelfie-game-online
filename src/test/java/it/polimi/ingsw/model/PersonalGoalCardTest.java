@@ -114,7 +114,13 @@ public class PersonalGoalCardTest {
         Assertions.assertEquals(null, test.getID());
     }
     @Test
-    void getDataCardTest(){
+    void setIDTest(){
+        PersonalGoalCard test = new PersonalGoalCard(3);
+        test.setID("nicola");
+        Assertions.assertEquals("nicola", test.getID());
+    }
+    @Test
+    void getCardTest(){
         PersonalGoalCard test = new PersonalGoalCard(3);
         DataCard dataCardTest = test.getCard();
         Assertions.assertNotEquals(null, dataCardTest);
@@ -123,5 +129,11 @@ public class PersonalGoalCardTest {
     void getLocalTest(){
         PersonalGoalCard test = new PersonalGoalCard(3);
         Assertions.assertNotEquals(null, test.getLocal());
+    }
+    @Test
+    void setBookShelfTest(){
+        PersonalGoalCard test = new PersonalGoalCard(3);
+        test.setBookshelf(new Bookshelf("nicola"));
+        Assertions.assertNotNull(test.getLibrary());
     }
 }

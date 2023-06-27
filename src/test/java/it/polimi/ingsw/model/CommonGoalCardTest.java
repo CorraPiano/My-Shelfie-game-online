@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.util.InputTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CommonGoalCardTest {
@@ -123,6 +124,35 @@ public class CommonGoalCardTest {
      void getTypeTest(){
         CommonGoalCard test = new CommonGoalCardFactory().getCommonGoalCard(4);
         Assertions.assertEquals(4, test.getType());
+     }
+     @Test
+     void setTokenTest(){
+         CommonGoalCard test = new CommonGoalCardFactory().getCommonGoalCard(4);
+         ArrayList<Token> t_test = new ArrayList<>(Arrays.asList(
+                 new Token(8),
+                 new Token(6)
+         ));
+         test.setTokenList(t_test);
+         Assertions.assertEquals(2, test.showToken().size());
+     }
+     @Test
+     void popTokenTest(){
+         CommonGoalCard test = new CommonGoalCardFactory().getCommonGoalCard(4);
+         ArrayList<Token> t_test = new ArrayList<>(Arrays.asList(
+                 new Token(8),
+                 new Token(6)
+         ));
+         test.setTokenList(t_test);
+         Assertions.assertNotNull(test.popToken());
+     }
+     @Test
+    void getLocalTest(){
+         CommonGoalCard test = new CommonGoalCardFactory().getCommonGoalCard(4);
+         test.setTokenList(Arrays.asList(
+                 new Token(8),
+                 new Token(6)
+         ));
+         Assertions.assertNotNull(test.getLocal());
      }
 
 }
