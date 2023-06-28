@@ -194,11 +194,6 @@ public class GameController implements GUIController {
         this.gui.leaveGame();
     }
 
-    /**
-     * Returns the GUI object associated with the controller.
-     *
-     * @return The GUI object associated with the controller.
-     */
 
     public void resetGame(){
         //reset bookshelfs

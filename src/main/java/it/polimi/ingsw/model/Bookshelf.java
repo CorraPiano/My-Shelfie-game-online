@@ -32,14 +32,14 @@ public class Bookshelf extends Listenable {
         resetMask();
     }
 
-    public void sendBookshelf(){
+    /*public void sendBookshelf(){
         notifyUpdate();
     }
-
+*/
     /**
      * Puts items in the bookshelf
      *
-     * @param itemList ArrayList<Item>, items to insert.
+     * @param itemList items to insert.
      * @param column int, column where to insert.
      * @throws NotEnoughSpacePutException not enough space left in the column to insert.
      * @throws InvalidColumnPutException if column index is out of bound.
@@ -103,7 +103,7 @@ public class Bookshelf extends Listenable {
      * Gets a library item.
      *
      * @param coordinate item's coordinates.
-     * @return Optional<Item>, item in coordinates.
+     * @return item in coordinates.
      */
     public Optional<Item> getItem(Coordinates coordinate){
         return Optional.ofNullable(library[coordinate.getRow()][coordinate.getColumn()]);
@@ -161,7 +161,7 @@ public class Bookshelf extends Listenable {
      * @param type item's type.
      * @return  int, points counted.
      */
-    private int countNearbyItems(int i, int j, int counter, ItemType type) {
+    public int countNearbyItems(int i, int j, int counter, ItemType type) {
         if((j+1) < nColumns && library[i][j+1] != null) {
             if(!mask[i][j+1] && library[i][j+1].getType() == type) {
                 mask[i][j+1] = true;
@@ -222,9 +222,9 @@ public class Bookshelf extends Listenable {
         }
     }
 
-    public void putItem(Item item, int row, int column) {
+    /*public void putItem(Item item, int row, int column) {
         library[row][column] = item;
-    }
+    }*/
 
     /**
      * Library getter

@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class BagPersonal{
-    private List<PersonalGoalCard> bagPersonal;
+    private ArrayList<PersonalGoalCard> bagPersonal;
 
     /**
      * Default constructor. Fills the bag personal.
@@ -35,5 +36,9 @@ public class BagPersonal{
      *
      * @return int representing the personal cards left.
      */
-    public int getBagPersonalSize() {return bagPersonal.size();}
+    public int getBagPersonalSize() { return bagPersonal.size(); }
+
+    public void setbagPersonal(ArrayList<PersonalGoalCard> bagPersonal){
+        this.bagPersonal = bagPersonal;
+    }
 }

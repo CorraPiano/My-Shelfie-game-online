@@ -7,6 +7,7 @@ module it.polimi.ingsw {
     requires java.rmi;
     requires com.google.gson;
 
+
     exports it.polimi.ingsw;
     exports it.polimi.ingsw.controller;
     exports it.polimi.ingsw.client.view;
@@ -19,8 +20,9 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.client.view.TUI;
     exports it.polimi.ingsw.client;
 
+
     opens it.polimi.ingsw.client.view.GUI.controllers to javafx.fxml;
-    opens it.polimi.ingsw to javafx.fxml;
+    opens it.polimi.ingsw to javafx.fxml, org.junit.jupiter.api;
     opens it.polimi.ingsw.client.view.GUI to javafx.fxml;
     opens it.polimi.ingsw.client.view to javafx.fxml;
     opens it.polimi.ingsw.model;

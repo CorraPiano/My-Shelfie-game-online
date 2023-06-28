@@ -340,7 +340,6 @@ public class Gameplay extends Listenable{
      * Reconnects a player to the game.
      *
      * @param id The ID of the player to be reconnected.
-     * @throws GameFinishedException      If the game has already ended.
      * @throws AlreadyConnectedException  If the player is already connected.
      * @throws GameLeftException          If the player has left the game.
      */

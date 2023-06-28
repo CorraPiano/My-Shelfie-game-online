@@ -18,7 +18,6 @@ class BookshelfTest_1 {
 
     @BeforeEach
     void setUp() throws GameModeException, NumPlayersException {
-
         bookshelf = new Bookshelf("Test");
     }
 
@@ -76,7 +75,6 @@ class BookshelfTest_1 {
         assertTrue(bookshelf.isFull());
     }
 
-
     @Test
     void testGetItem_nonExistingItem() {
         Optional<Item> item = bookshelf.getItem(new Coordinates(0, 0));
@@ -99,6 +97,14 @@ class BookshelfTest_1 {
         assertEquals(0, points);
     }
 
-    // Add more tests for the remaining methods...
+    @Test
+    void getNameTest(){
+        assertEquals("Test", bookshelf.getName());
+    }
+
+    @Test
+    void getLibraryTest(){
+        assertNotNull(bookshelf.getLibrary());
+    }
 
 }

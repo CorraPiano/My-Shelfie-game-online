@@ -228,7 +228,7 @@ public class PlayerHandler extends Listenable {
 
     /**
      * Advances the turn to the next player.
-     * @return true if the game can continue, false if the game has ended
+     *
      */
     public void next() {
         turn++;

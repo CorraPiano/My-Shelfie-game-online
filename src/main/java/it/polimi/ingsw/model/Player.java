@@ -224,6 +224,9 @@ public class Player extends Listenable{
     public Token getEndGameToken() {
         return endGameToken;
     }
+    public PersonalGoalCard getPersonalCard() {
+        return personalCard;
+    }
 
     /**
      * Converts into the local representation of the player.
@@ -234,4 +237,6 @@ public class Player extends Listenable{
             return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points,personalCard.getNum(),playerState);
         return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points,playerState);
     }
+
+
 }

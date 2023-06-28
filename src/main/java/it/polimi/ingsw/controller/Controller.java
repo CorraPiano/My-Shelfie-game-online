@@ -306,7 +306,6 @@ public class Controller implements ControllerSkeleton {
         }
     }
 
-
     /**
      * Leaves the game.
      *

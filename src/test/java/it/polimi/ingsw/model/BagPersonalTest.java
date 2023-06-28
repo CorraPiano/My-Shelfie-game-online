@@ -2,12 +2,15 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BagPersonalTest {
+
+    BagPersonal bag;
 
     @Test
     void drawPersonalGoalCard() {
@@ -35,4 +38,19 @@ class BagPersonalTest {
         assertEquals(0, sizeAfterDrawingAllCards);
     }
 
+    @Test
+    public void testDrawPersonalGoalCardWhenBagIsEmpty() {
+        // Create an empty bag
+        BagPersonal bag = new BagPersonal();
+        ArrayList<PersonalGoalCard> emptyBag = new ArrayList<>();
+        bag.setbagPersonal(emptyBag);
+
+        // Try to draw a card from the empty bag
+        PersonalGoalCard card = bag.drawPersonalGoalCard();
+
+        // Assert that the returned card is null
+        assertNull(card);
+    }
 }
+
+

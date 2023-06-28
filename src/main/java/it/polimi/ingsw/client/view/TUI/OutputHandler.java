@@ -242,7 +242,7 @@ public class OutputHandler {
         System.out.print(output);
     }
 
-    /** <p> show the end game statistic and classification </b> </p>
+    /**  show the end game statistic and classification
      **/
     public void showEndGame() {
         //recover data from ModelView
@@ -330,7 +330,8 @@ public class OutputHandler {
 
     }
 
-    /** <p> show the board, the bookshelf of the username passed as argument and the hand of the current ModelView</p>
+    /**  show the board, the bookshelf of the username passed as argument and the hand of the current ModelView
+     *
      **/
     public void showCurrentAction(String name){
         LocalBoard localBoard = modelView.getLocalBoard();
@@ -357,7 +358,8 @@ public class OutputHandler {
         System.out.println(output);
     }
 
-    /** <p> show the bookshelf of the username passed as argument of the current ModelView</p>
+    /**  show the bookshelf of the username passed as argument of the current ModelView
+     *
      **/
     public void showBookshelf(String name) {
         LocalBookshelf bookshelf = modelView.getLocalBookshelfs().get(name);

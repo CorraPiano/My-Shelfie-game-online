@@ -20,8 +20,8 @@ public class InputHandler {
         stdin = new Scanner(System.in);
     }
 
-    /** <p> </p>keep waiting and handling the input of the user, according to the phase of the client</p>
-     *  <p> In the input is valid, an action is performed </p>
+    /** keep waiting and handling the input of the user, according to the phase of the client
+     *   In the input is valid, an action is performed
      */
     public void readInput() {
         client.getOutputHandler().showHomeIntro();
