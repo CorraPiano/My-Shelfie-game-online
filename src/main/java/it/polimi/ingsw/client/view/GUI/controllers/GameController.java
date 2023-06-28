@@ -480,10 +480,8 @@ public class GameController implements GUIController {
             for (int j = 0; j < nColumnBookshelf; j++) {
                 Item item = localBookshelf.bookshelf[i][j];
                 if (item != null) {
-                    URL url = getClass().getResource(item.getImagePath());
-                    if (url != null) {
                         ImageView imageView = new ImageView();
-                        Image image = new Image(url.toString());
+                        Image image = gui.getSceneHandler().getImage(item.getImagePath());
                         imageView.setImage(image);
                         imageView.setFitWidth(35.5);
                         imageView.setFitHeight(35);
@@ -494,7 +492,6 @@ public class GameController implements GUIController {
                 }
             }
         }
-    }
 
     /**
      * Shows the bookshelves of other players on the game screen.
@@ -531,14 +528,13 @@ public class GameController implements GUIController {
                         for(int j=0; j<nColumnBookshelf; j++){
                             Item item = localBookshelfs.get(s).bookshelf[i][j];
                             if(item != null){
-                                URL url = getClass().getResource(item.getImagePath());
-                                if(url != null){
-                                    ImageView imageView = new ImageView();
-                                    Image image = new Image(url.toString());
-                                    imageView.setImage(image);
-                                    imageView.setFitWidth(23.5);
-                                    imageView.setFitHeight(23.6);
-                                    gridPane.add(imageView, j, i);
+                                ImageView imageView = new ImageView();
+                                Image image = gui.getSceneHandler().getImage(item.getImagePath());
+                                imageView.setImage(image);
+                                imageView.setFitWidth(23.5);
+                                imageView.setFitHeight(23.6);
+                                gridPane.add(imageView, j, i);
+
                                 }
                             }
                         }
@@ -547,7 +543,6 @@ public class GameController implements GUIController {
                 index++;
             }
         }
-    }
 
     /**
      * Shows the game board on the game screen.
