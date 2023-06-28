@@ -11,5 +11,7 @@ public enum NotificationsType {
         PICK,
         UNDO,
         ORDER,
-        PUT, LASTROUND,
+        PUT,
+        LASTROUND,
+        DISCONNECT, RECONNECT, INACTIVE,
 }

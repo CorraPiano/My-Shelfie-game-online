@@ -324,9 +324,6 @@ public class GameController implements GUIController {
         }
     }
     private void initTableView(){
-
-        //da aggiungere un numero che identifichi la sequenza di gioco?!
-
         modelView.getLocalPlayerList().get(0);
 
         TableColumn<LocalPlayer, String> nameColumn = new TableColumn<>("Name");
@@ -486,6 +483,7 @@ public class GameController implements GUIController {
         setEffectNull();
         imagesHighlighted = 0;
         handOrder.clear();
+        setArrowsInvisible();
         showBoard();
         showHand();
     }
@@ -1040,6 +1038,9 @@ public class GameController implements GUIController {
             case ORDER -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": ORDER with " + list.toString());
             case PUT -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": PUT, column " + column);
             case LASTROUND -> gameNotifications.getItems().add("❮INFO❯ " + name + " has finished his bookshelf!");
+            case DISCONNECT -> gameNotifications.getItems().add("❮INFO❯" + name + " lost connection");
+            case RECONNECT -> gameNotifications.getItems().add("❮INFO❯" + name + " has reconnected");
+            case INACTIVE -> gameNotifications.getItems().add("❮INFO❯" + name + " left the game");
         }
         notificationsLenght = notificationsLenght + 1;
         gameNotifications.scrollTo(notificationsLenght);
@@ -1127,6 +1128,7 @@ public class GameController implements GUIController {
         arrow4.setImage(arrow);
         arrow5.setImage(arrow);
         setArrowsInvisible();
+        setEffectNull();
         setTransition(arrow1);
         setTransition(arrow2);
         setTransition(arrow3);

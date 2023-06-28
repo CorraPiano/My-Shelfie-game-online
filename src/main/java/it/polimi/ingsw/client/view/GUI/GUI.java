@@ -48,6 +48,7 @@ public class GUI extends Application implements View {
     private HashMap<SceneName, Consumer<Command>> stageLambda;
 
     private void changeStage(Boolean fullScreen, Boolean secondStage){
+        System.out.println(" ----------> Change");
         if(!secondStage){
             primaryStage.setTitle("My Shelfie");
             currentScene = sceneHandler.getScene(currentSceneName);
@@ -788,5 +789,31 @@ public class GUI extends Application implements View {
     public void updateStatistics(String name, Map<String, LocalBookshelf> localBookshelfMap, ArrayList<LocalPlayer> localPlayers){
         StatisticsController statistics = (StatisticsController) this.controller;
         statistics.updateBookshelfs(name, localBookshelfMap, localPlayers);
+    }
+
+    /* ************************************************************************* */
+
+    public void disconnectionHandler(String name) {
+        switch(currentSceneName){
+            case GAME -> {
+                updateGlobalNotifications(NotificationsType.DISCONNECT, name, new Coordinates(), new ArrayList<>(), 0);
+            }
+        }
+    }
+
+    public void reconnectHandler(String name) {
+        switch(currentSceneName){
+            case GAME -> {
+                updateGlobalNotifications(NotificationsType.RECONNECT, name, new Coordinates(), new ArrayList<>(), 0);
+            }
+        }
+    }
+
+    public void leaveHandler(String name) {
+        switch(currentSceneName){
+            case GAME -> {
+                updateGlobalNotifications(NotificationsType.INACTIVE, name, new Coordinates(), new ArrayList<>(), 0);
+            }
+        }
     }
 }

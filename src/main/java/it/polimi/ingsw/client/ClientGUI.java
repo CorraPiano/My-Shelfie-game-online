@@ -152,6 +152,7 @@ public class ClientGUI extends Client{
      */
     public void playerLeave(String name) throws RemoteException {
         this.gui.updatePlayerList(this.modelView.getLocalPlayerList(), Command.QUIT, name);
+        gui.leaveHandler(name);
     }
 
     /**
@@ -163,7 +164,9 @@ public class ClientGUI extends Client{
     public void playerDisconnect(String name) throws RemoteException {
         System.out.println("--> playerDisconnect");
         //AlertBox.errorData(gui.getPrimaryStage(), "Disconnected, please check the connection", "Connection error");
+        gui.disconnectionHandler(name);
         //gui.updateTableView();
+        //gui.updateGlobalNotifications(NotificationsType.DISCONNECT, name, new Coordinates(), new ArrayList<>(), 0);
     }
 
     /**
@@ -176,7 +179,9 @@ public class ClientGUI extends Client{
         // se arriva prima il name, la fase sara gia a GAME
         setPhase(ClientPhase.GAME);
         System.out.println("--> playerReconnect");
+        gui.reconnectHandler(name);
         //gui.updateTableView();
+        //gui.updateGlobalNotifications(NotificationsType.RECONNECT, name, new Coordinates(), new ArrayList<>(), 0);
     }
 
     /**

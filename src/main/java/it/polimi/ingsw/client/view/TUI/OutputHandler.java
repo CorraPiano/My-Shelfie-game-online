@@ -187,7 +187,7 @@ public class OutputHandler {
             str = str + putSpace(8-String.valueOf(p.points).length()) + color + p.playerState + ANSI_RESET;
             int ps =  p.playerState.toString().length();
             if(p.token1!=null)
-                str = str + putSpace(lenState-ps) + color + p.token1.getValue() + ANSI_RESET;
+                str = str + putSpace(lenState-ps+2) + color + p.token1.getValue() + ANSI_RESET;
             else
                 str = str + putSpace(lenState-ps) + color  + "  " + "x" + ANSI_RESET;
             if(p.token2!=null)
