@@ -49,8 +49,8 @@ public class Bookshelf extends Listenable {
         if(column >= 0 && column < 5) {
             if(noSpaceLeft(column, itemList.size())) {
                 for(int i = 0; i < nRows; i++) {
-                    if(library[i][column] == null && index < itemList.size()) {
-                        library[i][column] = itemList.get(index);
+                    if(library[5-i][column] == null && index < itemList.size()) {
+                        library[5-i][column] = itemList.get(index);
                         index++;
                     }
                 }

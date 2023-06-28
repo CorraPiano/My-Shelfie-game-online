@@ -19,6 +19,26 @@
     -fx-background-color: transparent;
 }
 
+.pane-currentInformations{
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+}
+.pane-currentInformations .list-cell {
+    -fx-background-color: transparent;
+}
+.pane-currentInformations .scroll-bar {
+    -fx-background-color: transparent;
+}
+.pane-currentInformations .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+.pane-currentInformations .scroll-bar:horizontal .thumb,
+.pane-currentInformations .scroll-bar:vertical .thumb,
+.pane-currentInformations .scroll-bar:horizontal:vertical .thumb {
+    -fx-background-color: #B88551;
+}
+
+
 .pane-bookshelfs{
     -fx-background-color: #9E6A42;
     -fx-background-radius: 10px;

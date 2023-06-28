@@ -102,11 +102,11 @@ public class TUIPrinter {
                     if (j == 0) {
                         library.append(ANSI_RESET + " │");
                     }
-                    if (bookshelf.bookshelf[i][j] == null) {
+                    if (bookshelf.bookshelf[5-i][j] == null) {
                         library.append(ANSI_RESET + DEFAULT_BACKGROUND + "   ");
                         library.append(ANSI_RESET + "│");
                     } else {
-                        switch (bookshelf.bookshelf[i][j].getType().getValue()) {
+                        switch (bookshelf.bookshelf[5-i][j].getType().getValue()) {
                             case 0 -> library.append(GREEN_BACKGROUND + "   ");
                             case 1 -> library.append(YELLOW_BACKGROUND + "   ");
                             case 2 -> library.append(BLUE_BACKGROUND + "   ");

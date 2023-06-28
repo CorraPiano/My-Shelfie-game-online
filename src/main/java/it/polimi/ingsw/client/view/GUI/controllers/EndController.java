@@ -190,10 +190,10 @@ public class EndController implements GUIController {
                         imageView.setFitWidth(18.5);
                         imageView.setFitHeight(19);
                         switch (position){
-                            case 0 -> bookshelfGrid1.add(imageView, j, nRowBookshelf - 1 - i);
-                            case 1 -> bookshelfGrid2.add(imageView, j, nRowBookshelf - 1 - i);
-                            case 2 -> bookshelfGrid3.add(imageView, j, nRowBookshelf - 1 - i);
-                            case 3 -> bookshelfGrid4.add(imageView, j, nRowBookshelf - 1 - i);
+                            case 0 -> bookshelfGrid1.add(imageView, j, i);
+                            case 1 -> bookshelfGrid2.add(imageView, j, i);
+                            case 2 -> bookshelfGrid3.add(imageView, j, i);
+                            case 3 -> bookshelfGrid4.add(imageView, j, i);
                         }
                     }
                 }
@@ -243,7 +243,10 @@ public class EndController implements GUIController {
 
     @FXML
     protected void onLeaveButton() {
-        //qui deve uscire dal gioco
+        gui.leaveGame();
+        //gui.getClient().leaveGame();
+        //System.out.println("--> onQuitButton");
+        System.exit(0);
     }
 
     public void resetLabel(){

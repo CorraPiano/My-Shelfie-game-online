@@ -487,7 +487,8 @@ public class GameController implements GUIController {
                         imageView.setImage(image);
                         imageView.setFitWidth(35.5);
                         imageView.setFitHeight(35);
-                        bookshelfGrid.add(imageView, j, nRowBookshelf - 1 - i); //inserisci colonna, riga
+                        bookshelfGrid.add(imageView, j,  i); //inserisci colonna, riga
+                        //nRowBookshelf - 1 - i
                         //bisogna prima leggere correttamente la matrice, poi stamparla al contrario
                     }
                 }
@@ -537,7 +538,7 @@ public class GameController implements GUIController {
                                     imageView.setImage(image);
                                     imageView.setFitWidth(23.5);
                                     imageView.setFitHeight(23.6);
-                                    gridPane.add(imageView, j, nRowBookshelf - 1 - i);
+                                    gridPane.add(imageView, j, i);
                                 }
                             }
                         }
