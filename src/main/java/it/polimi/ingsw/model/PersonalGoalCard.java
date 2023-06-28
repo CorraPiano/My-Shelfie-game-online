@@ -37,6 +37,18 @@ public class PersonalGoalCard extends Listenable {
         points = 0;
         if(library == null) return 0;
 
+        for(int i=0; i<6; i++){
+            for(int j=0; j<5; j++){
+                if(library.getLibrary()[i][j] != null){
+                    System.out.println(" 1 ");
+                }
+                else{
+                    System.out.println(" 0 ");
+                }
+            }
+            System.out.println("\n");
+        }
+
         Set<Coordinates> coordinate = card.getCoordinate();
         int[] pointVet = {0, 1, 2, 4, 6, 9, 12};
 
