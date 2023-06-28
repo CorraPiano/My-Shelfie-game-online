@@ -13,71 +13,65 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EventKeeperTest {
 
-    private EventKeeper eventKeeper;
-    private Gameplay gameplay;
-    private ArrayList<Sendable> listenableList;
-    private HashMap<String, ArrayList<Sendable>> personalList;
-    private HashMap<String, Long> lastPing;
-    private ArrayList<String> idList;
-    private HashMap<String, Integer> offsets;
+        private EventKeeper eventKeeper;
 
-    @BeforeEach
-    void setUp() throws GameModeException, NumPlayersException {
-        gameplay = new Gameplay(GameMode.EXPERT,3,10547);
-        eventKeeper = new EventKeeper();
-        listenableList = new ArrayList<>();
-        personalList = new HashMap<>();
-        lastPing = new HashMap<>();
-        idList = new ArrayList<>();
-        offsets = new HashMap<>();
+        @BeforeEach
+        public void setup() {
+            eventKeeper = new EventKeeper();
+        }
+
+        @Test
+        public void testAddPersonalList() {
+            String playerId = "Player1";
+            eventKeeper.addPersonalList(playerId);
+            assertFalse(eventKeeper.isPresentPersonal(playerId));
+        }
+
+        @Test
+        public void testRemovePersonalList() {
+            String playerId = "Player1";
+            eventKeeper.addPersonalList(playerId);
+
+            eventKeeper.removePersonalList(playerId);
+
+            assertFalse(eventKeeper.isPresentPersonal(playerId));
+        }
+
+        @Test
+        public void testUpdateStatus() {
+            String playerId = "Player1";
+            eventKeeper.addPersonalList(playerId);
+
+            eventKeeper.updateStatus(playerId, false);
+
+            assertFalse(eventKeeper.checkActivity(playerId));
+        }
+
+        @Test
+        public void testCheckActivity() {
+            String playerId = "Player1";
+            eventKeeper.addPersonalList(playerId);
+
+            assertTrue(eventKeeper.checkActivity(playerId));
+        }
+
+        @Test
+        public void testIsPresentPersonal() {
+            String playerId = "Player1";
+            eventKeeper.addPersonalList(playerId);
+
+            assertFalse(eventKeeper.isPresentPersonal(playerId));
+        }
+
+        @Test
+        public void testFixOffset() {
+            String playerId = "Player1";
+            eventKeeper.addPersonalList(playerId);
+
+            eventKeeper.fixOffset(playerId, true, false);
+
+            assertFalse(eventKeeper.isPresentPersonal(playerId));
+        }
+
+
     }
-
-    @Test
-    void addPersonalList() {
-
-    }
-
-    @Test
-    void isPresent() {
-    }
-
-    @Test
-    void getListenable() {
-    }
-
-    @Test
-    void nextpos() {
-    }
-
-    @Test
-    void isPresentPersonal() {
-    }
-
-    @Test
-    void resetOffset() {
-    }
-
-    @Test
-    void getListenablePersonal() {
-    }
-
-    @Test
-    void testNotifyAll() {
-    }
-
-    @Test
-    void notifyToID() {
-    }
-
-    @Test
-    void checkConnection() {
-    }
-
-    @Test
-    void ping() {
-    }
-
-    @Test
-    void resetPingKeeper() {
-    }
-}

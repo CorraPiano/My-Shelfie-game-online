@@ -110,7 +110,6 @@ class BoardTest1 {
     @Test
     void isCatchable_OutOfBoardCoordinates_ThrowsOutOfBoardPickException() {
         Coordinates coordinates = new Coordinates(-1, 4);
-
         assertThrows(OutOfBoardPickException.class, () -> board.isCatchable(coordinates));
     }
 

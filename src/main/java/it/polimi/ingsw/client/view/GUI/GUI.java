@@ -334,15 +334,6 @@ public class GUI extends Application implements View {
     }
 
     /* ***************************************************
-                 _     ___   ____ ___ _   _
-                | |   / _ \ / ___|_ _| \ | |
-                | |  | | | | |  _ | ||  \| |
-                | |__| |_| | |_| || || |\  |
-                |_____\___/ \____|___|_| \_|
-     ****************************************************/
-    public void login(){};
-
-    /* ***************************************************
          _____ ___ _   _ ____     ____    _    __  __ _____
         |  ___|_ _| \ | |  _ \   / ___|  / \  |  \/  | ____|
         | |_   | ||  \| | | | | | |  _  / _ \ | |\/| |  _|
@@ -752,8 +743,6 @@ public class GUI extends Application implements View {
             sender.addChatMessage(message, receiver);
         }
     }
-
-    //TODO: sarebbe bello risolvere il fatto che non si possa riaprire la chat
 
     /* *********************
      ______ _   _ _____

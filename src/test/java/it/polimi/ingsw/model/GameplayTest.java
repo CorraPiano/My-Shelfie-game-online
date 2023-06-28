@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exception.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 public class GameplayTest {
+
     @Test
     void calculatePointsTest1(){
         Gameplay gameplay=null;
@@ -126,10 +128,48 @@ public class GameplayTest {
     }
 
     @Test
-    void actionTest(){
-        //board not working!
+    void createTokenListTest() throws GameModeException, NumPlayersException {
+        Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
+        Gameplay gameplay2 = new Gameplay(GameMode.EXPERT,4,1);
+
+        ArrayList<Token> list1 = gameplay1.createTokenList();
+        ArrayList<Token> list2 = gameplay2.createTokenList();
+
+        Assertions.assertNotNull(list1);
+        Assertions.assertNotNull(list2);
+
     }
 
+    @Test
+    void pickItemTest() throws GameModeException, NumPlayersException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
+        Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
+        gameplay1.startGame();
+        gameplay1.getBoard();
+        Assertions.assertNotNull(gameplay1.getBoard());
+        gameplay1.pickItem(new Coordinates(3,5));
+    }
+    @Test
+    void getterSetterTests() throws GameModeException, NumPlayersException {
+        Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
+        Assertions.assertEquals(0,gameplay1.getNumPlayersConnected());
+        Assertions.assertEquals(0,gameplay1.getNumPlayersAvaiable());
+        Assertions.assertEquals(3,gameplay1.getNumPlayers());
+        Assertions.assertEquals(0,gameplay1.getGameID());
+    }
+    @Test
+    void getPlayerNameByIDTest() throws GameModeException, NumPlayersException {
+        Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
+        PlayerHandler playerHandler = new PlayerHandler(gameplay1);
+        playerHandler.addPlayer(new Player("flavio", 0));
+        Assertions.assertEquals("flavio", gameplay1.getPlayerIDByName("flavio"));
+
+    }
+
+    @Test
+    void getGameStateTest() throws GameModeException, NumPlayersException {
+        Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
+        Assertions.assertNotNull(gameplay1.getGameMode());
+    }
 
 
 

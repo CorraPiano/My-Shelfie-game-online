@@ -157,7 +157,7 @@ public class Board extends Listenable {
      * Puts items left on the board back into the bag.
      *
      */
-    private void putBackInBag() {
+    public void putBackInBag() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (livingRoom[i][j] != null){
@@ -226,6 +226,10 @@ public class Board extends Listenable {
      */
     public int getNumPlayers() {
         return numPlayers;
+    }
+
+    public void setLivingRoomItem(Coordinates coordinates, Item item){
+        this.livingRoom[coordinates.getRow()][coordinates.getColumn()] = item;
     }
 
     /**

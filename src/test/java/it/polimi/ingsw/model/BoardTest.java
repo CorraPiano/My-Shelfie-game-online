@@ -12,6 +12,9 @@ import static it.polimi.ingsw.util.Constants.nRowBoard;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
+
+    private Board board;
+
     private final int[][] mask = {
             {5, 5, 5, 3, 4, 5, 5, 5, 5},
             {5, 5, 5, 2, 2, 4, 5, 5, 5},
@@ -25,7 +28,7 @@ class BoardTest {
     };
 
 
-    //@Test
+    @Test
     void drawBoardItemsTest() {
         int num=0;
         Board board;
