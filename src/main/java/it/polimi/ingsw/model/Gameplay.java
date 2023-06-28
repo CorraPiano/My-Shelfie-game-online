@@ -229,7 +229,7 @@ public class Gameplay extends Listenable{
             playerHandler.notifyLastRound();
             notifyEvent(new LastRoundMessage(playerHandler.current().getName()));
         }
-        currentPlayer.updatePoints(false);
+        //currentPlayer.updatePoints(false);
         endTurn();
     }
 
@@ -239,6 +239,7 @@ public class Gameplay extends Listenable{
     public void endTurn() {
         playerHandler.next();
         if (playerHandler.hasNext()){
+            playerHandler.current().updatePoints(false);
             notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
         }
     }

@@ -60,6 +60,7 @@ public class EventKeeper {
         this.offsets.put(id,-1);
         this.offsetsGui.put(id,-1);
         this.status.put(id,true);
+
     }
 
     public synchronized void removePersonalList(String id){
@@ -116,17 +117,19 @@ public class EventKeeper {
                         list.add(localBoard);
                         list.add(localHand);
                         list.add(localPlayerList);
-                        list.add(sendable);
-                        for (String s : localBookshelfMap.keySet())
+                        for (String s : localBookshelfMap.keySet()) {
+                            System.out.println(s);
                             list.add(localBookshelfMap.get(s));
-                    } else
-                        list.add(sendable);
+                        }
+                    }
+                    list.add(sendable);
                 }
             }
 
             if(list.size()<=personalList.get(id).size()) {
                 personalListGui.put(id, list);
                 offsetsGui.put(id, personalList.get(id).size());
+                offsets.put(id,-1);
             }
             else {
                 personalListGui.put(id,new ArrayList<>());
@@ -209,20 +212,6 @@ public class EventKeeper {
                 localBookshelfMap.put(lb.name, lb);
             }
         }
-    }
-
-
-    public void update (LocalBoard localBoard){
-        this.localBoard = localBoard;
-    }
-    public void update (LocalPlayerList localPlayerList){
-        this.localPlayerList = localPlayerList;
-    }
-    public void update (LocalHand localHand){
-        this.localHand = localHand;
-    }
-    public void update (LocalBookshelf localBookshelf){
-        this.localBookshelfMap.put(localBookshelf.name, localBookshelf);
     }
 
 

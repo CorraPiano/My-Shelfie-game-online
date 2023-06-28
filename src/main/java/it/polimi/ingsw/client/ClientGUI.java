@@ -1,10 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
-import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
-import it.polimi.ingsw.client.view.GUI.SceneName;
 import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.connection.message.EndCause;
@@ -14,7 +12,6 @@ import it.polimi.ingsw.model.Item;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static it.polimi.ingsw.util.Constants.*;
 
@@ -70,7 +67,7 @@ public class ClientGUI extends Client{
         if(getPhase().equals(ClientPhase.HOME))
             setPhase(ClientPhase.LOBBY);
         setState(ClientState.READY);
-        gui.switchStage(Command.SET_CONNECTION);
+        //gui.switchStage(Command.SET_CONNECTION);
     }
 
     /**
@@ -139,10 +136,11 @@ public class ClientGUI extends Client{
      * @throws RemoteException if there is a communication-related issue.
      */
     public void playerJoin(String name) throws RemoteException {
+        System.out.println("-> player join");
         this.gui.updatePlayerList(this.modelView.getLocalPlayerList(), Command.JOIN_GAME, name);
-        if(gui.isLast()){
-            return;
-        }
+        //if(gui.isLast()){
+        //    return;
+        //}
         gui.joinLobby();
     }
 
@@ -165,7 +163,7 @@ public class ClientGUI extends Client{
     public void playerDisconnect(String name) throws RemoteException {
         System.out.println("--> playerDisconnect");
         //AlertBox.errorData(gui.getPrimaryStage(), "Disconnected, please check the connection", "Connection error");
-        gui.updateTableView();
+        //gui.updateTableView();
     }
 
     /**
@@ -178,7 +176,7 @@ public class ClientGUI extends Client{
         // se arriva prima il name, la fase sara gia a GAME
         setPhase(ClientPhase.GAME);
         System.out.println("--> playerReconnect");
-        gui.updateTableView();
+        //gui.updateTableView();
     }
 
     /**
@@ -189,7 +187,12 @@ public class ClientGUI extends Client{
     public void startGame() throws RemoteException {
         setPhase(ClientPhase.GAME);
         modelView.loadPlayers();
+        System.out.println("-> start game");
         gui.switchStage(Command.START_GAME);
+       // gui.updateBoard();
+       // gui.updateTableView();
+       // gui.updateHand();
+       // gui.updateAllBookshelfs();
     }
 
     /**
@@ -201,8 +204,8 @@ public class ClientGUI extends Client{
     public void newTurn(String name) throws RemoteException {
         modelView.setCurrentPlayer(name);
         gui.setTurn(name);
-        gui.updateBoard();
-        gui.updateTableView();
+        //gui.updateBoard();
+        //gui.updateTableView();
         gui.updateTokens();
     }
 
@@ -241,9 +244,10 @@ public class ClientGUI extends Client{
      * @throws RemoteException if there is a communication-related issue.
      */
     public void notifyPick(String name, Coordinates coordinates, Item item) throws RemoteException{
-        gui.updateBoard();
+        System.out.println("pick");
+        //gui.updateBoard();
         //if(Objects.equals(name, this.name)){}
-        gui.updateHand();
+        //gui.updateHand();
         gui.updateGlobalNotifications(NotificationsType.PICK, name, coordinates, new ArrayList<>(), 0);
     }
 
@@ -254,9 +258,10 @@ public class ClientGUI extends Client{
      * @throws RemoteException if there is a communication-related issue.
      */
     public void notifyUndo(String name) throws RemoteException{
-        gui.updateBoard();
+        System.out.println("undo");
+        //gui.updateBoard();
         //if(Objects.equals(name, this.name)){  }
-        gui.updateHand();
+        //gui.updateHand();
         gui.updateGlobalNotifications(NotificationsType.UNDO, name, new Coordinates(), new ArrayList<>(), 0);
     }
 
@@ -268,8 +273,9 @@ public class ClientGUI extends Client{
      * @throws RemoteException if there is a communication-related issue.
      */
     public void notifyOrder(String name, ArrayList<Integer> list) throws RemoteException{
+        System.out.println("order");
         //if(Objects.equals(name, this.name)){  }
-        gui.updateHand();
+        //gui.updateHand();
         gui.updateGlobalNotifications(NotificationsType.ORDER, name, new Coordinates(), list, 0);
     }
 
@@ -281,10 +287,11 @@ public class ClientGUI extends Client{
      * @throws RemoteException if there is a communication-related issue.
      */
     public void notifyPut(String name, int column) throws RemoteException{
+        System.out.println(name + " put in column " + column);
         //if(Objects.equals(name, this.name)){  }
-        gui.updateHand();
-        gui.updateBookShelf();
-        gui.updatePlayersBookshelfs(modelView.getLocalBookshelfs(), name);
+        //gui.updateHand();
+        //gui.updateBookShelf();
+        //gui.updatePlayersBookshelfs(modelView.getLocalBookshelfs(), name);
         gui.updateGlobalNotifications(NotificationsType.PUT, name, new Coordinates(), new ArrayList<>(), column);
     }
 
@@ -297,6 +304,7 @@ public class ClientGUI extends Client{
     public void updateBoard(LocalBoard board) throws RemoteException {
         modelView.setLocalBoard(board);
         System.out.println("--> board received");
+        gui.updateBoard();
     }
 
     /**
@@ -308,6 +316,8 @@ public class ClientGUI extends Client{
     public void updateBookshelf(LocalBookshelf bookshelf) throws RemoteException {
         modelView.setLocalBookshelf(bookshelf);
         System.out.println("--> bookshelf received");
+        // dare sistemata
+        gui.updateBookShelf(bookshelf);
     }
 
     /**
@@ -319,15 +329,8 @@ public class ClientGUI extends Client{
     public void updateHand(LocalHand hand) throws RemoteException {
         modelView.setLocalHand(hand);
         System.out.println("--> hand received");
+        gui.updateHand();
     }
-
-    /*public void updateGame(LocalGame localGame) throws RemoteException {
-        modelView.setLocalPlayer(localGame.playerList);
-        modelView.setGameMode(localGame.gameMode);
-        }
-        else
-            System.out.println("--> game received");
-    }*/
 
     /**
      * Updates the local player list in the model with the provided player list.
@@ -338,6 +341,7 @@ public class ClientGUI extends Client{
     public void updatePlayerList(LocalPlayerList localPlayerList) throws RemoteException {
         modelView.setLocalPlayerList(localPlayerList);
         System.out.println("--> player list received");
+        gui.updateTableView();
     }
 
     /**

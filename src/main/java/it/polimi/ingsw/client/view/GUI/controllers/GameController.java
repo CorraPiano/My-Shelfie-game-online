@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
+import it.polimi.ingsw.model.Bookshelf;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.Item;
@@ -26,11 +27,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.util.Callback;
 import javafx.util.Duration;;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -173,7 +174,7 @@ public class GameController implements GUIController {
 
     private ModelView modelView;
 
-    private LocalBookshelf localBookshelf;
+    //private LocalBookshelf localBookshelf;
     private ArrayList<Integer> handOrder = new ArrayList<>();
 
     private ArrayList<Image> handImages = new ArrayList<>();
@@ -241,13 +242,28 @@ public class GameController implements GUIController {
         anchorPane.setOnMouseClicked((event) -> this.blockPane());
         this.modelView = gui.getClient().getModelView();
         resetGame();
+
         showBoard();
+
         initPersonal(modelView.getLocalPersonalCard().num);
         initCommon(modelView.getCommonCards());
+
         initBookshelfs(modelView.getLocalBookshelfs());
+        showAllBookshelf();
+
         initTableView();
+        showTableView();
+
         initTokens();
+        showTokens();
+
         setArrows();
+        showHand();
+
+       /* gui.updateBoard();
+        gui.updateTableView();
+        gui.updateHand();
+        gui.updateAllBookshelfs();*/
         showFirstPlayerSeat();
     }
 
@@ -410,6 +426,8 @@ public class GameController implements GUIController {
      * @param event The mouse event.
      */
     public void onHandClick(MouseEvent event) {
+        if (!HandVisible)
+            return;
         ImageView clickedImageView = (ImageView) event.getSource();
         DropShadow dropShadow = new DropShadow();
         dropShadow.setColor(Color.YELLOW);
@@ -435,6 +453,9 @@ public class GameController implements GUIController {
      * Handles the click event on the "tick" button to confirm the card order.
      */
     public void onTickClick() {
+        if(!HandVisible)
+            return;
+
         int handSize = modelView.getLocalHand().coordinatesList.size();
 
         if (imagesHighlighted == handOrder.size() && (handOrder.size() == handSize) && handOrder.size() != 0) {
@@ -448,6 +469,8 @@ public class GameController implements GUIController {
      * Handles the click event on the "Undo" button to undo the card order.
      */
     public void onOrderUndo(){
+        if(!HandVisible)
+            return;
         setEffectNull();
         handOrder.clear();
         imagesHighlighted = 0;
@@ -457,6 +480,8 @@ public class GameController implements GUIController {
      * Handles the click event on the "Undo" button to undo the card pick.
      */
     public void onUndoButton(){
+        if(!HandVisible)
+            return;
         gui.undoPick();
         setEffectNull();
         imagesHighlighted = 0;
@@ -486,7 +511,7 @@ public class GameController implements GUIController {
      * Resets the bookshelf grid and populates it with the items from the player's bookshelf.
      * Each item is represented by an image on the grid.
      */
-    public void showBookshelf() {
+    private void showYourBookshelf() {
         resetBookshelf();
         String name = gui.getClient().getName();
         LocalBookshelf localBookshelf = modelView.getLocalBookshelfs().get(name);
@@ -494,18 +519,31 @@ public class GameController implements GUIController {
             for (int j = 0; j < nColumnBookshelf; j++) {
                 Item item = localBookshelf.bookshelf[i][j];
                 if (item != null) {
-                        ImageView imageView = new ImageView();
-                        Image image = gui.getSceneHandler().getImage(item.getImagePath());
-                        imageView.setImage(image);
-                        imageView.setFitWidth(35.5);
-                        imageView.setFitHeight(35);
-                        bookshelfGrid.add(imageView, j,  i); //inserisci colonna, riga
-                        //nRowBookshelf - 1 - i
-                        //bisogna prima leggere correttamente la matrice, poi stamparla al contrario
-                    }
+                    ImageView imageView = new ImageView();
+                    Image image = gui.getSceneHandler().getImage(item.getImagePath());
+                    imageView.setImage(image);
+                    imageView.setFitWidth(35.5);
+                    imageView.setFitHeight(35);
+                    bookshelfGrid.add(imageView, j,  i); //inserisci colonna, riga
+                    //bisogna prima leggere correttamente la matrice, poi stamparla al contrario
                 }
             }
         }
+    }
+
+    public void showbookshelf(LocalBookshelf localBookshelf){
+        if(modelView.getLocalName().equals(localBookshelf.name))
+            showYourBookshelf();
+        else
+            showOtherBookshelfs(localBookshelf);
+    }
+    public void showAllBookshelf(){
+        showYourBookshelf();
+        Map<String,LocalBookshelf> map = modelView.getLocalBookshelfs();
+        for(String s: modelView.getLocalBookshelfs().keySet()){
+            showOtherBookshelfs(map.get(s));
+        }
+    }
 
     /**
      * Shows the bookshelves of other players on the game screen.
@@ -513,50 +551,55 @@ public class GameController implements GUIController {
      * Each item is represented by an image on the grid.
      *
      * @param localBookshelfs      The map of local bookshelves, where the key is the player name and the value is their bookshelf.
-     * @param nameBookshelfPlayer  The name of the player whose bookshelf should be displayed.
      */
-    public void showPlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer) {
+    private void showOtherBookshelfs(LocalBookshelf localBookshelfs) {
         int index = 1;
         GridPane gridPane = new GridPane();
+        Text text = new Text();
+
         String nameClientPlayer = gui.getClient().getName();
+        String nameBookshelfPlayer = localBookshelfs.name;
 
-        for(String s : localBookshelfs.keySet()){
-            if(!Objects.equals(nameClientPlayer, s)){
-                if(Objects.equals(nameBookshelfPlayer, s)){
-                    switch (index){
-                        case 1 -> {
-                            gridPane = bookshelf1Grid;
-                            bookshelf1name.setText(s);
-                        }
-                        case 2 -> {
-                            gridPane = bookshelf2Grid;
-                            bookshelf2name.setText(s);
-                        }
-                        case 3 -> {
-                            gridPane = bookshelf3Grid;
-                            bookshelf3name.setText(s);
-                        }
+        for(String s : modelView.getLocalBookshelfs().keySet()) {
+            if (!s.equals(nameClientPlayer)) {
+                switch (index) {
+                    case 1 -> {
+                        gridPane = bookshelf1Grid;
+                        text = bookshelf1name;
                     }
-                    resetPlayersBookshelfs(gridPane);
-                    for (int i=0; i<nRowBookshelf; i++){
-                        for(int j=0; j<nColumnBookshelf; j++){
-                            Item item = localBookshelfs.get(s).bookshelf[i][j];
-                            if(item != null){
-                                ImageView imageView = new ImageView();
-                                Image image = gui.getSceneHandler().getImage(item.getImagePath());
-                                imageView.setImage(image);
-                                imageView.setFitWidth(23.5);
-                                imageView.setFitHeight(23.6);
-                                gridPane.add(imageView, j, i);
-
-                                }
-                            }
-                        }
+                    case 2 -> {
+                        gridPane = bookshelf2Grid;
+                        text = bookshelf2name;
+                    }
+                    case 3 -> {
+                        gridPane = bookshelf3Grid;
+                        text = bookshelf3name;
                     }
                 }
+                if (s.equals(nameBookshelfPlayer))
+                    break;
                 index++;
             }
         }
+        text.setText(nameBookshelfPlayer);
+        resetPlayersBookshelfs(gridPane);
+        for (int i=0; i<nRowBookshelf; i++){
+            for(int j=0; j<nColumnBookshelf; j++){
+                Item item = localBookshelfs.bookshelf[i][j];
+                if(item != null){
+                    URL url = getClass().getResource(item.getImagePath());
+                    if(url != null){
+                        ImageView imageView = new ImageView();
+                        Image image = gui.getSceneHandler().getImage(item.getImagePath());
+                        imageView.setImage(image);
+                        imageView.setFitWidth(23.5);
+                        imageView.setFitHeight(23.6);
+                        gridPane.add(imageView, j, i);
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Shows the game board on the game screen.
@@ -602,7 +645,7 @@ public class GameController implements GUIController {
         //handClickCount = 0;
         LocalHand localHand = modelView.getLocalHand();
 
-        if (HandVisible) {
+        if (true) {
             if (localHand.size > 0) {
                 URL url = getClass().getResource(localHand.hand[0].getImagePath());
                 if (url != null) {

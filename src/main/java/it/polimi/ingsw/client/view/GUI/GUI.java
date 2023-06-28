@@ -8,21 +8,13 @@ import it.polimi.ingsw.client.view.GUI.controllers.*;
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.client.view.utils.NotificationsType;
 import it.polimi.ingsw.connection.message.ChatMessage;
-import it.polimi.ingsw.controller.ControllerSkeleton;
-import it.polimi.ingsw.controller.Settings;
 import it.polimi.ingsw.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,8 +145,8 @@ public class GUI extends Application implements View {
             windowEvent.consume();
             int exitStatus = AlertBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
             if(exitStatus == 1) {
-                if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
-                    this.leaveGame();
+               // if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
+                //    this.leaveGame();
                 System.exit(0);
             }
         });
@@ -261,6 +253,7 @@ public class GUI extends Application implements View {
         return this.client;
     }
     public boolean isLast(){
+        System.out.println(imLast);
         return imLast;
     }
 
@@ -366,8 +359,8 @@ public class GUI extends Application implements View {
      */
     public void refreshGameList(List<LocalGame> games){
         Platform.runLater(()->{
-            FindGameController controllerTmp = (FindGameController) controller;
-            controllerTmp.updateList(games);
+                FindGameController controllerTmp = (FindGameController) controller;
+                controllerTmp.updateList(games);
         });
     }
 
@@ -513,10 +506,12 @@ public class GUI extends Application implements View {
      * This method is used to reflect changes in the game board on the client side.
      */
     public void updateBoard(){
-        Platform.runLater(() -> {
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showBoard();
-        });
+        if(this.currentSceneName == SceneName.GAME) {
+            Platform.runLater(() -> {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showBoard();
+            });
+        }
     }
 
     /**
@@ -524,20 +519,24 @@ public class GUI extends Application implements View {
      * This method is used to display the updated hand of the current player.
      */
     public void updateHand() {
-        Platform.runLater(() -> {
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showHand();
-        });
+        if(this.currentSceneName == SceneName.GAME) {
+            Platform.runLater(() -> {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showHand();
+            });
+        }
     }
 
     /**
      * Updates the bookshelf display in the UI by invoking the showBookshelf() method of the GameController.
      * This method is used to update the bookshelf representation on the client side.
      */
-    public void updateBookShelf(){
-        Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showBookshelf();
+    public void updateBookShelf(LocalBookshelf bookshelf){
+        Platform.runLater(() -> {
+            if(this.currentSceneName == SceneName.GAME) {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showbookshelf(bookshelf);
+            }
         });
     }
 
@@ -553,15 +552,19 @@ public class GUI extends Application implements View {
      */
     public void updateGlobalNotifications(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column){
         Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showGlobalNotification(notificationsType, name, coordinates, list, column);
+            if(this.currentSceneName == SceneName.GAME) {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showGlobalNotification(notificationsType, name, coordinates, list, column);
+            }
         });
     }
 
     public void updateExceptionNotification(String e) {
         Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showExceptionNotification(e);
+            if(this.currentSceneName == SceneName.GAME) {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showExceptionNotification(e);
+            }
         });
     }
 
@@ -571,8 +574,10 @@ public class GUI extends Application implements View {
      */
     public void updateTableView() {
         Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showTableView();
+            if(this.currentSceneName == SceneName.GAME) {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showTableView();
+            }
         });
     }
 
@@ -582,8 +587,10 @@ public class GUI extends Application implements View {
      */
     public void updateTokens() {
         Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showTokens();
+            if(this.currentSceneName == SceneName.GAME) {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showTokens();
+            }
         });
     }
 
@@ -593,8 +600,10 @@ public class GUI extends Application implements View {
      */
     public void updateEndGameToken() {
         Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showEndGameToken();
+            if(this.currentSceneName == SceneName.GAME) {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showEndGameToken();
+            }
         });
     }
 
@@ -675,13 +684,13 @@ public class GUI extends Application implements View {
      * Updates the bookshelves of the players in the UI by invoking the showPlayersBookshelfs() method of the GameController.
      * This method is used to display the bookshelves of all players in the game.
      *
-     * @param localBookshelfs      The map of bookshelves associated with each player.
-     * @param nameBookshelfPlayer  The name of the player whose bookshelf is being displayed.
      */
-    public void updatePlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer) {
-        Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.showPlayersBookshelfs(localBookshelfs, nameBookshelfPlayer);
+    public void updateAllBookshelfs() {
+        Platform.runLater(()-> {
+            if (this.currentSceneName == SceneName.GAME){
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.showAllBookshelf();
+            }
         });
     }
 
@@ -715,8 +724,10 @@ public class GUI extends Application implements View {
      */
     public void updateChat(ChatMessage chatMessage, String name){
         Platform.runLater(()->{
-            GameController controllertmp = (GameController) this.controller;
-            controllertmp.displayMessage(chatMessage, name);
+            if(this.currentSceneName == SceneName.GAME) {
+                GameController controllertmp = (GameController) this.controller;
+                controllertmp.displayMessage(chatMessage, name);
+            }
         });
     }
 

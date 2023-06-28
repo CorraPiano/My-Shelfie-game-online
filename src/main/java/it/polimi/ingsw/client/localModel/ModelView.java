@@ -58,7 +58,8 @@ public class ModelView {
      */
     public void loadPlayers() {
         for (LocalPlayer p : localPlayerList.playerList) {
-            this.localBookshelfMap.put(p.name, new LocalBookshelf(p.name));
+            if(localBookshelfMap.get(p.name)==null)
+                localBookshelfMap.put(p.name, new LocalBookshelf(p.name));
         }
     }
 

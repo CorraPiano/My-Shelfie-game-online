@@ -24,7 +24,7 @@ class EventKeeperTest {
     @BeforeEach
     void setUp() throws GameModeException, NumPlayersException {
         gameplay = new Gameplay(GameMode.EXPERT,3,10547);
-        //eventKeeper = new EventKeeper(gameplay);
+        eventKeeper = new EventKeeper();
         listenableList = new ArrayList<>();
         personalList = new HashMap<>();
         lastPing = new HashMap<>();
