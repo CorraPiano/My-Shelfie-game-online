@@ -118,6 +118,8 @@ public class GameController implements GUIController {
     //OTHER
     @FXML
     private GridPane arrowGrid;
+    @FXML
+    private ImageView firstPlayerSeat;
 
     //NOTIFCATIONS
     @FXML
@@ -246,6 +248,7 @@ public class GameController implements GUIController {
         initTableView();
         initTokens();
         setArrows();
+        showFirstPlayerSeat();
     }
 
     private void blockPane(){
@@ -291,7 +294,6 @@ public class GameController implements GUIController {
         }
     }
     private void initBookshelfs(Map<String, LocalBookshelf> mappa){
-
         URL url = getClass().getResource("/Images/boards/bookshelf_orth.png");
         if (url != null) {
             if(mappa.size() >= 2){
@@ -466,6 +468,18 @@ public class GameController implements GUIController {
 
 
     /* DISPLAY METHODS */
+
+    /**
+     * Shows the FirstPlayerSeat to the player who'll start the game
+     */
+    public void showFirstPlayerSeat(){
+        for(LocalPlayer p : modelView.getLocalPlayerList()){
+            if(Objects.equals(gui.getClient().getName(), p.name) && p.firstPlayerSeat){
+                URL url_firstPlayerSeat = getClass().getResource("/Images/misc/firstplayertoken.png");
+                firstPlayerSeat.setImage(new Image(url_firstPlayerSeat.toString()));
+            }
+        }
+    }
 
     /**
      * Shows the bookshelf of the local player on the game screen.
@@ -993,6 +1007,8 @@ public class GameController implements GUIController {
      */
     public void showExceptionNotification(String e) {
         gameNotifications.getItems().add("❮ERROR❯ " + e);
+        notificationsLenght = notificationsLenght + 1;
+        gameNotifications.scrollTo(notificationsLenght);
     }
 
     /**

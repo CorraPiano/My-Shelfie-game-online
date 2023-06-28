@@ -365,8 +365,10 @@ public class GUI extends Application implements View {
      * @param games The list of games to be displayed in the UI.
      */
     public void refreshGameList(List<LocalGame> games){
-        FindGameController controllerTmp = (FindGameController) controller;
-        Platform.runLater(()->controllerTmp.updateList(games));
+        Platform.runLater(()->{
+            FindGameController controllerTmp = (FindGameController) controller;
+            controllerTmp.updateList(games);
+        });
     }
 
     /**
@@ -443,8 +445,8 @@ public class GUI extends Application implements View {
         }
         String message = (command == Command.QUIT) ?
                 "Player " + playerName + " left the game" : "Player " + playerName + " has joined the game";
-        LobbyController tmp = (LobbyController) this.controller;
         Platform.runLater(()->{
+            LobbyController tmp = (LobbyController) this.controller;
             tmp.newNotification(message);
             tmp.updatePlayerList(players);
         });
@@ -460,15 +462,19 @@ public class GUI extends Application implements View {
         executorService_images = Executors.newSingleThreadScheduledExecutor();
         executorService_images.scheduleAtFixedRate(() ->{
             if(controller instanceof LobbyController){
-                LobbyController tmp = (LobbyController) controller;
-                Platform.runLater(()-> tmp.changeImage());
+                Platform.runLater(()->{
+                    LobbyController tmp = (LobbyController) controller;
+                    tmp.changeImage();
+                });
             }
         }, 0, timerSleep_img, TimeUnit.SECONDS);
         executorService_common = Executors.newSingleThreadScheduledExecutor();
         executorService_common.scheduleAtFixedRate(() ->{
             if(controller instanceof LobbyController){
-                LobbyController tmp = (LobbyController) controller;
-                Platform.runLater(()-> tmp.changeCommon());
+                Platform.runLater(()-> {
+                    LobbyController tmp = (LobbyController) controller;
+                    tmp.changeCommon();
+                });
             }
         }, 0, timerSleep_common, TimeUnit.SECONDS);
 
@@ -529,8 +535,8 @@ public class GUI extends Application implements View {
      * This method is used to update the bookshelf representation on the client side.
      */
     public void updateBookShelf(){
-        GameController controllertmp = (GameController) this.controller;
-            Platform.runLater(()->{
+        Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.showBookshelf();
         });
     }
@@ -546,15 +552,15 @@ public class GUI extends Application implements View {
      * @param column             The column number associated with the notification.
      */
     public void updateGlobalNotifications(NotificationsType notificationsType, String name, Coordinates coordinates, ArrayList<Integer> list, int column){
-        GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.showGlobalNotification(notificationsType, name, coordinates, list, column);
         });
     }
 
     public void updateExceptionNotification(String e) {
-        GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.showExceptionNotification(e);
         });
     }
@@ -564,8 +570,8 @@ public class GUI extends Application implements View {
      * This method is used to update the display of the table view in the game.
      */
     public void updateTableView() {
-        GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.showTableView();
         });
     }
@@ -575,8 +581,8 @@ public class GUI extends Application implements View {
      * This method is used to update the display of tokens in the game.
      */
     public void updateTokens() {
-        GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.showTokens();
         });
     }
@@ -586,8 +592,8 @@ public class GUI extends Application implements View {
      * This method is used to display the end game token in the game.
      */
     public void updateEndGameToken() {
-        GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.showEndGameToken();
         });
     }
@@ -673,8 +679,8 @@ public class GUI extends Application implements View {
      * @param nameBookshelfPlayer  The name of the player whose bookshelf is being displayed.
      */
     public void updatePlayersBookshelfs(Map<String, LocalBookshelf> localBookshelfs, String nameBookshelfPlayer) {
-        GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.showPlayersBookshelfs(localBookshelfs, nameBookshelfPlayer);
         });
     }
@@ -708,8 +714,8 @@ public class GUI extends Application implements View {
      * @param name         The name of the sender of the chat message.
      */
     public void updateChat(ChatMessage chatMessage, String name){
-        GameController controllertmp = (GameController) this.controller;
         Platform.runLater(()->{
+            GameController controllertmp = (GameController) this.controller;
             controllertmp.displayMessage(chatMessage, name);
         });
     }
@@ -745,8 +751,8 @@ public class GUI extends Application implements View {
      * This method is used to update the label displayed in the end game screen.
      */
     public void updateEnd(){
-        EndController end = (EndController) this.controller;
         Platform.runLater(()->{
+            EndController end = (EndController) this.controller;
             end.updateLabel();
         });
     }

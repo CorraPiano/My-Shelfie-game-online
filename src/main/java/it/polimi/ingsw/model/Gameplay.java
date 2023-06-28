@@ -141,12 +141,13 @@ public class Gameplay extends Listenable{
         //aggiorna la board, che si autoinvia
         board.drawBoardItems();
 
+        //sceglie il primo giocatore
+        playerHandler.choseFirstPlayer();
+        //playerHandler.current().setFirstPlayerSeat(true);
+
         // notifica l'avvio del gioco
         notifyEvent(new StartGameMessage());
 
-        //sceglie il primo giocatore
-        playerHandler.choseFirstPlayer();
-        playerHandler.current().setFirstPlayerSeat(true);
         notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
 
     }

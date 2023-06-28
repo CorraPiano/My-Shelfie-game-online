@@ -39,6 +39,8 @@ public class PlayerHandler extends Listenable {
         //sort lista con primo player al primo posto
         curr = 0; // (int)(Math.random()*(size+1));
         turn = 0;
+        current().setFirstPlayerSeat(true);
+        notifyUpdate();
     }
 
     /**
