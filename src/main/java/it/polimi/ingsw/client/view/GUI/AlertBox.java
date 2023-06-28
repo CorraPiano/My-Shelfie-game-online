@@ -93,4 +93,39 @@ public class AlertBox {
         });
         return status.get();
     }
+
+    public static int forceClosed(Stage mainStage, String title,  String message) {
+        double WIDTH = 400;
+        double HEIGHT = 100;
+
+        AtomicInteger status = new AtomicInteger(0);
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle(title);
+        alert.setContentText(message);
+
+        ButtonType buttonTypeYes = new ButtonType("OK");
+
+        // calculate position
+        double x = mainStage.getX();
+        double y = mainStage.getY();
+        double center_x = x + mainStage.getScene().getWidth() / 2;
+        double center_y = y + mainStage.getScene().getHeight() / 2;
+
+        alert.setX(center_x - WIDTH / 2);
+        alert.setY(center_y - HEIGHT / 2);
+
+
+        alert.getButtonTypes().setAll(buttonTypeYes);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == buttonTypeYes) {
+                alert.close();
+                mainStage.close();
+                status.set(1);
+            } else {
+                status.set(2);
+                alert.close();
+            }
+        });
+        return status.get();
+    }
 }

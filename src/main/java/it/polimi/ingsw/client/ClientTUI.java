@@ -307,6 +307,11 @@ public class ClientTUI extends Client {
         outputHandler.showInformation("attempting to reconnect...");
     }
 
+    @Override
+    public void forceCloseApp() {
+        closeApp();
+    }
+
     /**
      * Handles the reconnection process for the client in the home phase.
      */

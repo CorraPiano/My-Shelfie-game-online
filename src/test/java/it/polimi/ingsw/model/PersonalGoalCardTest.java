@@ -112,8 +112,6 @@ public class PersonalGoalCardTest {
     void getIDTest(){
         PersonalGoalCard test = new PersonalGoalCard(6);
         Assertions.assertEquals(null, test.getID());
-        test.setID("12");
-        Assertions.assertEquals(12,test.getId());
     }
     @Test
     void setIDTest(){

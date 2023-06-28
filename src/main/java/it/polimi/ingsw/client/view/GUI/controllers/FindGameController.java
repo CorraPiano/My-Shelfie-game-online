@@ -123,8 +123,11 @@ public class FindGameController implements GUIController {
         anchorPane.setOnMouseClicked((event) -> this.blockPane());
     }
     private void blockPane(){
-        if(gui.imDisconnected){
+        if(gui.imDisconnected && !gui.imRMIClient){
             int status = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Disconnected");
+        }
+        else if(gui.imDisconnected && gui.imRMIClient){
+            int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Error", "When ok is pressed the application will close!");
         }
     }
 

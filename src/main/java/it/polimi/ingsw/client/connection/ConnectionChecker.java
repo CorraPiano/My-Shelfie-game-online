@@ -46,7 +46,8 @@ public class ConnectionChecker implements Runnable {
             if(System.currentTimeMillis()-getLastPing()> Settings.timeout_client ) {
                 pingSender.stopCurrentThread();
                 client.lostConnection();
-                tryReconnection();
+                if(!tryReconnection())
+                    break;
                 setLastPing();
             }
             try {
@@ -62,11 +63,13 @@ public class ConnectionChecker implements Runnable {
      * Tries to reconnect to the server in case of a lost connection.
      * Keeps attempting reconnection until successful or until the client is closed.
      */
-    public void tryReconnection() {
+    public boolean tryReconnection() {
         int i=0;
         while (true) {
             try {
-                sender.reconnect();
+                if (!sender.reconnect()){
+                    return false;
+                }
                 if(client.getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
                     client.setState(ClientState.WAIT);
                     client.gameReconnection();
@@ -88,5 +91,6 @@ public class ConnectionChecker implements Runnable {
             //System.out.println("--> " + i);
             i++;
         }
+        return true;
     }
 }

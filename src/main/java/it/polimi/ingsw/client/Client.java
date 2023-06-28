@@ -219,6 +219,7 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
         System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "connection lost!");
         System.out.println(ANSI_YELLOW + "❮ERROR❯ " + ANSI_RESET + "attempting to reconnect...");
     }
+    public void forceCloseApp(){}
     public void homeReconnection(){
         System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to server done!");
         setPhase(ClientPhase.HOME);

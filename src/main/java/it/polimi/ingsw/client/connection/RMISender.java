@@ -220,8 +220,9 @@ public class RMISender extends Sender {
         Registry registry = LocateRegistry.getRegistry(IP, Settings.RMIPORT);
         this.controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
     }
-     public synchronized void reconnect() {
-         client.closeApp();
+     public synchronized boolean reconnect() {
+         client.forceCloseApp();
+         return false;
      }
 
     /**

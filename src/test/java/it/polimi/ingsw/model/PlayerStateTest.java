@@ -14,7 +14,6 @@ class PlayerStateTest {
         assertEquals(PlayerState.DISCONNECTED, states[1]);
         assertEquals(PlayerState.INACTIVE, states[2]);
     }
-
     @Test
     public void testEnumToString() {
         assertEquals("ACTIVE", PlayerState.ACTIVE.toString());

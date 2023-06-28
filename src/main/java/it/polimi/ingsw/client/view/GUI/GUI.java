@@ -43,6 +43,7 @@ public class GUI extends Application implements View {
     private ClientGUI client;
     private boolean imLast;
     public boolean imDisconnected = false;
+    public boolean imRMIClient = false;
     private GUIController controller;
     private SceneHandler sceneHandler;
     private HashMap<SceneName, Consumer<Command>> stageLambda;
@@ -88,7 +89,7 @@ public class GUI extends Application implements View {
                 currentSceneName = SceneName.GAME;
                 changeStage(false, false);
             }
-            else {
+            else if(command == Command.QUIT){
                 currentSceneName = SceneName.FINDGAME;
                 changeStage(false, false);
             }
@@ -285,6 +286,11 @@ public class GUI extends Application implements View {
         System.out.println("--> notifyReconnection");
         imDisconnected = false;
     }
+    public void notifyDisconnectionRMI() {
+        imDisconnected = true;
+        imRMIClient = true;
+    }
+
 
     // link: http://patorjk.com/software/taag/#p=testall&f=Calvin%20S&t=SET-UP%20
     // font: Big
@@ -452,7 +458,7 @@ public class GUI extends Application implements View {
         }
         return players;
     }
-    private void timerRoutine(){
+    public void timerRoutine(){
         executorService_images = Executors.newSingleThreadScheduledExecutor();
         executorService_images.scheduleAtFixedRate(() ->{
             if(controller instanceof LobbyController){

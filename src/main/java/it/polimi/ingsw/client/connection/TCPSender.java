@@ -241,10 +241,11 @@ public class TCPSender extends Sender {
         new Thread(connection).start();
     }
 
-    public synchronized void reconnect() throws IOException {
+    public synchronized boolean reconnect() throws IOException {
         Socket socket = new Socket(IP, Settings.TCPPORT);
         this.connection = new ClientConnection(socket,TCPreceiver);
         new Thread(connection).start();
+        return true;
     }
 
 }

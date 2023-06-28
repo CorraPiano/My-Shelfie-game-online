@@ -82,11 +82,15 @@ public class LobbyController implements GUIController {
         updatePlayerList(gui.getPlayers());
         Platform.runLater(this::changeImage);
         Platform.runLater(this::changeCommon);
+        gui.timerRoutine();
     }
 
     private void blockPane(){
-        if(gui.imDisconnected){
+        if(gui.imDisconnected && !gui.imRMIClient){
             int status = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Disconnected");
+        }
+        else if(gui.imDisconnected && gui.imRMIClient){
+            int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Error", "When ok is pressed the application will close!");
         }
     }
 

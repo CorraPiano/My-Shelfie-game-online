@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.client.view.GUI.AlertBox;
 import it.polimi.ingsw.client.view.GUI.Command;
 import it.polimi.ingsw.client.view.GUI.GUI;
 import it.polimi.ingsw.client.view.utils.NotificationsType;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.connection.message.EndCause;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
 import it.polimi.ingsw.model.Item;
+import javafx.application.Platform;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -87,16 +89,23 @@ public class ClientGUI extends Client{
      * @param e The exception message.
      */
     public void receiveException(String e){
-        if(getPhase().equals(ClientPhase.MATCH_RECONNECTION)) {
-            //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to game failed!");
-            gui.updateExceptionNotification("reconnection to game failed");
-            setPhase(ClientPhase.HOME);
+        switch (getPhase()){
+            case MATCH_RECONNECTION -> {
+                //System.out.println(ANSI_YELLOW + "❮INFOMATION❯ " + ANSI_RESET + "reconnection to game failed!");
+                gui.updateExceptionNotification("reconnection to game failed");
+                setPhase(ClientPhase.HOME);
+            }
+            case HOME -> {
+                Platform.runLater(() -> AlertBox.errorData(gui.getPrimaryStage(), e, "Error"));
+            }
+            case LOBBY -> {
+
+            }
+            case GAME -> {
+                gui.updateExceptionNotification(e);
+            }
+            default -> setState(ClientState.READY);
         }
-        else{
-            System.out.println(e);
-            gui.updateExceptionNotification(e);
-        }
-        setState(ClientState.READY);
     }
 
     /**
@@ -136,11 +145,7 @@ public class ClientGUI extends Client{
      * @throws RemoteException if there is a communication-related issue.
      */
     public void playerJoin(String name) throws RemoteException {
-        System.out.println("-> player join");
         this.gui.updatePlayerList(this.modelView.getLocalPlayerList(), Command.JOIN_GAME, name);
-        //if(gui.isLast()){
-        //    return;
-        //}
         gui.joinLobby();
     }
 
@@ -209,6 +214,7 @@ public class ClientGUI extends Client{
     public void newTurn(String name) throws RemoteException {
         modelView.setCurrentPlayer(name);
         gui.setTurn(name);
+        //TODO: token
         //gui.updateBoard();
         //gui.updateTableView();
         gui.updateTokens();
@@ -321,7 +327,6 @@ public class ClientGUI extends Client{
     public void updateBookshelf(LocalBookshelf bookshelf) throws RemoteException {
         modelView.setLocalBookshelf(bookshelf);
         System.out.println("--> bookshelf received");
-        // dare sistemata
         gui.updateBookShelf(bookshelf);
     }
 
@@ -414,6 +419,11 @@ public class ClientGUI extends Client{
     public void gameReconnection(){
         gui.notifyReconnection();
         System.out.println("--> gameReconnection");
+    }
+
+    @Override
+    public void forceCloseApp(){
+        this.gui.notifyDisconnectionRMI();
     }
 
     /**
