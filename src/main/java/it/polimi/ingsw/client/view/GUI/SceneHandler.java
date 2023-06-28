@@ -28,6 +28,7 @@ public class SceneHandler {
 
     // Immagini di tutti gli item caricate in partenza
     private final List<Image> itemBlue;
+    private HashMap<String, Image> itemMap = new HashMap<>();
     private final List<Image> itemCyan;
     private final List<Image> itemGreen;
     private final List<Image> itemPink;
@@ -87,8 +88,8 @@ public class SceneHandler {
             imgWhite = file + "White" + String.valueOf(i+1)  + ".png";
             imgYellow = file + "Yellow" + String.valueOf(i+1)  + ".png";
 
-            url = getClass().getResource(imgBlue);
-            this.itemBlue.add(new Image(url.toString()));
+            /*url = getClass().getResource(imgBlue);
+            this.itemBlueMap.put(imgBlue, new Image(url.toString()));
             url = getClass().getResource(imgCyan);
             this.itemCyan.add(new Image(url.toString()));
             url = getClass().getResource(imgGreen);
@@ -98,7 +99,22 @@ public class SceneHandler {
             url = getClass().getResource(imgWhite);
             this.itemWhite.add(new Image(url.toString()));
             url = getClass().getResource(imgYellow);
-            this.itemYellow.add(new Image(url.toString()));
+            this.itemYellow.add(new Image(url.toString()));*/
+
+            url = getClass().getResource(imgBlue);
+            this.itemMap.put(imgBlue, new Image(url.toString()));
+            url = getClass().getResource(imgCyan);
+            this.itemMap.put(imgCyan, new Image(url.toString()));
+            url = getClass().getResource(imgPink);
+            this.itemMap.put(imgPink, new Image(url.toString()));
+            url = getClass().getResource(imgGreen);
+            this.itemMap.put(imgGreen, new Image(url.toString()));
+            url = getClass().getResource(imgWhite);
+            this.itemMap.put(imgWhite, new Image(url.toString()));
+            url = getClass().getResource(imgYellow);
+            this.itemMap.put(imgYellow, new Image(url.toString()));
+
+
         }
         // TOKEN
         file = "/Images/scoring_tokens/";
@@ -107,6 +123,10 @@ public class SceneHandler {
             url = getClass().getResource(img);
             this.token.add(new Image(url.toString()));
         }
+    }
+
+    public Image getImage(String path){
+        return itemMap.get(path);
     }
     /*
         - Set all the fxml and the HashMap relative to the scene

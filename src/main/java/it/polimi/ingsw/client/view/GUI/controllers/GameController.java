@@ -562,7 +562,14 @@ public class GameController implements GUIController {
                 for (int j = 0; j < nColumnBoard; j++) {
                     Item item = localBoard.board[i][j];
                     if (item != null) {
-                        URL url = getClass().getResource(item.getImagePath());
+                        ImageView imageView = new ImageView();
+                        Image image = gui.getSceneHandler().getImage(item.getImagePath());
+                        imageView.setImage(image);
+                        imageView.setFitWidth(45);
+                        imageView.setFitHeight(45);
+                        boardGrid.add(imageView, j, nRowBoard - 1 - i); //inserisci colonna, riga
+
+                        /*URL url = getClass().getResource(item.getImagePath());
                         if (url != null) {
                             ImageView imageView = new ImageView();
                             Image image = new Image(url.toString());
@@ -570,7 +577,7 @@ public class GameController implements GUIController {
                             imageView.setFitWidth(45);
                             imageView.setFitHeight(45);
                             boardGrid.add(imageView, j, nRowBoard-1-i); //inserisci colonna, riga
-                        }
+                        }*/
                     }
                 }
         }
