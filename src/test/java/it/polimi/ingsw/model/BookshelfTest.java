@@ -138,10 +138,5 @@ class BookshelfTest {
         System.out.println("Total value: "+ counterTotalValue(bookshelf));
     }
 
-    /*
-    ==============================================================================
-    I metodi quali: noSpaceLeft(), isFull(), getItem(), putItem(), fillBookshelf()
-    sono banali o verificati di conseguenza ai test precedenti
-    ==============================================================================
-     */
+
 }

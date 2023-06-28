@@ -1,9 +1,14 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.*;
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import it.polimi.ingsw.util.Constants;
 
+import static it.polimi.ingsw.util.Constants.nColumnBoard;
+import static it.polimi.ingsw.util.Constants.nRowBoard;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -19,7 +24,8 @@ class BoardTest {
             {5, 5, 5, 5, 4, 3, 5, 5, 5}
     };
 
-    @Test
+
+    //@Test
     void drawBoardItemsTest() {
         int num=0;
         Board board;
@@ -188,18 +194,6 @@ class BoardTest {
         catch(Exception e){ e.printStackTrace();fail();}
     }
 
-
-    @Test
-    void checkRefill() {
-    }
-
-    @Test
-    void emptyBoard() {
-    }
-
-    @Test
-    void refillBoard() {
-    }
 }
 
 

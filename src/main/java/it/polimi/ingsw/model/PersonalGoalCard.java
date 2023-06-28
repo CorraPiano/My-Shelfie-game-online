@@ -109,4 +109,8 @@ public class PersonalGoalCard extends Listenable {
         //return new LocalPersonalCard(card.getCardMatrix(),num);
         return new LocalPersonalCard(num);
     }
+
+    public Integer getId() {
+        return Integer.parseInt(ID);
+    }
 }

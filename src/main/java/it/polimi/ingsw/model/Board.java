@@ -173,7 +173,7 @@ public class Board extends Listenable {
      *
      * @return boolean, returns true if the board has to be refilled.
      */
-    private boolean checkRefill() {
+    public boolean checkRefill() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (mask[i][j] <= numPlayers && livingRoom[i][j] != null) {
