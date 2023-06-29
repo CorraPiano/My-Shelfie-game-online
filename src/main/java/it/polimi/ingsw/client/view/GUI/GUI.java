@@ -455,17 +455,11 @@ public class GUI extends Application implements View {
         executorService_images.scheduleAtFixedRate(() ->{
             if(controller instanceof LobbyController){
                 Platform.runLater(()->{
-                    LobbyController tmp = (LobbyController) controller;
-                    tmp.changeImage();
-                });
-            }
-        }, 0, timerSleep_img, TimeUnit.SECONDS);
-        executorService_common = Executors.newSingleThreadScheduledExecutor();
-        executorService_common.scheduleAtFixedRate(() ->{
-            if(controller instanceof LobbyController){
-                Platform.runLater(()-> {
-                    LobbyController tmp = (LobbyController) controller;
-                    tmp.changeCommon();
+                    if(controller instanceof LobbyController) {
+                        LobbyController tmp = (LobbyController) controller;
+                        tmp.changeImage();
+                        tmp.changeCommon();
+                    }
                 });
             }
         }, 0, timerSleep_common, TimeUnit.SECONDS);
