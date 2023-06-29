@@ -81,6 +81,7 @@ public class GUI extends Application implements View {
             else if(command == Command.CREATE_GAME || command == Command.JOIN_GAME){
                 currentSceneName = SceneName.LOBBY;
                 changeStage(false, false);
+                timerRoutine();
             }
 
         });
@@ -288,7 +289,6 @@ public class GUI extends Application implements View {
     }
     public void notifyDisconnectionRMI() {
         imDisconnected = true;
-        imRMIClient = true;
     }
 
 
@@ -392,7 +392,8 @@ public class GUI extends Application implements View {
     }
 
     public void joinLobby(){
-        this.switchStage(Command.JOIN_GAME);
+        if( currentSceneName != SceneName.LOBBY)
+            this.switchStage(Command.JOIN_GAME);
     }
 
     public void reconnect(String ID){

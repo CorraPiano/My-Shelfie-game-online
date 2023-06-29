@@ -70,6 +70,7 @@ public class SetupController implements GUIController {
         String ip = getIpAddress();
         try {
             gui.setTCPConnection(ip);
+            gui.imRMIClient = false;
         } catch (IOException e) {
             int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
         } catch (Exception e) {
@@ -87,6 +88,7 @@ public class SetupController implements GUIController {
         String ip = getIpAddress();
         try {
             gui.setRMIConnection(ip);
+            gui.imRMIClient = true;
         } catch (RemoteException e) {
             int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
         } catch (NotBoundException e) {
