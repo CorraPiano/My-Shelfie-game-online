@@ -79,7 +79,7 @@ public class FindGameController implements GUIController {
             gui.addFirstPlayer(name, GameMode.values()[mode], playerNum);
             // switch to lobby
         } else {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "The parameters are wrong, please control the game rules below", "Input error");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules below");
         }
     }
 
@@ -89,13 +89,13 @@ public class FindGameController implements GUIController {
     @FXML
     protected void onJoinGame() {
         String name = playerNameJoin.getText();
-        LocalGame game = games.get(gameList.getSelectionModel().getSelectedIndex());
         String game_line = gameList.getSelectionModel().getSelectedItem();
         if (checkJoinData(name, game_line)) {
             int gameId = getGameId(game_line);
+            LocalGame game = games.get(gameList.getSelectionModel().getSelectedIndex());
             gui.joinGame(name, gameId, (game.currPerson + 1 < game.maxPerson));
         } else {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "The parameters are wrong, please control the game rules below", "Input error");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules below");
         }
     }
 

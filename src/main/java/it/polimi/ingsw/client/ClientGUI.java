@@ -218,6 +218,7 @@ public class ClientGUI extends Client{
         //TODO: token
         //gui.updateBoard();
         //gui.updateTableView();
+        gui.updateTableView();
         gui.updateTokens();
     }
 
@@ -410,7 +411,7 @@ public class ClientGUI extends Client{
         else
             setPhase(ClientPhase.MATCH_RECONNECTION);
         System.out.println("--> lostConnection");
-        gui.notifyDisconnection(getName());
+        gui.notifyDisconnectionRMI();
     }
     public void homeReconnection(){
         System.out.println("--> homeReconnection");

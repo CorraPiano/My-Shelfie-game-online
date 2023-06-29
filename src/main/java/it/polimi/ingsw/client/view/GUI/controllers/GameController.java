@@ -121,6 +121,10 @@ public class GameController implements GUIController {
     private GridPane arrowGrid;
     @FXML
     private ImageView firstPlayerSeat;
+    @FXML
+    private Text gameID;
+    @FXML
+    private Text Username;
 
     //NOTIFCATIONS
     @FXML
@@ -245,6 +249,8 @@ public class GameController implements GUIController {
 
         showBoard();
 
+        initGameID();
+
         initPersonal(modelView.getLocalPersonalCard().num);
         initCommon(modelView.getCommonCards());
 
@@ -253,6 +259,7 @@ public class GameController implements GUIController {
 
         initTableView();
         showTableView();
+        updateCurrentPlayer(gui.getClient().getName());
 
         initTokens();
         showTokens();
@@ -275,6 +282,11 @@ public class GameController implements GUIController {
             int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
             if (status == 1) System.exit(0);
         }
+    }
+
+    private void initGameID() {
+        gameID.setText("" + gui.getClient().getModelView().getGameID());
+        Username.setText("" + gui.getClient().getName());
     }
 
     private void initCommon(ArrayList<LocalCommonCard> commonCards) {
@@ -1044,9 +1056,9 @@ public class GameController implements GUIController {
             case ORDER -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": ORDER with " + list.toString());
             case PUT -> gameNotifications.getItems().add("❮ACTION❯ " + name + ": PUT, column " + column);
             case LASTROUND -> gameNotifications.getItems().add("❮INFO❯ " + name + " has finished his bookshelf!");
-            case DISCONNECT -> gameNotifications.getItems().add("❮INFO❯" + name + " lost connection");
-            case RECONNECT -> gameNotifications.getItems().add("❮INFO❯" + name + " has reconnected");
-            case INACTIVE -> gameNotifications.getItems().add("❮INFO❯" + name + " left the game");
+            case DISCONNECT -> gameNotifications.getItems().add("❮INFO❯ " + name + " lost connection");
+            case RECONNECT -> gameNotifications.getItems().add("❮INFO❯ " + name + " has reconnected");
+            case INACTIVE -> gameNotifications.getItems().add("❮INFO❯ " + name + " left the game");
         }
         notificationsLenght = notificationsLenght + 1;
         gameNotifications.scrollTo(notificationsLenght);

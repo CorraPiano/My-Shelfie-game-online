@@ -288,7 +288,7 @@ public class GUI extends Application implements View {
                 }
             });
         }
-        imDisconnected = true;
+        //imDisconnected = true;
     }
 
     public void notifyReconnection() {

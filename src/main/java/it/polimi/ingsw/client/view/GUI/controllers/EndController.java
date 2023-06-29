@@ -243,10 +243,13 @@ public class EndController implements GUIController {
 
     @FXML
     protected void onLeaveButton() {
-        gui.leaveGame();
+        int status = AlertBox.exitRequest(gui.getPrimaryStage(), null, "Are you sure you want to exit?");
+        if(status == 1){
+            System.exit(0);
+        }
+        //gui.leaveGame();
         //gui.getClient().leaveGame();
         //System.out.println("--> onQuitButton");
-        System.exit(0);
     }
 
     public void resetLabel(){
