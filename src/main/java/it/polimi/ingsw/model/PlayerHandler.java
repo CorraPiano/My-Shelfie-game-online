@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class PlayerHandler extends Listenable {
     private int size;
     private int curr;
+    private int turn;
     private boolean lastRound;
     private ArrayList<Player> playerList;
     private final ArrayList<String> nameList;
@@ -29,6 +30,7 @@ public class PlayerHandler extends Listenable {
      * Chooses the first player randomly.
      */
     public void choseFirstPlayer(){
+        turn = 0;
         size=playerList.size();
         curr = (int)(Math.random()*(size));
         //security check (redundant)
@@ -112,17 +114,18 @@ public class PlayerHandler extends Listenable {
      * @param gameState the state of gameplay
      */
     public void playerDisconnect(String id, GameState gameState) {
-        Player p;
+        Player p=null;
         for(int i=0;i<playerList.size();i++) {
             p = playerList.get(i);
             if(p.getID().equals(id)) {
                 p.disconnect();
+                try {
+                    eventKeeper.updateStatus(p.getID(),false);
+                } catch(Exception ignored){}
                 if(gameState.equals(GameState.WAIT)) {
                     playerList.remove(i);
-                }
-                else {
                     try {
-                        eventKeeper.updateListenableNum(p.getID());
+                        eventKeeper.removePersonalList(id);
                     } catch(Exception ignored){}
                 }
                 break;
@@ -137,6 +140,9 @@ public class PlayerHandler extends Listenable {
      */
     public void reconnect(String id){
         getPlayerByID(id).reconnect();
+        try {
+            eventKeeper.updateStatus(id,true);
+        } catch(Exception ignored){}
         notifyUpdate();
     }
 
@@ -217,11 +223,13 @@ public class PlayerHandler extends Listenable {
      */
     public void next() {
 
+        turn++;
+
         // if there aren't enough player
-        if(getNumPlayersAvaiable()<2){
-            curr = size;
-            return;
-        }
+        //if(getNumPlayersAvaiable()<2){
+        //    curr = size;
+        //    return;
+        //}
 
         // advance
         if (curr < size - 1) {
@@ -332,6 +340,10 @@ public class PlayerHandler extends Listenable {
                 return p.getID();
         }
         return null;
+    }
+
+    public void forceNotify() {
+        this.notifyUpdate();
     }
 
 }

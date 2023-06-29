@@ -95,10 +95,11 @@ public class Gameplay extends Listenable{
         Player player = new Player(name,gameID);
         player.setEventKeeper(eventKeeper);
         player.getLibrary().setEventKeeper(eventKeeper);
-        playerHandler.addPlayer(player);
 
         // insert the eventList of the player in the EventKeeper
         eventKeeper.addPersonalList(player.getID());
+
+        playerHandler.addPlayer(player);
 
         notifyEvent(new JoinMessage(name));
         return player;
@@ -109,6 +110,7 @@ public class Gameplay extends Listenable{
      * Starts the game. No checks if the correct number of player has been reached.
      */
     public void startGame(){
+        gameState = GameState.GAME;
 
         // creation of the 2 common goal cards if the game mode is Expert
         if (gameMode.equals(GameMode.EXPERT)){
@@ -130,7 +132,6 @@ public class Gameplay extends Listenable{
         // init the game
         board.drawBoardItems();
         playerHandler.choseFirstPlayer();
-        gameState = GameState.GAME;
 
         // notify the begin of the game and of the first turn
         notifyEvent(new StartGameMessage());
@@ -244,7 +245,7 @@ public class Gameplay extends Listenable{
      * If the game is finished or if there are less than two players avaiable,
      * no turn is set.
      */
-    private void endTurn() {
+    public void endTurn() {
         playerHandler.next();
         if (playerHandler.hasNext()){
             notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
@@ -541,6 +542,36 @@ public class Gameplay extends Listenable{
         return playerHandler.getNumPlayersAvaiable();
     }
 
+    public boolean isConnected(String id) {
+        Player p = playerHandler.getPlayerByID(id);
+        if (p == null)
+            return false;
+        return p.isConnected();
+    }
+
+    /** Returns the ID of the current player.
+        *
+     * @return The ID of the current player.
+     */
+    public String getCurrentPlayerID(){
+        return playerHandler.current().getID();
+    }
+
+    /** Returns the current number of players in the game
+     *
+     * @return The current number of players in the game
+     */
+    public int getCurrentPlayers(){
+        return playerHandler.getNumPlayer();
+    }
+
+    /** Returns if the current player is connected.
+     *
+     * @return 'true' if the current player is connected, 'false' otherwise
+     */
+    public boolean currentPlayerIsConnected(){
+        return playerHandler.current().isConnected();
+    }
 }
 
 

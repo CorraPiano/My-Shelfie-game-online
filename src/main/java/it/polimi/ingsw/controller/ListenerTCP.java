@@ -15,16 +15,15 @@ public class ListenerTCP extends Listener{
 
     Connection connection;
 
-    /**
-     * Constructs a new ListenerTCP instance.
-     *
-     * @param connection    the Connection object representing the TCP connection
-     * @param eventKeeper   the EventKeeper object storing the events
-     * @param id            the unique identifier of the player
-     * @param listenableNum  the number associated with the current connection of the player
-     */
-    public ListenerTCP(Connection connection, EventKeeper eventKeeper, String id, int listenableNum){
-        super(eventKeeper, id, listenableNum);
+     /** Constructs a new ListenerTCP instance.
+      * @param connection    the Connection object representing the TCP connection
+      * @param controller    the Controller object managing the game
+      * @param eventKeeper   the EventKeeper object storing the events
+      * @param id            the unique identifier of the player
+      * @param name          the name of the player
+      */
+    public ListenerTCP(Connection connection,  Controller controller, EventKeeper eventKeeper, String id, String name){
+        super(controller, eventKeeper, id, name);
         this.connection = connection;
     }
 

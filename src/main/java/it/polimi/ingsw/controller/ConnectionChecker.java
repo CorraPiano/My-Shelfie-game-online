@@ -36,7 +36,7 @@ public class ConnectionChecker {
             while (System.currentTimeMillis() - getPing(id) <= Settings.timeout_server) {
                 synchronized (this) {
                     try {
-                        this.wait(Settings.timeout_server);
+                        this.wait(Settings.clock_connectionCheck);
                     } catch (Exception ignored) {}
                 }
             }

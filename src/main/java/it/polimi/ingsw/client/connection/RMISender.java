@@ -206,7 +206,11 @@ public class RMISender extends Sender {
     public synchronized void reconnectGame(String id, boolean isGui) {
         try {
             client.setID(id);
-            String name = controller.reconnect(id, client, isGui? ReconnectType.GUI : ReconnectType.SENDALL);
+            String name;
+            if(isGui)
+                name = controller.reconnect(id, client, ReconnectType.GUI);
+            else
+                name = controller.reconnect(id, client, ReconnectType.SENDALL);
             client.receiveName(name);
         } catch (Exception e) {
             client.receiveException(e.toString());

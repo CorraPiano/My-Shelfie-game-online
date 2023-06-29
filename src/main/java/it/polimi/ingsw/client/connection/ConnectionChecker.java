@@ -41,8 +41,6 @@ public class ConnectionChecker implements Runnable {
         pingSender.startNewThread();
         while(!client.getPhase().equals(ClientPhase.CLOSE)){
 
-            //System.out.println("--> " + (System.currentTimeMillis()-getLastPing()));
-
             if(System.currentTimeMillis()-getLastPing()> Settings.timeout_client ) {
                 pingSender.stopCurrentThread();
                 client.lostConnection();
@@ -52,7 +50,7 @@ public class ConnectionChecker implements Runnable {
             }
             try {
                 synchronized (this) {
-                    this.wait(Settings.timeout_client);
+                    this.wait(Settings.clock_connectionCheck);
                 }
             } catch (InterruptedException ignored) {}
         }

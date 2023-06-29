@@ -63,7 +63,7 @@ public class GameplaysHandler {
         ArrayList<LocalGame> list = new ArrayList<>();
         for(Gameplay g: gameplayList){
             if(g!=null && g.getGameState().equals(GameState.WAIT)){
-                LocalGame lg = g.getLocal(); // LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getActivePlayers(),g.getGameState());
+                LocalGame lg = new LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getCurrentPlayers(),g.getGameState());
                 list.add(lg);
              }
         }

@@ -206,7 +206,10 @@ public class TCPSender extends Sender {
     public void reconnectGame(String id, boolean isGui) {
         client.setID(id);
         try {
-            connection.send(new ReconnectMessage(id, isGui? ReconnectType.GUI : ReconnectType.SENDALL));
+            if(isGui)
+                connection.send(new ReconnectMessage(id, ReconnectType.GUI));
+            else
+                connection.send(new ReconnectMessage(id, ReconnectType.SENDALL));
         } catch(Exception ignored){}
         putInWait();
     }

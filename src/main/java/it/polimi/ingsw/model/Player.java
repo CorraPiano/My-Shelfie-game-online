@@ -18,7 +18,7 @@ public class Player extends Listenable{
     private boolean endGame;
     private PlayerState playerState;
 
-    private int listenableNum;
+
 
     /**
      * Constructs a new player with the given name and game ID.
@@ -36,7 +36,6 @@ public class Player extends Listenable{
         //connected = true;
         //left = false;
         playerState = PlayerState.ACTIVE;
-        listenableNum = 0;
     }
 
     /**
@@ -66,7 +65,6 @@ public class Player extends Listenable{
      */
     public void disconnect(){
         playerState = PlayerState.DISCONNECTED;
-        listenableNum++;
     }
 
     /**
@@ -238,10 +236,6 @@ public class Player extends Listenable{
         if(endGame)
             return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points,personalCard.getNum(),playerState);
         return new LocalPlayer(name,firstPlayerSeat,endGameToken,token1,token2,points,playerState);
-    }
-
-    public int getListenableNum(){
-        return listenableNum;
     }
 
 

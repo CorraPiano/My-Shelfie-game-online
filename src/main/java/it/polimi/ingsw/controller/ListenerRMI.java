@@ -18,13 +18,14 @@ public class ListenerRMI extends Listener{
     /**
  * Constructs a new ListenerRMI instance.
  *
- * @param client        the ClientSkeleton object representing the RMI client
- * @param eventKeeper   the EventKeeper object storing the events
- * @param id            the unique identifier of the player
-  * @param listenableNum  the number associated with the current connection of the player
+     * @param client        the ClientSkeleton object representing the RMI client
+     * @param controller    the Controller object managing the game
+     * @param eventKeeper   the EventKeeper object storing the events
+     * @param id            the unique identifier of the player
+     * @param name          the name of the player
  */
-    public ListenerRMI(ClientSkeleton client, EventKeeper eventKeeper, String id, int listenableNum){
-                super(eventKeeper, id, listenableNum);
+    public ListenerRMI(ClientSkeleton client, Controller controller, EventKeeper eventKeeper, String id, String name){
+                super(controller, eventKeeper, id, name);
                 this.client = client;
         }
 

@@ -78,8 +78,8 @@ public class Controller implements ControllerSkeleton {
         // add player, start his connection checker, check start game (useless)
         String id = addPlayer(name, gameplay);
         // bind RMI listener
-        int n = gameplay.getPlayerByID(id).getListenableNum();
-        ListenerRMI listener = new ListenerRMI(cc,gameplay.getEventKeeper(),id,n);
+        //int n = gameplay.getPlayerByID(id).getListenableNum();
+        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         new Thread(listener).start();
 
         return id;
@@ -105,8 +105,7 @@ public class Controller implements ControllerSkeleton {
         // add player, start his connection checker, check start game (useless)
         String id = addPlayer(name, gameplay);
         // bind RMI listener
-        int n = gameplay.getPlayerByID(id).getListenableNum();
-        ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id,n);
+        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
         new Thread(listener).start();
         return id;
     }
@@ -148,8 +147,7 @@ public class Controller implements ControllerSkeleton {
         // add player, start his connection checker, check start game
         String id = addPlayer(name, gameplay);
         // bind RMI listener
-        int n = gameplay.getPlayerByID(id).getListenableNum();
-        ListenerRMI listener = new ListenerRMI(cc,gameplay.getEventKeeper(),id,n);
+        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         new Thread(listener).start();
         return id;
     }
@@ -173,12 +171,28 @@ public class Controller implements ControllerSkeleton {
         // add player, start his connection checker, check start game
         String id = addPlayer(name, gameplay);
         // bind TCP listener
-        int n = gameplay.getPlayerByID(id).getListenableNum();
-        ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id,n);
+        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
         new Thread(listener).start();
 
         return id;
     }
+
+    /**
+     * Validates the command for a player in the game.
+     *
+     * @param gameplay the gameplay instance
+     * @param id       the ID of the player
+     * @throws NotInGameException if the player is not currently in a game
+     * @throws WrongTurnException if it is not the player's turn
+     * @throws RemoteException   if a remote communication error occurs
+     */
+    private void validateCommand(Gameplay gameplay, String id) throws NotInGameException, WrongTurnException, RemoteException {
+        if(!gameplay.getGameState().equals(GameState.GAME))
+            throw new NotInGameException();
+        if(!gameplay.getCurrentPlayerID().equals(id))
+            throw new WrongTurnException();
+    }
+
 
     /**
      * Picks an item from the board.
@@ -197,7 +211,7 @@ public class Controller implements ControllerSkeleton {
      */
     public synchronized void pickItem(Coordinates coordinates, String id) throws InvalidIdException, NotInGameException, WrongTurnException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        gameplay.validateAction(id);
+        validateCommand(gameplay,id);
         gameplay.pickItem(coordinates);
         System.out.println("# pick: <" + coordinates.getRow()+ ", "+coordinates.getColumn()+ ">");
     }
@@ -213,7 +227,7 @@ public class Controller implements ControllerSkeleton {
      */
     public synchronized void undoPick(String id) throws NotInGameException, WrongTurnException, InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        gameplay.validateAction(id);
+        validateCommand(gameplay,id);
         gameplay.releaseHand();
         System.out.println("# undo: ");
     }
@@ -232,7 +246,7 @@ public class Controller implements ControllerSkeleton {
      */
     public synchronized void selectInsertOrder(ArrayList<Integer> order, String id) throws WrongLengthOrderException, WrongContentOrderException, NotInGameException, WrongTurnException, InvalidIdException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        gameplay.validateAction(id);
+        validateCommand(gameplay,id);
         gameplay.selectOrderHand(order);
         //print
         System.out.print("# order: [");
@@ -255,7 +269,7 @@ public class Controller implements ControllerSkeleton {
      */
     public synchronized void putItemList(int column, String id) throws EmptyHandException, NotInGameException, WrongTurnException, InvalidIdException, InvalidColumnPutException, NotEnoughSpacePutException, RemoteException {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
-        gameplay.validateAction(id);
+        validateCommand(gameplay,id);
         gameplay.putItemList(column);
         System.out.println("# put: "+column);
         //check finish game
@@ -377,8 +391,7 @@ public class Controller implements ControllerSkeleton {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         String name = reconnect(id,gameplay);
         //start listener
-        int n = gameplay.getPlayerByID(id).getListenableNum();
-        ListenerRMI listener = new ListenerRMI(cc,gameplay.getEventKeeper(),id,n);
+        ListenerRMI listener = new ListenerRMI(cc,this,gameplay.getEventKeeper(),id,name);
         listener.fixOffset(reconnectType);
         new Thread(listener).start();
         return name;
@@ -399,8 +412,8 @@ public class Controller implements ControllerSkeleton {
         Gameplay gameplay = gameplaysHandler.getHisGameplay(id);
         String name = reconnect(id,gameplay);
         //start listener
-        int n = gameplay.getPlayerByID(id).getListenableNum();
-        ListenerTCP listener = new ListenerTCP(conn,gameplay.getEventKeeper(),id,n);
+        //int n = gameplay.getPlayerByID(id).getListenableNum();
+        ListenerTCP listener = new ListenerTCP(conn,this,gameplay.getEventKeeper(),id,name);
         listener.fixOffset(reconnectType);
         new Thread(listener).start();
         return name;
@@ -412,9 +425,9 @@ public class Controller implements ControllerSkeleton {
      * @param n the number of pings
      * @throws RemoteException if a remote communication error occurs
      */
-    public int ping(int n, String id) throws RemoteException{
-        connectionChecker.setPing(id);
+    public synchronized int ping(int n, String id) throws RemoteException {
+        if (connectionChecker.setPing(id))
+            return 1;
         return 0;
     }
-
 }

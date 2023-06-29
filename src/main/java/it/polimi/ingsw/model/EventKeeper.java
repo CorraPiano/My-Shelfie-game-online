@@ -20,7 +20,7 @@ public class EventKeeper {
     private final ArrayList<String> idList;
     private final HashMap<String,Integer> offsets;
     private final HashMap<String,Integer> offsetsGui;
-    private final HashMap<String,Integer> listenableNums;
+    private final HashMap<String,Boolean> status;
 
 
     //local model
@@ -35,15 +35,14 @@ public class EventKeeper {
      * Constructs an EventKeeper object with the given gameplay instance.
      */
     public EventKeeper(){
-        listenableList=new ArrayList<>();
-        idList = new ArrayList<>();
-        localBookshelfMap = new HashMap<>();
-
-        listenableNums = new HashMap<>();
-        personalList=new HashMap<>();
-        personalListGui = new HashMap<>();
-        offsets = new HashMap<>();
-        offsetsGui = new HashMap<>();
+        this.listenableList=new ArrayList<>();
+        this.personalList=new HashMap<>();
+        this.idList = new ArrayList<>();
+        this.offsets = new HashMap<>();
+        this.offsetsGui = new HashMap<>();
+        this.personalListGui = new HashMap<>();
+        this.status = new HashMap<>();
+        this.localBookshelfMap = new HashMap<>();
     }
 
 
@@ -53,47 +52,48 @@ public class EventKeeper {
      * @param id the player ID
      */
     public synchronized void addPersonalList(String id){
-        listenableNums.put(id,0);
-        idList.add(id);
-        personalList.put(id,new ArrayList<>(listenableList));
-        personalListGui.put(id,new ArrayList<>());
-        offsets.put(id,-1);
-        offsetsGui.put(id,-1);
+        ArrayList<Sendable> l = new ArrayList<>(listenableList);
+        ArrayList<Sendable> ll = new ArrayList<>();
+        this.idList.add(id);
+        this.personalList.put(id,l);
+        this.personalListGui.put(id,ll);
+        this.offsets.put(id,-1);
+        this.offsetsGui.put(id,-1);
+        this.status.put(id,true);
     }
 
     public synchronized void removePersonalList(String id){
         idList.remove(id);
-        listenableNums.remove(id);
         personalList.remove(id);
         personalListGui.remove(id);
         offsets.remove(id);
         offsetsGui.remove(id);
+        status.remove(id);
         //fix
         this.notifyAll();
     }
 
-    /** Updates the listenableNum of a player, used to stop the current associated listener.
+    /** Updates the status of a player, used to stop the current associated listener.
      *
      * @param id the ID of the selected player
      */
-    public synchronized void updateListenableNum(String id){
+    public synchronized void updateStatus(String id, boolean b){
         if(idList.contains(id)) {
-            listenableNums.put(id, listenableNums.get(id)+1);
+            status.put(id, b);
             this.notifyAll();
         }
     }
 
     /** Checks if a listener should stop. This happen if the passed integer is not the same of integer
-     * locally associated to the player..
+     * locally associated to the player.
     *
      * @param id the ID associated with the listener
-     * @param n the number recorded in the listener
      * @return 'false' if the listener has to stop, false otherwise
      */
-    public synchronized boolean checkActivity(String id, int n){
+    public synchronized boolean checkActivity(String id){
         if(!idList.contains(id))
             return false;
-        return listenableNums.get(id)==n;
+        return status.get(id);
     }
 
     /**
@@ -120,49 +120,35 @@ public class EventKeeper {
     public synchronized void fixOffset(String id, ReconnectType reconnectType){
         if(!personalList.containsKey(id))
             return;
-        switch (reconnectType) {
-            case GUI -> {
-                // prepare the two list
-                ArrayList<Sendable> list = new ArrayList<>();
-                for (Sendable sendable : personalList.get(id)) {
-                    if (!sendable.isRecurrentUpdate()) {
-                        if (sendable.getHeader().equals(MessageHeader.STARTGAME)) {
-                            list.add(localBoard);
-                            list.add(localHand);
-                            list.add(localPlayerList);
-                            for (String s : localBookshelfMap.keySet()) {
-                                System.out.println(s);
-                                list.add(localBookshelfMap.get(s));
-                            }
+        if(reconnectType==ReconnectType.GUI){
+            ArrayList<Sendable> list = new ArrayList<>();
+            for(Sendable sendable: personalList.get(id)) {
+                if (!sendable.isRecurrentUpdate()) {
+                    if (sendable.getHeader().equals(MessageHeader.STARTGAME)) {
+                        list.add(localBoard);
+                        list.add(localHand);
+                        list.add(localPlayerList);
+                        for (String s : localBookshelfMap.keySet()) {
+                            //System.out.println(s);
+                            list.add(localBookshelfMap.get(s));
                         }
-                        list.add(sendable);
                     }
+                    list.add(sendable);
                 }
-
-                // set offsetGui and the personalListGui
-                if (list.size() <= personalList.get(id).size()) {
-                    personalListGui.put(id, list);
-                    offsetsGui.put(id, personalList.get(id).size());
-                } else {
-                    personalListGui.put(id, new ArrayList<>());
-                    offsetsGui.put(id, -1);
-                }
-                // reset the offset
-                offsets.put(id, -1);
             }
-            case SENDNEW -> {
-                // reset the offsetGui and the personalListGui
-                offsetsGui.put(id, -1);
-                personalListGui.put(id, new ArrayList<>());
+            if(list.size()<=personalList.get(id).size()) {
+                personalListGui.put(id, list);
+                offsetsGui.put(id, personalList.get(id).size());
+                offsets.put(id,-1);
             }
-            case SENDALL -> {
-                // reset the offset
-                offsets.put(id, -1);
-                // reset the offsetGui and the personalListGui
-                offsetsGui.put(id, -1);
+            else {
                 personalListGui.put(id, new ArrayList<>());
+                offsetsGui.put(id,-1);
+                offsets.put(id,-1);
             }
         }
+        if(reconnectType==ReconnectType.SENDALL)
+            offsets.put(id,-1);
     }
 
     /**
@@ -208,7 +194,8 @@ public class EventKeeper {
         // add object
         listenableList.add(sendable);
         for(String id: idList) {
-            personalList.get(id).add(sendable);
+            if(sendable.getHeader()!=MessageHeader.TIMER || status.get(id))
+                personalList.get(id).add(sendable);
         }
         this.notifyAll();
     }
@@ -238,6 +225,10 @@ public class EventKeeper {
                 localBookshelfMap.put(lb.name, lb);
             }
         }
+    }
+
+    public HashMap<String, Boolean> getStatus() {
+        return status;
     }
 
     //Testing getters

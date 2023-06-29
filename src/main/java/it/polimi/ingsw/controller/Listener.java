@@ -21,18 +21,22 @@ public abstract class Listener implements Runnable {
     protected final Gson gson;
     private final String id;
 
-    private int listenableNum;
+    private final Controller controller;
+    private final String name;
 
     /**
      * Constructs a new Listener instance.
      *
+     * @param controller   the Controller object managing the game
      * @param eventKeeper  the EventKeeper object storing the events
      * @param id           the unique identifier of the player
+     * @param name         the name of the player
      */
-    public Listener(EventKeeper eventKeeper, String id, int listenableNum) {
+    public Listener(Controller controller, EventKeeper eventKeeper, String id, String name) {
         this.eventKeeper = eventKeeper;
+        this.name = name;
         this.id=id;
-        this.listenableNum = listenableNum;
+        this.controller = controller;
         gson = new Gson();
     }
 
@@ -51,7 +55,7 @@ public abstract class Listener implements Runnable {
         System.out.println("thread di " + id + " avviato");
 
         try {
-            while (eventKeeper.checkActivity(id,listenableNum)) {
+            while (eventKeeper.checkActivity(id)) {
                 synchronized (eventKeeper) {
                     if (eventKeeper.isPresentPersonal(id)) {
                         Sendable sendable = eventKeeper.getListenablePersonal(id);
