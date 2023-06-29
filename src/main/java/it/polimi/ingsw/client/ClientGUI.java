@@ -168,6 +168,7 @@ public class ClientGUI extends Client{
      */
     public void playerDisconnect(String name) throws RemoteException {
         System.out.println("--> playerDisconnect");
+        gui.notifyDisconnection(name);
         //AlertBox.errorData(gui.getPrimaryStage(), "Disconnected, please check the connection", "Connection error");
         gui.disconnectionHandler(name);
         //gui.updateTableView();
@@ -409,7 +410,7 @@ public class ClientGUI extends Client{
         else
             setPhase(ClientPhase.MATCH_RECONNECTION);
         System.out.println("--> lostConnection");
-        gui.notifyDisconnection();
+        gui.notifyDisconnection(getName());
     }
     public void homeReconnection(){
         System.out.println("--> homeReconnection");

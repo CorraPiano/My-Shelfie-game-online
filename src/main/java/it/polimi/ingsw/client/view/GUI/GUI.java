@@ -15,10 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -278,8 +275,19 @@ public class GUI extends Application implements View {
         return sceneHandler;
     }
 
-    public void notifyDisconnection() {
+    public void notifyDisconnection(String name) {
         System.out.println("--> notifyDisconnection");
+        if(currentSceneName==SceneName.LOBBY){
+            Platform.runLater(()->{
+                LobbyController controllerTmp = (LobbyController) controller;
+                if(Objects.equals(name, client.getName())){
+                    controllerTmp.newNotification("You have connection problems");
+                }
+                else {
+                    controllerTmp.newNotification(name + " has connection problems");
+                }
+            });
+        }
         imDisconnected = true;
     }
 

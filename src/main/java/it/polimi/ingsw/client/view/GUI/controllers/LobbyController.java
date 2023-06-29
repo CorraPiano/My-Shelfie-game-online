@@ -88,7 +88,7 @@ public class LobbyController implements GUIController {
     private void blockPane(){
         if(gui.imDisconnected && !gui.imRMIClient){
             int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Something went wrong, please check your connection.\nYou'll be kicked out of the current lobby. \nIf you'll join this game again, use another username");
-            if (status == 1) gui.switchStage(Command.QUIT);
+            if (status == 1) gui.quitGame();
         }
         else if(gui.imDisconnected && gui.imRMIClient){
             int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
