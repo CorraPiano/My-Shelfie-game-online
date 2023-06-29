@@ -143,7 +143,7 @@ public class GUI extends Application implements View {
 
         this.primaryStage.setOnCloseRequest(windowEvent -> {
             windowEvent.consume();
-            int exitStatus = AlertBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit");
+            int exitStatus = AlertBox.exitRequest(primaryStage, windowEvent, "Are you sure you want to exit?");
             if(exitStatus == 1) {
                // if(currentSceneName== SceneName.LOBBY || currentSceneName ==SceneName.GAME || currentSceneName ==SceneName.CHAT || currentSceneName ==SceneName.BOOKSHELFS)
                 //    this.leaveGame();
@@ -276,7 +276,6 @@ public class GUI extends Application implements View {
     }
 
     public void notifyDisconnection(String name) {
-        System.out.println("--> notifyDisconnection");
         if(currentSceneName==SceneName.LOBBY){
             Platform.runLater(()->{
                 LobbyController controllerTmp = (LobbyController) controller;
@@ -288,7 +287,6 @@ public class GUI extends Application implements View {
                 }
             });
         }
-        //imDisconnected = true;
     }
 
     public void notifyReconnection() {

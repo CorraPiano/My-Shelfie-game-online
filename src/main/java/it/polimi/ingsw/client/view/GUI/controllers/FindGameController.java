@@ -181,7 +181,7 @@ public class FindGameController implements GUIController {
     }
 
     private boolean checkJoinData(String name, String game) {
-        return name.length() != 0 && game != null;
+        return name!= null && name.length() != 0 && game != null;
     }
 
     private int getGameId(String game) {

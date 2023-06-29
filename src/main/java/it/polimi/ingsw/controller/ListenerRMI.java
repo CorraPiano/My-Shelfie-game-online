@@ -52,9 +52,7 @@ public class ListenerRMI extends Listener{
                                 }
                                 case JOIN ->{
                                         JoinMessage message = (JoinMessage) sendable;
-                                        System.out.println("TEST ----------------------------------------");
                                         client.playerJoin(message.name);
-                                        System.out.println("TEST join------------------------------------");
                                 }
                                 case LEAVE -> {
                                         LeaveMessage message = (LeaveMessage) sendable;
