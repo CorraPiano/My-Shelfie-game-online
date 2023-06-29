@@ -64,7 +64,7 @@ public class AlertBox {
      * @param title      The title of the dialog.
      * @return The status code indicating the user's choice: 1 for "Ok".
      */
-    public static int errorData(Stage mainStage, String message, String title) {
+    public static int errorData(Stage mainStage, String title, String message) {
         double WIDTH = 400;
         double HEIGHT = 100;
 

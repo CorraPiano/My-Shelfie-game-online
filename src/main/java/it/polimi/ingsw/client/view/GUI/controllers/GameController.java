@@ -269,7 +269,7 @@ public class GameController implements GUIController {
 
     private void blockPane(){
         if(gui.imDisconnected && !gui.imRMIClient){
-            int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Please check your connection, something goes wrong");
+            int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Please check your connection, something goes wrong. \nAttempting to reconnect...");
         }
         else if(gui.imDisconnected && gui.imRMIClient){
             int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
@@ -696,19 +696,21 @@ public class GameController implements GUIController {
         //URL url_6 = getClass().getResource("/Images/scoring_tokens/scoring_6.jpg");
         //URL url_8 = getClass().getResource("/Images/scoring_tokens/scoring_8.jpg");
 
-        //c'è un problema, quando viene preso il secondo token dalla common da "Index 0 out of bounds for length 0"
-
-        switch (modelView.getCommonCards().get(0).tokenList.get(0).getValue()){
-            case 2 -> common1token.setImage(this.gui.getSceneHandler().getToken(0));
-            case 4 -> common1token.setImage(this.gui.getSceneHandler().getToken(1));
-            case 6 -> common1token.setImage(this.gui.getSceneHandler().getToken(2));
-            case 8 -> common1token.setImage(this.gui.getSceneHandler().getToken(3));
+        if(!modelView.getCommonCards().get(0).tokenList.isEmpty()) {
+            switch (modelView.getCommonCards().get(0).tokenList.get(0).getValue()){
+                case 2 -> common1token.setImage(this.gui.getSceneHandler().getToken(0));
+                case 4 -> common1token.setImage(this.gui.getSceneHandler().getToken(1));
+                case 6 -> common1token.setImage(this.gui.getSceneHandler().getToken(2));
+                case 8 -> common1token.setImage(this.gui.getSceneHandler().getToken(3));
+            }
         }
-        switch (modelView.getCommonCards().get(1).tokenList.get(0).getValue()){
-            case 2 -> common2token.setImage(this.gui.getSceneHandler().getToken(0));
-            case 4 -> common2token.setImage(this.gui.getSceneHandler().getToken(1));
-            case 6 -> common2token.setImage(this.gui.getSceneHandler().getToken(2));
-            case 8 -> common2token.setImage(this.gui.getSceneHandler().getToken(3));
+        if(!modelView.getCommonCards().get(1).tokenList.isEmpty()) {
+            switch (modelView.getCommonCards().get(1).tokenList.get(0).getValue()) {
+                case 2 -> common2token.setImage(this.gui.getSceneHandler().getToken(0));
+                case 4 -> common2token.setImage(this.gui.getSceneHandler().getToken(1));
+                case 6 -> common2token.setImage(this.gui.getSceneHandler().getToken(2));
+                case 8 -> common2token.setImage(this.gui.getSceneHandler().getToken(3));
+            }
         }
 
         int numPlayer = modelView.getLocalPlayerList().size();
@@ -1066,6 +1068,7 @@ public class GameController implements GUIController {
         ObservableList<LocalPlayer> data = tableView.getItems();
         data.setAll(modelView.getLocalPlayerList());
         tableView.refresh();
+        //updateCurrentPlayer(gui.getClient().getName());
     }
 
     /* CHAT METHODS */

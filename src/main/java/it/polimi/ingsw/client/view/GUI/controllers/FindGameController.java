@@ -124,7 +124,7 @@ public class FindGameController implements GUIController {
     }
     private void blockPane(){
         if(gui.imDisconnected && !gui.imRMIClient){
-            int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Please check your connection, something goes wrong");
+            int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Please check your connection, something goes wrong. \nAttempting to reconnect...");
         }
         else if(gui.imDisconnected && gui.imRMIClient){
             int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");

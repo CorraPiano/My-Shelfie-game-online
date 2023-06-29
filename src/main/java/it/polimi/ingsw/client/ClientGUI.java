@@ -96,7 +96,7 @@ public class ClientGUI extends Client{
                 setPhase(ClientPhase.HOME);
             }
             case HOME -> {
-                Platform.runLater(() -> AlertBox.errorData(gui.getPrimaryStage(), e, "Error"));
+                Platform.runLater(() -> AlertBox.errorData(gui.getPrimaryStage(), "Error", e));
             }
             case LOBBY -> {
 
