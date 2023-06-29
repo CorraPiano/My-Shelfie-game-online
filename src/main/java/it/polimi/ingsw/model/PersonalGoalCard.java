@@ -35,14 +35,14 @@ public class PersonalGoalCard extends Listenable {
      */
     public int calculatePoints() {
         points = 0;
-        if(library == null) return 0;
+        if (library == null) return 0;
 
         Set<Coordinates> coordinate = card.getCoordinate();
         int[] pointVet = {0, 1, 2, 4, 6, 9, 12};
 
         for (Coordinates c : coordinate) {
             library.getItem(c).ifPresent((x) -> {
-                if(x.getType().getValue() == card.getColor(c)) {
+                if (x.getType().getValue() == card.getColor(c)) {
                     points = points + 1;
                 }
             });
@@ -55,7 +55,7 @@ public class PersonalGoalCard extends Listenable {
      *
      * @param library The Bookshelf instance to set.
      */
-    public void setBookshelf(Bookshelf library){
+    public void setBookshelf(Bookshelf library) {
         this.library = library;
     }
 
@@ -68,7 +68,7 @@ public class PersonalGoalCard extends Listenable {
      *
      * @param ID The ID to set.
      */
-    public void setID(String ID){
+    public void setID(String ID) {
         this.ID = ID;
         notifyUpdateToID(ID);
     }
@@ -78,7 +78,7 @@ public class PersonalGoalCard extends Listenable {
      *
      * @return The ID of the personal goal card.
      */
-    public String getID(){
+    public String getID() {
         return ID;
     }
 
@@ -96,12 +96,13 @@ public class PersonalGoalCard extends Listenable {
      *
      * @return The number of the personal goal card.
      */
-    public int getNum(){
+    public int getNum() {
         return this.num;
     }
 
     /**
      * Converts to local version of the PersonalGoalCard.
+     *
      * @return created LocalPersonalCard object.
      */
     @Override
@@ -110,7 +111,4 @@ public class PersonalGoalCard extends Listenable {
         return new LocalPersonalCard(num);
     }
 
-    public Integer getId() {
-        return Integer.parseInt(ID);
-    }
 }

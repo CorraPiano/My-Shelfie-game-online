@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.exception.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,28 +15,38 @@ class GameplayTest4Players {
 
     private Gameplay gameplay;
 
-    void Game() throws GameModeException, NumPlayersException, GameFullException, NameAlreadyExistentException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
+    @Test
+    void GameTest() throws GameModeException, NumPlayersException, GameFullException, NameAlreadyExistentException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException, WrongLengthOrderException, WrongContentOrderException, EmptyHandException, InvalidColumnPutException, NotEnoughSpacePutException, InvalidNameException, AlreadyConnectedException, GameLeftException, InvalidIdException {
         Gameplay gameplay = new Gameplay(GameMode.EXPERT,4,0);
 
-        Player P1 = gameplay.addPlayer("A");
-        String A = P1.getID();
-        Player P2 = gameplay.addPlayer("B");
-        String B = P2.getID();
-        Player P3 = gameplay.addPlayer("C");
-        String C = P3.getID();
-        Player P4 = gameplay.addPlayer("D");
-        String D = P4.getID();
 
-        Assertions.assertTrue(gameplay.isReady());
+        gameplay.addPlayer("Flavio");
         gameplay.startGame();
+        gameplay.isReady();
+        gameplay.getGameState();
+        gameplay.getPlayerByID("Flavio");
+        gameplay.releaseHand();
 
-        gameplay.pickItem(new Coordinates());
-        gameplay.pickItem(new Coordinates());
-        gameplay.pickItem(new Coordinates());
+        ArrayList<Integer> orderList = new ArrayList<>();
+        orderList.add(0);
+        orderList.add(1);
+        orderList.add(2);
 
-
-
-
+        //gameplay.selectOrderHand(orderList);
+        gameplay.isFinished();
+        //gameplay.putItemList(5);
+        gameplay.addChatMessage(new ChatMessage("Flavio","ciao"));
+        gameplay.getNumPlayersConnected();
+        gameplay.getNumDisconnection();
+        gameplay.endGame();
+        gameplay.isConnected("Flavio");
+        gameplay.checkTimer(10000L, 1);
+        gameplay.currentPlayerIsConnected();
+        gameplay.getCurrentPlayers();
+        gameplay.getEventKeeper();
+        gameplay.getCurrentPlayers();
+        gameplay.getPlayerNameByID("Flavio");
+        gameplay.reconnect("Flavio");
     }
 
 

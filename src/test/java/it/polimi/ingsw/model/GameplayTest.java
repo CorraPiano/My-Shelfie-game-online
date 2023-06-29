@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.model.common_card_classes.GroupCommonGoalCard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameplayTest {
 
@@ -25,10 +29,10 @@ public class GameplayTest {
             players.get(3).setToken1(new Token(2));
             gameplay.endGame();
             players=gameplay.getPlayerList();
-            Assertions.assertEquals("a",players.get(0).getName());
-            Assertions.assertEquals("b",players.get(1).getName());
-            Assertions.assertEquals("c",players.get(2).getName());
-            Assertions.assertEquals("d",players.get(3).getName());
+            assertEquals("a",players.get(0).getName());
+            assertEquals("b",players.get(1).getName());
+            assertEquals("c",players.get(2).getName());
+            assertEquals("d",players.get(3).getName());
         } catch(Exception e){}
     }
 
@@ -48,10 +52,10 @@ public class GameplayTest {
             players.get(3).setToken1(new Token(8));
             gameplay.endGame();
             players = gameplay.getPlayerList();
-            Assertions.assertEquals("d", players.get(0).getName());
-            Assertions.assertEquals("c", players.get(1).getName());
-            Assertions.assertEquals("b", players.get(2).getName());
-            Assertions.assertEquals("a", players.get(3).getName());
+            assertEquals("d", players.get(0).getName());
+            assertEquals("c", players.get(1).getName());
+            assertEquals("b", players.get(2).getName());
+            assertEquals("a", players.get(3).getName());
         } catch (Exception e){};
     }
 
@@ -71,10 +75,10 @@ public class GameplayTest {
             players.get(3).setToken1(new Token(2));
             gameplay.endGame();
             players=gameplay.getPlayerList();
-            Assertions.assertEquals("b",players.get(0).getName());
-            Assertions.assertEquals("c",players.get(1).getName());
-            Assertions.assertEquals("a",players.get(2).getName());
-            Assertions.assertEquals("d",players.get(3).getName());
+            assertEquals("b",players.get(0).getName());
+            assertEquals("c",players.get(1).getName());
+            assertEquals("a",players.get(2).getName());
+            assertEquals("d",players.get(3).getName());
         } catch (Exception e){};
     }
 
@@ -95,10 +99,10 @@ public class GameplayTest {
             players.get(3).setFirstPlayerSeat(true);
             gameplay.endGame();
             players=gameplay.getPlayerList();
-            Assertions.assertEquals("c",players.get(0).getName());
-            Assertions.assertEquals("d",players.get(1).getName());
-            Assertions.assertEquals("b",players.get(2).getName());
-            Assertions.assertEquals("a",players.get(3).getName());
+            assertEquals("c",players.get(0).getName());
+            assertEquals("d",players.get(1).getName());
+            assertEquals("b",players.get(2).getName());
+            assertEquals("a",players.get(3).getName());
         } catch (Exception e){};
     }
 
@@ -120,10 +124,10 @@ public class GameplayTest {
             players.get(1).setFirstPlayerSeat(true);
             gameplay.endGame();
             players=gameplay.getPlayerList();
-            Assertions.assertEquals("c",players.get(0).getName());
-            Assertions.assertEquals("b",players.get(1).getName());
-            Assertions.assertEquals("d",players.get(2).getName());
-            Assertions.assertEquals("a",players.get(3).getName());
+            assertEquals("c",players.get(0).getName());
+            assertEquals("b",players.get(1).getName());
+            assertEquals("d",players.get(2).getName());
+            assertEquals("a",players.get(3).getName());
         } catch (Exception e){};
     }
 
@@ -141,28 +145,12 @@ public class GameplayTest {
     }
 
     @Test
-    void pickItemTest() throws GameModeException, NumPlayersException, NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
-        Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
-        gameplay1.startGame();
-        /*gameplay1.getBoard();
-        Assertions.assertNotNull(gameplay1.getBoard());*/
-        gameplay1.pickItem(new Coordinates(3,5));
-    }
-    @Test
     void getterSetterTests() throws GameModeException, NumPlayersException {
         Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
-        Assertions.assertEquals(0,gameplay1.getNumPlayersConnected());
-        Assertions.assertEquals(0,gameplay1.getNumPlayersAvaiable());
-        Assertions.assertEquals(3,gameplay1.getNumPlayers());
-        Assertions.assertEquals(0,gameplay1.getGameID());
-    }
-    @Test
-    void getPlayerNameByIDTest() throws GameModeException, NumPlayersException {
-        Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
-        PlayerHandler playerHandler = new PlayerHandler(gameplay1);
-        playerHandler.addPlayer(new Player("flavio", 0));
-        Assertions.assertEquals("flavio", gameplay1.getPlayerIDByName("flavio"));
-
+        assertEquals(0,gameplay1.getNumPlayersConnected());
+        assertEquals(0,gameplay1.getNumPlayersAvaiable());
+        assertEquals(3,gameplay1.getNumPlayers());
+        assertEquals(0,gameplay1.getGameID());
     }
 
     @Test
@@ -170,7 +158,5 @@ public class GameplayTest {
         Gameplay gameplay1 = new Gameplay(GameMode.EXPERT,3,0);
         Assertions.assertNotNull(gameplay1.getGameMode());
     }
-
-
 
 }

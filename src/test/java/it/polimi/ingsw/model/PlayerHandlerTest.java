@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class PlayerHandlerTest {
     private PlayerHandler playerHandler;
@@ -63,6 +64,29 @@ public class PlayerHandlerTest {
         Player player = new Player("Flavio", 1);
         playerHandler.addPlayer(player);
         assertEquals("Flavio_1", playerHandler.getPlayerIDByName("Flavio")); // Verify that the correct ID is returned for a valid name
+    }
+    @Test
+    public void testPlayerLeave() {
+        // Create a PlayerHandler object
+        PlayerHandler playerHandler = new PlayerHandler(mock(Gameplay.class));
+
+        // Create mock Player objects
+        Player player1 = mock(Player.class);
+        Player player2 = mock(Player.class);
+        Player player3 = mock(Player.class);
+        when(player1.getID()).thenReturn("1");
+        when(player2.getID()).thenReturn("2");
+        when(player3.getID()).thenReturn("3");
+
+        // Add players to the player list
+        playerHandler.addPlayer(player1);
+        playerHandler.addPlayer(player2);
+        playerHandler.addPlayer(player3);
+
+        // Call the playerLeave method with different player IDs and game states
+        playerHandler.playerLeave("2", GameState.WAIT);
+        playerHandler.playerLeave("3", GameState.GAME);
+
     }
 
 

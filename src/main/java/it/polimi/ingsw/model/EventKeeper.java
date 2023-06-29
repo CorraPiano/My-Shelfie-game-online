@@ -202,7 +202,7 @@ public class EventKeeper {
         }
     }
 
-    private void update(Sendable sendable){
+    void update(Sendable sendable){
         switch (sendable.getHeader()){
             case BOARD -> localBoard = (LocalBoard)sendable;
             case PLAYERLIST -> localPlayerList = (LocalPlayerList)sendable ;
@@ -212,6 +212,44 @@ public class EventKeeper {
                 localBookshelfMap.put(lb.name, lb);
             }
         }
+    }
+
+    //Testing getters
+    public HashMap<String, ArrayList<Sendable>> getPersonalList() {
+        return personalList;
+    }
+
+    public HashMap<String, ArrayList<Sendable>> getPersonalListGui() {
+        return personalListGui;
+    }
+
+
+    public HashMap<String, Integer> getOffsets() {
+        return offsets;
+    }
+
+    public HashMap<String, Integer> getOffsetsGui() {
+        return offsetsGui;
+    }
+
+    public HashMap<String, Boolean> getStatus() {
+        return status;
+    }
+
+    public LocalBoard getLocalBoard() {
+        return localBoard;
+    }
+
+    public LocalHand getLocalHand() {
+        return localHand;
+    }
+
+    public LocalPlayerList getLocalPlayerList() {
+        return localPlayerList;
+    }
+
+    public Map<String, LocalBookshelf> getLocalBookshelfMap() {
+        return localBookshelfMap;
     }
 
 

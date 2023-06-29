@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -118,5 +119,14 @@ class PlayerTest {
             assertTrue(player.haveToken2());
         }
 
+        @Test
+        public void testgetToken2(){
+            Assertions.assertNull(player.getToken2());
+        }
 
+        @Test
+        public void updatePoints(){
+            player.setPersonalGoalCard(new PersonalGoalCard(5));
+            player.updatePoints(true);
+        }
 }

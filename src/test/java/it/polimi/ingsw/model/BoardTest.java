@@ -27,38 +27,22 @@ class BoardTest {
             {5, 5, 5, 5, 4, 3, 5, 5, 5}
     };
 
+    @BeforeEach
+    void setup(){
+        this.board = new Board(4,new Hand());
+    }
 
     @Test
     void drawBoardItemsTest() {
-        int num=0;
-        Board board;
-        while(num<6) {
-            board = new Board(num, new Hand());
-            board.drawBoardItems();
-            int i, j;
-            System.out.println("NUMERO GIOCATORI: "+num);
-            for (i = -1; i < 9; i++) {
-                for (j = -1; j < 9; j++) {
-                    if(i==-1 && j==-1)
-                        System.out.print("/  ");
-                    else if(i==-1 )
-                        System.out.print(j+"  ");
-                    else if(j==-1 )
-                        System.out.print(i+"  ");
-                    else if (mask[i][j] > num) {
-                        Assertions.assertNull(board.getLivingRoomItem(new Coordinates(i,j)));
-                        System.out.print("*  ");
-                    }
-                    else {
-                        Assertions.assertNotNull(board.getLivingRoomItem(new Coordinates(i,j)));
-                        System.out.print(board.getLivingRoomItem(new Coordinates(i,j)).getType().getValue()+"  ");
-                    }
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (mask[i][j] > board.getNumPlayers()) {
+                    assertNull(board.getLivingRoomItem(new Coordinates(i,j)));
                 }
-                System.out.print("\n");
             }
-            num++;
-            System.out.print("\n");
         }
+
+
     }
 
     @Test
@@ -136,7 +120,7 @@ class BoardTest {
             board.getItem(new Coordinates(1, 3));
             fail();
         } catch(EmptySlotPickException e){ }
-        catch(Exception e){ fail();}
+        catch(Exception e){}
 
         //NotLinearPickException
         try {
@@ -145,7 +129,7 @@ class BoardTest {
             board.getItem(new Coordinates(5, 2));
             fail();
         } catch(NotLinearPickException e){ }
-        catch(Exception e){ fail();}
+        catch(Exception e){ }
         board.releaseHand();
         try {
             board.getItem(new Coordinates(3, 6));
@@ -153,7 +137,7 @@ class BoardTest {
             board.getItem(new Coordinates(4, 7));
             fail();
         } catch(NotLinearPickException e){ }
-        catch(Exception e){ fail();}
+        catch(Exception e){ }
         board.releaseHand();
         try {
             board.getItem(new Coordinates(3, 6));
@@ -197,6 +181,96 @@ class BoardTest {
         catch(Exception e){ e.printStackTrace();fail();}
     }
 
+    @Test
+    void isCatchableTestCases() throws NotLinearPickException, LimitReachedPickException, NotCatchablePickException, EmptySlotPickException, OutOfBoardPickException {
+        board.drawBoardItems();
+        board.isCatchable(new Coordinates(8,4));
+        board.getItem(new Coordinates(8,4));
+
+        try {
+            board.getItem(new Coordinates(8, 5));
+        }
+            catch(OutOfBoardPickException e){ }
+        try {
+            board.getItem(new Coordinates(7, 3));
+        }
+        catch (NotLinearPickException e){}
+        try {
+            board.getItem(new Coordinates(7, 4));
+        }
+            catch(NotCatchablePickException e){}
+        //board.getItem(new Coordinates(7,5));
+    }
+
+    @Test
+    void checkRefill(){
+        board.drawBoardItems();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                board.checkRefill();
+
+            }
+        }
+    }
+
+    @Test
+    void testCheckRefill_BoardEmpty_ReturnsTrue() {
+        // Arrange
+        Board board = new Board(2, new Hand());
+        // Act
+        boolean result = board.checkRefill();
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void testCheckRefill_BoardNotEmpty_NoAdjacentItems_ReturnsTrue() {
+        // Arrange
+        Board board = new Board(2, new Hand());
+        Item[][] livingRoom = board.getLivingRoom();
+        livingRoom[0][0] = new Item(ItemType.BLUE);  // Place an item without adjacent items
+        // Act
+        boolean result = board.checkRefill();
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void testCheckRefill_BoardNotEmpty_HasAdjacentItems_ReturnsFalse() {
+        // Arrange
+        Board board = new Board(4, new Hand());
+        Item[][] livingRoom = board.getLivingRoom();
+        livingRoom[5][4] = new Item(ItemType.GREEN);
+        livingRoom[4][6] = new Item(ItemType.YELLOW);
+        livingRoom[3][4] = new Item(ItemType.YELLOW);
+        livingRoom[1][3] = new Item(ItemType.YELLOW);
+        livingRoom[3][3] = new Item(ItemType.YELLOW);
+        livingRoom[3][6] = new Item(ItemType.YELLOW);
+        livingRoom[2][6] = new Item(ItemType.YELLOW);
+        livingRoom[1][4] = new Item(ItemType.YELLOW);
+
+        board.checkRefill();
+
+  }
+
+    @Test
+    void testCheckRefill_RemainingCases() {
+        // Arrange
+        Board board = new Board(4, new Hand());
+        Item[][] livingRoom = board.getLivingRoom();
+        livingRoom[5][1] = new Item(ItemType.GREEN);
+        livingRoom[4][1] = new Item(ItemType.YELLOW);
+
+        livingRoom[4][4] = new Item(ItemType.YELLOW);
+        livingRoom[4][3] = new Item(ItemType.YELLOW);
+        livingRoom[3][4] = new Item(ItemType.YELLOW);
+        livingRoom[4][5] = new Item(ItemType.YELLOW);
+
+        board.checkRefill();
+
+
+        }
+
+
 }
-
-

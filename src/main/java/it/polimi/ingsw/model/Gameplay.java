@@ -470,9 +470,9 @@ public class Gameplay extends Listenable{
         return eventKeeper;
     }
 
-    public String getPlayerIDByName(String name){
+   /* public String getPlayerIDByName(String name){
         return playerHandler.getPlayerIDByName(name);
-    }
+    }*/
 
     /**
      * Returns a boolean indicating if the current player is connected.

@@ -24,6 +24,7 @@ public class Controller implements ControllerSkeleton {
 
     private final GameplaysHandler gameplaysHandler;
     private final ConnectionChecker connectionChecker;
+
     /**
      * Constructor for the Controller class.
      *
@@ -106,7 +107,6 @@ public class Controller implements ControllerSkeleton {
         new Thread(listener).start();
         return id;
     }
-
 
     private String addPlayer(String name,Gameplay gameplay) throws GameFullException, NameAlreadyExistentException {
         // check if game is in wait

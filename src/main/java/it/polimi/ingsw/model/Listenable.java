@@ -51,12 +51,7 @@ abstract class Listenable {
      * @param sendable The sendable event to notify.
      */
     public void notifyEvent(Sendable sendable){
-        try {
             eventKeeper.notifyAll(sendable);
-        } catch (Exception e){
-            // to let test work properly without setting the eventKeeper
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -66,12 +61,8 @@ abstract class Listenable {
      * @param sendable The sendable event to notify.
      */
     public void notifyEventToID(String id, Sendable sendable){
-        try {
             eventKeeper.notifyToID(id,sendable);
-        } catch (Exception e){
             // to let test work properly without setting the eventKeeper
-            e.printStackTrace();
-        }
     }
 
     /**

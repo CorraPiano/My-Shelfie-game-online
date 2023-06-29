@@ -94,7 +94,7 @@ public class Board extends Listenable {
         if ((row < 0 || row > 8) || (column < 0 || column > 8)) {
             throw new OutOfBoardPickException();
         }
-        if (mask[row][column]>numPlayers) {
+        if (mask[row][column] > numPlayers) {
             throw new OutOfBoardPickException();
         }
 
