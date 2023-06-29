@@ -32,19 +32,15 @@ class GameplayTest4Players {
         orderList.add(1);
         orderList.add(2);
 
-        //gameplay.selectOrderHand(orderList);
+        gameplay.selectOrderHand(orderList);
         gameplay.isFinished();
-        //gameplay.putItemList(5);
+        gameplay.putItemList(5);
         gameplay.addChatMessage(new ChatMessage("Flavio","ciao"));
         gameplay.getNumPlayersConnected();
         gameplay.getNumDisconnection();
         gameplay.endGame();
-        gameplay.isConnected("Flavio");
         gameplay.checkTimer(10000L, 1);
-        gameplay.currentPlayerIsConnected();
-        gameplay.getCurrentPlayers();
         gameplay.getEventKeeper();
-        gameplay.getCurrentPlayers();
         gameplay.getPlayerNameByID("Flavio");
         gameplay.reconnect("Flavio");
     }

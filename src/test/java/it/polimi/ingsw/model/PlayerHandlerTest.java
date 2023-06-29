@@ -68,7 +68,7 @@ public class PlayerHandlerTest {
     @Test
     public void testPlayerLeave() {
         // Create a PlayerHandler object
-        PlayerHandler playerHandler = new PlayerHandler(mock(Gameplay.class));
+        PlayerHandler playerHandler = new PlayerHandler();
 
         // Create mock Player objects
         Player player1 = mock(Player.class);
