@@ -3,7 +3,6 @@ import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.controller.Settings;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.connection.message.*;
-
 import java.util.ArrayList;
 
 /**
@@ -23,16 +22,13 @@ public class Gameplay extends Listenable{
     private final BagCommon bagCommon;
     private final PlayerHandler playerHandler;
     private final Hand hand;
-    //private ArrayList<Player> playerList;
-    private EventKeeper eventKeeper;
+    private final EventKeeper eventKeeper;
     private int numDisconnection;
 
-    //da eliminare
-    //private final BroadcasterRMI broadcasterRMI;
-    //private final OldListener listener;
+    // creation of the gameplay and join of the players
 
     /**
-     * Constructs a `Gameplay` instance with the specified game mode, number of players, and game ID.
+     * Create a `Gameplay` instance with the specified game mode, number of players, and game ID.
      *
      * @param gameMode   game mode.
      * @param numPlayers number of players.
@@ -41,31 +37,40 @@ public class Gameplay extends Listenable{
      * @throws GameModeException   if the game mode is invalid.
      */
     public Gameplay(GameMode gameMode, int numPlayers, int gameID) throws NumPlayersException, GameModeException {
+        // exception handling
         if(!gameMode.equals(GameMode.EASY) && !gameMode.equals(GameMode.EXPERT))
             throw new GameModeException();
         if(numPlayers<=1 || numPlayers>4)
             throw new NumPlayersException();
 
+        // used to stop the threads over Timer
         numDisconnection=0;
+
+        // setting of the properties
         this.gameID = gameID;
         this.gameMode = gameMode;
         this.numPlayers = numPlayers;
-        //.playerList = new ArrayList<Player>();
-        this.hand = new Hand();
-        this.board = new Board(numPlayers,hand);
-        this.playerHandler =  new PlayerHandler(this);
 
+        // creation of the model objects
+        hand = new Hand();
+        board = new Board(numPlayers,hand);
+        playerHandler =  new PlayerHandler();
         eventKeeper = new EventKeeper();
-        setEventKeeper(eventKeeper);
+
+        // setting of the eventKeeper
+        this.setEventKeeper(eventKeeper);
         hand.setEventKeeper(eventKeeper);
         board.setEventKeeper(eventKeeper);
         playerHandler.setEventKeeper(eventKeeper);
 
+        // creation of the bags
         bagPersonal = new BagPersonal();
         if (gameMode.equals(GameMode.EXPERT))
             bagCommon = new BagCommon();
         else
             bagCommon = null;
+
+        //setting of the GameState
         gameState = GameState.WAIT;
 
         notifyEvent(new CreateMessage(gameMode,gameID,numPlayers));
@@ -73,55 +78,39 @@ public class Gameplay extends Listenable{
 
     /**
      * Adds a player to the game with the specified name.
-     *
+     * For the unicity of the id, if a player join with a name,
+     * is not possible for others players to join with the same name,
+     * also if the player has left the game in the waiting phase.
      * @param name name of the player to add.
      * @return created `Player` object.
      * @throws GameFullException             if the game is already full.
      * @throws NameAlreadyExistentException  if the player name already exists.
      */
     public Player addPlayer(String name) throws GameFullException, NameAlreadyExistentException {
+        // exception handling
         if(!playerHandler.checkName(name))
             throw new NameAlreadyExistentException();
 
+        // creation and setting of the player
         Player player = new Player(name,gameID);
         player.setEventKeeper(eventKeeper);
         player.getLibrary().setEventKeeper(eventKeeper);
-        eventKeeper.addPersonalList(player.getID());
         playerHandler.addPlayer(player);
 
-        //playerList.add(player);
-        //notifyUpdate();
-        notifyEvent(new JoinMessage(name));
+        // insert the eventList of the player in the EventKeeper
+        eventKeeper.addPersonalList(player.getID());
 
+        notifyEvent(new JoinMessage(name));
         return player;
     }
 
-    /**
-     * Checks if the game is ready to start.
-     *
-     * @return `true` if the game is ready, `false` otherwise.
-     */
-    public boolean isReady(){
-        return playerHandler.getNumPlayer()==numPlayers;
-        //return playerList.size() == numPlayers;
-    }
 
     /**
-     * Checks if the game has finished.
-     *
-     * @return `true` if the game has finished, `false` otherwise.
-     */
-    public boolean isFinished(){
-        return !playerHandler.hasNext() || getNumPlayersAvaiable()<2;
-    }
-
-    /**
-     * Starts the game.
+     * Starts the game. No checks if the correct number of player has been reached.
      */
     public void startGame(){
-        gameState = GameState.GAME;
 
-        //crea le common, che una volta ricevuta la tokenlist si aggiorneranno inviandosi
+        // creation of the 2 common goal cards if the game mode is Expert
         if (gameMode.equals(GameMode.EXPERT)){
             commonGoalCard1 = bagCommon.drawCommonGoalCard();
             commonGoalCard1.setEventKeeper(eventKeeper);
@@ -131,30 +120,27 @@ public class Gameplay extends Listenable{
             commonGoalCard2.setTokenList(createTokenList());
         }
 
-        //crea le personal, che si autoinvia al giocatore corretto
+        // creation of the personal cards, one for player
         for(Player p: playerHandler.getPlayerList()) {
             PersonalGoalCard personalCard = bagPersonal.drawPersonalGoalCard();
             personalCard.setEventKeeper(eventKeeper);
             p.setPersonalGoalCard(personalCard);
         }
 
-        //aggiorna la board, che si autoinvia
+        // init the game
         board.drawBoardItems();
-
-        //sceglie il primo giocatore
         playerHandler.choseFirstPlayer();
-        //playerHandler.current().setFirstPlayerSeat(true);
+        gameState = GameState.GAME;
 
-        // notifica l'avvio del gioco
+        // notify the begin of the game and of the first turn
         notifyEvent(new StartGameMessage());
-
         notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
-
     }
 
     /**
-     * Creates list of tokens
-     * @return list of tokens created
+     * Returns the token list for a common goal card, according with the number of player.
+     *
+     * @return created list of tokens.
      */
     private ArrayList<Token> createTokenList(){
         ArrayList<Token> list = new ArrayList<>();
@@ -165,6 +151,22 @@ public class Gameplay extends Listenable{
         if(numPlayers>3)
             list.add(new Token(2));
         return list;
+    }
+
+    // action of the players
+
+    /**
+     * Checks if is the turn of the player with the passed ID.
+     *
+     * @param id       the ID of the player
+     * @throws NotInGameException if the player is not currently in a game
+     * @throws WrongTurnException if it is not the player's turn
+     */
+    public void validateAction(String id) throws NotInGameException, WrongTurnException {
+        if(!(gameState==GameState.GAME))
+            throw new NotInGameException();
+        if(!playerHandler.current().getID().equals(id))
+            throw new WrongTurnException();
     }
 
     /**
@@ -184,7 +186,8 @@ public class Gameplay extends Listenable{
     }
 
     /**
-     * Releases the hand by putting back the picked items in the living room.
+     * Releases the hand by putting back the picked items in the board.
+     * If the hand is empty, nothing happen.
      */
     public void releaseHand() {
         board.releaseHand();
@@ -200,7 +203,6 @@ public class Gameplay extends Listenable{
      */
     public void selectOrderHand(ArrayList<Integer> list) throws WrongLengthOrderException, WrongContentOrderException {
         hand.selectOrder(list);
-        //broadcasterRMI.notifyOrder(gameID, "", list);
         notifyEvent(new OrderMessage(list,playerHandler.current().getName()));
     }
 
@@ -215,6 +217,8 @@ public class Gameplay extends Listenable{
     public void putItemList(int column) throws EmptyHandException, InvalidColumnPutException, NotEnoughSpacePutException {
         if(hand.getSize()==0)
             throw new EmptyHandException();
+
+        // put
         Player currentPlayer = playerHandler.current();
         Bookshelf library = currentPlayer.getLibrary();
         library.putItemList(hand.getHand(),column);
@@ -222,6 +226,7 @@ public class Gameplay extends Listenable{
 
         notifyEvent(new PutMessage(column,playerHandler.current().getName()));
 
+        // update points
         if(gameMode.equals(GameMode.EXPERT))
             checkFullfillCommonGoalCard(currentPlayer);
         if(library.isFull()) {
@@ -229,36 +234,46 @@ public class Gameplay extends Listenable{
             playerHandler.notifyLastRound();
             notifyEvent(new LastRoundMessage(playerHandler.current().getName()));
         }
-        //currentPlayer.updatePoints(false);
+        playerHandler.current().updatePoints(false);
+
         endTurn();
     }
 
     /**
      * Ends the current player's turn and switches to the next player.
+     * If the game is finished or if there are less than two players avaiable,
+     * no turn is set.
      */
-    public void endTurn() {
+    private void endTurn() {
         playerHandler.next();
         if (playerHandler.hasNext()){
-            playerHandler.current().updatePoints(false);
             notifyEvent(new NewTurnMessage(playerHandler.current().getName()));
         }
     }
 
     /**
-     * Ends the game and determines the winner.
+     * Ends the game.
      */
     public void endGame(){
         gameState = GameState.END;
+        // determines the winner
         String name = playerHandler.makeFinalClassification();
-        if(playerHandler.numPlayersAvaiable()<2)
+
+        // notification
+        if(playerHandler.getNumPlayersAvaiable()<2)
             notifyEvent(new EndGameMessage(name,EndCause.NOT_ENOUGH_ACTIVE_PLAYER));
-        else if(playerHandler.numPlayersConnected()<2)
+        else if(playerHandler.getNumPlayersConnected()<2)
             notifyEvent(new EndGameMessage(name,EndCause.DISCONNECTED_PLAYERS_NOT_RECONNECT_ON_TIME));
         else
             notifyEvent(new EndGameMessage(name,EndCause.LAST_ROUND_FINISHED));
     }
 
-    private void checkFullfillCommonGoalCard(Player currentPlayer ){
+    /** If the player fullfill the condition of one of the common goal card,
+    *  it gives the token to the player.
+    *
+    *  @param currentPlayer player to check
+    */
+    private void checkFullfillCommonGoalCard(Player currentPlayer){
         if(!currentPlayer.haveToken1()){
             if(commonGoalCard1.checkFullFil(currentPlayer.getLibrary()))
                 currentPlayer.setToken1(commonGoalCard1.popToken());
@@ -270,16 +285,21 @@ public class Gameplay extends Listenable{
     }
 
     /**
-     * Adds a chat message to the game.
+     * Adds a message to the chat:
+     * if the message is private, it will send only to the sender and to the receiver,
+     * if the message is global, it will be send to everyone.
      *
-     * @param chatMessage The chat message to add.
-     * @throws InvalidNameException If the sender name is invalid.
+     * @param chatMessage The chat message to be added.
+     * @throws InvalidNameException If the receiver name is invalid.
      */
     public void addChatMessage(ChatMessage chatMessage) throws InvalidNameException {
+        //global message
         if(chatMessage.all) {
             notifyEvent(chatMessage);
             return;
         }
+
+        //private message
         ArrayList<Player> playerList = playerHandler.getPlayerList();
         if(!chatMessage.receiver.equals(chatMessage.sender) && playerList.stream().map(Player::getName).anyMatch(s -> s.equals(chatMessage.receiver)))
         {
@@ -294,19 +314,22 @@ public class Gameplay extends Listenable{
         throw new InvalidNameException();
     }
 
-    //si deve poter stoppare il gioco prima della fine
+    // leaving, disconnection and reconnection
 
     /**
-     * Removes a player from the game.
+     * Removes a player from the game. If the removed player owned the turn and if there are enough player, the turn is switched.
+     * You should check if the game have to be finished after this invocation.
      *
      * @param id The ID of the player to be removed.
      */
     public void leave(String id) {
+        // leave
         String name = getPlayerNameByID(id);
         playerHandler.playerLeave(id,gameState);
         notifyEvent(new LeaveMessage(name));
 
-        if(gameState.equals(GameState.GAME) && playerHandler.numPlayersAvaiable()>=2 && playerHandler.current().getID().equals(id)) {
+        // end turn ?
+        if(gameState.equals(GameState.GAME) && playerHandler.getNumPlayersAvaiable()>=2 && playerHandler.current().getID().equals(id)) {
             board.releaseHand();
             endTurn();
         }
@@ -314,19 +337,73 @@ public class Gameplay extends Listenable{
     }
 
     /**
-     * Disconnects a player from the game.
+     * Disconnects a player from the game. If the removed player owned the turn and if there are enough connected player, the turn is switched.
+     * You should check if the game have to be finished after this invocation.
      *
      * @param id The ID of the player to be disconnected.
      */
     public void disconnect(String id) throws GameFinishedException {
+        // for the timer thread
         numDisconnection++;
+
+        // disconnection
         playerHandler.playerDisconnect(id,gameState);
         notifyEvent(new DisconnectMessage(getPlayerNameByID(id)));
-        if(gameState.equals(GameState.GAME) && playerHandler.current().getID().equals(id) && playerHandler.numPlayersConnected()>=2)
+
+        // end turn ?
+        if(gameState.equals(GameState.GAME) && playerHandler.current().getID().equals(id) && playerHandler.getNumPlayersConnected()>=2)
         {
             board.releaseHand();
             endTurn();
         }
+    }
+
+    /**
+     * Reconnects a player to the game. If the current player isn't connected and there are more than one players, the turn is switched.
+     * You should check if the game have to be finished after this invocation.
+     *
+     * @param id The ID of the player to be reconnected.
+     * @return The name of the player that reconnected.
+     * @throws AlreadyConnectedException  If the player is already connected.
+     * @throws GameLeftException          If the player has left the game.
+     * @throws InvalidIdException       If the ID is not valid.
+     */
+    public String reconnect(String id) throws AlreadyConnectedException, GameLeftException, InvalidIdException {
+        // check
+        if(getPlayerByID(id)==null)
+            throw new InvalidIdException();
+        if(getPlayerByID(id).isConnected())
+            throw new AlreadyConnectedException();
+        if(getPlayerByID(id).isInactive())
+            throw new GameLeftException();
+
+        // reconnection
+        playerHandler.reconnect(id);
+        notifyEvent(new ReconnectMessage(getPlayerNameByID(id)));
+
+        // end turn ?
+        if(playerHandler.getNumPlayersConnected()>=2 && !playerHandler.current().isConnected()) {
+            board.releaseHand();
+            endTurn();
+        }
+
+        return playerHandler.getPlayerByID(id).getName();
+    }
+
+    // timer
+
+    /**
+     * Checks if the time for a player to reconnect has expired.
+     *
+     * @param time The time at which the timer started.
+     * @return true if the timer has expired and the conditions are met, false otherwise.
+     */
+    public boolean checkTimer(Long time, int numDisconnection){
+        long n = time + Settings.timeout_timer - System.currentTimeMillis();
+        boolean b = (!isFinished() && getNumDisconnection() == numDisconnection && getNumPlayersConnected() < 2 && n>0);
+        if(b)
+            notifyEvent(new TimerMessage((int)n));
+        return b;
     }
 
     /**
@@ -338,40 +415,53 @@ public class Gameplay extends Listenable{
         return numDisconnection;
     }
 
+    // localgame and eventkeeper
+
     /**
-     * Reconnects a player to the game.
+     * Returns a LocalGame object representing the current state of the game.
      *
-     * @param id The ID of the player to be reconnected.
-     * @throws AlreadyConnectedException  If the player is already connected.
-     * @throws GameLeftException          If the player has left the game.
+     * @return A LocalGame object representing the current state of the game.
      */
-    public String reconnect(String id) throws AlreadyConnectedException, GameLeftException, InvalidIdException {
-        if(getPlayerByID(id)==null)
-            throw new InvalidIdException();
-        if(getPlayerByID(id).isConnected())
-            throw new AlreadyConnectedException();
-        if(getPlayerByID(id).isInactive())
-            throw new GameLeftException();
-
-        playerHandler.reconnect(id);
-
-        notifyEvent(new ReconnectMessage(getPlayerNameByID(id)));
-
-        if(playerHandler.numPlayersConnected()>=2 && !playerHandler.current().isConnected()) {
-            board.releaseHand();
-            endTurn();
-        }
-
-        return playerHandler.getPlayerByID(id).getName();
+    public LocalGame getLocal(){
+        return new LocalGame(gameMode,gameID,numPlayers,playerHandler.getNumPlayer(),gameState);
     }
 
     /**
-     * Returns the list of players in the game.
+     * Returns the event keeper object responsible for managing game events.
      *
-     * @return The list of players in the game.
+     * @return The event keeper object.
      */
-    public ArrayList<Player> getPlayerList(){
-        return playerHandler.getPlayerList();
+    public EventKeeper getEventKeeper(){
+        return eventKeeper;
+    }
+
+    // utils
+
+    /**
+     * Checks if the game is ready to start.
+     * This means that the request number of players has been reached.
+     * @return `true` if the game is ready, `false` otherwise.
+     */
+    public boolean isReady(){
+        return playerHandler.getNumPlayer()==numPlayers;
+    }
+
+    /**
+     * Checks if the game has finished.
+     * This happens if is finished the last turn or if less than two players are left.
+     * @return `true` if the game has finished, `false` otherwise.
+     */
+    public boolean isFinished(){
+        return !playerHandler.hasNext() || getNumPlayersAvaiable()<2;
+    }
+
+    /**
+     * Returns the total number of players request to start the game.
+     *
+     * @return The total number of players request to start the game.
+     */
+    public int getNumPlayers() {
+        return numPlayers;
     }
 
     /**
@@ -393,12 +483,12 @@ public class Gameplay extends Listenable{
     }
 
     /**
-     * Returns the ID of the current player.
+     * Returns the ID of the game.
      *
-     * @return The ID of the current player.
+     * @return The ID of the game.
      */
-    public String getCurrentPlayerID(){
-        return playerHandler.current().getID();
+    public int getGameID() {
+        return gameID;
     }
 
     /**
@@ -424,105 +514,32 @@ public class Gameplay extends Listenable{
         return null;
     }
 
-
     /**
-     * Returns a LocalGame object representing the current state of the game.
+     * Returns the list of players in the game.
      *
-     * @return A LocalGame object representing the current state of the game.
+     * @return The list of players in the game.
      */
-    public LocalGame getLocal(){
-        return new LocalGame(gameMode,gameID,numPlayers,playerHandler.getNumPlayer(),gameState);
-    }
-
-    /**
-     * Returns the ID of the game.
-     *
-     * @return The ID of the game.
-     */
-    public int getGameID() {
-        return gameID;
-    }
-
-    /**
-     * Returns the total number of players in the game.
-     *
-     * @return The total number of players in the game.
-     */
-    public int getNumPlayers() {
-        return numPlayers;
-    }
-
-    /**
-     * Returns the current number of players in the game.
-     *
-     * @return The current number of players in the game.
-     */
-    public int getCurrentPlayers() {
-        return playerHandler.getNumPlayer();
-    }
-
-    /**
-     * Returns the event keeper object responsible for managing game events.
-     *
-     * @return The event keeper object.
-     */
-    public EventKeeper getEventKeeper(){
-        return eventKeeper;
-    }
-
-   /* public String getPlayerIDByName(String name){
-        return playerHandler.getPlayerIDByName(name);
-    }*/
-
-    /**
-     * Returns a boolean indicating if the current player is connected.
-     *
-     * @return true if the current player is connected, false otherwise.
-     */
-    public boolean currentPlayerIsConnected(){
-        return playerHandler.current().isConnected();
+    public ArrayList<Player> getPlayerList(){
+        return playerHandler.getPlayerList();
     }
 
     /**
      * Returns the number of players currently connected.
      *
-     * @return The number of players currently connected.
+     * @return The number of players connected.
      */
     public int getNumPlayersConnected(){
-        return playerHandler.numPlayersConnected();
+        return playerHandler.getNumPlayersConnected();
     }
+
+    /**
+     * Returns the number of players currently in the game, connected or not.
+     *
+     * @return The number of players currently in the game.
+     */
     public int getNumPlayersAvaiable(){
-        return playerHandler.numPlayersAvaiable();
+        return playerHandler.getNumPlayersAvaiable();
     }
-
-    /**
-     * Returns a boolean indicating if the player with the specified ID is connected.
-     *
-     * @param id The ID of the player.
-     * @return true if the player is connected, false otherwise.
-     */
-    public boolean isConnected(String id){
-        Player p = playerHandler.getPlayerByID(id);
-        if(p==null)
-            return false;
-        return p.isConnected();
-    }
-
-    /**
-     * Checks if the timer for a player has expired.
-     * If the conditions are met, a TimerMessage event is notified.
-     *
-     * @param time The time at which the timer started.
-     * @return true if the timer has expired and the conditions are met, false otherwise.
-     */
-    public boolean checkTimer(Long time, int numDisconnection){
-        long n = time + Settings.timeout_timer - System.currentTimeMillis();
-        boolean b = (!isFinished() && getNumDisconnection() == numDisconnection && getNumPlayersConnected() < 2 && n>0);
-        if(b)
-            notifyEvent(new TimerMessage((int)n));
-        return b;
-    }
-
 
 }
 

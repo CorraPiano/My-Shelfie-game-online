@@ -43,6 +43,6 @@ public class ReconnectCommand {
             return;
         }
 
-        sender.reconnectGame(id, true);
+        sender.reconnectGame(id,false);
     }
 }

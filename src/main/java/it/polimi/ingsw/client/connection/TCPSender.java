@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.connection;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientPhase;
 import it.polimi.ingsw.client.ClientState;
+import it.polimi.ingsw.connection.ReconnectType;
 import it.polimi.ingsw.controller.Settings;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
@@ -200,15 +201,13 @@ public class TCPSender extends Sender {
      * Sends a ReconnectMessage to the server to reconnect to a game.
      *
      * @param id    The ID of the game to reconnect.
-     * @param reset Indicates whether the game should be reset or resumed.
+     * @param isGui Indicates if is a GUI that is trying to reconnect.
      */
-    public void reconnectGame(String id, boolean reset) {
+    public void reconnectGame(String id, boolean isGui) {
         client.setID(id);
         try {
-            connection.send(new ReconnectMessage(id,reset));
-        } catch(Exception e){
-
-        }
+            connection.send(new ReconnectMessage(id, isGui? ReconnectType.GUI : ReconnectType.SENDALL));
+        } catch(Exception ignored){}
         putInWait();
     }
 

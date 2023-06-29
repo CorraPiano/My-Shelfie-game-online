@@ -88,9 +88,9 @@ public abstract class Sender {
      * Sends a request to the server to reconnect to a game with the specified ID.
      *
      * @param id     The ID of the game to reconnect to.
-     * @param reset  Indicates whether the game should be reset upon reconnection.
+     * @param isGui  Indicates if is a GUI that is trying to reconnect.
      */
-    public abstract void reconnectGame(String id, boolean reset);
+    public abstract void reconnectGame(String id, boolean isGui);
 
     /**
      * Sends a ping request to the server with the specified number.

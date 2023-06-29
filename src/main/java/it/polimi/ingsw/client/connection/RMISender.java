@@ -2,12 +2,15 @@ package it.polimi.ingsw.client.connection;
 
 import it.polimi.ingsw.client.localModel.LocalGame;
 import it.polimi.ingsw.client.*;
+import it.polimi.ingsw.connection.ReconnectType;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.controller.ControllerSkeleton;
 import it.polimi.ingsw.controller.Settings;
 import it.polimi.ingsw.model.Coordinates;
 import it.polimi.ingsw.model.GameMode;
+import it.polimi.ingsw.util.IPLoader;
 
+import java.net.Inet4Address;
 import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -197,13 +200,13 @@ public class RMISender extends Sender {
      * Reconnects to a previously joined game with the specified ID.
      *
      * @param id    The ID of the game to reconnect to.
-     * @param reset Indicates whether the game should be reset or resumed.
+     * @param isGui Indicates if is a GUI that is trying to reconnect.
      */
     @Override
-    public synchronized void reconnectGame(String id, boolean reset) {
+    public synchronized void reconnectGame(String id, boolean isGui) {
         try {
             client.setID(id);
-            String name = controller.reconnect(id, client, reset);
+            String name = controller.reconnect(id, client, isGui? ReconnectType.GUI : ReconnectType.SENDALL);
             client.receiveName(name);
         } catch (Exception e) {
             client.receiveException(e.toString());
@@ -217,6 +220,7 @@ public class RMISender extends Sender {
      */
     @Override
     public synchronized void connect() throws Exception {
+        //System.setProperty("java.rmi.server.hostname", IPLoader.getLocalIp());
         Registry registry = LocateRegistry.getRegistry(IP, Settings.RMIPORT);
         this.controller = (ControllerSkeleton) registry.lookup(Settings.remoteObjectName);
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.client.localModel.*;
 import it.polimi.ingsw.connection.MessageHeader;
+import it.polimi.ingsw.connection.ReconnectType;
 import it.polimi.ingsw.connection.message.Sendable;
 import it.polimi.ingsw.controller.Settings;
 
@@ -18,9 +19,8 @@ public class EventKeeper {
     private final HashMap<String,ArrayList<Sendable>> personalListGui;
     private final ArrayList<String> idList;
     private final HashMap<String,Integer> offsets;
-
     private final HashMap<String,Integer> offsetsGui;
-    private final HashMap<String,Boolean> status;
+    private final HashMap<String,Integer> listenableNums;
 
 
     //local model
@@ -35,14 +35,15 @@ public class EventKeeper {
      * Constructs an EventKeeper object with the given gameplay instance.
      */
     public EventKeeper(){
-        this.listenableList=new ArrayList<>();
-        this.personalList=new HashMap<>();
-        this.idList = new ArrayList<>();
-        this.offsets = new HashMap<>();
-        this.offsetsGui = new HashMap<>();
-        this.personalListGui = new HashMap<>();
-        this.status = new HashMap<>();
-        this.localBookshelfMap = new HashMap<>();
+        listenableList=new ArrayList<>();
+        idList = new ArrayList<>();
+        localBookshelfMap = new HashMap<>();
+
+        listenableNums = new HashMap<>();
+        personalList=new HashMap<>();
+        personalListGui = new HashMap<>();
+        offsets = new HashMap<>();
+        offsetsGui = new HashMap<>();
     }
 
 
@@ -52,39 +53,49 @@ public class EventKeeper {
      * @param id the player ID
      */
     public synchronized void addPersonalList(String id){
-        ArrayList<Sendable> l = new ArrayList<>(listenableList);
-        ArrayList<Sendable> ll = new ArrayList<>();
-        this.idList.add(id);
-        this.personalList.put(id,l);
-        this.personalListGui.put(id,ll);
-        this.offsets.put(id,-1);
-        this.offsetsGui.put(id,-1);
-        this.status.put(id,true);
-
+        listenableNums.put(id,0);
+        idList.add(id);
+        personalList.put(id,new ArrayList<>(listenableList));
+        personalListGui.put(id,new ArrayList<>());
+        offsets.put(id,-1);
+        offsetsGui.put(id,-1);
     }
 
     public synchronized void removePersonalList(String id){
         idList.remove(id);
+        listenableNums.remove(id);
         personalList.remove(id);
+        personalListGui.remove(id);
         offsets.remove(id);
         offsetsGui.remove(id);
-        status.remove(id);
-        personalListGui.remove(id);
+        //fix
         this.notifyAll();
     }
 
-    public synchronized void updateStatus(String id, boolean b){
+    /** Updates the listenableNum of a player, used to stop the current associated listener.
+     *
+     * @param id the ID of the selected player
+     */
+    public synchronized void updateListenableNum(String id){
         if(idList.contains(id)) {
-            status.put(id, b);
+            listenableNums.put(id, listenableNums.get(id)+1);
             this.notifyAll();
         }
     }
 
-    public synchronized boolean checkActivity(String id){
+    /** Checks if a listener should stop. This happen if the passed integer is not the same of integer
+     * locally associated to the player..
+    *
+     * @param id the ID associated with the listener
+     * @param n the number recorded in the listener
+     * @return 'false' if the listener has to stop, false otherwise
+     */
+    public synchronized boolean checkActivity(String id, int n){
         if(!idList.contains(id))
             return false;
-        return status.get(id);
+        return listenableNums.get(id)==n;
     }
+
     /**
      * Checks if an event with the given index is present in the personal event list for the specified player ID.
      *
@@ -101,52 +112,64 @@ public class EventKeeper {
 
     //to do
     /**
-     * Resets the offset for the specified player ID in the personal event list.
+     * Prepares the queque of events for the specified player ID, according to the ReconnectedType.
      *
-     * @param id the player ID
+     * @param id the player ID.
+     * @param reconnectType the flow of events wanted by the client.
      */
-    public synchronized void fixOffset(String id, boolean reset, boolean guiMode){
-        System.out.println(",,,,,,,");
+    public synchronized void fixOffset(String id, ReconnectType reconnectType){
         if(!personalList.containsKey(id))
             return;
-        if(guiMode){
-            ArrayList<Sendable> list = new ArrayList<>();
-            for(Sendable sendable: personalList.get(id)){
-                if(!sendable.isRecurrentUpdate()) {
-                    if (sendable.getHeader().equals(MessageHeader.STARTGAME)) {
-                        list.add(localBoard);
-                        list.add(localHand);
-                        list.add(localPlayerList);
-                        for (String s : localBookshelfMap.keySet()) {
-                            System.out.println(s);
-                            list.add(localBookshelfMap.get(s));
+        switch (reconnectType) {
+            case GUI -> {
+                // prepare the two list
+                ArrayList<Sendable> list = new ArrayList<>();
+                for (Sendable sendable : personalList.get(id)) {
+                    if (!sendable.isRecurrentUpdate()) {
+                        if (sendable.getHeader().equals(MessageHeader.STARTGAME)) {
+                            list.add(localBoard);
+                            list.add(localHand);
+                            list.add(localPlayerList);
+                            for (String s : localBookshelfMap.keySet()) {
+                                System.out.println(s);
+                                list.add(localBookshelfMap.get(s));
+                            }
                         }
+                        list.add(sendable);
                     }
-                    list.add(sendable);
                 }
-            }
 
-            if(list.size()<=personalList.get(id).size()) {
-                personalListGui.put(id, list);
-                offsetsGui.put(id, personalList.get(id).size());
-                offsets.put(id,-1);
+                // set offsetGui and the personalListGui
+                if (list.size() <= personalList.get(id).size()) {
+                    personalListGui.put(id, list);
+                    offsetsGui.put(id, personalList.get(id).size());
+                } else {
+                    personalListGui.put(id, new ArrayList<>());
+                    offsetsGui.put(id, -1);
+                }
+                // reset the offset
+                offsets.put(id, -1);
             }
-            else {
-                personalListGui.put(id,new ArrayList<>());
-                offsetsGui.put(id,-1);
+            case SENDNEW -> {
+                // reset the offsetGui and the personalListGui
+                offsetsGui.put(id, -1);
+                personalListGui.put(id, new ArrayList<>());
             }
-
+            case SENDALL -> {
+                // reset the offset
+                offsets.put(id, -1);
+                // reset the offsetGui and the personalListGui
+                offsetsGui.put(id, -1);
+                personalListGui.put(id, new ArrayList<>());
+            }
         }
-
-        if(reset)
-            offsets.put(id,-1);
     }
 
     /**
-     * Retrieves the event at the specified index from the personal event list for the specified player ID.
+     * Retrieves the next event (if present) from the personal event list for the specified player ID.
      *
      * @param id the player ID
-     * @return the Sendable event object, or null if the index is out of bounds or the player ID is invalid
+     * @return the Sendable event object, or null if object doesn't exist
      */
     public synchronized Sendable getListenablePersonal(String id) {
         int n =  offsets.get(id)+1;
@@ -156,7 +179,6 @@ public class EventKeeper {
             Sendable sendable = null;
             if(n < lgui.size() && n >= 0) {
                 sendable = lgui.get(n);
-                //offsetsGui>=lgui.size()-1
                 if(n==lgui.size()-1)
                     n = offsetsGui.get(id)-1;
             }
@@ -174,26 +196,28 @@ public class EventKeeper {
     }
 
     /**
-     * Notifies all players in the game with the specified Sendable event object.
+     * Adds the Sendable object to the notification lists of every player connected to the game.
+     * The listeners of the players will recover the objects from their list and send them to the client.
      *
-     * @param sendable the Sendable event object to notify
+     * @param sendable the Sendable event object to notify to the clients
      */
     public synchronized void notifyAll(Sendable sendable){
+        // update local model
         if(sendable.isRecurrentUpdate())
             update(sendable);
+        // add object
         listenableList.add(sendable);
         for(String id: idList) {
-            if(!sendable.getHeader().equals(MessageHeader.TIMER) || status.get(id))
-                personalList.get(id).add(sendable);
+            personalList.get(id).add(sendable);
         }
         this.notifyAll();
     }
 
     /**
-     * Notifies the specified player with the Sendable event object.
+     * Adds the Sendable object to the notification list of the selected player
      *
-     * @param id       the player ID to notify
-     * @param sendable the Sendable event object to notify
+     * @param id       the ID that select the player
+     * @param sendable the Sendable event object to notify to the client
      */
     public synchronized void notifyToID(String id, Sendable sendable){
         if(personalList.containsKey(id)) {
@@ -202,7 +226,9 @@ public class EventKeeper {
         }
     }
 
-    void update(Sendable sendable){
+    /** Adds the passed sendable to the localmodel, if the the object is suitable.
+    */
+    private void update(Sendable sendable){
         switch (sendable.getHeader()){
             case BOARD -> localBoard = (LocalBoard)sendable;
             case PLAYERLIST -> localPlayerList = (LocalPlayerList)sendable ;
@@ -232,9 +258,6 @@ public class EventKeeper {
         return offsetsGui;
     }
 
-    public HashMap<String, Boolean> getStatus() {
-        return status;
-    }
 
     public LocalBoard getLocalBoard() {
         return localBoard;

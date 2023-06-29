@@ -6,6 +6,7 @@ import it.polimi.ingsw.connection.SocketMap;
 import it.polimi.ingsw.connection.TCPServer;
 import it.polimi.ingsw.connection.message.NewTurnMessage;
 import it.polimi.ingsw.util.Constants;
+import it.polimi.ingsw.util.IPLoader;
 
 import java.io.IOException;
 import java.net.*;
@@ -18,44 +19,21 @@ import java.util.Enumeration;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException, AlreadyBoundException, RemoteException{
+    public static void main(String[] args) throws IOException, AlreadyBoundException, RemoteException {
 
+        String IP = IPLoader.getLocalIp();
         SocketMap socketMap = new SocketMap();
         //SenderTCP senderTCP = new SenderTCP(socketMap);
         Controller controller = new Controller();
         MessageHandler messageHandler = new MessageHandler(controller,socketMap);
 
-        String IP = insertIP();
+        //String IP = insertIP();
         startTCP(controller,messageHandler);
         startRMI(controller,IP);
     }
 
-    public static String insertIP(){
-        Scanner in = new Scanner(System.in);
-        String IP;
-        System.out.println("insert local IP");
-        try {
-            String input = in.nextLine();
-            if(input.isEmpty()){
-                IP = Settings.IP;
-                System.out.println("server ready on " + Settings.IP);
-                return IP ;
-            }
-            if (input.matches(Constants.IPV4_PATTERN)) {
-                IP = input;
-                System.out.println("server ready on " + IP );
-                return IP ;
-            }
-        } catch(Exception e) {
-        }
-        System.out.println("error");
-        IP = Settings.IP;
-        System.out.println("server ready on " + IP );
-        //System.out.println(ANSI_YELLOW + "<<INFORMATION>> " + ANSI_RESET + "The IP address will be set to the default: " + Settings.IP + "\n");
-        return IP;
-    }
 
-    private static void startRMI(Controller controller, String IP) throws RemoteException {
+    private static void startRMI(Controller controller,String IP) throws RemoteException {
         //String ipAddress = new String();
         //System.setProperty("java.rmi.server.hostname", ipAddress);
         try{

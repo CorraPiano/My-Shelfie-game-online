@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.localModel.LocalGame;
+import it.polimi.ingsw.connection.ReconnectType;
 import it.polimi.ingsw.connection.message.ChatMessage;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.model.Coordinates;
@@ -140,7 +141,7 @@ public interface ControllerSkeleton extends Remote {
      *
      * @param id    the unique identifier of the player.
      * @param cc    the client callback object.
-     * @param reset indicates whether the game should be reset.
+     * @param reconnectType indicates the type of reconnection.
      * @return a String representing the unique identifier of the game.
      * @throws InvalidIdException        if the specified player identifier is invalid.
      * @throws RemoteException          if a remote communication error occurs.
@@ -148,7 +149,7 @@ public interface ControllerSkeleton extends Remote {
      * @throws AlreadyConnectedException if the player is already connected to a game.
      * @throws GameLeftException         if the player has left the game.
      */
-    String reconnect(String id, ClientSkeleton cc, boolean reset) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException;
+    String reconnect(String id, ClientSkeleton cc, ReconnectType reconnectType) throws InvalidIdException, RemoteException, GameFinishedException, AlreadyConnectedException, GameLeftException;
 
     /**
      * Sends a ping to the server.

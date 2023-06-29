@@ -1,6 +1,8 @@
 package it.polimi.ingsw.connection.message;
 
+import it.polimi.ingsw.connection.Connection;
 import it.polimi.ingsw.connection.MessageHeader;
+import it.polimi.ingsw.connection.ReconnectType;
 
 /**
  * The ReconnectMessage class represents a message used to request or confirm a player's reconnection to a game.
@@ -21,17 +23,17 @@ public class ReconnectMessage implements Sendable {
     /**
      * A flag indicating whether the game should be reset upon reconnection.
      */
-    public final boolean reset;
+    public final ReconnectType reconnectType;
 
     /**
      * Constructs a ReconnectMessage object for requesting reconnection with the specified player ID and reset flag.
      *
      * @param id    the player's ID used for reconnection
-     * @param reset a flag indicating whether the game should be reset upon reconnection
+     * @param reconnectType a flag indicating the type of reconnection
      */
-    public ReconnectMessage(String id, boolean reset) {
+    public ReconnectMessage(String id, ReconnectType reconnectType) {
         this.id = id;
-        this.reset = reset;
+        this.reconnectType = reconnectType;
         this.name = null;
     }
 
@@ -42,7 +44,7 @@ public class ReconnectMessage implements Sendable {
      */
     public ReconnectMessage(String name) {
         this.id = null;
-        this.reset = false;
+        this.reconnectType = null;
         this.name = name;
     }
 

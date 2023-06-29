@@ -101,7 +101,7 @@ public class MessageHandler {
             }
             case RECONNECTION -> {
                 ReconnectMessage reconnectMessage = gson.fromJson(TCPmessage.getBody(), ReconnectMessage.class);
-                String name = controller.reconnect(reconnectMessage.id,connection,reconnectMessage.reset);
+                String name = controller.reconnect(reconnectMessage.id,connection,reconnectMessage.reconnectType);
                 socketMap.bind(reconnectMessage.id, connection);
                 sendName(name,connection);
             }

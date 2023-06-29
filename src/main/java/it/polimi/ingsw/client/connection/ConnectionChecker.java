@@ -52,7 +52,7 @@ public class ConnectionChecker implements Runnable {
             }
             try {
                 synchronized (this) {
-                    this.wait(Settings.clock_connectionCheck);
+                    this.wait(Settings.timeout_client);
                 }
             } catch (InterruptedException ignored) {}
         }

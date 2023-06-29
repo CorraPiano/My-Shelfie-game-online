@@ -11,18 +11,12 @@ import java.util.HashMap;
 
 public class GameplaysHandler {
 
-    //mappa ogni gameplay al gameID
     private ArrayList<Gameplay> gameplayList = null;
-    //mappa ogni giocatore al gameID
     private final HashMap<String, Integer> mapID;
-    //private final HashMap<String, Listener > mapListener;
-    //mappa ogni gameID ai giocatori
-   // private final HashMap<Integer, ArrayList<String>> mapGame;
 
     public GameplaysHandler(){
         mapID = new HashMap<>();
-        gameplayList = new ArrayList<Gameplay>();
-        //mapListener = new HashMap<>();
+        gameplayList = new ArrayList<>();
     }
 
     public int nextID() {
@@ -69,7 +63,7 @@ public class GameplaysHandler {
         ArrayList<LocalGame> list = new ArrayList<>();
         for(Gameplay g: gameplayList){
             if(g!=null && g.getGameState().equals(GameState.WAIT)){
-                LocalGame lg = new LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getCurrentPlayers(),g.getGameState());
+                LocalGame lg = g.getLocal(); // LocalGame(g.getGameMode(), g.getGameID(), g.getNumPlayers(),g.getActivePlayers(),g.getGameState());
                 list.add(lg);
              }
         }
