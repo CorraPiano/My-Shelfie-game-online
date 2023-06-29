@@ -273,6 +273,7 @@ public class GameController implements GUIController {
         }
         else if(gui.imDisconnected && gui.imRMIClient){
             int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Error", "When ok is pressed the application will close!");
+            if (status == 1) System.exit(0);
         }
     }
 
@@ -1172,7 +1173,6 @@ public class GameController implements GUIController {
                 break;
             }
         }
-
         return imageView;
     }
 
