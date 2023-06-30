@@ -75,6 +75,7 @@ public class FindGameController implements GUIController {
         String nPlayer = numberOfPlayer.getText();
         if (checkDataCreate(name, gMode, nPlayer)) {
             int mode = Integer.parseInt(gMode);
+            gui.setName(name);
             int playerNum = Integer.parseInt(nPlayer);
             gui.addFirstPlayer(name, GameMode.values()[mode], playerNum);
             // switch to lobby
@@ -92,6 +93,7 @@ public class FindGameController implements GUIController {
         String game_line = gameList.getSelectionModel().getSelectedItem();
         if (checkJoinData(name, game_line)) {
             int gameId = getGameId(game_line);
+            gui.setName(name);
             LocalGame game = games.get(gameList.getSelectionModel().getSelectedIndex());
             gui.joinGame(name, gameId, (game.currPerson + 1 < game.maxPerson));
         } else {
