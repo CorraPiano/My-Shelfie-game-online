@@ -42,7 +42,7 @@ The project consists of a Java version of the board game *MyShelfie*, made by [_
 * [Maven](https://maven.apache.org/): Package and dependency management.
 
 ## Launch
-In order to launch the application you need to navigate to where the file was saved and run the following command:
+In order to launch the application you need to navigate to where the file was saved (in deliveries Package) and run the following command:
 ```
 java -jar AM26.jar
 ```
