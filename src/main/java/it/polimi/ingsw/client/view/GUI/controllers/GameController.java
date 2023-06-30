@@ -280,10 +280,6 @@ public class GameController implements GUIController {
         if(gui.imDisconnected && !gui.imRMIClient){
             int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Please check your connection, something goes wrong. \nAttempting to reconnect...");
         }
-        else if(gui.imDisconnected && gui.imRMIClient){
-            int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
-            if (status == 1) System.exit(0);
-        }
     }
 
     private void initGameID() {

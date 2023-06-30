@@ -79,7 +79,7 @@ public class FindGameController implements GUIController {
             gui.addFirstPlayer(name, GameMode.values()[mode], playerNum);
             // switch to lobby
         } else {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules below");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules.");
         }
     }
 
@@ -95,7 +95,7 @@ public class FindGameController implements GUIController {
             LocalGame game = games.get(gameList.getSelectionModel().getSelectedIndex());
             gui.joinGame(name, gameId, (game.currPerson + 1 < game.maxPerson));
         } else {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules below");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules.");
         }
     }
 
@@ -126,12 +126,7 @@ public class FindGameController implements GUIController {
         if(gui.imDisconnected && !gui.imRMIClient){
             int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Please check your connection, something goes wrong. \nAttempting to reconnect...");
         }
-        else if(gui.imDisconnected && gui.imRMIClient){
-            int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
-            if (status == 1) System.exit(0);
-        }
     }
-
     /**
      * Updates the game list in the view.
      *

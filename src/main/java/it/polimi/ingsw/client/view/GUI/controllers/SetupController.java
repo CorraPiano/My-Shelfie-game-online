@@ -72,9 +72,9 @@ public class SetupController implements GUIController {
             gui.setTCPConnection(ip);
             gui.imRMIClient = false;
         } catch (IOException e) {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Something goes wrong. Please retry.");
         } catch (Exception e) {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(),"Error", "Something goes wrong. Please retry.");
         }
     }
 
@@ -90,11 +90,11 @@ public class SetupController implements GUIController {
             gui.setRMIConnection(ip);
             gui.imRMIClient = true;
         } catch (RemoteException e) {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Something goes wrong. Please retry.");
         } catch (NotBoundException e) {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Something goes wrong. Please retry.");
         } catch (Exception e) {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Something goes wrong. Please retry.", "Error");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Error", "Something goes wrong. Please retry.");
         }
     }
 
