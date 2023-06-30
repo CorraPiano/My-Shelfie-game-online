@@ -261,8 +261,10 @@ public class GameController implements GUIController {
         showTableView();
         updateCurrentPlayer(gui.getClient().getName());
 
-        initTokens();
-        showTokens();
+        if(!modelView.getCommonCards().isEmpty()){
+            initTokens();
+            showTokens();
+        }
 
         setArrows();
         showHand();

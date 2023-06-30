@@ -219,7 +219,9 @@ public class ClientGUI extends Client{
         //gui.updateBoard();
         //gui.updateTableView();
         gui.updateTableView();
-        gui.updateTokens();
+        if(!modelView.getCommonCards().isEmpty()){
+            gui.updateTokens();
+        }
     }
 
     /**
