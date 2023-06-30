@@ -342,8 +342,5 @@ public class PlayerHandler extends Listenable {
         return null;
     }
 
-    public void forceNotify() {
-        this.notifyUpdate();
-    }
 
 }

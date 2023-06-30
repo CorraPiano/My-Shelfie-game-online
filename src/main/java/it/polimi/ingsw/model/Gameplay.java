@@ -156,19 +156,6 @@ public class Gameplay extends Listenable{
 
     // action of the players
 
-    /**
-     * Checks if is the turn of the player with the passed ID.
-     *
-     * @param id       the ID of the player
-     * @throws NotInGameException if the player is not currently in a game
-     * @throws WrongTurnException if it is not the player's turn
-     */
-    public void validateAction(String id) throws NotInGameException, WrongTurnException {
-        if(!(gameState==GameState.GAME))
-            throw new NotInGameException();
-        if(!playerHandler.current().getID().equals(id))
-            throw new WrongTurnException();
-    }
 
     /**
      * Picks an item from the living room.
@@ -542,12 +529,6 @@ public class Gameplay extends Listenable{
         return playerHandler.getNumPlayersAvaiable();
     }
 
-    public boolean isConnected(String id) {
-        Player p = playerHandler.getPlayerByID(id);
-        if (p == null)
-            return false;
-        return p.isConnected();
-    }
 
     /** Returns the ID of the current player.
         *

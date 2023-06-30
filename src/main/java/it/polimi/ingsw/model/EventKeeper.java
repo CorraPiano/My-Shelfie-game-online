@@ -250,21 +250,6 @@ public class EventKeeper {
     }
 
 
-    public LocalBoard getLocalBoard() {
-        return localBoard;
-    }
-
-    public LocalHand getLocalHand() {
-        return localHand;
-    }
-
-    public LocalPlayerList getLocalPlayerList() {
-        return localPlayerList;
-    }
-
-    public Map<String, LocalBookshelf> getLocalBookshelfMap() {
-        return localBookshelfMap;
-    }
 
 
 }

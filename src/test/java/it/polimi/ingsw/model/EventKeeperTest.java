@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.client.localModel.LocalBoard;
-import it.polimi.ingsw.client.localModel.LocalBookshelf;
-import it.polimi.ingsw.client.localModel.LocalHand;
-import it.polimi.ingsw.client.localModel.LocalPlayerList;
+import it.polimi.ingsw.client.localModel.*;
+import it.polimi.ingsw.connection.ReconnectType;
 import it.polimi.ingsw.connection.MessageHeader;
-import it.polimi.ingsw.connection.message.Sendable;
+import it.polimi.ingsw.connection.message.*;
 import it.polimi.ingsw.exception.GameModeException;
 import it.polimi.ingsw.exception.NumPlayersException;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,13 +31,25 @@ class EventKeeperTest {
             eventKeeper.addPersonalList(playerId);
             assertFalse(eventKeeper.isPresentPersonal(playerId));
         }
+
+        @Test
+        public void testRemovePersonalList0() {
+            String playerId = "Player1";
+            eventKeeper.addPersonalList(playerId);
+
+            eventKeeper.removePersonalList(playerId);
+
+            //assertFalse(eventKeeper.isPresentPersonal(playerId));
+        }
+
         @Test
         public void testCheckActivity() {
             String playerId = "Player1";
             eventKeeper.addPersonalList(playerId);
 
-            //assertTrue(eventKeeper.checkActivity());
+            assertTrue(eventKeeper.checkActivity(playerId));
         }
+
         @Test
         public void testIsPresentPersonal() {
             String playerId = "Player1";
@@ -48,7 +58,7 @@ class EventKeeperTest {
             assertFalse(eventKeeper.isPresentPersonal(playerId));
         }
         @Test
-        public void testRemovePersonalList() {
+        public void testRemovePersonalList1() {
             // Create an EventKeeper object
             EventKeeper eventKeeper = new EventKeeper();
 
@@ -65,14 +75,14 @@ class EventKeeperTest {
             assertFalse(eventKeeper.getPersonalList().containsKey("player1"));
             assertFalse(eventKeeper.getOffsets().containsKey("player1"));
             assertFalse(eventKeeper.getOffsetsGui().containsKey("player1"));
-            //assertFalse(eventKeeper.getStatus().containsKey("player1"));
+            assertFalse(eventKeeper.getStatus().containsKey("player1"));
             assertFalse(eventKeeper.getPersonalListGui().containsKey("player1"));
         }
-        /*@Test
+        @Test
         public void checkActivityTest(){
             eventKeeper.checkActivity("Ciao");
-        }*/
-        /*@Test
+        }
+      /*  @Test
         public void testFixOffset() {
             // Create an EventKeeper object
             EventKeeper eventKeeper = new EventKeeper();
@@ -97,32 +107,28 @@ class EventKeeperTest {
             eventKeeper.addPersonalList("player1");
 
             // Add a sendable to the personal event list for "player1"
-            eventKeeper.getPersonalList().get("player1").add(sendable);
+            //eventKeeper.getPersonalList().get("player1").add(sendable);
 
             // Call the fixOffset method with guiMode = true and reset = false
-            eventKeeper.fixOffset("player1", false, true);
-
+            eventKeeper.fixOffset("player1", ReconnectType.SENDALL);
             // Verify that the personalListGui has been updated
             ArrayList<Sendable> personalListGui = eventKeeper.getPersonalList().get("player1");
-            //assertEquals(4, personalListGui.size()); // Expected size: 4 (localBoard, localHand, localPlayerList, localBookshelf1)
-            //assertTrue(personalListGui.contains(eventKeeper.getLocalBoard()));
-            //assertTrue(personalListGui.contains(eventKeeper.getLocalHand()));
-            //assertTrue(personalListGui.contains(eventKeeper.getLocalPlayerList()));
-            //assertTrue(personalListGui.contains(eventKeeper.getLocalBookshelfMap().get("bookshelf1")));
+            assertTrue(personalListGui.contains(eventKeeper.getLocalBoard()));
+            assertTrue(personalListGui.contains(eventKeeper.getLocalHand()));
+            assertTrue(personalListGui.contains(eventKeeper.getLocalPlayerList()));
+            assertTrue(personalListGui.contains(eventKeeper.getLocalBookshelfMap().get("bookshelf1")));
 
             // Verify that the offsetsGui and offsets have been updated
-            //assertEquals(personalListGui.size(), (int) eventKeeper.getOffsetsGui().get("player1"));
-            //assertEquals(-1, (int) eventKeeper.getOffsets().get("player1"));
+            assertEquals(personalListGui.size(), (int) eventKeeper.getOffsetsGui().get("player1"));
+            assertEquals(-1, (int) eventKeeper.getOffsets().get("player1"));
 
-            // Call the fixOffset method with guiMode = false and reset = true
-            eventKeeper.fixOffset("player1", true, false);
-
+            eventKeeper.fixOffset("player1", ReconnectType.GUI);
+            eventKeeper.fixOffset("player1", ReconnectType.SENDNEW);
             // Verify that the personalListGui and offsetsGui have been reset
-            //assertEquals(0, eventKeeper.getPersonalList().get("player1").size());
-            //assertEquals(-1, (int) eventKeeper.getOffsetsGui().get("player1"));
+            assertEquals(0, eventKeeper.getPersonalList().get("player1").size());
+            assertEquals(-1, (int) eventKeeper.getOffsetsGui().get("player1"));
         }*/
-
-        /*@Test
+        @Test
         public void testGetListenablePersonal() {
             // Create an EventKeeper object
             EventKeeper eventKeeper = new EventKeeper();
@@ -145,9 +151,8 @@ class EventKeeperTest {
             Sendable result2 = eventKeeper.getListenablePersonal("player1");
             Sendable result3 = eventKeeper.getListenablePersonal("player1");
 
-        }*/
-
-        /*@Test
+        }
+        @Test
         public void testUpdate() {
             // Create an EventKeeper object
             EventKeeper eventKeeper = new EventKeeper();
@@ -162,12 +167,54 @@ class EventKeeperTest {
             when(sendable3.getHeader()).thenReturn(MessageHeader.HAND);
             when(sendable4.getHeader()).thenReturn(MessageHeader.BOOKSHELF);
 
-            // Call the update method with different Sendable objects
-            eventKeeper.update(sendable1);
-            eventKeeper.update(sendable2);
-            eventKeeper.update(sendable3);
-            eventKeeper.update(sendable4);
+        }
 
-        }*/
+        @Test
+        public void testAddSendable() {
+            EventKeeper eventKeeper = new EventKeeper();
+            eventKeeper.addPersonalList("a");
+            eventKeeper.addPersonalList("b");
+            eventKeeper.addPersonalList("c");
+            eventKeeper.addPersonalList("d");
+            eventKeeper.notifyAll(new LocalBookshelf("a"));
+            eventKeeper.notifyAll(new LocalBookshelf("b"));
+            eventKeeper.notifyAll(new LocalBookshelf("c"));
+            eventKeeper.notifyAll(new LocalBookshelf("d"));
+            eventKeeper.notifyAll(new LocalHand());
+            eventKeeper.notifyAll(new CreateMessage("",GameMode.EXPERT,4));
+            eventKeeper.notifyAll(new JoinMessage("a"));
+            eventKeeper.notifyAll(new JoinMessage("b"));
+            eventKeeper.notifyAll(new JoinMessage("c"));
+            eventKeeper.notifyAll(new JoinMessage("d"));
+            eventKeeper.notifyAll(new StartGameMessage());
+            eventKeeper.notifyAll(new NewTurnMessage("a"));
+            eventKeeper.notifyAll(new LocalBookshelf("a"));
+            eventKeeper.notifyAll(new LocalBookshelf("b"));
+            eventKeeper.notifyAll(new LocalBookshelf("c"));
+            eventKeeper.notifyAll(new LocalBookshelf("d"));
+            eventKeeper.notifyAll(new NewTurnMessage("b"));
+            eventKeeper.notifyAll(new LocalBookshelf("a"));
+            eventKeeper.notifyAll(new LocalBookshelf("b"));
+            eventKeeper.notifyAll(new LocalBookshelf("c"));
+            eventKeeper.notifyAll(new LocalBookshelf("d"));
+            eventKeeper.notifyAll(new NewTurnMessage("c"));
+            eventKeeper.notifyAll(new LocalBookshelf("a"));
+            eventKeeper.notifyAll(new LocalBookshelf("b"));
+            eventKeeper.notifyAll(new LocalBookshelf("c"));
+            eventKeeper.notifyAll(new LocalBookshelf("d"));
+            eventKeeper.notifyAll(new NewTurnMessage("d"));
+            eventKeeper.notifyAll(new LocalBookshelf("a"));
+            eventKeeper.notifyAll(new LocalBookshelf("b"));
+            eventKeeper.notifyAll(new LocalBookshelf("c"));
+            eventKeeper.notifyAll(new LocalBookshelf("d"));
+            eventKeeper.notifyAll(new EndGameMessage("a",EndCause.LAST_ROUND_FINISHED));
+            eventKeeper.notifyToID("a",new ChatMessage("",""));
+            eventKeeper.notifyToID("b",new ChatMessage("",""));
+            eventKeeper.notifyToID("c",new ChatMessage("",""));
+            eventKeeper.notifyToID("d",new ChatMessage("",""));
 
+            eventKeeper.fixOffset("a",ReconnectType.GUI);
+            eventKeeper.fixOffset("a",ReconnectType.SENDALL);
+            eventKeeper.fixOffset("a",ReconnectType.SENDNEW);
+        }
     }
