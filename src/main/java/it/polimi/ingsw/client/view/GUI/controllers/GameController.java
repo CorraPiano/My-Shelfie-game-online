@@ -710,7 +710,10 @@ public class GameController implements GUIController {
         //URL url_6 = getClass().getResource("/Images/scoring_tokens/scoring_6.jpg");
         //URL url_8 = getClass().getResource("/Images/scoring_tokens/scoring_8.jpg");
 
-        if(!modelView.getCommonCards().get(0).tokenList.isEmpty()) {
+        if(modelView.getCommonCards().get(0).tokenList.isEmpty()) {
+            common1token.setImage(null);
+        }
+        else {
             switch (modelView.getCommonCards().get(0).tokenList.get(0).getValue()){
                 case 2 -> common1token.setImage(this.gui.getSceneHandler().getToken(0));
                 case 4 -> common1token.setImage(this.gui.getSceneHandler().getToken(1));
@@ -718,7 +721,10 @@ public class GameController implements GUIController {
                 case 8 -> common1token.setImage(this.gui.getSceneHandler().getToken(3));
             }
         }
-        if(!modelView.getCommonCards().get(1).tokenList.isEmpty()) {
+        if(modelView.getCommonCards().get(1).tokenList.isEmpty()) {
+            common2token.setImage(null);
+        }
+        else{
             switch (modelView.getCommonCards().get(1).tokenList.get(0).getValue()) {
                 case 2 -> common2token.setImage(this.gui.getSceneHandler().getToken(0));
                 case 4 -> common2token.setImage(this.gui.getSceneHandler().getToken(1));
