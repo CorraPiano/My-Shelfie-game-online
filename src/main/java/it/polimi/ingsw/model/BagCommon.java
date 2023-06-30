@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * Represents the bag where common goal cards get drawn
+ */
 public class BagCommon {
     private final List<CommonGoalCard> bagCommon;
 

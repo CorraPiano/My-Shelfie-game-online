@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Represents the bag where items get drawn
+ */
 public class BagItem {
     private List<Item> bagItems;
 

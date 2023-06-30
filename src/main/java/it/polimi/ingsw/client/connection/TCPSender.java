@@ -214,7 +214,6 @@ public class TCPSender extends Sender {
         putInWait();
     }
 
-
     /**
      * Sends a PingMessage to the server to ping with the specified value.
      *

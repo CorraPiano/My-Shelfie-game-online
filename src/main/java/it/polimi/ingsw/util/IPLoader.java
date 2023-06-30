@@ -5,8 +5,18 @@ import it.polimi.ingsw.controller.Settings;
 import java.net.InetAddress;
 import java.util.Scanner;
 
+/**
+ * The IPLoader class is responsible for loading the local IP address for the server.
+ */
 public class IPLoader {
 
+    /**
+     * Retrieves the local IP address.
+     * This method first attempts to retrieve the local IP address automatically.
+     * If it fails, it prompts the user to enter a new IP address.
+     *
+     * @return The local IP address.
+     */
     public static String getLocalIp(){
 
         String IP="localhost";

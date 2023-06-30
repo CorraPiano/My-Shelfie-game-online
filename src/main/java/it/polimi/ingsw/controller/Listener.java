@@ -40,7 +40,6 @@ public abstract class Listener implements Runnable {
         gson = new Gson();
     }
 
-
     public synchronized void fixOffset(ReconnectType reconnectType){
         synchronized (eventKeeper) {
             eventKeeper.fixOffset(id,reconnectType);
@@ -68,7 +67,6 @@ public abstract class Listener implements Runnable {
                 }
             }
         } catch (Exception e){
-            e.printStackTrace();
         }
 
         System.out.println("thread di "+ id +" terminato");
@@ -79,5 +77,5 @@ public abstract class Listener implements Runnable {
      *
      * @param sendable the Sendable object representing the received message
      */
-    abstract void handleSendable(Sendable sendable);
+    abstract void handleSendable(Sendable sendable) throws Exception;
 }

@@ -32,14 +32,12 @@ public class ListenerTCP extends Listener{
      *
      * @param sendable the Sendable object representing the received message
      */
-    public void handleSendable(Sendable sendable){
-        try {
+    public void handleSendable(Sendable sendable) throws Exception {
+
             String json = gson.toJson(sendable);
             TCPMessage TCPmessage = new TCPMessage(sendable.getHeader(), json);
             connection.send(TCPmessage);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+
     }
 
     /**

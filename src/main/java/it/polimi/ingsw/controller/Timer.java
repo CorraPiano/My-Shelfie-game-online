@@ -46,8 +46,6 @@ public class Timer implements Runnable{
             if (gameplay.getNumPlayersConnected() >= 2) {
                 if(!gameplay.currentPlayerIsConnected())
                     gameplay.endTurn();
-                //if(!gameplay.currentPlayerIsConnected())
-                 //   gameplay.endTurn();
                 System.out.println("timer "+numDisconnection+" terminato");
                 return;
             }

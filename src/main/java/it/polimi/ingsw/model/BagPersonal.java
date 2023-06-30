@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Represents the bag where personal goal cards gets drawn
+ */
 public class BagPersonal{
     private ArrayList<PersonalGoalCard> bagPersonal;
 

@@ -38,7 +38,10 @@ public class Client extends UnicastRemoteObject implements ClientSkeleton {
     }
 
     // GETTERS
-    public synchronized String getName() { return name; }
+    public synchronized String getName() {
+
+        return name;
+    }
 
     /**
      * Retrieves the hand size of the client.

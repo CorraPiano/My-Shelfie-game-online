@@ -56,7 +56,6 @@ public class Connection implements Runnable{
                         System.out.println("<- "+message.getHeader()+" : "+message.getBody());
                     messageHandler.receive(message, this);
                 } catch (Exception e) {
-                    e.printStackTrace();
                     TCPMessage TCPmessage = new TCPMessage(MessageHeader.EXCEPTION, e.toString());
                     send(TCPmessage);
                 }

@@ -160,9 +160,6 @@ public class GUI extends Application implements View {
         stage.setScene(scene);
         stage.show();
     }
-    private void testMain(){
-        // Change scene test
-    }
 
     /**
      * Retrieves the current scene name.
@@ -280,6 +277,9 @@ public class GUI extends Application implements View {
         return sceneHandler;
     }
 
+    /**
+     * Notifies disconnection events and handles the corresponding actions.
+     */
     public void notifyDisconnection(String name) {
         Platform.runLater(()->{
             switch (currentSceneName){
@@ -300,14 +300,24 @@ public class GUI extends Application implements View {
         });
     }
 
+    /**
+     * Notifies a successful reconnection.
+     */
     public void notifyReconnection() {
         System.out.println("--> notifyReconnection");
         imDisconnected = false;
     }
+
+    /**
+     * Notifies a disconnection.
+     */
     public void notifyDisconnection() {
         imDisconnected = true;
     }
 
+    /**
+     * Notifies a disconnection for RMI connection.
+     */
     public void notifyDisconnectionRMI() {
         Platform.runLater(()->{
             int status = AlertBox.forceClosed(primaryStage, "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
@@ -416,11 +426,20 @@ public class GUI extends Application implements View {
         //if (switchScene) this.switchStage(Command.JOIN_GAME);
     }
 
+    /**
+     * Attempts to join the lobby.
+     * If the current scene is not the lobby, it switches to the join game stage.
+     */
     public void joinLobby(){
         if( currentSceneName != SceneName.LOBBY)
             this.switchStage(Command.JOIN_GAME);
     }
 
+    /**
+     * Initiates a reconnection to a game with the specified ID.
+     *
+     * @param ID The ID of the game to reconnect to.
+     */
     public void reconnect(String ID){
         sender.reconnectGame(ID, true);
     }
@@ -509,14 +528,6 @@ public class GUI extends Application implements View {
      \____/_/   \_\_|  |_|_____|
      ******************************************************/
 
-    /**
-     * Initializes the game by calling the init() method of the GameController associated with the current scene.
-     * This method is used to set up the game scene and start the game functionality.
-     */
-    public void initGame(){
-        GameController c = (GameController) sceneHandler.getController(currentSceneName);
-        c.init();
-    }
     // Server to client
 
     /**
@@ -698,40 +709,6 @@ public class GUI extends Application implements View {
      |____/ \____/ \____/|_|\_\_____/|_|  |_|______|______|_|   |_____/
     ***********************************************************/
 
-    /**
-     * Updates the bookshelves of the players in the UI by invoking the showPlayersBookshelfs() method of the GameController.
-     * This method is used to display the bookshelves of all players in the game.
-     *
-     */
-    public void updateAllBookshelfs() {
-        Platform.runLater(()-> {
-            if (this.currentSceneName == SceneName.GAME){
-                GameController controllertmp = (GameController) this.controller;
-                controllertmp.showAllBookshelf();
-            }
-        });
-    }
-
-    /* **********************************************************
-               _____ _    _       _______
-              / ____| |  | |   /\|__   __|
-             | |    | |__| |  /  \  | |
-             | |    |  __  | / /\ \ | |
-             | |____| |  | |/ ____ \| |
-              \_____|_|  |_/_/    \_\_|
-     ***************************************************************/
-    public void openChat(){}
-
-    public void closeChat(){}
-
-    /*
-    public void updateChat(ChatMessage chatMessage, String name){
-        ChatController chat = (ChatController) this.controller;
-        Platform.runLater(() ->{
-            chat.displayMessage(chatMessage, name);
-        });
-    }
-    */
 
     /**
      * Updates the chat window with a new chat message by invoking the displayMessage() method of the GameController.
@@ -794,20 +771,11 @@ public class GUI extends Application implements View {
      ********************************************************************/
 
     /**
-     * Updates the statistics in the UI by invoking the updateBookshelfs() method of the StatisticsController.
-     * This method is used to update the statistics related to bookshelves and players in the game.
+     * Handles a disconnection event for the current scene.
+     * If the current scene is the game scene, it updates global notifications with the DISCONNECT type.
      *
-     * @param name                 The name of the player associated with the statistics.
-     * @param localBookshelfMap    The map of local bookshelves associated with each player.
-     * @param localPlayers         The list of local players in the game.
+     * @param name The name associated with the disconnection event.
      */
-    public void updateStatistics(String name, Map<String, LocalBookshelf> localBookshelfMap, ArrayList<LocalPlayer> localPlayers){
-        StatisticsController statistics = (StatisticsController) this.controller;
-        statistics.updateBookshelfs(name, localBookshelfMap, localPlayers);
-    }
-
-    /* ************************************************************************* */
-
     public void disconnectionHandler(String name) {
         switch(currentSceneName){
             case GAME -> {
@@ -816,6 +784,12 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Handles a reconnection event for the current scene.
+     * If the current scene is the game scene, it updates global notifications with the RECONNECT type.
+     *
+     * @param name The name associated with the reconnection event.
+     */
     public void reconnectHandler(String name) {
         switch(currentSceneName){
             case GAME -> {
@@ -824,6 +798,12 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Handles a leave event for the current scene.
+     * If the current scene is the game scene, it updates global notifications with the INACTIVE type.
+     *
+     * @param name The name associated with the leave event.
+     */
     public void leaveHandler(String name) {
         switch(currentSceneName){
             case GAME -> {

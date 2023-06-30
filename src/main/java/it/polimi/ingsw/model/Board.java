@@ -7,6 +7,9 @@ import it.polimi.ingsw.util.Loader;
 
 import java.util.*;
 
+/**
+ * Represents the game Board
+ */
 public class Board extends Listenable {
     private final Item[][] livingRoom;
     static final int nColumns = 9;

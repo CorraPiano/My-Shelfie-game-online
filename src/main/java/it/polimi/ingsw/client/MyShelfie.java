@@ -98,7 +98,6 @@ public class MyShelfie {
                 } else
                     System.out.println("not valid option");
             } catch (Exception e){
-                e.printStackTrace();
             }
         }
     }

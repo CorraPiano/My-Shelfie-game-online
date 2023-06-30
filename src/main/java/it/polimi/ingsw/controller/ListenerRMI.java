@@ -104,9 +104,7 @@ public class ListenerRMI extends Listener{
                                 case BOARD -> {
                                         client.updateBoard((LocalBoard)sendable);
                                 }
-                                /*case GAME -> {
-                                        client.updateGame((LocalGame)sendable);
-                                }*/
+
                                 case PLAYERLIST -> {
                                         client.updatePlayerList((LocalPlayerList)sendable);
                                 }
@@ -121,7 +119,6 @@ public class ListenerRMI extends Listener{
                                 }
                         }
                 } catch (Exception e) {
-                        e.printStackTrace();
                 }
         }
 
