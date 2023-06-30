@@ -75,11 +75,12 @@ public class FindGameController implements GUIController {
         String nPlayer = numberOfPlayer.getText();
         if (checkDataCreate(name, gMode, nPlayer)) {
             int mode = Integer.parseInt(gMode);
+            gui.setName(name);
             int playerNum = Integer.parseInt(nPlayer);
             gui.addFirstPlayer(name, GameMode.values()[mode], playerNum);
             // switch to lobby
         } else {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules below");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules.");
         }
     }
 
@@ -92,10 +93,11 @@ public class FindGameController implements GUIController {
         String game_line = gameList.getSelectionModel().getSelectedItem();
         if (checkJoinData(name, game_line)) {
             int gameId = getGameId(game_line);
+            gui.setName(name);
             LocalGame game = games.get(gameList.getSelectionModel().getSelectedIndex());
             gui.joinGame(name, gameId, (game.currPerson + 1 < game.maxPerson));
         } else {
-            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules below");
+            int exitStatus = AlertBox.errorData(gui.getPrimaryStage(), "Input error", "The parameters are wrong, please control the game rules.");
         }
     }
 
@@ -126,12 +128,7 @@ public class FindGameController implements GUIController {
         if(gui.imDisconnected && !gui.imRMIClient){
             int status = AlertBox.errorData(gui.getPrimaryStage(), "Connection error", "Please check your connection, something goes wrong. \nAttempting to reconnect...");
         }
-        else if(gui.imDisconnected && gui.imRMIClient){
-            int status = AlertBox.forceClosed(gui.getPrimaryStage(), "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
-            if (status == 1) System.exit(0);
-        }
     }
-
     /**
      * Updates the game list in the view.
      *

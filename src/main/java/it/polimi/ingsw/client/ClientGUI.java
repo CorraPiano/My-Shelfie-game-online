@@ -413,7 +413,8 @@ public class ClientGUI extends Client{
         else
             setPhase(ClientPhase.MATCH_RECONNECTION);
         System.out.println("--> lostConnection");
-        gui.notifyDisconnectionRMI();
+        if (!gui.imRMIClient) gui.notifyDisconnection();
+        else gui.notifyDisconnectionRMI();
     }
     public void homeReconnection(){
         System.out.println("--> homeReconnection");
@@ -427,7 +428,7 @@ public class ClientGUI extends Client{
 
     @Override
     public void forceCloseApp(){
-        this.gui.notifyDisconnectionRMI();
+        //this.gui.notifyDisconnectionRMI();
     }
 
     /**

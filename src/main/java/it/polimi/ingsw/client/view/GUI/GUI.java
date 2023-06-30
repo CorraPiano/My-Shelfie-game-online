@@ -38,6 +38,7 @@ public class GUI extends Application implements View {
     // Connection
     private Sender sender;
     private ClientGUI client;
+    private String name;
     private boolean imLast;
     public boolean imDisconnected = false;
     public boolean imRMIClient = false;
@@ -114,6 +115,10 @@ public class GUI extends Application implements View {
             }
             changeStage(false, false);
         });
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     private void setupConnection() {
@@ -276,24 +281,38 @@ public class GUI extends Application implements View {
     }
 
     public void notifyDisconnection(String name) {
-        if(currentSceneName==SceneName.LOBBY){
-            Platform.runLater(()->{
-                LobbyController controllerTmp = (LobbyController) controller;
-                if(Objects.equals(name, client.getName())){
-                    controllerTmp.newNotification("You have connection problems");
+        Platform.runLater(()->{
+            switch (currentSceneName){
+                case LOBBY -> {
+                    LobbyController controllerTmp = (LobbyController) controller;
+                    if(name == null || name.equals(client.getName())){
+                        controllerTmp.newNotification("You have connection problems");
+                        if(!imRMIClient){
+                            int status = AlertBox.errorData(getPrimaryStage(), "Connection error", "Something went wrong, please check your connection.\nYou'll be kicked out of the current lobby. \nIf you'll join this game again, use another username");
+                            if (status == 1) switchStage(Command.QUIT);
+                        }
+                    }
+                    else{
+                        controllerTmp.newNotification("Some player has connection problems");
+                    }
                 }
-                else {
-                    controllerTmp.newNotification(name + " has connection problems");
-                }
-            });
-        }
+            }
+        });
     }
 
     public void notifyReconnection() {
         System.out.println("--> notifyReconnection");
         imDisconnected = false;
     }
+    public void notifyDisconnection() {
+        imDisconnected = true;
+    }
+
     public void notifyDisconnectionRMI() {
+        Platform.runLater(()->{
+            int status = AlertBox.forceClosed(primaryStage, "Connection error", "When OK is pressed the application will close! \n Restart the application if you want to continue the game.");
+            if (status == 1) System.exit(0);
+        });
         imDisconnected = true;
     }
 
