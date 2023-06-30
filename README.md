@@ -12,8 +12,8 @@
 The project consists of a Java version of the board game *MyShelfie*, made by [_Cranio Creations_].
 
 ## Implemented functionalities
-| Functionality          | Status                            |
-|:-----------------------|:---------------------------------:|
+| Functionality          | Status                                                     |
+|:-----------------------|:----------------------------------------------------------:|
 | Basic rules            |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 | Complete rules         |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 | TUI                    |   ![alt text](src/main/resources/Images/assets/tick.png)   |
@@ -21,15 +21,15 @@ The project consists of a Java version of the board game *MyShelfie*, made by [_
 | Socket                 |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 | RMI                    |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 | Multiple games         |   ![alt text](src/main/resources/Images/assets/tick.png)   |
-| Persistency            |   ![alt text](src/main/resources/Images/assets/cross.png)   |
+| Persistency            |   ![alt text](src/main/resources/Images/assets/cross.png)  |
 | Disconnection Handling |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 | Chat                   |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 
 ## Test cases
 
-| Package     | Tested Class | Tested Methods | Coverage      |
-|:------------|:-------------|:--------------:|:-------------:|
-| Model       | 100% (31/31) | 83% (186/223)  | 81% (973/1195)|
+| Package     | Tested Class | Tested Methods | Coverage       |
+|:------------|:-------------|:--------------:|:--------------:|
+| Model       | 100% (31/31) | 100% (216/216)  | 97% (1154/1182) |
 
 ## Team members (AM26)
 * [Marco Conti](https://github.com/C0NN)
@@ -42,6 +42,9 @@ The project consists of a Java version of the board game *MyShelfie*, made by [_
 * [Maven](https://maven.apache.org/): Package and dependency management.
 
 ## Launch
-...
+In order to launch the application you need to navigate to where the file was saved (in deliveries Package) and run the following command:
+```
+java -jar AM26.jar
+```
 
 [_Cranio Creations_]: https://www.craniocreations.it/
