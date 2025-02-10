@@ -1,0 +1,145 @@
+.root{
+    -fx-background-image: url(../Images/misc/sfondo_parquet.jpg);
+    -fx-background-size: cover;
+}
+
+.imageView {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0, 0, 0);
+}
+
+.pane {
+    -fx-background-color: #B77C52;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.pane-currentInformations {
+    -fx-background-color: transparent;
+}
+
+.pane-currentInformations{
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+}
+.pane-currentInformations .list-cell {
+    -fx-background-color: transparent;
+}
+.pane-currentInformations .scroll-bar {
+    -fx-background-color: transparent;
+}
+.pane-currentInformations .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+.pane-currentInformations .scroll-bar:horizontal .thumb,
+.pane-currentInformations .scroll-bar:vertical .thumb,
+.pane-currentInformations .scroll-bar:horizontal:vertical .thumb {
+    -fx-background-color: #B88551;
+}
+
+
+.pane-bookshelfs{
+    -fx-background-color: #9E6A42;
+    -fx-background-radius: 10px;
+}
+
+.tab-pane {
+    -fx-tab-min-height: 20;
+    -fx-tab-max-height: 20;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;
+    -fx-font-size: 16px;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+.tab-pane .tab-header-area .tab {
+    -fx-background-color: #B88551;
+    /* colore per le celle non selezionate */
+}
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: #9E6A42;
+    /* colore per la casella selezionata */
+}
+.tab-pane .tab-content-area {
+    -fx-background-color: #9E6A42;
+    -fx-padding: 10;
+    /* colore per lo sfondo */
+}
+
+.list-view{
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+}
+.list-view .list-cell {
+    -fx-background-color: transparent;
+}
+.list-view .scroll-bar {
+    -fx-background-color: transparent;
+}
+.list-view .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+.list-view .scroll-bar:horizontal .thumb,
+.list-view .scroll-bar:vertical .thumb,
+.list-view .scroll-bar:horizontal:vertical .thumb {
+    -fx-background-color: #B88551;
+}
+
+.text-field {
+    -fx-background-color: #B88551;
+    -fx-text-fill: black;
+    -fx-prompt-text-fill: black;
+    -fx-font-family: Arial;
+    -fx-font-size: 14px;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-pref-height: 30px;
+}
+.button {
+    -fx-background-color: #90603C;
+    -fx-text-fill: black;
+    -fx-font-family: Arial;
+    -fx-font-size: 14px;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.text-area{
+    -fx-background-color: #B88551;
+}
+
+.table-view {
+    -fx-background-color: #9E6A42;
+    -fx-table-cell-border-color: #9E6A42;
+}
+.column-header {
+    -fx-background-color: #9E6A42;
+}
+.highlighted-row1 {
+    -fx-background-color: #B88551;
+}
+.highlighted-row2 {
+    -fx-background-color: #9E6A42;
+}
+
+
+#orderConfirm {
+    -fx-graphic: url('../Images/assets/tick.png');
+}
+
+#orderUndo{
+    -fx-graphic: url('../Images/assets/cross.png');
+}
+
+.textCommon{
+    -fx-font-size: 11px;
+}

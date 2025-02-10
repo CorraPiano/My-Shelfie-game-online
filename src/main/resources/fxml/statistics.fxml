@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="755.0" prefWidth="1014.0" stylesheets="@../css/find-game-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.StatisticsController">
+   <children>
+      <VBox layoutY="1.0" prefHeight="755.0" prefWidth="1018.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="135.0" prefWidth="1005.0" text="Statistics" textAlignment="CENTER" textFill="#250f0fd6">
+               <font>
+                  <Font name="System Bold Italic" size="32.0" />
+               </font>
+            </Label>
+            <HBox alignment="TOP_CENTER" prefHeight="244.0" prefWidth="1018.0">
+               <children>
+                  <ImageView fx:id="bookshelf1" fitHeight="253.0" fitWidth="249.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/boards/bookshelf.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="bookshelf2" fitHeight="253.0" fitWidth="249.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/boards/bookshelf.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="bookshelf3" fitHeight="253.0" fitWidth="249.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/boards/bookshelf.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="bookshelf11" fitHeight="253.0" fitWidth="249.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/boards/bookshelf.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Pane prefHeight="55.0" prefWidth="1018.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="personalCard1" fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane prefHeight="150.0" prefWidth="160.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+                     <children>
+                        <Text layoutX="25.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name:" />
+                        <Text layoutX="25.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player points" />
+                     </children>
+                  </Pane>
+                  <ImageView fx:id="personalCard2" fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane prefHeight="150.0" prefWidth="177.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+                     <children>
+                        <Text layoutX="25.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name:" />
+                        <Text layoutX="25.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player points" />
+                     </children>
+                  </Pane>
+                  <ImageView fx:id="personalCard3" fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane prefHeight="150.0" prefWidth="168.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+                     <children>
+                        <Text layoutX="25.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name:" />
+                        <Text layoutX="25.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player points" />
+                     </children>
+                  </Pane>
+                  <ImageView fx:id="personalCard11" fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane prefHeight="150.0" prefWidth="161.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+                     <children>
+                        <Text layoutX="25.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player name:" />
+                        <Text layoutX="25.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player points" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

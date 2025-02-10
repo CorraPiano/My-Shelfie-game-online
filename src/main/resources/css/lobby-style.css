@@ -1,0 +1,42 @@
+.root{
+    -fx-background-image: url(../Images/misc/sfondo_parquet.jpg);
+    -fx-background-size: cover;
+}
+
+.imageView {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.image {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-border-radius: 10px;
+}
+
+.pane {
+    -fx-background-color: #B77C52;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 3px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.button {
+    -fx-background-color: #90603C;
+    -fx-text-fill: black;
+    -fx-font-family: Arial;
+    -fx-font-size: 14px;
+    -fx-border-color: rgb(60, 40, 14);
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-font-family: Arial;
+    -fx-font-size: 14px;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+}

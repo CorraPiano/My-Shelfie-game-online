@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="580.0" prefWidth="780.0" stylesheets="@../css/find-game-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.GUI.controllers.ChatController">
+    <children>
+      <Text layoutX="41.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Receiver (default &quot;to all&quot;)" />
+      <TextField fx:id="receiver" layoutX="38.0" layoutY="89.0" />
+      <ImageView fitHeight="114.0" fitWidth="105.0" layoutX="71.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/PublisherMaterial/Publisher.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="255.0" layoutY="14.0" prefHeight="556.0" prefWidth="511.0" styleClass="pane-create-game" stylesheets="@../css/find-game-style.css">
+         <children>
+              <VBox alignment="BOTTOM_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="526.0" prefWidth="484.0">
+                  <children>
+                      <ListView fx:id="chatField" prefHeight="410.0" prefWidth="484.0" stylesheets="@../css/chat_style.css" />
+                      <HBox alignment="CENTER" prefHeight="74.0" prefWidth="440.0">
+                          <children>
+                              <TextField fx:id="chatMessage" alignment="TOP_LEFT" prefHeight="46.0" prefWidth="305.0" />
+                              <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendMessage" prefHeight="47.0" prefWidth="62.0" text="Send" />
+                          </children>
+                      </HBox>
+                  </children>
+              </VBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="47.0" prefWidth="484.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CHAT">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+    </children>
+</AnchorPane>
