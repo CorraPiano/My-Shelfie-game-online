@@ -38,7 +38,14 @@ This project was developed as part of the Software Engineering course at Politec
 | In-game Chat                 |   ![alt text](src/main/resources/Images/assets/tick.png)   |
 
 ## Game frames 
-Below are some images showcasing the graphical user interface of the game:
+Below images showcasing the graphical user interface of the game:
+
+![photo_2025-02-11_00-33-29](https://github.com/user-attachments/assets/f003a612-1d45-4451-ad07-2da25022652f)
+
+And the text-based user interface:
+
+![photo_2025-02-11_00-34-11](https://github.com/user-attachments/assets/02ea2c4d-ef13-403a-8549-4cc12f213419)
+
 
 ## Test cases
 The project has been thoroughly tested, achieving high test coverage:
